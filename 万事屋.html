@@ -1,0 +1,332 @@
+<html>
+<head>
+<style>
+.twilight-alley-template {
+    --primary-amber: #d97706;
+    --deep-ink: #1e1b4b;
+    --paper-tint: #fefce8;
+    --moss-green: #3f6212;
+    background: #0f172a;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.twilight-alley-template .main-container {
+    max-width: 600px;
+    width: 100%;
+    background: linear-gradient(to bottom, #1e293b, #0f172a);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.twilight-alley-template .main-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+}
+
+.twilight-alley-template .header-image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    filter: sepia(20%) contrast(110%) brightness(80%);
+    border-bottom: 2px solid var(--primary-amber);
+    transition: filter 0.5s ease;
+}
+.twilight-alley-template .header-image:hover {
+    filter: sepia(15%) contrast(115%) brightness(85%);
+}
+
+.twilight-alley-template .scene-text {
+    padding: 1.5rem;
+    color: #e2e8f0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom: 1px solid #334155;
+}
+
+.twilight-alley-template .scene-text .mb-4 {
+    margin-bottom: 1rem;
+}
+
+.twilight-alley-template .highlight {
+    color: var(--primary-amber);
+    text-shadow: 0 0 8px rgba(217, 119, 6, 0.3);
+}
+
+.twilight-alley-template .char-section {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem;
+    gap: 1rem;
+    background: rgba(30, 41, 59, 0.5);
+    border-bottom: 1px solid #334155;
+}
+
+.twilight-alley-template .avatar-frame {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    border: 2px solid var(--primary-amber);
+    flex-shrink: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.twilight-alley-template .avatar-frame:hover {
+    border-color: #fbbf24;
+    box-shadow: 0 0 15px rgba(217, 119, 6, 0.5);
+}
+.twilight-alley-template .avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.twilight-alley-template .dialogue-box {
+    flex-grow: 1;
+}
+
+.twilight-alley-template .char-name {
+    font-weight: bold;
+    color: var(--primary-amber);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    text-shadow: 0 0 6px rgba(217,119,6,0.25);
+}
+
+.twilight-alley-template .char-speech {
+    color: #f8fafc;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-amber);
+    transition: background 0.3s ease;
+}
+.twilight-alley-template .char-speech:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.twilight-alley-template .mission-form-container {
+    padding: 1.5rem;
+    background-image: url('https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/4e74e6270f6e4df7a5aa709eacd4d5e4.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.twilight-alley-template .mission-form-overlay {
+    background: rgba(254, 252, 232, 0.92);
+    padding: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid #d4d4d8;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+.twilight-alley-template .form-title {
+    text-align: center;
+    font-family: "SimSun", serif;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #451a03;
+    border-bottom: 2px solid #451a03;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.twilight-alley-template .form-row {
+    margin-bottom: 1rem;
+}
+
+.twilight-alley-template .form-row.mt-4 {
+    margin-top: 1rem;
+}
+
+.twilight-alley-template .form-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #78350f;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.twilight-alley-template .form-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed #92400e;
+    padding: 0.25rem 0;
+    color: #1e1b4b;
+    outline: none;
+    transition: border-bottom 0.3s;
+}
+
+.twilight-alley-template .form-input:focus {
+    border-bottom: 1px solid #d97706;
+}
+
+.twilight-alley-template .toggle-input {
+    display: none;
+}
+
+.twilight-alley-template .expand-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #451a03;
+    color: #fefce8;
+    padding: 0.75rem;
+    cursor: pointer;
+	font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    border: none;
+}
+
+.twilight-alley-template .expand-btn:hover {
+    background: #78350f;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.twilight-alley-template .toggle-input:checked ~ .expand-btn {
+    background: #92400e;
+}
+
+.twilight-alley-template .hidden-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-out;
+    padding-top: 0;
+}
+
+.twilight-alley-template .toggle-input:checked ~ .hidden-content {
+    max-height: 800px;
+    opacity: 1;
+    padding-top: 0.5rem;
+}
+
+.twilight-alley-template .seal-decoration {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #991b1b;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #991b1b;
+    font-weight: bold;
+    transform: rotate(-15deg);
+    opacity: 0.6;
+    pointer-events: none;
+    font-family: "SimSun", serif;
+}
+
+.twilight-alley-template .p-4 { padding: 1rem; }
+.twilight-alley-template .text-center { text-align: center; }
+.twilight-alley-template .text-xs { font-size: 0.75rem; }
+.twilight-alley-template .text-slate-500 { color: #64748b; }
+.twilight-alley-template .bg-slate-900 { background-color: #0f172a; }
+.twilight-alley-template .text-sm { font-size: 0.875rem; }
+.twilight-alley-template .text-indigo-900 { color: #312e81; }
+.twilight-alley-template .leading-relaxed { line-height: 1.625; }
+.twilight-alley-template .border-b { border-bottom: 1px solid; }
+.twilight-alley-template .border-dashed { border-style: dashed; }
+.twilight-alley-template .border-amber-800 { border-color: #92400e; }
+.twilight-alley-template .pb-2 { padding-bottom: 0.5rem; }
+.twilight-alley-template .text-amber-900 { color: #78350f; }
+.twilight-alley-template .italic { font-style: italic; }
+.twilight-alley-template .text-slate-400 { color: #94a3b8; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0f172a; }
+</style>
+<meta name="cg-name" content="開場白" />
+<meta name="cg-command-name" content="開場白" />
+<meta name="cg-color" content="#22D3EE" />
+<meta name="cg-icon" content="HousePlug" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="twilight-alley-template">
+    <div class="main-container shadow-2xl">
+        <!-- ✅ 替換為指定GIF橫幅圖片 -->
+        <img class="header-image" src="https://i.postimg.cc/g0Hpgnhv/vidu-video-3111531681007369.gif" alt="Twilight Alley">
+
+        <div class="scene-text">
+            <p class="mb-4">放學後的黃昏，光線如同緩慢流淌的蜜糖，浸染著學校後方那條被時間遺忘的狹窄小巷。</p>
+            <p class="mb-4">空氣中飽和著濕潤泥土的腥氣與老舊牆面剝落塗料混合的陳腐味道，每一次呼吸都帶著微涼的顆粒感。幾縷掙紮著穿透高聳建築夾縫的金色夕陽，以極其勉強的角度斜射而入，在佈滿苔蘚與裂痕的青石板路面上，切割出支離破碎、明暗交錯的斑駁光影。</p>
+            <p class="italic text-slate-400">那些光斑隨著日頭西沈而悄然蠕動、變形……</p>
+        </div>
+        
+        <div class="char-section">
+            <div class="avatar-frame">
+                <!-- ✅ 替換為指定的頭像圖片 刪除原來的{user_avatar}變量 -->
+                <img src="https://i.postimg.cc/mkFd66ZG/MEITU-20250729-070454218-fu-ben.png" alt="User Avatar">
+            </div>
+            <div class="dialogue-box">
+                <div class="char-name">「萬事屋主」</div>
+                <div class="char-speech">
+                    「哦？看來，今天的第一位『客人』來了呢……」
+                </div>
+            </div>
+        </div>
+        
+        <div class="mission-form-container">
+            <div class="mission-form-overlay">
+                <div class="form-title">萬事屋 · 委托申請書</div>
+                
+                <div class="form-row">
+                    <label class="form-label">委托人姓名</label>
+                    <div class="form-input">未知</div>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">委托類別</label>
+                    <div class="form-input">尋人 / 調查 / 秘密交涉</div>
+                </div>
+
+                <input type="checkbox" id="form-expand" class="toggle-input">
+                <div class="hidden-content">
+                    <div class="form-row mt-4">
+                        <label class="form-label">詳細內容</label>
+                        <div class="text-sm text-indigo-900 leading-relaxed border-b border-dashed border-amber-800 pb-2">
+                           無論是瑣碎的跑腿、棘手的難題，或是生活縫隙中滋生的各種困擾。它是一座沒有固定形狀的服務，承接所有光怪陸離的委託，沒有規則，只有誠信。
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">報酬約定</label>
+                        <div class="form-input">10元</div>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">當前時間</label>
+                        <div class="text-xs text-amber-900">{yy}-{mm}-{dd} {h}:{m}</div>
+                    </div>
+                </div>
+                <label for="form-expand" class="expand-btn">查看委托詳情</label>
+                
+                <div class="seal-decoration">受理中</div>
+            </div>
+        </div>
+        
+        <div class="p-4 text-center text-xs text-slate-500 bg-slate-900">
+            萬事屋暗巷分部 · 暮色營業中
+        </div>
+    </div>
+</div>
+</body>
+</html>

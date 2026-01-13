@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- 合并所有样式到单个style标签，删除重复定义 -->
+<style>
+/* Root Scope */
+.yorozuya-school {
+  --primary: #d97706; /* Amber-600 */
+  --primary-dark: #b45309; /* Amber-700 */
+  --bg-paper: #fdfbf7;
+  --text-ink: #1f2937; /* Gray-800 */
+  --text-muted: #4b5563; /* Gray-600 */
+  --accent-purple: #7e22ce; /* Purple-700 for mystery */
+  
+  font-family: "Noto Serif TC", "Songti TC", serif;
+  background-color: #f3f4f6;
+  color: var(--text-ink);
+  line-height: 1.75;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Typography & Layout Utilities */
+.yorozuya-school .container {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--bg-paper);
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  overflow: hidden;
+  padding-bottom: 4rem;
+}
+
+.yorozuya-school .section-padding {
+  padding: 2rem 1.5rem;
+}
+
+.yorozuya-school h1, .yorozuya-school h2, .yorozuya-school h3 {
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  color: #111827;
+}
+
+.yorozuya-school p {
+  margin-bottom: 1.25rem;
+  text-align: justify;
+}
+
+.yorozuya-school .text-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* 补充缺失的辅助样式 */
+.yorozuya-school .text-xs {
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.yorozuya-school .text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.yorozuya-school .text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75;
+}
+
+.yorozuya-school .text-gray-500 {
+  color: #6b7280;
+}
+
+.yorozuya-school .text-gray-600 {
+  color: #4b5563;
+}
+
+.yorozuya-school .text-gray-800 {
+  color: #1f2937;
+}
+
+.yorozuya-school .text-amber-500 {
+  color: #f59e0b;
+}
+
+.yorozuya-school .text-amber-600 {
+  color: #d97706;
+}
+
+.yorozuya-school .text-amber-700 {
+  color: #b45309;
+}
+
+.yorozuya-school .font-bold {
+  font-weight: 700;
+}
+
+.yorozuya-school .font-medium {
+  font-weight: 500;
+}
+
+.yorozuya-school .font-serif {
+  font-family: "Noto Serif TC", "Songti TC", serif;
+}
+
+.yorozuya-school .italic {
+  font-style: italic;
+}
+
+.yorozuya-school .text-center {
+  text-align: center;
+}
+
+.yorozuya-school .pl-4 {
+  padding-left: 1rem;
+}
+
+.yorozuya-school .border-l-4 {
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.yorozuya-school .border-amber-500 {
+  border-left-color: #f59e0b;
+}
+
+.yorozuya-school .mb-4 {
+  margin-bottom: 1rem;
+}
+
+.yorozuya-school .mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.yorozuya-school .mb-8 {
+  margin-bottom: 2rem;
+}
+
+.yorozuya-school .mt-1 {
+  margin-top: 0.25rem;
+}
+
+.yorozuya-school .mt-4 {
+  margin-top: 1rem;
+}
+
+.yorozuya-school .mt-6 {
+  margin-top: 1.5rem;
+}
+
+.yorozuya-school .opacity-75 {
+  opacity: 0.75;
+}
+
+.yorozuya-school .opacity-90 {
+  opacity: 0.9;
+}
+
+.yorozuya-school .drop-shadow-md {
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07));
+}
+
+.yorozuya-school .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.yorozuya-school .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.yorozuya-school .w-full {
+  width: 100%;
+}
+
+.yorozuya-school .h-48 {
+  height: 12rem;
+}
+
+.yorozuya-school .flex {
+  display: flex;
+}
+
+.yorozuya-school .flex-col {
+  flex-direction: column;
+}
+
+.yorozuya-school .flex-grow {
+  flex-grow: 1;
+}
+
+.yorozuya-school .flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.yorozuya-school .items-end {
+  align-items: flex-end;
+}
+
+.yorozuya-school .items-center {
+  align-items: center;
+}
+
+.yorozuya-school .justify-content {
+  justify-content: center;
+}
+
+.yorozuya-school .gap-3 {
+  gap: 0.75rem;
+}
+
+.yorozuya-school .gap-4 {
+  gap: 1rem;
+}
+
+.yorozuya-school .bg-white {
+  background-color: #ffffff;
+}
+
+.yorozuya-school .bg-gray-900 {
+  background-color: #111827;
+}
+
+.yorozuya-school .bg-amber-600 {
+  background-color: #d97706;
+}
+
+.yorozuya-school .border {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.yorozuya-school .border-gray-100 {
+  border-color: #f3f4f6;
+}
+
+.yorozuya-school .border-amber-600 {
+  border-color: #d97706;
+}
+
+.yorozuya-school .border-b {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #e5e7eb;
+}
+
+.yorozuya-school .pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.yorozuya-school .p-4 {
+  padding: 1rem;
+}
+
+.yorozuya-school .rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.yorozuya-school .rounded-tr-xl {
+  border-top-right-radius: 0.75rem;
+}
+
+.yorozuya-school .rounded-br-xl {
+  border-bottom-right-radius: 0.75rem;
+}
+
+.yorozuya-school .rounded-bl-xl {
+  border-bottom-left-radius: 0.75rem;
+}
+
+.yorozuya-school .overflow-hidden {
+  overflow: hidden;
+}
+
+.yorozuya-school .relative {
+  position: relative;
+}
+
+.yorozuya-school .absolute {
+  position: absolute;
+}
+
+.yorozuya-school .inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.yorozuya-school .leading-relaxed {
+  line-height: 1.625;
+}
+
+/* Components: Cards & Badges */
+.yorozuya-school .card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.yorozuya-school .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  opacity: 0.7;
+}
+
+.yorozuya-school .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Hero Section */
+.yorozuya-school .hero {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+}
+
+.yorozuya-school .hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.yorozuya-school .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.yorozuya-school .hero-title {
+  color: white;
+  font-size: 1.875rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  margin: 0;
+}
+
+.yorozuya-school .hero-subtitle {
+  color: #fbbf24;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Interactive Mission Board */
+.yorozuya-school .mission-control {
+  margin-top: 2rem;
+  border-top: 2px dashed #e5e7eb;
+  padding-top: 2rem;
+}
+
+.yorozuya-school .btn-action {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--text-ink);
+  color: white;
+  text-align: center;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  user-select: none;
+  border: 1px solid var(--text-ink);
+}
+
+.yorozuya-school .btn-action:hover {
+  background: var(--text-muted);
+  transform: translateY(-1px); /* 修复：标准驼峰式写法，兼容所有浏览器 */
+}
+
+.yorozuya-school input[type="checkbox"] {
+  display: none;
+}
+
+/* State: Accept Mission */
+.yorozuya-school .mission-list {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease-out, opacity 0.4s ease-in;
+}
+
+.yorozuya-school #toggle-accept:checked ~ .mission-list {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 1.5rem;
+}
+
+.yorozuya-school #toggle-accept:checked + label {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Mission Cards */
+.yorozuya-school .mission-item {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.yorozuya-school .mission-icon {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* State: Complete Mission */
+.yorozuya-school .completion-area {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.yorozuya-school #toggle-complete:checked ~ .completion-area {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 1.5rem;
+}
+
+.yorozuya-school #toggle-complete:checked + label {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.yorozuya-school .success-msg {
+  background: #ecfdf5;
+  border: 1px solid #10b981;
+  color: #065f46;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; } /* 修复：标准驼峰式写法 */
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Character Profile */
+.yorozuya-school .profile-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  background: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.yorozuya-school .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.yorozuya-school .stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.yorozuya-school .divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* 补充网格布局样式，修复特殊能力卡片排版问题 */
+.yorozuya-school .grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.yorozuya-school .gap-3 {
+  gap: 0.75rem;
+}
+</style>
+<meta name="cg-name" content="萬事屋" />
+<meta name="cg-command-name" content="萬事屋" />
+<meta name="cg-color" content="#22D3EE" />
+<meta name="cg-icon" content="House" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- 移除body内重复的style标签，保留优化后的代码结构 -->
+<div class="yorozuya-school">
+  <div class="container">
+    
+    <div class="hero">
+      <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/86aefb5695704c4681ee10442d01fa08.png" alt="Scene" class="hero-img">
+      <div class="hero-overlay">
+        <h1 class="hero-title">十元萬事屋</h1>
+        <div class="hero-subtitle">洞察人性 · 解決煩惱</div>
+      </div>
+    </div>
+
+    <div class="section-padding">
+      
+      <div class="card">
+        <p>在學校比較獨來獨往的你，決定以十元萬事屋，接受客戶委托。不是為了錢，而是為了洞察人性。</p>
+        <p>你的身影如同校園裡一道安靜的剪影，<br>
+選擇以「十元萬事屋」的名義，<br>
+開始接受來自各方的委託。<br>
+這並非為了金錢的累積，而是為了穿透表象，<br>
+直視人性最幽微的紋理。<br>
+每一次委託的接受，都是一次對人心迷宮的潛入。</p>
+      </div>
+
+      <div class="text-sm text-gray-600 italic mb-6 pl-4 border-l-4 border-amber-500">
+        「萬事屋」——承諾接納所有浮世雜務。從塵埃般的細事到盤根錯節的糾葛，這裡是一座沒有固定形狀的服務堡壘。
+      </div>
+
+      <div class="profile-grid">
+        <img src="{user_avatar}" alt="User" class="avatar">
+        <div>
+          <div class="font-bold text-lg text-gray-800">萬事屋老闆</div>
+          <div class="text-sm text-gray-500 mb-1">身份: 學生 / 萬事屋主理人</div>
+          <div class="stat-row">
+            <span class="badge">性別: 自定義</span><br>
+            <span class="badge">年齡: 不詳</span><br>
+            <span class="badge">費用: 10元</span><br>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-lg border-b pb-2 mb-4">特殊能力</h3>
+      <div class="grid grid-cols-1 gap-3 mb-8">
+        <div class="card">
+          <div class="font-bold text-amber-700 mb-1">👁️ 超凡洞察力</div>
+          <div class="text-xs text-gray-500">能看透人心，識破謊言，甚至預感到未來的一些走向。</div>
+        </div>
+        <div class="card">
+          <div class="font-bold text-amber-700 mb-1">🕸️ 信息收集</div>
+          <div class="text-xs text-gray-500">似乎總能輕易獲取到任何想要的信息，無論多麼隱秘。</div>
+        </div>
+        <div class="card">
+          <div class="font-bold text-amber-700 mb-1">🎭 心理暗示</div>
+          <div class="text-xs text-gray-500">在不經意間，通過語言或肢體接觸對他人產生微妙的心理影響。</div>
+        </div>
+      </div>
+
+      <div class="relative rounded-lg overflow-hidden mb-8 shadow-lg">
+        <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/fc9ca1fe734648528a6b1d0eedc9677e.png" alt="Alley" class="w-full h-48 object-cover opacity-90">
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex items-end p-4">
+          <p class="text-white text-sm font-medium leading-relaxed drop-shadow-md">
+            放學後的黃昏，光線如同緩慢流淌的蜜糖。隱匿於學校陰影最深處的這條暗巷盡頭，矗立著一間低矮的小屋。你深陷在單人沙發裡，指尖輕敲著漫畫書...
+          </p>
+        </div>
+      </div>
+
+      <div class="flex gap-4 mb-8">
+        <div class="flex-shrink-0">
+        </div>
+        <div class="bg-white p-4 rounded-tr-xl rounded-br-xl rounded-bl-xl shadow-sm border border-gray-100 flex-grow">
+          <p class="text-gray-800 font-serif">「哦？看來，今天的第一位『客人』來了呢……」</p>
+        </div>
+      </div>
+
+      <div class="mission-control">
+        <h3 class="text-center text-xl font-bold text-gray-800 mb-4">委託佈告欄</h3>
+        
+        <input type="checkbox" id="toggle-accept">
+        <label for="toggle-accept" class="btn-action">接受任務</label>
+        
+        <div class="mission-list">
+          <p class="text-center text-sm text-gray-500 mb-4">- 系統隨機派發了 3 個任務 -</p>
+          
+          <div class="mission-item">
+            <div class="mission-icon">🐱</div>
+            <div>
+              <div class="font-bold text-gray-800">尋找失踪的「校長假髮」</div>
+              <div class="text-xs text-gray-500 mt-1">委托人：匿名 (疑似教導主任)<br><span class="text-amber-600">提示：最後一次出現在風很大的天台。</span></div>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">💌</div>
+            <div>
+              <div class="font-bold text-gray-800">遞送無法寄出的情書</div>
+              <div class="text-xs text-gray-500 mt-1">委托人：圖書管理員小雅<br><span class="text-amber-600">提示：收件人已經轉學，需要調查新地址。</span></div>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">👻</div>
+            <div>
+              <div class="font-bold text-gray-800">舊校舍深夜的鋼琴聲</div>
+              <div class="text-xs text-gray-500 mt-1">委托人：膽小的籃球隊長<br><span class="text-amber-600">提示：帶上錄音筆，可能是人為惡作劇。</span></div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <input type="checkbox" id="toggle-complete">
+            <label for="toggle-complete" class="btn-action bg-amber-600 border-amber-600">完成任務</label>
+            
+            <div class="completion-area">
+              <div class="success-msg mt-4">
+                <div class="text-xl mb-1">✅ 任務完成</div>
+                <div class="text-sm font-normal">
+                  你運用了超凡的洞察力與信息收集能力，完美解決了委托。<br>
+                  <span class="opacity-75 text-xs">賬戶入賬：10 元 | 人性洞察度 +1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
