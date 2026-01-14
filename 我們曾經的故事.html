@@ -1,0 +1,218 @@
+<html>
+<head>
+<style>
+.yun-white-saga {--bg-color: #09090b; --card-bg: #18181b; --text-primary: #f4f4f5; --text-secondary: #a1a1aa; --accent: #38bdf8; --accent-dim: #0ea5e9; --border: #27272a; --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8); font-family: "Noto Serif SC", serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.8; padding: 2rem; min-height: 100vh;}
+.yun-white-saga .story-container {max-width: 48rem; margin: 0 auto;}
+.yun-white-saga .header {text-align: left; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;}
+.yun-white-saga .title {font-size: 2.25rem; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: 0.5rem; text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);}
+.yun-white-saga .subtitle {font-size: 1rem; color: var(--text-secondary); font-style: italic;}
+.yun-white-saga .memory-toggle-input {display: none;}
+.yun-white-saga .memory-toggle-label {display: inline-block; background-color: var(--card-bg); border: 1px solid var(--border); color: var(--accent); padding: 0.75rem 1.5rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.3s ease; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);}
+.yun-white-saga .memory-toggle-label:hover {background-color: var(--border); color: var(--text-primary);}
+.yun-white-saga .memory-toggle-label::after {content: " ▼"; font-size: 0.75rem;}
+.yun-white-saga .memory-toggle-input:checked + .memory-toggle-label::after {content: " ▲";}
+.yun-white-saga .memories-wrapper {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease-in-out, opacity 0.5s ease-in-out;}
+.yun-white-saga .memory-toggle-input:checked ~ .memories-wrapper {max-height: 20000px; opacity: 1; margin-bottom: 4rem;}
+.yun-white-saga .memory-card {background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow);}
+.yun-white-saga .memory-img-container {width: 100%; height: 250px; overflow: hidden; position: relative;}
+.yun-white-saga .memory-img {width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.8) contrast(1.1); transition: transform 0.5s ease;}
+.yun-white-saga .memory-card:hover .memory-img {transform: scale(1.02);}
+.yun-white-saga .memory-content {padding: 2rem;}
+.yun-white-saga .memory-title {font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; border-left: 4px solid var(--accent); padding-left: 1rem;}
+.yun-white-saga .memory-text {font-size: 1rem; color: #d4d4d8; white-space: pre-wrap; text-align: justify;}
+.yun-white-saga .current-section {position: relative; z-index: 10;}
+.yun-white-saga .current-card {background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; padding: 2.5rem; box-shadow: var(--shadow); position: relative;}
+.yun-white-saga .current-card::before {content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--accent), transparent);}
+.yun-white-saga .role-label {display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; border: 1px solid var(--accent-dim); padding: 0.25rem 0.75rem; border-radius: 9999px;}
+.yun-white-saga .story-text p {margin-bottom: 1.5rem; color: var(--text-primary);}
+.yun-white-saga .story-text p:last-child {margin-bottom: 0;}
+.yun-white-saga .highlight {color: var(--accent); font-weight: 600;}
+</style>
+<meta name="llm-content" content="請繼續這段關於「雲」與「白」的悲劇浪漫故事。雲是一位失去摯愛、右手受傷的畫家，正在痛苦地用左手作畫，而你扮演的角色（可能是白，或者是新來的學生/靈魂）與他產生了互動。請延續當前的劇情與情感基調，使用繁體中文撰寫，並輸出為帶有結構性 Tailwind 類別的 HTML 片段。請專注於描寫細膩的情感、光影與動作，不要重複之前的劇情，直接推進故事。" />
+<meta name="cg-name" content="我們曾經的故事" />
+<meta name="cg-command-name" content="我們曾經的故事" />
+<meta name="cg-color" content="#356ADF" />
+<meta name="cg-icon" content="History" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.yun-white-saga {--bg-color: #09090b; --card-bg: #18181b; --text-primary: #f4f4f5; --text-secondary: #a1a1aa; --accent: #38bdf8; --accent-dim: #0ea5e9; --border: #27272a; --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8); font-family: "Noto Serif SC", serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.8; padding: 2rem; min-height: 100vh;}
+.yun-white-saga .story-container {max-width: 48rem; margin: 0 auto;}
+.yun-white-saga .header {text-align: left; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;}
+.yun-white-saga .title {font-size: 2.25rem; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: 0.5rem; text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);}
+.yun-white-saga .subtitle {font-size: 1rem; color: var(--text-secondary); font-style: italic;}
+.yun-white-saga .memory-toggle-input {display: none;}
+.yun-white-saga .memory-toggle-label {display: inline-block; background-color: var(--card-bg); border: 1px solid var(--border); color: var(--accent); padding: 0.75rem 1.5rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.3s ease; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);}
+.yun-white-saga .memory-toggle-label:hover {background-color: var(--border); color: var(--text-primary);}
+.yun-white-saga .memory-toggle-label::after {content: " ▼"; font-size: 0.75rem;}
+.yun-white-saga .memory-toggle-input:checked + .memory-toggle-label::after {content: " ▲";}
+.yun-white-saga .memories-wrapper {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease-in-out, opacity 0.5s ease-in-out;}
+.yun-white-saga .memory-toggle-input:checked ~ .memories-wrapper {max-height: 20000px; opacity: 1; margin-bottom: 4rem;}
+.yun-white-saga .memory-card {background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow);}
+.yun-white-saga .memory-img-container {width: 100%; height: 250px; overflow: hidden; position: relative;}
+.yun-white-saga .memory-img {width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.8) contrast(1.1); transition: transform 0.5s ease;}
+.yun-white-saga .memory-card:hover .memory-img {transform: scale(1.02);}
+.yun-white-saga .memory-content {padding: 2rem;}
+.yun-white-saga .memory-title {font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; border-left: 4px solid var(--accent); padding-left: 1rem;}
+.yun-white-saga .memory-text {font-size: 1rem; color: #d4d4d8; white-space: pre-wrap; text-align: justify;}
+.yun-white-saga .current-section {position: relative; z-index: 10;}
+.yun-white-saga .current-card {background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; padding: 2.5rem; box-shadow: var(--shadow); position: relative;}
+.yun-white-saga .current-card::before {content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--accent), transparent);}
+.yun-white-saga .role-label {display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; border: 1px solid var(--accent-dim); padding: 0.25rem 0.75rem; border-radius: 9999px;}
+.yun-white-saga .story-text p {margin-bottom: 1.5rem; color: var(--text-primary);}
+.yun-white-saga .story-text p:last-child {margin-bottom: 0;}
+.yun-white-saga .highlight {color: var(--accent); font-weight: 600;}
+</style>
+
+<div class="yun-white-saga">
+  <div class="story-container">
+    
+    <header class="header">
+      <h1 class="title">白與雲的物語</h1>
+      <p class="subtitle">在風起之前，雲曾是純白的。</p>
+    </header>
+
+    <input type="checkbox" id="toggle-memories" class="memory-toggle-input">
+    <label for="toggle-memories" class="memory-toggle-label">讀取往昔記憶</label>
+
+    <div class="memories-wrapper">
+      
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/506rW0WB/pixai_1951662322416321919_副本.png" alt="逆光邂逅" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">1. 逆光下的邂逅</h2>
+          <div class="memory-text">
+            在校園油畫展覽廳裡，陽光斜斜地穿過落地窗。穿著褪色連帽衫的「白」停在一幅名為《逆光》的畫作前。畫中描繪了一個在廢墟中的少年，背對著黑暗，迎接破曉。
+            <br><br>
+            「你也喜歡這幅畫？」一個深沉的聲音響起。那是作者「雲」，銀灰色的長髮，氣質清冷。
+            <br>
+            「它很特別，」白真誠地說，「即使在黑暗中，也有光。」
+            <br>
+            雲平時是個追求完美且極少談論作品的人，卻發現自己能與白聊上好幾個小時。從顏料特性到對比的哲學。那天，在松節油的味道與夕陽中，愛情的種子悄然埋下。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/vBcKwBwZ/pixai_1951519829281246707.png" alt="晨曦肖像" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">2. 晨曦中的肖像</h2>
+          <div class="memory-text">
+            創作《晨曦》時，雲近乎苛求。他撕掉了幾十張草稿，只為了捕捉白在窗邊的那一抹剪影。白會耐心地坐著，吃著洋芋片，笑著說：「已經很好了。」
+            <br><br>
+            雲會搖搖頭：「還不夠像你。」
+            <br>
+            在最後一天的日出時分，雲放下畫筆。「終於完成了。」
+            <br>
+            那幅畫成了他最珍視的作品，每一筆都藏著他深沉的愛意。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/PxYkN8qZ/pixai_1951521113140934656.webp" alt="刺青約定" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">3. 刺青背後的約定</h2>
+          <div class="memory-text">
+            在白生日那天，他在臉頰上露出了一個小小的白色「雲」字刺青。
+            <br>
+            「這樣你就會一直在我身邊了，」白笑著說。
+            <br>
+            平時無法容忍紙上一絲汙點的雲，輕輕觸碰著那個刺青。「我會永遠在你身邊。」
+            <br>
+            他們與好友阿典約定：要一起畫到天荒地老。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/gJn7bJbq/pixai_1951667155534643809_副本.png" alt="寫生意外" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">4. 寫生之旅的陰影</h2>
+          <div class="memory-text">
+            深秋的山區。濕滑的泥土。專注於構圖的雲向陡坡滑去。
+            <br>
+            「雲！」白猛地撲過來，一手抓著樹幹，一手拉住雲。樹枝發出斷裂聲，無法支撐兩人的重量。
+            <br>
+            「放手！」白的聲音在顫抖卻很堅決。他用最後的力量將雲推上安全地帶。
+            <br>
+            雲跌落在安全的地面上，眼睜睜看著白墜入深淵，臉上帶著一抹淡淡的微笑。
+            <br>
+            「是我害了你！」雲的慘叫在山谷中迴盪。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/26MKkDCx/pixai_1951667892524924110_副本.png" alt="絲絨掩蓋" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">5. 絲絨下的思念</h2>
+          <div class="memory-text">
+            葬禮後，《晨曦》被一塊深藍色的絲絨布覆蓋。雲的右手受了傷，每當他試圖拿起畫筆，都會不由自主地劇烈顫抖。
+            <br>
+            他強迫自己改用左手。「沒用！」他會憤怒地砸碎畫布，眼淚與顏料混在一起。
+            <br>
+            只有在深夜，他才會掀開絲絨的一角，看著白的微笑，然後回到折磨般的練習中。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/Lsrth6Zj/pixai_1951673866729426956_副本.png" alt="左手掙扎" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">6. 左手的掙扎</h2>
+          <div class="memory-text">
+            完美主義者無法忍受左手畫出的扭曲線條。
+            <br>
+            「垃圾！」他撕掉一張又一張紙。畫室裡堆滿了揉皺的紙團和潑灑的紅顏料，看起來像血。
+            <br>
+            他拳擊著畫架，直到指節流血。「我該如何守住我們的約定？」
+            <br>
+            然而他拒絕停止。繪畫是他與白唯一的聯繫。
+          </div>
+        </div>
+      </article>
+
+      <article class="memory-card">
+        <div class="memory-img-container">
+          <img src="https://i.postimg.cc/FRyLRb4x/pixai_1951665977281801585_副本.png" alt="畫刀執念" class="memory-img">
+        </div>
+        <div class="memory-content">
+          <h2 class="memory-title">7. 畫刀下的執念</h2>
+          <div class="memory-text">
+            深夜，孤燈。雲跪在地上，左手緊握畫刀。
+            <br>
+            他試圖用厚重的顏料塑出白的臉龐，但結果卻是混亂而怪誕的。他憤怒地割破了畫布。
+            <br>
+            「我必須守住約定……」他低聲耳語，再次將畫刀浸入白色顏料，淚水滴落在調色盤上。即使是折磨，這也是他的救贖。
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="current-section">
+      <div class="current-card">
+        <span class="role-label">當前場景</span>
+        <div class="story-text">
+          {llm_content}
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
