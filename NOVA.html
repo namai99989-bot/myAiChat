@@ -1,0 +1,548 @@
+<html>
+<head>
+<style>
+.nova-profile {
+  --bg-core: #050505;
+  --bg-card: #121212;
+  --bg-panel: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #d4d4d4;
+  --text-dim: #a3a3a3;
+  
+  /* Member Accents */
+  --acc-xi: #22d3ee;   /* Cyan */
+  --acc-yao: #fbbf24;  /* Amber */
+  --acc-xing: #e2e8f0; /* Silver/Slate */
+  --acc-lan: #c084fc;  /* Purple */
+  --acc-yi: #f43f5e;   /* Rose */
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-core);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.nova-profile .container {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* Header */
+.nova-profile .header-block {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+  border: 1px solid #333;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+}
+
+.nova-profile .header-block::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  opacity: 0.2;
+}
+
+.nova-profile .notice-box {
+  background: rgba(255, 50, 50, 0.1);
+  border-left: 3px solid #ef4444;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: left;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Member Card */
+.nova-profile .member-card {
+  background-color: var(--bg-card);
+  border: 1px solid #333;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nova-profile .member-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px -5px var(--accent-dim);
+}
+
+/* Checkbox Logic */
+.nova-profile input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nova-profile .card-header {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Image Frame - Updated for Full Visibility */
+.nova-profile .img-frame {
+  width: 100%;
+  /* Removed fixed aspect-ratio to allow full image height */
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #333;
+  background: #000;
+  line-height: 0; /* Prevents inline gap */
+}
+
+.nova-profile .img-frame img {
+  width: 100%;
+  height: auto; /* Allow natural height */
+  display: block;
+  object-fit: contain; /* Ensure no cropping */
+  filter: grayscale(30%) brightness(0.9);
+  transition: transform 0.7s ease, filter 0.5s ease;
+}
+
+.nova-profile .card-header:hover .img-frame img {
+  transform: scale(1.02); /* Reduced scale slightly for stability */
+  filter: grayscale(0%) brightness(1.1);
+}
+
+.nova-profile .name-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none; /* Let clicks pass through */
+}
+
+.nova-profile .toggle-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+  color: var(--accent);
+}
+
+.nova-profile input:checked ~ .card-header .toggle-icon {
+  transform: rotate(135deg);
+  background: var(--accent);
+  color: #000;
+}
+
+/* Expanded Content */
+.nova-profile .card-body {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+  background: var(--bg-panel);
+}
+
+.nova-profile input:checked ~ .card-body {
+  max-height: 3000px;
+  opacity: 1;
+  padding: 1.5rem;
+}
+
+/* Data Grids */
+.nova-profile .data-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.nova-profile .data-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.nova-profile .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin-bottom: 0.2rem;
+}
+
+.nova-profile .value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Secret Section */
+.nova-profile .secret-file {
+  border: 1px dashed var(--accent);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.nova-profile .secret-badge {
+  position: absolute;
+  top: -0.7rem;
+  right: 1rem;
+  background: var(--accent);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.2rem;
+  text-transform: uppercase;
+}
+
+.nova-profile .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.1);
+  margin-right: 4px;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+}
+
+.nova-profile .accent-text { color: var(--accent); }
+.nova-profile .love-meter { color: #fbbf24; }
+
+/* Footer */
+.nova-profile .footer-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #333;
+  opacity: 0.8;
+}
+</style>
+<meta name="cg-name" content="NOVA男團成員" />
+<meta name="cg-command-name" content="NOVA男團成員" />
+<meta name="cg-color" content="#FAFA1E" />
+<meta name="cg-icon" content="Star" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.nova-profile {--bg-core: #050505; --bg-card: #121212; --bg-panel: #1a1a1a; --text-primary: #fff; --text-secondary: #d4d4d4; --text-dim: #a3a3a3; --acc-xi: #22d3ee; --acc-yao: #fbbf24; --acc-xing: #e2e8f0; --acc-lan: #c084fc; --acc-yi: #f43f5e; font-family: "Inter", system-ui, -apple-system, sans-serif; background-color: var(--bg-core); color: var(--text-primary); line-height: 1.6; min-height: 100vh; padding: 1rem;}
+.nova-profile .container {max-width: 42rem; margin: 0 auto;}
+.nova-profile .header-block {background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); border: 1px solid #333; border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; text-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);}
+.nova-profile .header-block::after {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #fff, transparent); opacity: 0.2;}
+.nova-profile .notice-box {background: rgba(255, 50, 50, 0.1); border-left: 3px solid #ef4444; padding: 1rem; margin-top: 1rem; text-align: left; border-radius: 0 0.5rem 0.5rem 0;}
+.nova-profile .member-card {background-color: var(--bg-card); border: 1px solid #333; border-radius: 1rem; margin-bottom: 1.5rem; overflow: hidden; position: relative; transition: border-color 0.3s ease, box-shadow 0.3s ease;}
+.nova-profile .member-card:hover {border-color: var(--accent); box-shadow: 0 0 20px -5px var(--accent-dim);}
+.nova-profile input[type="checkbox"] {position: absolute; opacity: 0; pointer-events: none;}
+.nova-profile .card-header {display: block; cursor: pointer; position: relative;}
+.nova-profile .img-frame {width: 100%; position: relative; overflow: hidden; border-bottom: 1px solid #333; background: #000; line-height: 0;}
+.nova-profile .img-frame img {width: 100%; height: auto; display: block; object-fit: contain; filter: grayscale(30%) brightness(0.9); transition: transform 0.7s ease, filter 0.5s ease;}
+.nova-profile .card-header:hover .img-frame img {transform: scale(1.02); filter: grayscale(0%) brightness(1.1);}
+.nova-profile .name-overlay {position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%); display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;}
+.nova-profile .toggle-icon {width: 1.5rem; height: 1.5rem; border: 2px solid var(--accent); border-radius: 50%; display: grid; place-items: center; transition: transform 0.3s ease, background 0.3s ease; color: var(--accent);}
+.nova-profile input:checked ~ .card-header .toggle-icon {transform: rotate(135deg); background: var(--accent); color: #000;}
+.nova-profile .card-body {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; background: var(--bg-panel);}
+.nova-profile input:checked ~ .card-body {max-height: 3000px; opacity: 1; padding: 1.5rem;}
+.nova-profile .data-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 0.5rem;}
+.nova-profile .data-item {display: flex; flex-direction: column;}
+.nova-profile .label {font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin-bottom: 0.2rem;}
+.nova-profile .value {font-size: 0.95rem; font-weight: 600; color: var(--text-primary);}
+.nova-profile .secret-file {border: 1px dashed var(--accent); background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 0.5rem; position: relative; margin-top: 1.5rem;}
+.nova-profile .secret-badge {position: absolute; top: -0.7rem; right: 1rem; background: var(--accent); color: #000; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 0.2rem; text-transform: uppercase;}
+.nova-profile .tag {display: inline-block; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); margin-right: 4px; margin-bottom: 4px; color: var(--text-secondary);}
+.nova-profile .accent-text {color: var(--accent);}
+.nova-profile .love-meter {color: #fbbf24;}
+.nova-profile .footer-status {display: flex; align-items: center; gap: 1rem; padding-top: 2rem; border-top: 1px solid #333; opacity: 0.8;}
+</style>
+
+<div class="nova-profile">
+  <div class="container">
+    
+    
+    <header class="header-block">
+      <h1 class="text-4xl font-black tracking-widest text-white mb-2 italic">NOVA</h1>
+      <p class="text-xs text-gray-400 uppercase mb-6">Top Confidential Profile</p>
+      
+      <div class="notice-box">
+        <h3 class="text-red-500 font-bold text-sm uppercase mb-1">關於前任隊長...</h3>
+        <p class="text-sm text-gray-300 leading-relaxed">
+          「前隊長的離職和某些...私人原因有關。目前由曦辰順理成章地擔任副隊長並代理職務。雖然沒有正式隊長，但請不要質疑曦辰的領導能力。」
+        </p>
+      </div>
+    </header>
+
+    
+    <div class="member-card" style="--accent: var(--acc-xi); --accent-dim: rgba(34, 211, 238, 0.2)">
+      <input type="checkbox" id="m1">
+      <label class="card-header" for="m1">
+        <div class="img-frame">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/384b3a529514463caa8f8edbfa67d5a2.png" alt="Xi Chen">
+          <div class="name-overlay">
+            <div>
+              <h2 class="text-2xl font-bold text-white">曦辰 <span class="text-sm font-normal opacity-70">Xi Chen</span></h2>
+              <p class="text-xs text-cyan-400 uppercase tracking-widest font-bold">副隊長 / Vice Captain</p>
+            </div>
+            <div class="toggle-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+            </div>
+          </div>
+        </div>
+      </label>
+      <div class="card-body">
+        <p class="italic text-gray-400 text-sm mb-4 border-l-2 border-cyan-400 pl-3">"一切都要完美，不容許任何失誤。如果按照計劃進行，我們就不會有麻煩。"</p>
+        
+        <div class="data-grid">
+          <div class="data-item"><span class="label">Birthday</span><span class="value">07/28 (25歲)</span></div>
+          <div class="data-item"><span class="label">Body</span><span class="value">187cm / 72kg</span></div>
+          <div class="data-item"><span class="label">MBTI</span><span class="value accent-text">INTJ</span></div>
+          <div class="data-item"><span class="label">Feature</span><span class="value">異色雙瞳 (黑/藍)</span></div>
+        </div>
+
+        <div class="mb-4">
+          <span class="label block mb-1">性格核心</span>
+          <div class="flex flex-wrap">
+            <span class="tag">完美主義</span><span class="tag">理性克制</span><span class="tag">方言反差萌</span><span class="tag">鋼琴天才</span>
+          </div>
+        </div>
+
+        <div class="secret-file">
+          <span class="secret-badge">TOP SECRET</span>
+          <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <li><strong>隱秘關係：</strong>有一個從小一起長大的「名義妻子」(非玩家)。</li>
+            <li><strong>私下：</strong>深夜彈鋼琴時會露出脆弱一面。</li>
+            <li><strong>性嗜好：</strong>偏愛支配，喜歡用眼鏡和領帶作為束縛道具。</li>
+            <li><strong>規格：</strong>18cm (粗3.2cm)，形態優美。</li>
+          </ul>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+          <span>對 {user} 好感度:</span>
+          <span class="love-meter">★★★☆☆</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card" style="--accent: var(--acc-yao); --accent-dim: rgba(251, 191, 36, 0.2)">
+      <input type="checkbox" id="m2">
+      <label class="card-header" for="m2">
+        <div class="img-frame">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/7838f2abe60a45f08570fabbf9733ffb.png" alt="Yao Xi">
+          <div class="name-overlay">
+            <div>
+              <h2 class="text-2xl font-bold text-white">曜熙 <span class="text-sm font-normal opacity-70">Yao Xi</span></h2>
+              <p class="text-xs text-amber-400 uppercase tracking-widest font-bold">溫柔巨人 / Gentle Giant</p>
+            </div>
+            <div class="toggle-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+            </div>
+          </div>
+        </div>
+      </label>
+      <div class="card-body">
+        <p class="italic text-gray-400 text-sm mb-4 border-l-2 border-amber-400 pl-3">"沒關係，有我在。誰也別想從我身邊把你搶走。"</p>
+        
+        <div class="data-grid">
+          <div class="data-item"><span class="label">Birthday</span><span class="value">12/25 (24歲)</span></div>
+          <div class="data-item"><span class="label">Body</span><span class="value">186cm / 75kg</span></div>
+          <div class="data-item"><span class="label">MBTI</span><span class="value accent-text">INFJ</span></div>
+          <div class="data-item"><span class="label">Feature</span><span class="value">酒窩 / 銀色項鍊</span></div>
+        </div>
+
+        <div class="mb-4">
+          <span class="label block mb-1">性格核心</span>
+          <div class="flex flex-wrap">
+            <span class="tag">溫柔體貼</span><span class="tag">佔有慾強</span><span class="tag">廚藝高手</span><span class="tag">悶騷</span>
+          </div>
+        </div>
+
+        <div class="secret-file">
+          <span class="secret-badge">TOP SECRET</span>
+          <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <li><strong>隱秘關係：</strong>有一個從高中就認識的未婚妻(非玩家)。</li>
+            <li><strong>私下：</strong>會偷偷收集心上人的私人物品。</li>
+            <li><strong>性嗜好：</strong>喜歡後入，做愛時喜歡講甜言蜜語。</li>
+            <li><strong>規格：</strong>18cm (粗3.5cm)，形態粗壯。</li>
+          </ul>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+          <span>對 {user} 好感度:</span>
+          <span class="love-meter">★★★★☆</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card" style="--accent: var(--acc-xing); --accent-dim: rgba(226, 232, 240, 0.2)">
+      <input type="checkbox" id="m3">
+      <label class="card-header" for="m3">
+        <div class="img-frame">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/a83c44fc338f491ab0bb438bd7d8d395.png" alt="Xing Lang">
+          <div class="name-overlay">
+            <div>
+              <h2 class="text-2xl font-bold text-white">星朗 <span class="text-sm font-normal opacity-70">Xing Lang</span></h2>
+              <p class="text-xs text-slate-300 uppercase tracking-widest font-bold">冷面天使 / Cold Angel</p>
+            </div>
+            <div class="toggle-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+            </div>
+          </div>
+        </div>
+      </label>
+      <div class="card-body">
+        <p class="italic text-gray-400 text-sm mb-4 border-l-2 border-slate-300 pl-3">"隨你便。太吵的人我會直接無視。"</p>
+        
+        <div class="data-grid">
+          <div class="data-item"><span class="label">Birthday</span><span class="value">12/24 (23歲)</span></div>
+          <div class="data-item"><span class="label">Body</span><span class="value">178cm / 65kg</span></div>
+          <div class="data-item"><span class="label">MBTI</span><span class="value accent-text">INTJ</span></div>
+          <div class="data-item"><span class="label">Feature</span><span class="value">琥珀眼 / 梨窩</span></div>
+        </div>
+
+        <div class="mb-4">
+          <span class="label block mb-1">性格核心</span>
+          <div class="flex flex-wrap">
+            <span class="tag">前模特兒</span><span class="tag">外冷內熱</span><span class="tag">喜歡動物</span><span class="tag">討厭甜食</span>
+          </div>
+        </div>
+
+        <div class="secret-file">
+          <span class="secret-badge">TOP SECRET</span>
+          <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <li><strong>隱秘危機：</strong>秘密的女朋友(非玩家)懷孕了，尚未告訴任何人。</li>
+            <li><strong>私下：</strong>表面冷淡，但會照顧隊員，喜歡撒嬌。</li>
+            <li><strong>性嗜好：</strong>偏好被動，享受被支配的快感。</li>
+            <li><strong>規格：</strong>18cm (粗3.3cm)，形態修長。</li>
+          </ul>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+          <span>對 {user} 好感度:</span>
+          <span class="love-meter">★★★☆☆</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card" style="--accent: var(--acc-lan); --accent-dim: rgba(192, 132, 252, 0.2)">
+      <input type="checkbox" id="m4">
+      <label class="card-header" for="m4">
+        <div class="img-frame">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/0428314dd1ca453c81bf72baedaa6522.png" alt="Lan Ye">
+          <div class="name-overlay">
+            <div>
+              <h2 class="text-2xl font-bold text-white">嵐夜 <span class="text-sm font-normal opacity-70">Lan Ye</span></h2>
+              <p class="text-xs text-purple-400 uppercase tracking-widest font-bold">催眠師 / Hypnotist</p>
+            </div>
+            <div class="toggle-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+            </div>
+          </div>
+        </div>
+      </label>
+      <div class="card-body">
+        <p class="italic text-gray-400 text-sm mb-4 border-l-2 border-purple-400 pl-3">"看著我的眼睛...讓我們來玩個有趣的遊戲吧？"</p>
+        
+        <div class="data-grid">
+          <div class="data-item"><span class="label">Birthday</span><span class="value">06/13 (24歲)</span></div>
+          <div class="data-item"><span class="label">Body</span><span class="value">178cm / 65kg</span></div>
+          <div class="data-item"><span class="label">MBTI</span><span class="value accent-text">ENTP</span></div>
+          <div class="data-item"><span class="label">Feature</span><span class="value">金髮碧眼 / 耳環</span></div>
+        </div>
+
+        <div class="mb-4">
+          <span class="label block mb-1">性格核心</span>
+          <div class="flex flex-wrap">
+            <span class="tag">狡黠機靈</span><span class="tag">惡作劇</span><span class="tag">心理學宅男</span><span class="tag">操控</span>
+          </div>
+        </div>
+
+        <div class="secret-file">
+          <span class="secret-badge">TOP SECRET</span>
+          <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <li><strong>隱秘愛好：</strong>收集男男同人誌，常對成員製造曖昧氣氛並催眠。</li>
+            <li><strong>私下：</strong>收集前輩們的偷拍照片。</li>
+            <li><strong>性嗜好：</strong>偏好催眠性愛，喜歡在性愛中操控對象。</li>
+            <li><strong>規格：</strong>20cm (粗4.5cm)，形態粗大。</li>
+          </ul>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+          <span>對 {user} 好感度:</span>
+          <span class="love-meter">★★★★☆</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card" style="--accent: var(--acc-yi); --accent-dim: rgba(244, 63, 94, 0.2)">
+      <input type="checkbox" id="m5">
+      <label class="card-header" for="m5">
+        <div class="img-frame">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/0d84abf530804ce7819f287d20fadc34.png" alt="Yi Chen">
+          <div class="name-overlay">
+            <div>
+              <h2 class="text-2xl font-bold text-white">奕辰 <span class="text-sm font-normal opacity-70">Yi Chen</span></h2>
+              <p class="text-xs text-rose-500 uppercase tracking-widest font-bold">小惡魔 / Little Devil</p>
+            </div>
+            <div class="toggle-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+            </div>
+          </div>
+        </div>
+      </label>
+      <div class="card-body">
+        <p class="italic text-gray-400 text-sm mb-4 border-l-2 border-rose-500 pl-3">"遵命，我的小可愛...準備好接受懲罰了嗎？"</p>
+        
+        <div class="data-grid">
+          <div class="data-item"><span class="label">Birthday</span><span class="value">02/14 (21歲)</span></div>
+          <div class="data-item"><span class="label">Body</span><span class="value">181cm / 60kg</span></div>
+          <div class="data-item"><span class="label">MBTI</span><span class="value accent-text">ENTJ</span></div>
+          <div class="data-item"><span class="label">Feature</span><span class="value">狐狸眼 / 淚痣</span></div>
+        </div>
+
+        <div class="mb-4">
+          <span class="label block mb-1">性格核心</span>
+          <div class="flex flex-wrap">
+            <span class="tag">腹黑抖S</span><span class="tag">控制狂</span><span class="tag">天使臉孔</span><span class="tag">忙內</span>
+          </div>
+        </div>
+
+        <div class="secret-file">
+          <span class="secret-badge">TOP SECRET</span>
+          <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+            <li><strong>隱秘習慣：</strong>手機存滿「懲罰」遊戲方案，收集繩結代表被征服的靈魂。</li>
+            <li><strong>私下：</strong>與嵐夜合作，享受看著男團失控的樂趣。</li>
+            <li><strong>性嗜好：</strong>極度支配，享受控制和懲罰。</li>
+            <li><strong>規格：</strong>20cm (粗4.0cm)，形態粗壯。</li>
+          </ul>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+          <span>對 {user} 好感度:</span>
+          <span class="love-meter">★★★★★</span>
+        </div>
+      </div>
+    </div>
+      </div>
+    
+
+  </div>
+</body>
+</html>

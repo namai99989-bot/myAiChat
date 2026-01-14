@@ -1,0 +1,830 @@
+<html>
+<head>
+<style>
+.nova-schedule-root { --nova-gold: #facc15; --nova-gold-dim: rgba(250, 204, 21, 0.2); --nova-bg: #0a0a0c; --nova-card: #161b22; --nova-text: #ffffff; --nova-text-sub: #94a3b8; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background-color: var(--nova-bg); color: var(--nova-text); line-height: 1.6; } .nova-schedule-root .hero-section { position: relative; overflow: hidden; border-bottom: 2px solid var(--nova-gold); } .nova-schedule-root .member-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 15px; background: rgba(0,0,0,0.5); } .nova-schedule-root .member-card { text-align: center; transition: transform 0.3s; } .nova-schedule-root .member-avatar { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 2px solid var(--nova-gold); border-radius: 4px; } .nova-schedule-root .nav-tabs { display: flex; gap: 2px; background: #000; padding: 5px; } .nova-schedule-root .tab-btn { flex: 1; padding: 12px; text-align: center; cursor: pointer; background: #21262d; font-weight: bold; font-size: 0.9rem; transition: all 0.3s; color: var(--nova-text-sub); border: none; } .nova-schedule-root .tab-input { display: none; } .nova-schedule-root .tab-content { display: none; padding: 20px; background: var(--nova-card); border-top: 1px solid var(--nova-gold-dim); } #daily-tab:checked ~ .nav-tabs label[for="daily-tab"], #extra-tab:checked ~ .nav-tabs label[for="extra-tab"], #staff-tab:checked ~ .nav-tabs label[for="staff-tab"] { background: var(--nova-gold); color: #000; } #daily-tab:checked ~ .content-daily, #extra-tab:checked ~ .content-extra, #staff-tab:checked ~ .content-staff { display: block; animation: fadeIn 0.4s ease; } @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } } .nova-schedule-root .timeline-row { display: flex; margin-bottom: 15px; border-left: 3px solid var(--nova-gold); padding-left: 15px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 0 8px 8px 0; } .nova-schedule-root .time-slot { min-width: 90px; font-family: monospace; font-weight: bold; color: var(--nova-gold); font-size: 1.1rem; } .nova-schedule-root .event-detail { flex: 1; } .nova-schedule-root .event-title { font-weight: 800; font-size: 1.05rem; margin-bottom: 4px; color: #fff; } .nova-schedule-root .event-desc { font-size: 0.9rem; color: var(--nova-text-sub); } .nova-schedule-root .duty-pill { display: inline-block; padding: 2px 8px; background: var(--nova-gold-dim); color: var(--nova-gold); border-radius: 4px; font-size: 0.8rem; margin-top: 5px; font-weight: bold; } .nova-schedule-root .profile-strip { display: flex; align-items: center; gap: 15px; padding: 12px; background: #0d1117; border: 1px solid #30363d; margin-bottom: 10px; border-radius: 8px; } .nova-schedule-root .profile-img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--nova-gold); } .nova-schedule-root .text-contrast { color: var(--nova-gold); font-weight: bold; text-shadow: 1px 1px 2px #000; }
+</style>
+<meta name="cg-name" content="*NOVA男團時間表" />
+<meta name="cg-command-name" content="*NOVA男團時間表" />
+<meta name="cg-color" content="#6273B9" />
+<meta name="cg-icon" content="Network" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.nova-schedule-root {--nova-gold: #facc15; --nova-gold-dim: rgba(250, 204, 21, 0.2); --nova-bg: #0a0a0c; --nova-card: #161b22; --nova-text: #fff; --nova-text-sub: #94a3b8; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background-color: var(--nova-bg); color: var(--nova-text); line-height: 1.6;}
+.nova-schedule-root .hero-section {position: relative; overflow: hidden; border-bottom: 2px solid var(--nova-gold);}
+.nova-schedule-root .member-grid {display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 15px; background: rgba(0, 0, 0, 0.5);}
+.nova-schedule-root .member-card {text-align: center; transition: transform 0.3s;}
+.nova-schedule-root .member-avatar {width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 2px solid var(--nova-gold); border-radius: 4px;}
+.nova-schedule-root .nav-tabs {display: flex; gap: 2px; background: #000; padding: 5px;}
+.nova-schedule-root .tab-btn {flex: 1; padding: 12px; text-align: center; cursor: pointer; background: #21262d; font-weight: bold; font-size: 0.9rem; transition: all 0.3s; color: var(--nova-text-sub); border: none;}
+.nova-schedule-root .tab-input {display: none;}
+.nova-schedule-root .tab-content {display: none; padding: 20px; background: var(--nova-card); border-top: 1px solid var(--nova-gold-dim);}
+#daily-tab:checked ~ .nav-tabs label[for="daily-tab"], #extra-tab:checked ~ .nav-tabs label[for="extra-tab"], #staff-tab:checked ~ .nav-tabs label[for="staff-tab"] {background: var(--nova-gold); color: #000;}
+#daily-tab:checked ~ .content-daily, #extra-tab:checked ~ .content-extra, #staff-tab:checked ~ .content-staff {display: block; animation: fadeIn 0.4s ease;}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translatey(5px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.nova-schedule-root .timeline-row {display: flex; margin-bottom: 15px; border-left: 3px solid var(--nova-gold); padding-left: 15px; background: rgba(255, 255, 255, 0.02); padding: 12px; border-radius: 0 8px 8px 0;}
+.nova-schedule-root .time-slot {min-width: 90px; font-family: monospace; font-weight: bold; color: var(--nova-gold); font-size: 1.1rem;}
+.nova-schedule-root .event-detail {flex: 1;}
+.nova-schedule-root .event-title {font-weight: 800; font-size: 1.05rem; margin-bottom: 4px; color: #fff;}
+.nova-schedule-root .event-desc {font-size: 0.9rem; color: var(--nova-text-sub);}
+.nova-schedule-root .duty-pill {display: inline-block; padding: 2px 8px; background: var(--nova-gold-dim); color: var(--nova-gold); border-radius: 4px; font-size: 0.8rem; margin-top: 5px; font-weight: bold;}
+.nova-schedule-root .profile-strip {display: flex; align-items: center; gap: 15px; padding: 12px; background: #0d1117; border: 1px solid #30363d; margin-bottom: 10px; border-radius: 8px;}
+.nova-schedule-root .profile-img {width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--nova-gold);}
+.nova-schedule-root .text-contrast {color: var(--nova-gold); font-weight: bold; text-shadow: 1px 1px 2px #000;}
+</style>
+
+<div class="nova-schedule-root max-w-2xl mx-auto my-4 shadow-2xl"><header class="hero-section"><div class="p-6 bg-gradient-to-b from-gray-900 to-black"><h1 class="text-3xl font-black tracking-tighter italic">NOVA <span class="text-yellow-400">MANAGEMENT</span></h1><p class="text-xs tracking-widest text-gray-400 uppercase">Official Schedule &amp; Team Structure</p></div><div class="member-grid"><div class="member-card"><img src="https://i.postimg.cc/Jz2TR5SN/曦辰4.png" class="member-avatar" alt="曦辰"><p class="text-xs mt-1 font-bold">曦辰</p></div><div class="member-card"><img src="https://i.postimg.cc/KvdkFKJn/奕辰3.png" class="member-avatar" alt="奕辰"><p class="text-xs mt-1 font-bold">奕辰</p></div><div class="member-card"><img src="https://i.postimg.cc/ZK1BZ9VN/yao-xi3.png" class="member-avatar" alt="曜熙"><p class="text-xs mt-1 font-bold">曜熙</p></div><div class="member-card"><img src="https://i.postimg.cc/3JP47ynm/lan-ye3.png" class="member-avatar" alt="嵐夜"><p class="text-xs mt-1 font-bold">嵐夜</p></div><div class="member-card"><img src="https://i.postimg.cc/c4VgZKXY/xing-lang3.png" class="member-avatar" alt="星朗"><p class="text-xs mt-1 font-bold">星朗</p></div></div></header><div class="relative"><input type="radio" id="daily-tab" name="main-nav" class="tab-input" checked=""><input type="radio" id="extra-tab" name="main-nav" class="tab-input"><input type="radio" id="staff-tab" name="main-nav" class="tab-input"><nav class="nav-tabs"><label for="daily-tab" class="tab-btn">每日訓練</label><label for="extra-tab" class="tab-btn">休息/宣傳</label><label for="staff-tab" class="tab-btn">人員職責</label></nav><div class="tab-content content-daily"><div class="timeline-row"><div class="time-slot">07:00</div><div class="event-detail"><div class="event-title">晨起準備 &amp; 晨會</div><div class="event-desc">由 <span class="text-contrast">{user}</span> 負責全員喚醒，確保不影響後續行程。</div></div></div><div class="timeline-row"><div class="time-slot">09:00</div><div class="event-detail"><div class="event-title">高強度舞蹈訓練</div><div class="event-desc">💃 <span class="text-white font-bold">星朗</span> (領舞) / <span class="text-white font-bold">曦辰</span> (細節) / <span class="text-white font-bold">嵐夜</span> (表情)</div><div class="duty-pill">分組練習中</div></div></div><div class="timeline-row"><div class="time-slot">11:00</div><div class="event-detail"><div class="event-title">專業歌聲訓練</div><div class="event-desc">🎵 <span class="text-white font-bold">奕辰</span> (主唱) / <span class="text-white font-bold">曜熙</span> (和聲)</div></div></div><div class="timeline-row"><div class="time-slot">12:00</div><div class="event-detail"><div class="event-title">午餐與個人整備</div><div class="event-desc">成員自主休息、處理私事。</div></div></div><div class="timeline-row"><div class="time-slot">13:00</div><div class="event-detail"><div class="event-title">宣傳行程 / 採訪🎙️</div><div class="event-desc">包含粉絲互動、繪畫或彈琴等才藝展示。</div></div></div><div class="timeline-row"><div class="time-slot">15:00</div><div class="event-detail"><div class="event-title">錄音 &amp; 舞台排練</div><div class="event-desc">錄音室配唱、舞台走位精進。</div></div></div><div class="timeline-row"><div class="time-slot">18:00</div><div class="event-detail"><div class="event-title">晚餐 &amp; 放鬆時段 🛋️</div><div class="event-desc">遊戲時間、漫畫或成員間的談心交流。</div></div></div><div class="timeline-row"><div class="time-slot">20:00</div><div class="event-detail"><div class="event-title">直播互動 / 視訊</div><div class="event-desc">即興清唱、才藝展示，拉近粉絲距離。</div></div></div><div class="timeline-row"><div class="time-slot">22:00</div><div class="event-detail"><div class="event-title">深夜放鬆 / 就寢</div><div class="event-desc">24:00 後由 <span class="text-contrast">{user}</span> 進行宿舍最終安全檢查。</div></div></div></div><div class="tab-content content-extra"><div class="grid grid-cols-1 gap-4"><div class="p-4 border border-gray-700 rounded"><h3 class="text-contrast mb-3 border-b pb-1">📅 休息日時間表</h3><ul class="text-sm space-y-2 text-gray-300"><li><span class="text-white">09:00-12:00</span> 自由活動</li><li><span class="text-white">12:30-13:30</span> 午餐</li><li><span class="text-white">14:00-18:00</span> 自由活動</li><li><span class="text-white">18:30-19:30</span> 晚餐</li><li><span class="text-white">20:00-23:00</span> 自由活動</li><li><span class="text-white">23:30</span> 熱水澡/就寢</li></ul></div><div class="p-4 border border-gray-700 rounded"><h3 class="text-contrast mb-3 border-b pb-1">📺 周期宣傳活動</h3><ul class="text-sm space-y-1 text-gray-300"><li><span class="text-yellow-400">周一:</span> 粉絲見面會</li><li><span class="text-yellow-400">周三:</span> 音樂節目錄製</li><li><span class="text-yellow-400">周五:</span> 打歌舞台</li><li class="pt-2"><span class="text-white">每月第1周:</span> 新專宣傳</li><li><span class="text-white">每月第2周:</span> 綜藝錄製</li><li><span class="text-white">每月第3周:</span> 地方巡迴</li><li><span class="text-white">每月第4周:</span> 海外宣傳</li></ul></div></div></div><div class="tab-content content-staff"><h3 class="text-contrast mb-4">訓練負責人</h3><div class="grid grid-cols-1 gap-2 mb-6"><div class="profile-strip"><img src="https://i.postimg.cc/Jz2TR5SN/曦辰4.png" class="profile-img"><div><p class="font-bold">曦辰</p><p class="text-xs text-gray-400">基礎舞蹈訓練 / 全體協調</p></div></div><div class="profile-strip"><img src="https://i.postimg.cc/ZK1BZ9VN/yao-xi3.png" class="profile-img"><div><p class="font-bold">曜熙</p><p class="text-xs text-gray-400">舞台表演 / 肢體表情訓練</p></div></div><div class="profile-strip"><img src="https://i.postimg.cc/c4VgZKXY/xing-lang3.png" class="profile-img"><div><p class="font-bold">星朗</p><p class="text-xs text-gray-400">歌唱技巧 / 聲音特訓</p></div></div><div class="profile-strip"><img src="https://i.postimg.cc/3JP47ynm/lan-ye3.png" class="profile-img"><div><p class="font-bold">嵐夜</p><p class="text-xs text-gray-400">公關培訓 / 媒體訪談技巧</p></div></div><div class="profile-strip"><img src="https://i.postimg.cc/KvdkFKJn/奕辰3.png" class="profile-img"><div><p class="font-bold">奕辰</p><p class="text-xs text-gray-400">形象管理 / 個人特質開發</p></div></div></div><h3 class="text-contrast mb-4">{user} 的核心職責</h3><div class="grid grid-cols-1 gap-3 text-sm"><div class="p-3 rounded"><strong>🏠 生活管理</strong><p class="text-xs text-gray-400">🏠 日常生活管理<br>
+- 負責團隊的飲食安排（尤其是特殊飲食需求）<br>
+- 管理宿舍清潔和維護<br>
+- 協助處理日常行政事務<br>
+</p></div><div class="p-3 rounded"><strong>💄 造型美妝</strong><p class="text-xs text-gray-400">- 負責團隊的造型設計和美妝打理<br>
+- 為重要活動準備造型方案<br>
+- 管理造型用品和美妝品<br>
+</p></div><div class="p-3 rounded"><strong>🎭 表演輔助</strong><p class="text-xs text-gray-400">- 協助排練和走位<br>
+- 負責舞台道具的管理<br>
+- 當場表演時的緊急應變<br>
+</p></div><div class="p-3 rounded"><strong>📱 個人助理</strong><p class="text-xs text-gray-400">- 為每位成員提供個性化服務<br>
+- 處理私人事務（如約會安排、採購等）<br>
+- 照顧成員的特殊需求<br>
+</p></div></div></div></div><footer class="p-4 text-center text-gray-600 border-t border-gray-900 bg-black uppercase tracking-widest">NOVA Entertainment © Internal Management System</footer></div>
+<html>
+<head>
+<style>
+/* Root Scope - High Contrast Dark Theme */
+.nova-star-schedule {
+  --bg-core: #020617; /* Slate 950 */
+  --bg-card: #0f172a; /* Slate 900 */
+  --bg-card-hover: #1e293b; /* Slate 800 */
+  --accent-primary: #06b6d4; /* Cyan 500 */
+  --accent-bright: #67e8f9; /* Cyan 300 - Brighter for contrast */
+  --accent-dim: rgba(6, 182, 212, 0.15);
+  --text-white: #ffffff;
+  --text-high-contrast: #f1f5f9; /* Slate 100 */
+  --text-body: #e2e8f0; /* Slate 200 - Much lighter than before */
+  --border-color: #334155; /* Slate 700 - Visible borders */
+  --font-display: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  font-family: var(--font-display);
+  background-color: var(--bg-core);
+  color: var(--text-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Typography & Headers */
+.nova-star-schedule h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--text-white);
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 25px rgba(34, 211, 238, 0.4);
+  background: linear-gradient(to right, #fff, var(--accent-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nova-star-schedule .subtitle {
+  text-align: center;
+  color: var(--accent-bright);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.nova-star-schedule h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin: 2.5rem 0 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 5px solid var(--accent-primary);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(6,182,212,0.1) 0%, transparent 100%);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Member Scroll Section */
+.nova-star-schedule .member-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  scrollbar-width: none;
+}
+.nova-star-schedule .member-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.nova-star-schedule .member-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  padding: 0 0.5rem;
+}
+
+.nova-star-schedule .member-card {
+  width: 130px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.nova-star-schedule .member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.25);
+  border-color: var(--accent-bright);
+}
+
+.nova-star-schedule .member-img-wrapper {
+  width: 100%;
+  height: 160px;
+  background: radial-gradient(circle at center, #334155 0%, #0f172a 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.nova-star-schedule .member-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Changed to cover for better fill */
+  object-position: top center;
+  display: block;
+}
+
+.nova-star-schedule .member-name {
+  padding: 0.75rem 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text-white);
+  background: var(--bg-card-hover);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+/* Navigation Tabs (Radio Hack) */
+.nova-star-schedule input[type="radio"] {
+  display: none;
+}
+
+.nova-star-schedule .nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  background: rgba(2, 6, 23, 0.95);
+  padding: 1rem 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.nova-star-schedule .tab-label {
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nova-star-schedule .tab-label:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-white);
+}
+
+/* Active Tab Styling */
+.nova-star-schedule input[id="tab-1"]:checked ~ .nav-tabs label[for="tab-1"],
+.nova-star-schedule input[id="tab-2"]:checked ~ .nav-tabs label[for="tab-2"],
+.nova-star-schedule input[id="tab-3"]:checked ~ .nav-tabs label[for="tab-3"] {
+  background: var(--accent-primary);
+  color: #000;
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+  transform: scale(1.05);
+}
+
+/* Content Area */
+.nova-star-schedule .tab-content {
+  display: none;
+  animation: fadeInSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.nova-star-schedule input[id="tab-1"]:checked ~ .content-daily { display: block; }
+.nova-star-schedule input[id="tab-2"]:checked ~ .content-roles { display: block; }
+.nova-star-schedule input[id="tab-3"]:checked ~ .content-rest { display: block; }
+
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Timeline Styling */
+.nova-star-schedule .timeline-item {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 2rem;
+  border-left: 3px solid var(--border-color);
+}
+
+.nova-star-schedule .timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 0.25rem;
+  width: 13px;
+  height: 13px;
+  background: var(--bg-core);
+  border: 3px solid var(--accent-bright);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-primary);
+  z-index: 2;
+}
+
+.nova-star-schedule .timeline-time {
+  display: inline-block;
+  background: var(--accent-dim);
+  color: var(--accent-bright);
+  padding: 0.35rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.nova-star-schedule .timeline-card {
+  background: var(--bg-card);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nova-star-schedule .timeline-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nova-star-schedule .timeline-card li {
+  margin-bottom: 0.75rem;
+  color: var(--text-high-contrast);
+  font-size: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.5;
+}
+
+.nova-star-schedule .timeline-card li strong {
+  color: var(--accent-bright);
+  font-weight: 700;
+}
+
+.nova-star-schedule .timeline-sub {
+  display: block;
+  margin-left: 2rem;
+  color: var(--text-body);
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+  border-left: 2px solid var(--border-color);
+  padding-left: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Roles Grid */
+.nova-star-schedule .roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.nova-star-schedule .role-card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.nova-star-schedule .role-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.nova-star-schedule .role-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+.nova-star-schedule .role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.nova-star-schedule .role-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-white);
+}
+
+.nova-star-schedule .role-desc {
+  color: var(--text-high-contrast);
+  font-size: 1rem;
+}
+
+/* User Duty List */
+.nova-star-schedule .duty-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.nova-star-schedule .duty-card {
+  background: linear-gradient(145deg, var(--bg-card) 0%, rgba(30, 41, 59, 0.5) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.nova-star-schedule .duty-title {
+  color: var(--accent-bright);
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nova-star-schedule .duty-content {
+  color: var(--text-body);
+  padding-left: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Tables for Rest/Promo */
+.nova-star-schedule .data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.nova-star-schedule .data-table tr {
+  background: var(--bg-card);
+  transition: transform 0.2s;
+}
+
+.nova-star-schedule .data-table tr:hover {
+  transform: scale(1.01);
+  background: var(--bg-card-hover);
+}
+
+.nova-star-schedule .data-table td {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.nova-star-schedule .data-table td:first-child {
+  border-left: 1px solid var(--border-color);
+  border-radius: 10px 0 0 10px;
+  color: var(--accent-bright);
+  font-weight: 700;
+  width: 35%;
+  font-size: 1.05rem;
+}
+
+.nova-star-schedule .data-table td:last-child {
+  border-right: 1px solid var(--border-color);
+  border-radius: 0 10px 10px 0;
+  color: var(--text-white);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nova-star-schedule .data-table td {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 0.75rem 1rem;
+  }
+  .nova-star-schedule .data-table td:first-child {
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 10px 10px 0 0;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    color: var(--accent-primary);
+  }
+  .nova-star-schedule .data-table td:last-child {
+    background: var(--bg-card);
+    border-radius: 0 0 10px 10px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+  }
+  .nova-star-schedule .data-table tr:hover {
+    transform: none;
+  }
+}
+</style>
+<meta name="llm-content" content="Roleplay as the manager ({user}) or a NOVA member (like Xi Chen or Xing Lang) reviewing this specific schedule. Comment on the intensity of the training, the upcoming promotional events, or a specific duty. Use semantic HTML with Tailwind classes (e.g., &amp;lt;div class=&amp;quot;bg-slate-800 p-4 rounded-lg border border-cyan-500/30&amp;quot;&amp;gt;) to format your response. Ensure the tone fits a professional yet close-knit idol group dynamic." />
+<meta name="cg-name" content="NOVA男團時間表" />
+<meta name="cg-command-name" content="NOVA男團時間表" />
+<meta name="cg-color" content="#DD2D93" />
+<meta name="cg-icon" content="TimerReset" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.nova-star-schedule {--bg-core: #020617; --bg-card: #0f172a; --bg-card-hover: #1e293b; --accent-primary: #06b6d4; --accent-bright: #67e8f9; --accent-dim: rgba(6, 182, 212, 0.15); --text-white: #fff; --text-high-contrast: #f1f5f9; --text-body: #e2e8f0; --border-color: #334155; --font-display: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-family: var(--font-display); background-color: var(--bg-core); color: var(--text-body); line-height: 1.6; min-height: 100vh; padding: 1rem; box-sizing: border-box;}
+.nova-star-schedule h1 {font-size: 2.2rem; font-weight: 900; color: var(--text-white); text-align: center; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 0 25px rgba(34, 211, 238, 0.4); background: linear-gradient(to right, #fff, var(--accent-bright)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+.nova-star-schedule .subtitle {text-align: center; color: var(--accent-bright); font-size: 0.95rem; letter-spacing: 2px; margin-bottom: 2.5rem; text-transform: uppercase; font-weight: 600;}
+.nova-star-schedule h2 {font-size: 1.4rem; font-weight: 800; color: var(--text-white); margin: 2.5rem 0 1.5rem 0; padding-left: 1rem; border-left: 5px solid var(--accent-primary); display: flex; align-items: center; background: linear-gradient(90deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%); padding-top: 0.5rem; padding-bottom: 0.5rem; border-radius: 0 8px 8px 0;}
+.nova-star-schedule .member-scroll-container {width: 100%; overflow-x: auto; padding-bottom: 1.5rem; margin-bottom: 2rem;}
+.nova-star-schedule .member-scroll-container::-webkit-scrollbar {display: none;}
+.nova-star-schedule .member-track {display: flex; gap: 1rem; width: max-content; padding: 0 0.5rem;}
+.nova-star-schedule .member-card {width: 130px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; position: relative; flex-shrink: 0; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);}
+.nova-star-schedule .member-card:hover {transform: translatey(-4px); box-shadow: 0 8px 20px rgba(6, 182, 212, 0.25); border-color: var(--accent-bright);}
+.nova-star-schedule .member-img-wrapper {width: 100%; height: 160px; background: radial-gradient(circle at center, #334155 0%, #0f172a 100%); display: flex; align-items: flex-end; justify-content: center;}
+.nova-star-schedule .member-img {width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;}
+.nova-star-schedule .member-name {padding: 0.75rem 0; text-align: center; font-weight: 700; color: var(--text-white); background: var(--bg-card-hover); border-top: 1px solid var(--border-color); font-size: 0.95rem; letter-spacing: 1px;}
+.nova-star-schedule input[type="radio"] {display: none;}
+.nova-star-schedule .nav-tabs {display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; top: 0; background: rgba(2, 6, 23, 0.95); padding: 1rem 0; z-index: 50; backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);}
+.nova-star-schedule .tab-label {padding: 0.75rem 1.5rem; border-radius: 999px; background: var(--bg-card); color: var(--text-body); font-size: 0.95rem; font-weight: 700; cursor: pointer; border: 1px solid var(--border-color); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px;}
+.nova-star-schedule .tab-label:hover {border-color: var(--accent-primary); color: var(--text-white);}
+.nova-star-schedule input[id="tab-1"]:checked ~ .nav-tabs label[for="tab-1"], .nova-star-schedule input[id="tab-2"]:checked ~ .nav-tabs label[for="tab-2"], .nova-star-schedule input[id="tab-3"]:checked ~ .nav-tabs label[for="tab-3"] {background: var(--accent-primary); color: #000; border-color: var(--accent-bright); box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); transform: scale(1.05);}
+.nova-star-schedule .tab-content {display: none; animation: fadeInSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-width: 900px; margin: 0 auto;}
+.nova-star-schedule input[id="tab-1"]:checked ~ .content-daily {display: block;}
+.nova-star-schedule input[id="tab-2"]:checked ~ .content-roles {display: block;}
+.nova-star-schedule input[id="tab-3"]:checked ~ .content-rest {display: block;}
+@keyframes fadeInSlide {
+  from {opacity: 0; transform: translatey(15px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.nova-star-schedule .timeline-item {position: relative; padding-left: 2.5rem; margin-bottom: 2rem; border-left: 3px solid var(--border-color);}
+.nova-star-schedule .timeline-item::before {content: ""; position: absolute; left: -8px; top: 0.25rem; width: 13px; height: 13px; background: var(--bg-core); border: 3px solid var(--accent-bright); border-radius: 50%; box-shadow: 0 0 10px var(--accent-primary); z-index: 2;}
+.nova-star-schedule .timeline-time {display: inline-block; background: var(--accent-dim); color: var(--accent-bright); padding: 0.35rem 1rem; border-radius: 6px; font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; border: 1px solid rgba(6, 182, 212, 0.3); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);}
+.nova-star-schedule .timeline-card {background: var(--bg-card); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);}
+.nova-star-schedule .timeline-card ul {list-style: none; padding: 0; margin: 0;}
+.nova-star-schedule .timeline-card li {margin-bottom: 0.75rem; color: var(--text-high-contrast); font-size: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; line-height: 1.5;}
+.nova-star-schedule .timeline-card li strong {color: var(--accent-bright); font-weight: 700;}
+.nova-star-schedule .timeline-sub {display: block; margin-left: 2rem; color: var(--text-body); font-size: 0.9rem; padding: 0.25rem 0; border-left: 2px solid var(--border-color); padding-left: 0.75rem; margin-bottom: 0.5rem;}
+.nova-star-schedule .roles-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;}
+.nova-star-schedule .role-card {background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); position: relative; overflow: hidden; transition: transform 0.2s;}
+.nova-star-schedule .role-card:hover {border-color: var(--accent-primary); transform: translatey(-2px);}
+.nova-star-schedule .role-card::after {content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary);}
+.nova-star-schedule .role-header {display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;}
+.nova-star-schedule .role-name {font-size: 1.25rem; font-weight: 800; color: var(--text-white);}
+.nova-star-schedule .role-desc {color: var(--text-high-contrast); font-size: 1rem;}
+.nova-star-schedule .duty-section {display: flex; flex-direction: column; gap: 1.25rem;}
+.nova-star-schedule .duty-card {background: linear-gradient(145deg, var(--bg-card) 0%, rgba(30, 41, 59, 0.5) 100%); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem;}
+.nova-star-schedule .duty-title {color: var(--accent-bright); font-size: 1.1rem; font-weight: 800; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;}
+.nova-star-schedule .duty-content {color: var(--text-body); padding-left: 2rem; font-size: 0.95rem;}
+.nova-star-schedule .data-table {width: 100%; border-collapse: separate;}
+.nova-star-schedule .data-table tr {background: var(--bg-card); transition: transform 0.2s;}
+.nova-star-schedule .data-table tr:hover {transform: scale(1.01); background: var(--bg-card-hover);}
+.nova-star-schedule .data-table td {padding: 1.25rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); vertical-align: middle;}
+.nova-star-schedule .data-table td:first-child {border-left: 1px solid var(--border-color); border-radius: 10px 0 0 10px; color: var(--accent-bright); font-weight: 700; width: 35%; font-size: 1.05rem;}
+.nova-star-schedule .data-table td:last-child {border-right: 1px solid var(--border-color); border-radius: 0 10px 10px 0; color: var(--text-white); font-size: 1rem; font-weight: 500;}
+@media (max-width: 600px) {
+  .nova-star-schedule .data-table td {display: block; width: 100%; border: none; padding: 0.75rem 1rem;}
+  .nova-star-schedule .data-table td:first-child {background: rgba(30, 41, 59, 0.5); border-radius: 10px 10px 0 0; border: 1px solid var(--border-color); border-bottom: none; color: var(--accent-primary);}
+  .nova-star-schedule .data-table td:last-child {background: var(--bg-card); border-radius: 0 0 10px 10px; border: 1px solid var(--border-color); border-top: none;}
+  .nova-star-schedule .data-table tr:hover {transform: none;}
+}
+</style>
+
+<div class="nova-star-schedule">
+  
+  <header>
+    <h1>NOVA 男團</h1>
+    <div class="subtitle">每日行程與職務分配詳情</div>
+  </header>
+
+  
+  <div class="member-scroll-container">
+    <div class="member-track">
+      
+      <div class="member-card">
+        <div class="member-img-wrapper">
+          <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/e1f81078266a403688985317ecc99202.png" alt="曦辰" class="member-img">
+        </div>
+        <div class="member-name">曦辰</div>
+      </div>
+      
+      <div class="member-card">
+        <div class="member-img-wrapper">
+          <img src="https://i.postimg.cc/brTYGZRH/yao-xi2.webp" alt="曜熙" class="member-img">
+        </div>
+        <div class="member-name">曜熙</div>
+      </div>
+      <div class="member-card">
+        <div class="member-img-wrapper">
+          <img src="https://i.postimg.cc/vTz814vt/lan-ye2.webp" alt="嵐夜" class="member-img">
+        </div>
+        <div class="member-name">嵐夜</div>
+      </div>
+      <div class="member-card">
+        <div class="member-img-wrapper">
+          <img src="https://i.postimg.cc/qqLBtNGG/yi-chen2.webp" alt="奕辰" class="member-img">
+        </div>
+        <div class="member-name">奕辰</div>
+      </div>
+      <div class="member-card">
+        <div class="member-img-wrapper">
+          <img src="https://i.postimg.cc/gjDcwxKs/xing-lang2.webp" alt="星朗" class="member-img">
+        </div>
+        <div class="member-name">星朗</div>
+      </div>
+    </div>
+  </div>
+
+  
+  <input type="radio" name="nova-tabs" id="tab-1" checked="">
+  <input type="radio" name="nova-tabs" id="tab-2">
+  <input type="radio" name="nova-tabs" id="tab-3">
+
+  
+  <nav class="nav-tabs">
+    <label for="tab-1" class="tab-label">每日時間表</label>
+    <label for="tab-2" class="tab-label">職務與職責</label>
+    <label for="tab-3" class="tab-label">休息與宣傳</label>
+  </nav>
+
+  
+  <div class="tab-content content-daily">
+    <h2>每日標準行程</h2>
+    
+    <div class="timeline-item">
+      <div class="timeline-time">07:00 - 08:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🔔 <strong>【{user}】</strong> 負責叫醒大家</li>
+          <li>🍳 早餐時間 / 晨會</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">09:00 - 11:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>💃 <strong>舞蹈訓練（分組進行）</strong></li>
+          <span class="timeline-sub">【星朗】：領舞指導</span>
+          <span class="timeline-sub">【曦辰】：動作細節</span>
+          <span class="timeline-sub">【嵐夜】：表情管理</span>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">11:00 - 12:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🎵 <strong>歌聲訓練 Room</strong></li>
+          <span class="timeline-sub">【奕辰】：主唱指導</span>
+          <span class="timeline-sub">【曜熙】：和聲訓練</span>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">12:00 - 13:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🍱 午餐時間（自行解決/聚餐）</li>
+          <li>💤 短暫休息</li>
+          <li>📖 個人時間（看漫畫/睡覺/整理個人事務）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">13:00 - 15:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🎙️ 宣傳行程 / 採訪</li>
+          <li>🎮 與粉絲互動</li>
+          <li>🎨 才藝展示（繪畫/彈琴）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">15:00 - 16:30</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🎙️ 歌曲訓練 / 錄音</li>
+          <li>🎭 舞台走位排練</li>
+          <li>🏋️ 個人練習 / 特訓</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">16:30 - 18:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>👔 公關培訓 / 媒體訪談準備</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">18:00 - 20:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🍲 晚餐時間</li>
+          <li>🛋️ <strong>休息室放鬆</strong></li>
+          <span class="timeline-sub">🎮 遊戲時間 / 🎭 看漫畫 / 🎵 聊天談心</span>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">20:00 - 22:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>📹 視頻會議 / 粉絲互動</li>
+          <span class="timeline-sub">🎭 即興表演 / 🎵 清唱互動 / 🎭 才藝展示</span>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">22:00 - 24:00</div>
+      <div class="timeline-card">
+        <ul>
+          <li>🌙 個人時間 / 放鬆時間</li>
+          <li>🛏️ 熄燈就寢準備睡覺</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">深夜 24:00 後</div>
+      <div class="timeline-card">
+        <ul>
+          <li>💤 睡覺（<strong>【{user}】</strong> 負責最後檢查）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="tab-content content-roles">
+    <h2>訓練項目負責人</h2>
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-header">
+          <span class="role-name">曦辰</span>
+        </div>
+        <div class="role-desc">主要負責基礎舞蹈訓練和整體協調</div>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <span class="role-name">曜熙</span>
+        </div>
+        <div class="role-desc">負責舞台表演和肢體表情訓練</div>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <span class="role-name">星朗</span>
+        </div>
+        <div class="role-desc">負責歌唱技巧和聲音訓練</div>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <span class="role-name">嵐夜</span>
+        </div>
+        <div class="role-desc">負責公關培訓和媒體訪談技巧</div>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <span class="role-name">奕辰</span>
+        </div>
+        <div class="role-desc">負責整體形象管理和個人特質培養</div>
+      </div>
+    </div>
+
+    <h2>{user} 的工作職責</h2>
+    <div class="duty-section">
+      <div class="duty-card">
+        <div class="duty-title">🏠 日常生活管理</div>
+        <div class="duty-content">
+          - 負責團隊的飲食安排（尤其是特殊飲食需求）<br>
+          - 管理宿舍清潔和維護<br>
+          - 協助處理日常行政事務
+        </div>
+      </div>
+      <div class="duty-card">
+        <div class="duty-title">💄 造型美妝</div>
+        <div class="duty-content">
+          - 負責團隊的造型設計和美妝打理<br>
+          - 為重要活動準備造型方案<br>
+          - 管理造型用品和美妝品
+        </div>
+      </div>
+      <div class="duty-card">
+        <div class="duty-title">🎭 表演輔助</div>
+        <div class="duty-content">
+          - 協助排練和走位<br>
+          - 負責舞台道具的管理<br>
+          - 當場表演時的緊急應變
+        </div>
+      </div>
+      <div class="duty-card">
+        <div class="duty-title">📱 個人助理</div>
+        <div class="duty-content">
+          - 為每位成員提供個性化服務<br>
+          - 處理私人事務（如約會安排、採購等）<br>
+          - 照顧成員的特殊需求
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="tab-content content-rest">
+    <h2>休息日時間表</h2>
+    <table class="data-table">
+      <tbody>
+        <tr><td>09:00 - 12:00</td><td>自由活動</td></tr>
+        <tr><td>12:30 - 13:30</td><td>午餐</td></tr>
+        <tr><td>14:00 - 18:00</td><td>自由活動</td></tr>
+        <tr><td>18:30 - 19:30</td><td>晚餐</td></tr>
+        <tr><td>20:00 - 23:00</td><td>自由活動</td></tr>
+        <tr><td>23:30</td><td>熱水澡 / 睡覺</td></tr>
+      </tbody>
+    </table>
+
+    <h2>定期宣傳活動</h2>
+    <table class="data-table">
+      <tbody>
+        <tr><td>每周一</td><td>粉絲見面會</td></tr>
+        <tr><td>每周三</td><td>音樂節目錄制</td></tr>
+        <tr><td>每周五</td><td>打歌舞台</td></tr>
+        <tr><td>每月第一周</td><td>新專輯宣傳</td></tr>
+        <tr><td>每月第二周</td><td>綜藝節目錄製</td></tr>
+        <tr><td>每月第三周</td><td>地方巡迴演出</td></tr>
+        <tr><td>每月第四周</td><td>海外宣傳</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <div class="tab-content" style="display: block; margin-top: 3rem">
+    {llm_content}
+  </div>
+
+</div>
+</body>
+</html>
