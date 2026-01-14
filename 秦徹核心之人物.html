@@ -1,0 +1,793 @@
+<html>
+<head>
+<style>
+.sylus-db {
+  --bg-color: #030303;
+  --card-bg: #0a0a0a;
+  --accent-red: #e62e2e;
+  --accent-dark: #7f1d1d;
+  --text-white: #ffffff;
+  --text-gray: #d4d4d4;
+  --border: #333333;
+  --font-main: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+  
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-white);
+  line-height: 1.6;
+  width: 100%;
+  padding-bottom: 4rem;
+  overflow-x: hidden;
+}
+
+.sylus-db * { box-sizing: border-box; }
+
+/* Banner */
+.sylus-db .hero-banner {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-bottom: 3px solid var(--accent-red);
+  overflow: hidden;
+}
+
+.sylus-db .hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  opacity: 0.7;
+  filter: contrast(1.1) brightness(0.9);
+  transition: transform 3s ease;
+}
+
+.sylus-db .hero-banner:hover .hero-img { transform: scale(1.02); }
+
+.sylus-db .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-color) 0%, transparent 80%),
+              linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 60%);
+}
+
+.sylus-db .hero-text {
+  position: absolute;
+  bottom: 2rem;
+  left: 1.5rem;
+  z-index: 10;
+}
+
+.sylus-db .hero-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  line-height: 1;
+  text-shadow: 3px 3px 0px var(--accent-red);
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.sylus-db .hero-sub {
+  color: var(--accent-red);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sylus-db .hero-sub::after {
+  content: "";
+  height: 2px;
+  flex: 1;
+  background: var(--accent-red);
+  max-width: 100px;
+}
+
+/* Nav */
+.sylus-db .nav-radio { display: none; }
+
+.sylus-db .nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  background: #000;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #222;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.sylus-db .nav-item {
+  flex: 1;
+  max-width: 160px;
+  padding: 0.8rem;
+  text-align: center;
+  background: #111;
+  border: 1px solid #333;
+  color: #666;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.sylus-db .nav-item:hover {
+  background: #1a1a1a;
+  color: white;
+}
+
+.sylus-db #tab1:checked ~ .nav-bar label[for="tab1"],
+.sylus-db #tab2:checked ~ .nav-bar label[for="tab2"],
+.sylus-db #tab3:checked ~ .nav-bar label[for="tab3"] {
+  background: var(--accent-red);
+  color: #000;
+  border-color: var(--accent-red);
+  box-shadow: 0 0 15px var(--accent-red);
+}
+
+/* Content Area */
+.sylus-db .content-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: 60vh;
+}
+
+.sylus-db .tab-panel {
+  display: none;
+  animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sylus-db #tab1:checked ~ .content-container .panel-1,
+.sylus-db #tab2:checked ~ .content-container .panel-2,
+.sylus-db #tab3:checked ~ .content-container .panel-3 {
+  display: block;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards & Layout */
+.sylus-db .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media(min-width: 600px) {
+  .sylus-db .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+.sylus-db .card {
+  background: var(--card-bg);
+  border: 1px solid #222;
+  position: relative;
+  box-shadow: var(--shadow-card);
+}
+
+.sylus-db .card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 4px; height: 100%;
+  background: #333;
+  transition: background 0.3s;
+  z-index: 2;
+}
+
+.sylus-db .card:hover::before { background: var(--accent-red); }
+
+.sylus-db .card-img-box {
+  width: 100%;
+  height: 250px; /* Large image area */
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #222;
+}
+
+.sylus-db .card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sylus-db .card:hover .card-img { transform: scale(1.05); }
+
+.sylus-db .card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.9);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font-weight: 800;
+  font-size: 1rem;
+  border-top: 2px solid var(--accent-red);
+  z-index: 5;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+
+.sylus-db .card-body {
+  padding: 1.5rem;
+  padding-left: 2rem;
+}
+
+.sylus-db .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #000;
+  background: #444;
+  padding: 2px 8px;
+  margin-right: 5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.sylus-db .tag.red { background: var(--accent-red); color: white; }
+.sylus-db .tag.outline { background: transparent; border: 1px solid #444; color: #888; }
+
+.sylus-db .desc {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  margin-bottom: 1rem;
+  border-left: 2px solid #333;
+  padding-left: 1rem;
+}
+
+/* Expanders */
+.sylus-db .chk-expand { display: none; }
+
+.sylus-db .btn-expand {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.sylus-db .btn-expand:hover {
+  background: var(--accent-red);
+  color: #000;
+}
+
+.sylus-db .details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  background: #080808;
+}
+
+.sylus-db .chk-expand:checked ~ .details {
+  max-height: 1000px;
+  opacity: 1;
+  padding: 1rem;
+  border-top: 1px solid #222;
+}
+
+/* Details Content */
+.sylus-db .quote {
+  font-style: italic;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: linear-gradient(90deg, rgba(230, 46, 46, 0.1), transparent);
+  border-left: 3px solid var(--accent-red);
+  margin-bottom: 1rem;
+}
+
+.sylus-db .list-item {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+  color: #bbb;
+  align-items: flex-start;
+}
+
+.sylus-db .icon-box {
+  width: 20px;
+  height: 20px;
+  background: #222;
+  color: var(--accent-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* Rivals Layout (Threats) */
+.sylus-db .rival-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+@media(min-width: 700px) {
+  .sylus-db .rival-card { grid-template-columns: 200px 1fr; }
+}
+
+.sylus-db .rival-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-right: 1px solid #222;
+}
+@media(min-width: 700px) {
+  .sylus-db .rival-img { height: 100%; }
+}
+
+.sylus-db .rival-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sylus-db .rival-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.sylus-db .rival-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+}
+
+.sylus-db .rival-role {
+  font-size: 0.75rem;
+  color: var(--accent-red);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Network Section */
+.sylus-db .net-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #0e0e0e;
+  padding: 1rem;
+  border: 1px solid #222;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+}
+
+.sylus-db .net-row:hover {
+  border-color: #555;
+  background: #141414;
+}
+
+.sylus-db .net-avatar {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border: 1px solid #444;
+}
+
+.sylus-db .net-content h4 {
+  margin: 0;
+  color: white;
+  font-size: 1rem;
+}
+.sylus-db .net-content p {
+  margin: 0.3rem 0 0;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.sylus-db .section-head {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #333;
+  text-transform: uppercase;
+  margin: 2rem 0 1rem;
+  position: relative;
+}
+.sylus-db .section-head::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px #333;
+  z-index: -1;
+  font-size: 3rem;
+  opacity: 0.3;
+  transform: translateY(-1rem);
+}
+</style>
+<meta name="cg-name" content="秦徹核心之人物" />
+<meta name="cg-command-name" content="秦徹核心之人物" />
+<meta name="cg-color" content="#F55B60" />
+<meta name="cg-icon" content="Bold" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.sylus-db {--bg-color: #030303; --card-bg: #0a0a0a; --accent-red: #e62e2e; --accent-dark: #7f1d1d; --text-white: #fff; --text-gray: #d4d4d4; --border: #333; --font-main: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.8); font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-white); line-height: 1.6; width: 100%; padding-bottom: 4rem; overflow-x: hidden;}
+.sylus-db * {box-sizing: border-box;}
+.sylus-db .hero-banner {position: relative; width: 100%; height: 320px; border-bottom: 3px solid var(--accent-red); overflow: hidden;}
+.sylus-db .hero-img {width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; opacity: 0.7; filter: contrast(1.1) brightness(0.9); transition: transform 3s ease;}
+.sylus-db .hero-banner:hover .hero-img {transform: scale(1.02);}
+.sylus-db .hero-overlay {position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-color) 0%, transparent 80%), linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, transparent 60%);}
+.sylus-db .hero-text {position: absolute; bottom: 2rem; left: 1.5rem; z-index: 10;}
+.sylus-db .hero-title {font-size: 3rem; font-weight: 900; color: white; text-transform: uppercase; line-height: 1; text-shadow: 3px 3px 0 var(--accent-red); margin: 0; letter-spacing: -1px;}
+.sylus-db .hero-sub {color: var(--accent-red); font-weight: 700; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 1rem;}
+.sylus-db .hero-sub::after {content: ""; height: 2px; flex: 1; background: var(--accent-red); max-width: 100px;}
+.sylus-db .nav-radio {display: none;}
+.sylus-db .nav-bar {display: flex; justify-content: center; gap: 2px; background: #000; padding: 1rem; top: 0; z-index: 100; border-bottom: 1px solid #222; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);}
+.sylus-db .nav-item {flex: 1; max-width: 160px; padding: 0.8rem; text-align: center; background: #111; border: 1px solid #333; color: #666; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);}
+.sylus-db .nav-item:hover {background: #1a1a1a; color: white;}
+.sylus-db #tab1:checked ~ .nav-bar label[for="tab1"], .sylus-db #tab2:checked ~ .nav-bar label[for="tab2"], .sylus-db #tab3:checked ~ .nav-bar label[for="tab3"] {background: var(--accent-red); color: #000; border-color: var(--accent-red); box-shadow: 0 0 15px var(--accent-red);}
+.sylus-db .content-container {max-width: 900px; margin: 0 auto; padding: 2rem 1rem; min-height: 60vh;}
+.sylus-db .tab-panel {display: none; animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.sylus-db #tab1:checked ~ .content-container .panel-1, .sylus-db #tab2:checked ~ .content-container .panel-2, .sylus-db #tab3:checked ~ .content-container .panel-3 {display: block;}
+@keyframes fadeUp {
+  from {opacity: 0; transform: translatey(20px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.sylus-db .grid-2 {display: grid; grid-template-columns: 1fr; gap: 2rem;}
+@media (min-width: 600px) {
+  .sylus-db .grid-2 {grid-template-columns: 1fr 1fr;}
+}
+.sylus-db .card {background: var(--card-bg); border: 1px solid #222; position: relative; box-shadow: var(--shadow-card);}
+.sylus-db .card::before {content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #333; transition: background 0.3s; z-index: 2;}
+.sylus-db .card:hover::before {background: var(--accent-red);}
+.sylus-db .card-img-box {width: 100%; height: 250px; overflow: hidden; position: relative; border-bottom: 1px solid #222;}
+.sylus-db .card-img {width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;}
+.sylus-db .card:hover .card-img {transform: scale(1.05);}
+.sylus-db .card-label {position: absolute; bottom: 0; left: 0; background: rgba(0, 0, 0, 0.9); color: white; padding: 0.5rem 1.5rem; font-weight: 800; font-size: 1rem; border-top: 2px solid var(--accent-red); z-index: 5; clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);}
+.sylus-db .card-body {padding: 1.5rem; padding-left: 2rem;}
+.sylus-db .tag {display: inline-block; font-size: 0.7rem; font-weight: 700; color: #000; background: #444; padding: 2px 8px; margin-right: 5px; margin-bottom: 8px; text-transform: uppercase; border-radius: 2px;}
+.sylus-db .tag.red {background: var(--accent-red); color: white;}
+.sylus-db .tag.outline {background: transparent; border: 1px solid #444; color: #888;}
+.sylus-db .desc {font-size: 0.9rem; color: var(--text-gray); margin-bottom: 1rem; border-left: 2px solid #333; padding-left: 1rem;}
+.sylus-db .chk-expand {display: none;}
+.sylus-db .btn-expand {display: block; width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--accent-red); color: var(--accent-red); text-align: center; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; letter-spacing: 1px;}
+.sylus-db .btn-expand:hover {background: var(--accent-red); color: #000;}
+.sylus-db .details {max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease; background: #080808;}
+.sylus-db .chk-expand:checked ~ .details {max-height: 1000px; opacity: 1; padding: 1rem; border-top: 1px solid #222;}
+.sylus-db .quote {font-style: italic; color: #fff; font-size: 0.9rem; padding: 1rem; background: linear-gradient(90deg, rgba(230, 46, 46, 0.1), transparent); border-left: 3px solid var(--accent-red); margin-bottom: 1rem;}
+.sylus-db .list-item {display: flex; gap: 0.8rem; margin-bottom: 0.8rem; font-size: 0.85rem; color: #bbb; align-items: flex-start;}
+.sylus-db .icon-box {width: 20px; height: 20px; background: #222; color: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0;}
+.sylus-db .rival-card {display: grid; grid-template-columns: 1fr; background: #0a0a0a; border: 1px solid #333; margin-bottom: 2rem; overflow: hidden;}
+@media (min-width: 700px) {
+  .sylus-db .rival-card {grid-template-columns: 200px 1fr;}
+}
+.sylus-db .rival-img {width: 100%; height: 250px; object-fit: cover; border-right: 1px solid #222;}
+@media (min-width: 700px) {
+  .sylus-db .rival-img {height: 100%;}
+}
+.sylus-db .rival-info {padding: 1.5rem; display: flex; flex-direction: column;}
+.sylus-db .rival-header {display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;}
+.sylus-db .rival-name {font-size: 1.2rem; font-weight: 800; color: white;}
+.sylus-db .rival-role {font-size: 0.75rem; color: var(--accent-red); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;}
+.sylus-db .net-row {display: flex; align-items: center; gap: 1.5rem; background: #0e0e0e; padding: 1rem; border: 1px solid #222; margin-bottom: 1rem; transition: all 0.3s;}
+.sylus-db .net-row:hover {border-color: #555; background: #141414;}
+.sylus-db .net-avatar {width: 70px; height: 70px; object-fit: cover; border: 1px solid #444;}
+.sylus-db .net-content h4 {margin: 0; color: white; font-size: 1rem;}
+.sylus-db .net-content p {margin: 0.3rem 0 0; font-size: 0.8rem; color: #888;}
+.sylus-db .section-head {font-size: 1.5rem; font-weight: 900; color: #333; text-transform: uppercase; margin: 2rem 0 1rem; position: relative;}
+.sylus-db .section-head::after {content: attr(data-text); position: absolute; top: 0; left: 0; color: transparent; -webkit-text-stroke: 1px #333; z-index: -1; font-size: 3rem; opacity: 0.3; transform: translatey(-1rem);}
+</style>
+
+<div class="sylus-db">
+  
+  <header class="hero-banner">
+    <img src="https://i.postimg.cc/vB9GvFqp/from_Pix_AI_1960578708424891148.png" class="hero-img" alt="Sylus and User">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h1 class="hero-title">N109 Zone</h1>
+      <div class="hero-sub">
+        <span>Sylus Personal Database</span>
+        <span>// AUTH: {user} </span>
+      </div>
+    </div>
+  </header>
+
+  <input type="radio" name="nav" id="tab1" class="nav-radio" checked="">
+  <input type="radio" name="nav" id="tab2" class="nav-radio">
+  <input type="radio" name="nav" id="tab3" class="nav-radio">
+
+  <nav class="nav-bar">
+    <label for="tab1" class="nav-item">核心人物</label>
+    <label for="tab2" class="nav-item">交集網絡</label>
+    <label for="tab3" class="nav-item">潛在威脅</label>
+  </nav>
+
+  <div class="content-container">
+
+    
+    <div class="tab-panel panel-1">
+      <div class="section-head">CORE ALLIES</div>
+      <div class="grid-2">
+        
+        
+        <div class="card">
+          <div class="card-img-box">
+            <img src="https://i.postimg.cc/ZnS4772Q/mei-fei-si-te.png" class="card-img" alt="Mephisto">
+            <div class="card-label">梅菲斯特</div>
+          </div>
+          <div class="card-body">
+            <div>
+              <span class="tag red">機械烏鴉</span>
+              <span class="tag outline">全感官共享</span>
+            </div>
+            <p class="desc">
+              秦徹的「眼線」。取名自惡魔 Mephistopheles。雖脾氣暴躁，但對 {user} 表現出異常的關注與保護。
+            </p>
+            
+            <input type="checkbox" id="chk-meph" class="chk-expand">
+            <label for="chk-meph" class="btn-expand">查看詳細數據</label>
+            <div class="details">
+              <div class="quote">「嘎！別碰那個！那是老大的！」</div>
+              <div class="list-item">
+                <span class="icon-box">▶</span>
+                <span><strong>感官共享：</strong> 秦徹能透過 Evol（超能力）與梅菲斯特連結</span>
+              </div>
+              <div class="list-item">
+                <span class="icon-box">▶</span>
+                <span><strong>遠端聯絡：</strong> 秦徹經常派遣梅菲斯特到 {user} 身邊作為傳遞訊息或「監視」玩家的手段</span>
+              </div>
+              <div class="list-item">
+                <span class="icon-box">▶</span>
+                <span><strong>性格反差：</strong> 被稱為「梅老師」或「最佳助攻」，常引導 {user} 發現秦徹的秘密。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-box">
+            <img src="https://i.postimg.cc/90hC88sc/xue-ying-xue-ming.png" class="card-img" alt="Xue Twins">
+            <div class="card-label">薛明 &amp; 薛影</div>
+          </div>
+          <div class="card-body">
+            <div>
+              <span class="tag red">暗點雙子</span>
+              <span class="tag outline">共感者</span>
+            </div>
+            <p class="desc">
+              秦徹的左右手。曾是 EVER 實驗體，共享痛覺與視覺。外表相似但性格迥異，常充當 {user} 的「氛圍組」。
+            </p>
+            
+            <input type="checkbox" id="chk-twins" class="chk-expand">
+            <label for="chk-twins" class="btn-expand">識別特徵檔案</label>
+            <div class="details">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem">
+                <div style="background: #111; padding: 0.5rem; border: 1px solid #333">
+                  <img src="https://i.postimg.cc/DyjynKDh/xue-ming3.webp" style="width: 100%; height: 80px; object-fit: cover; margin-bottom: 0.5rem">
+                  <div style="color: var(--accent-red); font-weight: bold; font-size: 0.8rem">薛明 (Luke)</div>
+                  <div style="font-size: 0.7rem; color: #888">編號06。右側角環。性格活潑，代表「光」。</div>
+                </div>
+                <div style="background: #111; padding: 0.5rem; border: 1px solid #333">
+                  <img src="https://i.postimg.cc/6qXtjjFN/xue-ying2.png" style="width: 100%; height: 80px; object-fit: cover; margin-bottom: 0.5rem">
+                  <div style="color: var(--accent-red); font-weight: bold; font-size: 0.8rem">薛影 (Kieran)</div>
+                  <div style="font-size: 0.7rem; color: #888">編號07。左側角環。面具上有"X"眼。性格沉穩。</div>
+                </div>
+              </div>
+              <div class="quote">「老大，{user} 又贏了！這飛行棋沒法玩啦！」</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+    <div class="tab-panel panel-2">
+      <div class="section-head">RELATION NETWORK</div>
+      
+      <div class="grid-2">
+        <div class="net-row">
+          <img src="https://i.postimg.cc/gJ56xWws/yi-chao-jiu-ba.webp" class="net-avatar">
+          <div class="net-content">
+            <h4>蟻巢酒吧 (The Nest)</h4>
+            <p>N109區情報中心。秦徹與 {user} 命運交錯的起點。二手販子是關鍵情報源。</p>
+          </div>
+        </div>
+
+        <div class="net-row" style="border-left: 3px solid var(--accent-red)">
+          <img src="https://i.postimg.cc/NMTQxqJ6/EVER-ji-tuan.png" class="net-avatar">
+          <div class="net-content">
+            <h4 style="color: var(--accent-red)">EVER 集團</h4>
+            <p>敵對勢力。進行非法芯核實驗，秦徹力量的來源與復仇對象。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="net-row">
+        <img src="https://i.postimg.cc/WzKNmG0p/chen-fei-fan.png" class="net-avatar">
+        <div class="net-content">
+          <h4>陳非凡 (Chen Feifan)</h4>
+          <span class="tag outline">獵人協會</span>
+          <p>官方立場，與暗點對立。{user} 的上級，負責管理臨空市獵人事務。</p>
+        </div>
+      </div>
+
+      <div class="net-row">
+        <img src="https://i.postimg.cc/KzpxFPqP/tao-tao.png" class="net-avatar">
+        <div class="net-content">
+          <h4>陶桃 (Tao Tao)</h4>
+          <span class="tag outline">情報商/友人</span>
+          <p>{user} 的獵人好友。雖屬協會，但常分享地下八卦，間接連結雙方。</p>
+        </div>
+      </div>
+
+      <div class="net-row">
+        <img src="https://i.postimg.cc/rmZMc1nS/mu-ye.png" class="net-avatar">
+        <div class="net-content">
+          <h4>穆葉 (Mu Ye)</h4>
+          <span class="tag outline">星際捕手</span>
+          <p>秦徹的死對頭與觀察者。立場中立偏敵對，追查以太芯核線索。</p>
+        </div>
+      </div>
+
+      <div class="net-row" style="opacity: 0.6">
+        <img src="https://i.postimg.cc/5Nh96mxg/xiang-ming.png" class="net-avatar" style="filter: grayscale(100%)">
+        <div class="net-content">
+          <h4 style="text-decoration: line-through">向銘 (Xiang Ming)</h4>
+          <span class="tag red">已抹殺</span>
+          <p>前暗點叛徒，投靠 EVER 集團。已被秦徹處決。</p>
+        </div>
+      </div>
+
+    </div>
+
+    
+    <div class="tab-panel panel-3">
+      <div class="section-head">THREAT ASSESSMENT</div>
+      
+      <div style="background: #111; border-left: 4px solid var(--accent-red); padding: 1rem; margin-bottom: 2rem">
+        <p style="margin: 0; color: white; font-weight: bold; font-size: 0.9rem">
+          "你想交什麼朋友我不管，但只有我，不會讓你受委屈。<br>  - 隱藏行動：每次得知{{user}}認識新男主後，都會悄悄升級{{user}}身邊的保護網，比如在她常用的物品里放微型定位器（不告訴{{user}}）、在她宿舍樓下安排暗點成員輪班值守"
+        </p>
+        <div style="color: var(--accent-red); font-size: 0.7rem; letter-spacing: 2px; margin-top: 0.5rem">
+          // SYSTEM: ACTIVE PROTECTION PROTOCOL
+        </div>
+      </div>
+
+      
+      <div class="rival-card">
+        <img src="https://i.postimg.cc/d1dJ9PH6/from-Pix-AI-1960568535580854786.png" class="rival-img" alt="Shen Xinghui">
+        <div class="rival-info">
+          <div class="rival-header">
+            <span class="rival-name">沈星回</span>
+            <span class="rival-role">Light Evol</span>
+          </div>
+          <p class="desc">
+            把「規則」當盾牌的理想主義者。他的保護太脆弱，護不住想護的人。
+          </p>
+          <input type="checkbox" id="rival-shen" class="chk-expand">
+          <label for="rival-shen" class="btn-expand">查看應對策略</label>
+          <div class="details">
+            <div class="quote">「他的研究室是『溫室』，外面的危險他擋不住——真遇到事，別等他反應，直接喊我名字。」</div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>核心態度：</strong> 不屑其依賴秩序。顧慮太多難成大事。</span>
+            </div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>暗中行動：</strong> 派遣梅菲斯特監控其實驗室周邊，提前清除威脅。<br>  - 😒 + “他的研究室是‘溫室’，外面的危險他擋不住——真遇到事，別等他反應，直接喊我名字”  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="rival-card">
+        <img src="https://i.postimg.cc/26vCxRcT/from_Pix_AI_1960567576128579788.png" class="rival-img" alt="Qi Yu">
+        <div class="rival-info">
+          <div class="rival-header">
+            <span class="rival-name">祁煜</span>
+            <span class="rival-role">Fire Evol</span>
+          </div>
+          <p class="desc">
+            用顏料遮鋒芒的「局外人」。看似不問世事，實則把一切看得太透。
+          </p>
+          <input type="checkbox" id="rival-qi" class="chk-expand">
+          <label for="rival-qi" class="btn-expand">查看應對策略</label>
+          <div class="details">
+            <div class="quote">「別被他的畫騙了，他眼裡的『風景』藏著你看不懂的東西——跟他待在一起，多留個心眼。」</div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>核心態度：</strong> 警惕其感知芯核的能力，視為「難猜透的變量」。</span>
+            </div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>暗中行動：</strong> 若他帶 {user} 去偏僻處，薛明薛影將在附近待命。<br>  - 🤨 + “別被他的畫騙了，他眼里的‘風景’藏著你看不懂的東西——跟他待在一起，多留個心眼”  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="rival-card">
+        <img src="https://i.postimg.cc/cHYdcy9D/from_Pix_AI_1960566152836978799.png" class="rival-img" alt="Li Shen">
+        <div class="rival-info">
+          <div class="rival-header">
+            <span class="rival-name">黎深</span>
+            <span class="rival-role">Ice Evol</span>
+          </div>
+          <p class="desc">
+            拿手術刀的「權衡者」。總在「救人與自保」間搖擺，不夠乾脆。
+          </p>
+          <input type="checkbox" id="rival-li" class="chk-expand">
+          <label for="rival-li" class="btn-expand">查看應對策略</label>
+          <div class="details">
+            <div class="quote">「他的手術刀能救人，卻救不了『人心』——要是他跟你說些模棱兩可的話，別太當真。」</div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>核心態度：</strong> 認可其醫術，但不認同其「明哲保身」的風格。</span>
+            </div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>暗中行動：</strong> 審查其開具的藥物與治療方案，確保對 {user} 無害。<br>  - 🧐 + “他的手術刀能救人，卻救不了‘人心’——要是他跟你說些模棱兩可的話，別太當真”  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="rival-card">
+        <img src="https://i.postimg.cc/fLXMvn2P/from_Pix_AI_1960570884744077436.webp" class="rival-img" alt="Xia Yizhou">
+        <div class="rival-info">
+          <div class="rival-header">
+            <span class="rival-name">夏以晝</span>
+            <span class="rival-role">Gravity Control</span>
+          </div>
+          <p class="desc">
+            躲在夜色裡的「投機者」。看似幫人，實則每一步都在算自己的得失。
+          </p>
+          <input type="checkbox" id="rival-xia" class="chk-expand">
+          <label for="rival-xia" class="btn-expand">查看應對策略</label>
+          <div class="details">
+            <div class="quote">「那傢伙的『幫忙』都要算代價。有想要的情報，我幫你找，不用找他。」</div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>核心態度：</strong> 不齒其利用信息差獲利，避免與其正面衝突波及 {user}。</span>
+            </div>
+            <div class="list-item">
+              <span class="icon-box">!</span>
+              <span><strong>暗中行動：</strong> 一旦發現接觸，立刻調查目的；若涉及芯核，直接介入阻斷。<br>  - 🚫 + “那家夥的‘幫忙’都要算代價，別跟他做任何交易——有想要的情報，我幫你找，不用找他”  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

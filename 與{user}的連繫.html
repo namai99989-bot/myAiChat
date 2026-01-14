@@ -1,0 +1,318 @@
+<html>
+<head>
+<style>
+.sylavie-night-bond { --primary-red: #e60012; --deep-black: #0a0a0a; --dark-gray: #1a1a1a; --text-bright: #ffffff; --text-muted: #a0a0a0; --accent-gold: #d4af37; background-color: var(--deep-black); color: var(--text-bright); font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; padding: 1rem; line-height: 1.6; } .sylavie-night-bond .main-container { max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #121212 0%, #050505 100%); border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); } .sylavie-night-bond .hero-banner { position: relative; width: 100%; height: 260px; overflow: hidden; } .sylavie-night-bond .hero-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) contrast(110%); } .sylavie-night-bond .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, var(--deep-black)); } .sylavie-night-bond .header-title { position: absolute; bottom: 20px; left: 20px; border-left: 4px solid var(--primary-red); padding-left: 12px; } .sylavie-night-bond .title-text { font-size: 1.75rem; font-weight: 800; letter-spacing: 2px; color: var(--text-bright); text-shadow: 2px 2px 4px rgba(0,0,0,0.9); } .sylavie-night-bond .story-nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 15px; border-bottom: 1px solid #222; background: #0d0d0d; } .sylavie-night-bond .nav-trigger { display: none; } .sylavie-night-bond .nav-label { padding: 6px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 4px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; color: var(--text-muted); } .sylavie-night-bond .nav-label:hover { border-color: var(--primary-red); color: var(--text-bright); } .sylavie-night-bond .content-section { display: none; padding: 20px; animation: fadeIn 0.5s ease forwards; } .sylavie-night-bond .card-image { width: 100%; border-radius: 8px; margin-bottom: 16px; border: 1px solid #444; box-shadow: 0 10px 20px rgba(0,0,0,0.5); } .sylavie-night-bond .section-title { font-size: 1.25rem; font-weight: bold; color: var(--primary-red); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; } .sylavie-night-bond .section-title::before { content: ''; width: 12px; height: 12px; background: var(--primary-red); border-radius: 2px; transform: rotate(45deg); } .sylavie-night-bond .story-body { text-align: left; color: #ececec; font-size: 0.95rem; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 2px solid #333; } .sylavie-night-bond .trait-tag { display: inline-block; margin-top: 12px; padding: 4px 10px; background: rgba(230, 0, 18, 0.1); border: 1px solid rgba(230, 0, 18, 0.3); color: var(--primary-red); border-radius: 4px; font-size: 0.8rem; font-weight: bold; } #tab1:checked ~ .story-nav label[for="tab1"], #tab2:checked ~ .story-nav label[for="tab2"], #tab3:checked ~ .story-nav label[for="tab3"], #tab4:checked ~ .story-nav label[for="tab4"], #tab5:checked ~ .story-nav label[for="tab5"], #tab6:checked ~ .story-nav label[for="tab6"], #tab7:checked ~ .story-nav label[for="tab7"] { background: var(--primary-red); color: white; border-color: var(--primary-red); box-shadow: 0 0 10px rgba(230, 0, 18, 0.4); } #tab1:checked ~ #content1, #tab2:checked ~ #content2, #tab3:checked ~ #content3, #tab4:checked ~ #content4, #tab5:checked ~ #content5, #tab6:checked ~ #content6, #tab7:checked ~ #content7 { display: block; } @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } .sylavie-night-bond .audio-wrapper { padding: 15px; background: #0d0d0d; border-top: 1px solid #222; } .sylavie-night-bond .cg-audio-controls { display: flex; align-items: center; justify-content: center; gap: 15px; } .sylavie-night-bond .cg-audio-controls__btn { background: none; border: 1px solid #444; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; } .sylavie-night-bond .cg-audio-controls__btn:hover { border-color: var(--primary-red); color: var(--primary-red); }
+</style>
+<meta name="cg-name" content="他與{user}的連繫" />
+<meta name="cg-command-name" content="他與{user}的連繫" />
+<meta name="cg-color" content="#FF0505" />
+<meta name="cg-icon" content="Spline" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.sylavie-night-bond {--primary-red: #e60012; --deep-black: #0a0a0a; --dark-gray: #1a1a1a; --text-bright: #fff; --text-muted: #a0a0a0; --accent-gold: #d4af37; background-color: var(--deep-black); color: var(--text-bright); font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; padding: 1rem; line-height: 1.6;}
+.sylavie-night-bond .main-container {max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #121212 0%, #050505 100%); border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);}
+.sylavie-night-bond .hero-banner {position: relative; width: 100%; height: 260px; overflow: hidden;}
+.sylavie-night-bond .hero-img {width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) contrast(110%);}
+.sylavie-night-bond .hero-overlay {position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, var(--deep-black));}
+.sylavie-night-bond .header-title {position: absolute; bottom: 20px; left: 20px; border-left: 4px solid var(--primary-red); padding-left: 12px;}
+.sylavie-night-bond .title-text {font-size: 1.75rem; font-weight: 800; letter-spacing: 2px; color: var(--text-bright); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);}
+.sylavie-night-bond .story-nav {display: flex; flex-wrap: wrap; gap: 8px; padding: 15px; border-bottom: 1px solid #222; background: #0d0d0d;}
+.sylavie-night-bond .nav-trigger {display: none;}
+.sylavie-night-bond .nav-label {padding: 6px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 4px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; color: var(--text-muted);}
+.sylavie-night-bond .nav-label:hover {border-color: var(--primary-red); color: var(--text-bright);}
+.sylavie-night-bond .content-section {display: none; padding: 20px; animation: fadeIn 0.5s ease forwards;}
+.sylavie-night-bond .card-image {width: 100%; border-radius: 8px; margin-bottom: 16px; border: 1px solid #444; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);}
+.sylavie-night-bond .section-title {font-size: 1.25rem; font-weight: bold; color: var(--primary-red); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+.sylavie-night-bond .section-title::before {content: ""; width: 12px; height: 12px; background: var(--primary-red); border-radius: 2px; transform: rotate(45deg);}
+.sylavie-night-bond .story-body {text-align: left; color: #ececec; font-size: 0.95rem; background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 6px; border-left: 2px solid #333;}
+.sylavie-night-bond .trait-tag {display: inline-block; margin-top: 12px; padding: 4px 10px; background: rgba(230, 0, 18, 0.1); border: 1px solid rgba(230, 0, 18, 0.3); color: var(--primary-red); border-radius: 4px; font-size: 0.8rem; font-weight: bold;}
+#tab1:checked ~ .story-nav label[for="tab1"], #tab2:checked ~ .story-nav label[for="tab2"], #tab3:checked ~ .story-nav label[for="tab3"], #tab4:checked ~ .story-nav label[for="tab4"], #tab5:checked ~ .story-nav label[for="tab5"], #tab6:checked ~ .story-nav label[for="tab6"], #tab7:checked ~ .story-nav label[for="tab7"] {background: var(--primary-red); color: white; border-color: var(--primary-red); box-shadow: 0 0 10px rgba(230, 0, 18, 0.4);}
+#tab1:checked ~ #content1, #tab2:checked ~ #content2, #tab3:checked ~ #content3, #tab4:checked ~ #content4, #tab5:checked ~ #content5, #tab6:checked ~ #content6, #tab7:checked ~ #content7 {display: block;}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translatey(10px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.sylavie-night-bond .audio-wrapper {padding: 15px; background: #0d0d0d; border-top: 1px solid #222;}
+.sylavie-night-bond .cg-audio-controls {display: flex; align-items: center; justify-content: center; gap: 15px;}
+.sylavie-night-bond .cg-audio-controls__btn {background: none; border: 1px solid #444; color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;}
+.sylavie-night-bond .cg-audio-controls__btn:hover {border-color: var(--primary-red); color: var(--primary-red);}
+</style>
+
+<div class="sylavie-night-bond"><div class="main-container"><div class="hero-banner"><img src="https://i.postimg.cc/pTdHdPTv/from-Pix-AI-1960576063835689542.png" class="hero-img" alt="Cover"><div class="hero-overlay"></div><div class="header-title"><div class="title-text">秦徹與{user}的連繫相關的故事</div><div class="text-xs text-muted-foreground mt-1 opacity-70">N109 Zone / Dark Point / Deepspace Resonance</div></div></div><input type="radio" name="story-tabs" id="tab1" class="nav-trigger" checked=""><input type="radio" name="story-tabs" id="tab2" class="nav-trigger"><input type="radio" name="story-tabs" id="tab3" class="nav-trigger"><input type="radio" name="story-tabs" id="tab4" class="nav-trigger"><input type="radio" name="story-tabs" id="tab5" class="nav-trigger"><input type="radio" name="story-tabs" id="tab6" class="nav-trigger"><input type="radio" name="story-tabs" id="tab7" class="nav-trigger"><div class="story-nav"><label for="tab1" class="nav-label">灼夜之約</label><label for="tab2" class="nav-label">深空共鳴</label><label for="tab3" class="nav-label">暗夜追獵</label><label for="tab4" class="nav-label">星夜贈禮</label><label for="tab5" class="nav-label">訓練時刻</label><label for="tab6" class="nav-label">宿舍夜談</label><label for="tab7" class="nav-label">烏鴉傳信</label></div><div id="content1" class="content-section"><img src="https://i.postimg.cc/x1QBC9xW/from-Pix-AI-1960565791046897485.png" class="card-image"><div class="section-title">N109 地下拳擊場</div><div class="story-body">深夜的拳擊場瀰漫著汗水與血腥氣。秦徹剛結束一場惡鬥，嘴角帶著刺眼的紅，眼神銳利如刃。周圍的挑釁者在他一個冷冽的掃視下紛紛退散。然而，當他轉向帶著醫療包的 {user} 時，那股肅殺之氣瞬間消融。他順從地彎下腰，任由妳細心地處理傷口，唇角微勾：「小狸花的溫柔……比暗點的藥還要有效。」</div><div class="trait-tag">#反差溫柔 #絕對強者</div></div><div id="content2" class="content-section"><img src="https://i.postimg.cc/Z5mXRJ7s/from-Pix-AI-1960572302837697226.png" class="card-image"><div class="section-title">安全屋的共鳴</div><div class="story-body">Evol 失控帶來的眩暈感讓妳幾乎站不穩。秦徹將妳帶回了他的私人領地。黑膠唱片旋轉著低沉的旋律，他遞過一杯溫熱的飲品，語氣是不容置疑的堅定：「有我在，不會讓你有事。」他將珍貴的寶石塞進妳手中，彷彿那只是隨手可得的小玩意，「喜歡就拿著，這些本來就是為妳準備的。」</div><div class="trait-tag">#強烈安全感 #專屬佔有</div></div><div id="content3" class="content-section"><img src="https://i.postimg.cc/T3xBwT74/from-Pix-AI-1960572502006653813.png" class="card-image"><div class="section-title">廢棄基地追獵</div><div class="story-body">硝煙尚未散去，秦徹擋在妳身前，背影如山。他隨手撕下衣襟或拿出帕子包紮妳手心的擦傷，動作與剛才戰鬥時的狂暴判若兩人。「別怕，跟在我身後。」他沒有責備妳的冒險，只是低聲叮囑，「今晚去我那，線索我們一起查，別再一個人行動。」</div><div class="trait-tag">#並肩作戰 #護短首領</div></div><div id="content4" class="content-section"><img src="https://i.postimg.cc/RZm2Fvsy/from-Pix-AI-1960572843592282289.png" class="card-image"><div class="section-title">星空下的驚喜</div><div class="story-body">脫下作戰服，換上正式西裝的秦徹顯得格外矜貴。別墅裡鋪滿了妳喜歡的花。他有些生硬地轉過頭，掩飾著耳根的微紅：「只是路過順手買的禮物。」隨後，他帶妳走向天文望遠鏡，指著最亮的那顆星，「以後看到它，就像看到我一樣，我就在妳身邊。」</div><div class="trait-tag">#笨拙浪漫 #正式邀約</div></div><div id="content5" class="content-section"><img src="https://i.postimg.cc/nzLJLnz8/from-Pix-AI-1960575751503484829.png" class="card-image"><div class="section-title">暗點訓練室</div><div class="story-body">「手臂再抬高一點，發力要集中。」他的手掌覆在妳的關節上，耐心地引導著動作。當妳終於成功擊中目標，他眼底漾開笑意，揉了揉妳的頭髮，「做得很棒。想吃哪家餐廳？今晚我帶妳去。」訓練結束，他自然地接過所有器材，不讓妳再出一點力。</div><div class="trait-tag">#耐心引導 #體貼入微</div></div><div id="content6" class="content-section"><img src="https://i.postimg.cc/YCxZLTTp/from-Pix-AI-1960573082404448673.png" class="card-image"><div class="section-title">深夜宿舍私語</div><div class="story-body">他坐在妳的床邊，褪去了首領的凌厲，分享著菲羅斯星的往事。當妳談及迷茫，他握住妳的手，掌心的溫度讓人安心。「跟著心走就好，無論妳做什麼決定，我都支持妳。」離開前，他細心地為妳掖好被角，輕聲說道：「晚安，明天見。」</div><div class="trait-tag">#心靈支柱 #柔情守護</div></div><div id="content7" class="content-section"><img src="https://i.postimg.cc/bwRWS44v/from-Pix-AI-1960573250842087310.png" class="card-image"><div class="section-title">機械烏鴉的傳信</div><div class="story-body">機械烏鴉「梅」輕輕敲打著窗戶，帶來了他的信件與迷你吊墜。信中叮囑著天氣冷暖，語氣像是在耳邊低語。梅撒嬌地蹭著妳的手心，傳達著主人的思念。信末寫著：「梅說妳餵牠的食物很好吃，下次，我也想吃妳親手做的。」</div><div class="trait-tag">#遠程傳情 #細膩思念</div></div></div><div class="audio-wrapper"><audio id="bgm" class="cg-audio-player" src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/bb278663bd764f5d83988b8c822b4360.mp3" preload="auto" playsinline="" controls="" data-loop="all" data-playlist="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/bb278663bd764f5d83988b8c822b4360.mp3,https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Night_Walk/Ketsa_-_04_-_Night_Walk.mp3"></audio><div class="cg-audio-controls" data-target="bgm"><button class="cg-audio-controls__btn" data-action="prev">⏮</button><button class="cg-audio-controls__btn" data-action="toggle">⏯</button><button class="cg-audio-controls__btn" data-action="next">⏭</button><button class="cg-audio-controls__btn" data-action="loop">🔁</button></div></div></div>
+
+<style data-cg-audio-helper="">
+.cg-audio-player{width:100%;max-width:360px;background:#0f172a;color:#e5e7eb;border-radius:10px;padding:6px 8px;}
+.cg-audio-controls{display:flex;gap:8px;margin-top:6px;}
+.cg-audio-controls__btn{flex:1;padding:6px 8px;border:1px solid #1f2937;background:#111827;color:#e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;}
+.cg-audio-controls__btn[data-state="active"],.cg-audio-controls__btn--active{border-color:#3b82f6;color:#3b82f6;}
+</style>
+
+<script data-cg-audio-helper="">
+(function() {
+  var autoPlayAttached = false;
+
+  function bindPlayer(controls) {
+    if (!controls) return;
+    var targetId = (controls.getAttribute('data-target') || 'bgm').trim() || 'bgm';
+    var audio = document.getElementById(targetId);
+    if (!audio) return;
+
+    if (!audio.hasAttribute('controls')) {
+      audio.setAttribute('controls', 'controls');
+    }
+    if (!audio.preload) audio.preload = 'auto';
+
+    var rawList = audio.getAttribute('data-playlist') || '';
+    var trackInputs = Array.prototype.slice.call(
+      controls.querySelectorAll('input.cg-audio-track[value]')
+    );
+    var tracks = [];
+    var index = 0;
+
+    function refreshTracks(forceIndexFromChecked) {
+      if (trackInputs.length) {
+        tracks = trackInputs
+          .map(function(inp){ return (inp.value || '').trim(); })
+          .filter(Boolean);
+      } else {
+        tracks = rawList.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+      }
+      if (!tracks.length) {
+        if (audio.currentSrc) tracks = [audio.currentSrc];
+        else if (audio.src) tracks = [audio.src];
+      }
+      if (trackInputs.length && forceIndexFromChecked) {
+        var checkedIdx = -1;
+        for (var i = 0; i < trackInputs.length; i++) {
+          if (trackInputs[i].checked) { checkedIdx = i; break; }
+        }
+        index = checkedIdx >= 0 ? checkedIdx : 0;
+      }
+    }
+
+    refreshTracks(true);
+
+    function normalizeLoop(val) {
+      if (!val) return 'all';
+      val = val.toLowerCase();
+      if (val === 'single') return 'single';
+      if (val === 'off' || val === 'none') return 'off';
+      return 'all';
+    }
+    var loopMode = normalizeLoop(audio.getAttribute('data-loop') || (audio.loop ? 'single' : ''));
+
+    function applySrc() {
+      if (!tracks.length) return;
+      audio.src = tracks[index] || '';
+    }
+
+    function setActive(btn, active) {
+      if (!btn) return;
+      if (active) {
+        btn.setAttribute('data-state', 'active');
+        btn.classList.add('cg-audio-controls__btn--active');
+      } else {
+        btn.removeAttribute('data-state');
+        btn.classList.remove('cg-audio-controls__btn--active');
+      }
+    }
+
+    function markActiveTrack(i) {
+      if (!trackInputs.length) return;
+      trackInputs.forEach(function(inp, idx){
+        inp.checked = idx === i;
+        var item = inp.closest ? inp.closest('.cg-mb-list-item') : null;
+        if (item) item.classList.toggle('cg-mb-list-item--active', idx === i);
+      });
+    }
+
+    var prevBtn = controls.querySelector('[data-action="prev"]');
+    var toggleBtn = controls.querySelector('[data-action="toggle"]');
+    var nextBtn = controls.querySelector('[data-action="next"]');
+    var loopBtn = controls.querySelector('[data-action="loop"]');
+    var progress = controls.querySelector('.cg-audio-progress');
+    var progressBar = controls.querySelector('.cg-audio-progress__bar');
+    var isDragging = false;
+
+    function playCurrent() {
+      applySrc();
+      audio.play().catch(function(){});
+      setActive(toggleBtn, true);
+      markActiveTrack(index);
+    }
+
+    function pauseCurrent() {
+      audio.pause();
+      setActive(toggleBtn, false);
+    }
+
+    function nextTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      index = (index + 1) % tracks.length;
+      playCurrent();
+    }
+
+    function prevTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index <= 0) {
+        pauseCurrent();
+        return;
+      }
+      index = (index - 1 + tracks.length) % tracks.length;
+      playCurrent();
+    }
+
+    function setLoopMode(mode) {
+      loopMode = normalizeLoop(mode);
+      audio.loop = loopMode === 'single';
+      updateLoopLabel();
+    }
+
+    function updateLoopLabel() {
+      if (!loopBtn) return;
+      var labels = { single: 'Single', all: 'Loop', off: 'Order' };
+      loopBtn.textContent = labels[loopMode] || 'Loop';
+      if (loopMode === 'off') loopBtn.removeAttribute('data-state');
+      else loopBtn.setAttribute('data-state', 'active');
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function(){ prevTrack(); });
+    if (nextBtn) nextBtn.addEventListener('click', function(){ nextTrack(); });
+    if (toggleBtn) toggleBtn.addEventListener('click', function(){
+      if (audio.paused) playCurrent();
+      else pauseCurrent();
+    });
+    if (loopBtn) {
+      loopBtn.addEventListener('click', function(){
+        if (loopMode === 'all') setLoopMode('single');
+        else if (loopMode === 'single') setLoopMode('off');
+        else setLoopMode('all');
+      });
+    }
+
+    if (trackInputs.length) {
+      controls.addEventListener('click', function(evt){
+        var el = evt.target;
+        var input = el && el.closest ? el.closest('input.cg-audio-track') : null;
+        if (!input || !controls.contains(input)) return;
+        refreshTracks(true);
+        var val = (input.value || '').trim();
+        var idx = tracks.indexOf(val);
+        if (idx < 0) idx = trackInputs.indexOf(input);
+        if (idx < 0) idx = 0;
+        index = idx;
+        playCurrent();
+      });
+      markActiveTrack(index);
+    }
+
+    if (progress && progressBar) {
+      audio.addEventListener('timeupdate', function(){
+        if (isDragging) return;
+        if (audio.duration && isFinite(audio.duration)) {
+          var percent = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.width = percent + '%';
+        } else {
+          progressBar.style.width = '0%';
+        }
+      });
+      audio.addEventListener('loadedmetadata', function(){
+        progressBar.style.width = '0%';
+      });
+      var seekByClientX = function(clientX) {
+        if (!(progress instanceof HTMLElement)) return;
+        var rect = progress.getBoundingClientRect();
+        var ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = audio.duration * ratio;
+          progressBar.style.width = (ratio * 100) + '%';
+        }
+      };
+      var onDragMove = function(e) {
+        if (!isDragging) return;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+      };
+      var endDrag = function() {
+        if (!isDragging) return;
+        isDragging = false;
+        window.removeEventListener('mousemove', onDragMove);
+        window.removeEventListener('mouseup', endDrag);
+        window.removeEventListener('touchmove', onDragMove);
+        window.removeEventListener('touchend', endDrag);
+      };
+      var startDrag = function(e) {
+        isDragging = true;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', endDrag);
+      };
+      progress.addEventListener('mousedown', startDrag);
+      progress.addEventListener('touchstart', function(e){
+        startDrag(e);
+        if (e.cancelable) e.preventDefault();
+      }, { passive: false });
+      progress.addEventListener('click', function(e){
+        if (isDragging) return;
+        if (!e || !e.currentTarget) return;
+        var rect = e.currentTarget.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = Math.max(0, Math.min(audio.duration * ratio, audio.duration));
+        }
+      });
+    }
+
+    audio.addEventListener('ended', function() {
+      if (loopMode === 'single') {
+        playCurrent();
+        return;
+      }
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      nextTrack();
+    });
+
+    if (!autoPlayAttached) {
+      autoPlayAttached = true;
+      var oncePlay = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('click', oncePlay);
+      };
+      var oncePlayTouch = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('touchstart', oncePlayTouch);
+      };
+      window.addEventListener('click', oncePlay);
+      window.addEventListener('touchstart', oncePlayTouch, { passive: true });
+    }
+
+    applySrc();
+    setLoopMode(loopMode);
+  }
+
+  var controlsList = Array.prototype.slice.call(document.querySelectorAll('.cg-audio-controls[data-target]'));
+  if (!controlsList.length) return;
+  controlsList.forEach(bindPlayer);
+})();
+</script>
+</body>
+</html>
