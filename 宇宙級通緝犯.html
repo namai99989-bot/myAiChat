@@ -1,61 +1,694 @@
-<html>
+<html lang="zh-TW">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N109 區域檔案</title>
+    <meta name="cg-name" content="N109">
+    <meta name="cg-command-name" content="N109">
+    <meta name="cg-color" content="#FF0000">
+    <meta name="cg-icon" content="ScanEye">
+    <meta name="cg-mode" content="release">
 <style>
-.wanted-poster-template { --primary-red: #e60000; --deep-black: #0a0a0a; --text-bright: #ffffff; --accent-gold: #ffcc00; background-color: #000; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }.wanted-poster-template .poster-container { position: relative; width: 100%; max-width: 500px; background: var(--deep-black); border: 4px solid var(--primary-red); box-shadow: 0 0 30px rgba(230, 0, 0, 0.4), inset 0 0 15px rgba(230, 0, 0, 0.2); overflow: hidden; padding-bottom: 30px; }.wanted-poster-template .header-banner { background: var(--primary-red); color: var(--deep-black); text-align: center; padding: 10px 0; letter-spacing: 0.5em; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; border-bottom: 4px solid var(--primary-red); text-shadow: 1px 1px 0px rgba(0,0,0,0.3); }.wanted-poster-template .image-frame { position: relative; margin: 20px auto; width: 90%; aspect-ratio: 4/5; border: 2px solid var(--primary-red); overflow: hidden; background: #111; }.wanted-poster-template .wanted-image { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1) brightness(0.9) grayscale(0.2); transition: transform 0.5s ease; }.wanted-poster-template .image-frame:hover .wanted-image { transform: scale(1.05); }.wanted-poster-template .content-section { padding: 0 25px; color: var(--text-bright); }.wanted-poster-template .target-name { font-size: 2.2rem; color: var(--primary-red); text-align: center; margin-bottom: 15px; border-bottom: 1px solid rgba(230, 0, 0, 0.3); padding-bottom: 5px; font-weight: bold; }.wanted-poster-template .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }.wanted-poster-template .info-item { display: flex; flex-direction: column; border-left: 2px solid var(--primary-red); padding-left: 10px; }.wanted-poster-template .info-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; }.wanted-poster-template .info-value { font-size: 1.1rem; color: var(--text-bright); font-weight: 600; }.wanted-poster-template .status-badge { background: rgba(230, 0, 0, 0.1); border: 1px solid var(--primary-red); color: var(--primary-red); padding: 5px 10px; font-size: 0.9rem; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px; }.wanted-poster-template .description-block { background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 4px; border: 1px dashed rgba(230, 0, 0, 0.3); margin-bottom: 20px; }.wanted-poster-template .desc-title { color: var(--primary-red); font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; display: flex; align-items: center; }.wanted-poster-template .desc-text { font-size: 0.95rem; line-height: 1.6; color: #eee; text-align: left; }.wanted-poster-template .reward-section { text-align: center; border-top: 2px solid var(--primary-red); padding-top: 15px; }.wanted-poster-template .reward-label { font-size: 1rem; color: var(--text-bright); margin-bottom: 5px; }.wanted-poster-template .reward-amount { font-size: 2.5rem; color: var(--accent-gold); font-weight: 900; text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); font-family: 'Courier New', monospace; }.wanted-poster-template .warning-footer { margin-top: 20px; font-size: 0.8rem; color: var(--primary-red); text-align: center; border: 1px solid var(--primary-red); padding: 5px; opacity: 0.8; }.wanted-poster-template .glitch-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 2px); z-index: 10; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #1a1a1a;
+    --accent-color: #ff0030;
+    --accent-color-secondary: #cc0029;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --glitch-duration: 0.3s;
+}
+
+@font-face {
+    font-family: 'Cyberpunk';
+    src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+    font-display: swap;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 0, 48, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 0, 48, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.glitch-effect {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    text-shadow: 
+        0 0 5px var(--accent-color),
+        0 0 10px var(--accent-color),
+        0 0 20px var(--accent-color);
+    animation: glitch var(--glitch-duration) infinite;
+}
+
+.glitch-effect::before,
+.glitch-effect::after {
+    content: 'N109 區';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.glitch-effect::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--accent-color);
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.glitch-effect::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--accent-color-secondary);
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim2 2.5s infinite linear alternate-reverse;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    letter-spacing: 1px;
+}
+
+.core-info {
+    margin-bottom: 4rem;
+}
+
+.info-card {
+    background-color: var(--secondary-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 0, 48, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-image {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.card-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 0, 48, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.card-image img:hover {
+    transform: scale(1.02);
+}
+
+.card-content {
+    padding: 2rem;
+    width: 100%;
+}
+
+.card-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.card-content p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.scenes {
+    margin-top: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(255, 0, 48, 0.7);
+}
+
+.scene-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.scene-card {
+    background-color: var(--secondary-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-left: 4px solid var(--accent-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.scene-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.scene-card:hover::before {
+    transform: translateX(0);
+}
+
+.scene-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.location {
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* 通緝海報樣式 合併去重複 */
+.wanted-poster-template { 
+    --primary-red: #e60000; 
+    --deep-black: #0a0a0a; 
+    --text-bright: #ffffff; 
+    --accent-gold: #ffcc00; 
+    background-color: #000; 
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    padding: 20px; 
+    box-sizing: border-box;
+    margin: 4rem 0;
+}
+.wanted-poster-template .poster-container { 
+    position: relative; 
+    width: 100%; 
+    max-width: 500px; 
+    background: var(--deep-black); 
+    border: 4px solid var(--primary-red); 
+    box-shadow: 0 0 30px rgba(230, 0, 0, 0.4), inset 0 0 15px rgba(230, 0, 0, 0.2); 
+    overflow: hidden; 
+    padding-bottom: 30px; 
+}
+.wanted-poster-template .header-banner { 
+    background: var(--primary-red); 
+    color: var(--deep-black); 
+    text-align: center; 
+    padding: 10px 0; 
+    letter-spacing: 0.5em; 
+    font-weight: 900; 
+    font-size: 2.5rem; 
+    text-transform: uppercase; 
+    border-bottom: 4px solid var(--primary-red); 
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.3); 
+}
+.wanted-poster-template .image-frame { 
+    position: relative; 
+    margin: 20px auto; 
+    width: 90%; 
+    aspect-ratio: 4/5; 
+    border: 2px solid var(--primary-red); 
+    overflow: hidden; 
+    background: #111; 
+}
+.wanted-poster-template .wanted-image { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: contrast(1.1) brightness(0.9) grayscale(0.2); 
+    transition: transform 0.5s ease; 
+}
+.wanted-poster-template .image-frame:hover .wanted-image { transform: scale(1.05); }
+.wanted-poster-template .content-section { padding: 0 25px; color: var(--text-bright); }
+.wanted-poster-template .target-name { 
+    font-size: 2.2rem; 
+    color: var(--primary-red); 
+    text-align: center; 
+    margin-bottom: 15px; 
+    border-bottom: 1px solid rgba(230, 0, 0, 0.3); 
+    padding-bottom: 5px; 
+    font-weight: bold; 
+}
+.wanted-poster-template .info-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+.wanted-poster-template .info-item { 
+    display: flex; 
+    flex-direction: column; 
+    border-left: 2px solid var(--primary-red); 
+    padding-left: 10px; 
+}
+.wanted-poster-template .info-label { 
+    font-size: 0.75rem; 
+    color: rgba(255, 255, 255, 0.5); 
+    text-transform: uppercase; 
+}
+.wanted-poster-template .info-value { 
+    font-size: 1.1rem; 
+    color: var(--text-bright); 
+    font-weight: 600; 
+}
+.wanted-poster-template .status-badge { 
+    background: rgba(230, 0, 0, 0.1); 
+    border: 1px solid var(--primary-red); 
+    color: var(--primary-red); 
+    padding: 5px 10px; 
+    font-size: 0.9rem; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    font-weight: bold; 
+    letter-spacing: 1px; 
+}
+.wanted-poster-template .description-block { 
+    background: rgba(255, 255, 255, 0.03); 
+    padding: 15px; 
+    border-radius: 4px; 
+    border: 1px dashed rgba(230, 0, 0, 0.3); 
+    margin-bottom: 20px; 
+}
+.wanted-poster-template .desc-title { 
+    color: var(--primary-red); 
+    font-weight: bold; 
+    margin-bottom: 5px; 
+    font-size: 0.9rem; 
+    display: flex; 
+    align-items: center; 
+}
+.wanted-poster-template .desc-text { 
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    color: #eee; 
+    text-align: left; 
+}
+.wanted-poster-template .reward-section { 
+    text-align: center; 
+    border-top: 2px solid var(--primary-red); 
+    padding-top: 15px; 
+}
+.wanted-poster-template .reward-label { 
+    font-size: 1rem; 
+    color: var(--text-bright); 
+    margin-bottom: 5px; 
+}
+.wanted-poster-template .reward-amount { 
+    font-size: 2.5rem; 
+    color: var(--accent-gold); 
+    font-weight: 900; 
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); 
+    font-family: 'Courier New', monospace; 
+}
+.wanted-poster-template .warning-footer { 
+    marginTop: 20px; 
+    font-size: 0.8rem; 
+    color: var(--primary-red); 
+    text-align: center; 
+    border: 1px solid var(--primary-red); 
+    padding: 5px; 
+    opacity: 0.8; 
+}
+.wanted-poster-template .glitch-overlay { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    pointer-events: none; 
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 2px); 
+    z-index: 10; 
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 
+            0.05em 0 0 rgba(255,0,0,0.75),
+            -0.025em -0.05em 0 rgba(0,255,0,0.75),
+            -0.05em 0.025em 0 rgba(0,0,255,0.75);
+    }
+    14% {
+        text-shadow: 
+            0.05em 0 0 rgba(255,0,0,0.75),
+            -0.025em -0.05em 0 rgba(0,255,0,0.75),
+            -0.05em 0.025em 0 rgba(0,0,255,0.75);
+    }
+    15% {
+        text-shadow: 
+            -0.05em -0.025em 0 rgba(255,0,0,0.75),
+            0.025em 0.025em 0 rgba(0,255,0,0.75),
+            -0.05em -0.05em 0 rgba(0,0,255,0.75);
+    }
+    49% {
+        text-shadow: 
+            -0.05em -0.025em 0 rgba(255,0,0,0.75),
+            0.025em 0.025em 0 rgba(0,255,0,0.75),
+            -0.05em -0.05em 0 rgba(0,0,255,0.75);
+    }
+    50% {
+        text-shadow: 
+            0.025em 0.05em 0 rgba(255,0,0,0.75),
+            0.05em 0 0 rgba(0,255,0,0.75),
+            0 -0.05em 0 rgba(0,0,255,0.75);
+    }
+    99% {
+        text-shadow: 
+            0.025em 0.05em 0 rgba(255,0,0,0.75),
+            0.05em 0 0 rgba(0,255,0,0.75),
+            0 -0.05em 0 rgba(0,0,255,0.75);
+    }
+    100% {
+        text-shadow: 
+            -0.025em 0 0 rgba(255,0,0,0.75),
+            -0.025em -0.025em 0 rgba(0,255,0,0.75),
+            -0.025em -0.05em 0 rgba(0,0,255,0.75);
+    }
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.5deg);
+    }
+    5% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.2deg);
+    }
+    10% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.7deg);
+    }
+    15% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.5deg);
+    }
+    20% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.3deg);
+    }
+    25% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.4deg);
+    }
+    30% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.6deg);
+    }
+    35% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.1deg);
+    }
+    40% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.8deg);
+    }
+    45% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.3deg);
+    }
+    50% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.5deg);
+    }
+    55% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.7deg);
+    }
+    60% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.2deg);
+    }
+    65% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.4deg);
+    }
+    70% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.6deg);
+    }
+    75% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.8deg);
+    }
+    80% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.1deg);
+    }
+    85% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.5deg);
+    }
+    90% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.3deg);
+    }
+    95% {
+        clip: rect(85px, 9999px, 140px, 0);
+        transform: skew(0.7deg);
+    }
+    100% {
+        clip: rect(24px, 9999px, 90px, 0);
+        transform: skew(0.5deg);
+    }
+}
+
+@keyframes glitch-anim2 {
+    0% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.8deg);
+    }
+    5% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.4deg);
+    }
+    10% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.2deg);
+    }
+    15% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.6deg);
+    }
+    20% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.1deg);
+    }
+    25% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.9deg);
+    }
+    30% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.3deg);
+    }
+    35% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.5deg);
+    }
+    40% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.7deg);
+    }
+    45% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.2deg);
+    }
+    50% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.4deg);
+    }
+    55% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.6deg);
+    }
+    60% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.8deg);
+    }
+    65% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.3deg);
+    }
+    70% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.5deg);
+    }
+    75% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.7deg);
+    }
+    80% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.1deg);
+    }
+    85% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.9deg);
+    }
+    90% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.4deg);
+    }
+    95% {
+        clip: rect(15px, 9999px, 70px, 0);
+        transform: skew(0.6deg);
+    }
+    100% {
+        clip: rect(65px, 9999px, 120px, 0);
+        transform: skew(0.2deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .glitch-effect {
+        font-size: 2.5rem;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    .card-content {
+        padding: 1.5rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .scene-card {
+        padding: 1.5rem;
+    }
+    .wanted-poster-template .header-banner {
+        font-size: 1.8rem;
+        letter-spacing: 0.3em;
+    }
+    .target-name {
+        font-size: 1.8rem;
+    }
+}
 </style>
-<meta name="cg-name" content="宇宙級通緝犯" />
-<meta name="cg-command-name" content="宇宙級通緝犯" />
-<meta name="cg-color" content="#FF0000" />
-<meta name="cg-icon" content="Activity" />
-<meta name="cg-mode" content="release" />
 </head>
 <body>
-<style>
-.wanted-poster-template {--primary-red: #e60000; --deep-black: #0a0a0a; --text-bright: #fff; --accent-gold: #fc0; background-color: #000; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box;}
-.wanted-poster-template .poster-container {position: relative; width: 100%; max-width: 500px; background: var(--deep-black); border: 4px solid var(--primary-red); box-shadow: 0 0 30px rgba(230, 0, 0, 0.4), inset 0 0 15px rgba(230, 0, 0, 0.2); overflow: hidden; padding-bottom: 30px;}
-.wanted-poster-template .header-banner {background: var(--primary-red); color: var(--deep-black); text-align: center; padding: 10px 0; letter-spacing: 0.5em; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; border-bottom: 4px solid var(--primary-red); text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);}
-.wanted-poster-template .image-frame {position: relative; margin: 20px auto; width: 90%; aspect-ratio: 4/5; border: 2px solid var(--primary-red); overflow: hidden; background: #111;}
-.wanted-poster-template .wanted-image {width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1) brightness(0.9) grayscale(0.2); transition: transform 0.5s ease;}
-.wanted-poster-template .image-frame:hover .wanted-image {transform: scale(1.05);}
-.wanted-poster-template .content-section {padding: 0 25px; color: var(--text-bright);}
-.wanted-poster-template .target-name {font-size: 2.2rem; color: var(--primary-red); text-align: center; margin-bottom: 15px; border-bottom: 1px solid rgba(230, 0, 0, 0.3); padding-bottom: 5px; font-weight: bold;}
-.wanted-poster-template .info-grid {display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;}
-.wanted-poster-template .info-item {display: flex; flex-direction: column; border-left: 2px solid var(--primary-red); padding-left: 10px;}
-.wanted-poster-template .info-label {font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase;}
-.wanted-poster-template .info-value {font-size: 1.1rem; color: var(--text-bright); font-weight: 600;}
-.wanted-poster-template .status-badge {background: rgba(230, 0, 0, 0.1); border: 1px solid var(--primary-red); color: var(--primary-red); padding: 5px 10px; font-size: 0.9rem; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;}
-.wanted-poster-template .description-block {background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 4px; border: 1px dashed rgba(230, 0, 0, 0.3); margin-bottom: 20px;}
-.wanted-poster-template .desc-title {color: var(--primary-red); font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; display: flex; align-items: center;}
-.wanted-poster-template .desc-text {font-size: 0.95rem; line-height: 1.6; color: #eee; text-align: left;}
-.wanted-poster-template .reward-section {text-align: center; border-top: 2px solid var(--primary-red); padding-top: 15px;}
-.wanted-poster-template .reward-label {font-size: 1rem; color: var(--text-bright); margin-bottom: 5px;}
-.wanted-poster-template .reward-amount {font-size: 2.5rem; color: var(--accent-gold); font-weight: 900; text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); font-family: "Courier New", monospace;}
-.wanted-poster-template .warning-footer {margin-top: 20px; font-size: 0.8rem; color: var(--primary-red); text-align: center; border: 1px solid var(--primary-red); padding: 5px; opacity: 0.8;}
-.wanted-poster-template .glitch-overlay {position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.1) 1px, transparent 2px); z-index: 10;}
-</style>
-
-<div class="wanted-poster-template"><div class="poster-container"><div class="glitch-overlay"></div><div class="header-banner">WANTED</div><div class="image-frame"><img src="https://i.postimg.cc/3rCz1rz4/9e3df8dcd100baa1cd118c67ea4bae12c8fcc2ce80e1.webp" alt="WANTED: SYLUS" class="wanted-image"></div><div class="content-section"><div class="target-name">秦徹 (SYLUS)</div><div class="status-badge">宇宙級通緝犯 / 前星際監獄逃脫者</div><div class="info-grid"><div class="info-item"><span class="info-label">身高 HEIGHT</span><span class="info-value">190cm</span></div><div class="info-item"><span class="info-label">體重 WEIGHT</span><span class="info-value">88kg</span></div><div class="info-item"><span class="info-label">瞳色 EYES</span><span class="info-value" style="color: #f33">血紅色</span></div><div class="info-item"><span class="info-label">髮色 HAIR</span><span class="info-value">白色短髮</span></div></div><div class="description-block"><div class="desc-title"><span>⚠️</span> 身份特徵</div><div class="desc-text">N109 區暗點組織首領。菲羅斯星歷史上唯一從「時空監獄」越獄成功的傳說。性格極端危險，行蹤詭秘。</div></div><div class="description-block"><div class="desc-title"><span>🔥</span> 危險能力警告 (EVOL)</div><div class="desc-text">可操控<strong>黑紅霧氣</strong>的能量控制。該能量具備極強的腐蝕性與空間撕裂特性，接觸者生存率為 0%。</div></div><div class="reward-section"><div class="reward-label">DEAD OR ALIVE REWARD</div><div class="reward-amount">9,999,999,000+</div></div><div class="warning-footer">注意：此人極度危險。若發現行蹤，請立即撤離並聯繫菲羅斯星防衛部。</div></div></div></div>
     <div class="container">
         <header>
-            <h1 class="glitch-effect">N109 區</h1>
-            <p class="subtitle">「裂空災變」後</p>
+            <div class="glitch-effect">N109 區</div>
+            <div class="subtitle">法外之地 · 暗點勢力版圖</div>
         </header>
 
         <main>
             <section class="core-info">
                 <div class="info-card">
-                    <div class="card-image">
-                        <img src="https://i.postimg.cc/s1dhTBKh/copy-fu-ben.png" alt="N109 區">
-                    </div>
                     <div class="card-content">
                         <h2>區域概覽</h2>
                         <p>🏙️曾是星際級繁榮科技中心，擁有先進的能源與以太芯核研究體系。</p>
                         <p>🌆“裂空災變” 後淪為 “法外之地”，被多個禁獵區環繞，區域內建築多為廢棄科技設施與臨時搭建的黑市據點。</p>
                         <p>🔫充斥不法以太芯核交易、流浪體實驗等危險活動，高額懸賞令隨處可見，是亡命之徒與地下勢力的聚集地。</p>
-                        <p>⚡暗點組織總部所在地，也是 {user} 最初尋找以太芯核線索、與{char}相遇的關鍵區域。</p>
+                        <p>⚡暗點組織總部所在地，也是 {user} 最初尋找以太芯核線索、與秦徹相遇的關鍵區域。</p>
                     </div>
                 </div>
             </section>
+
+            <!-- ✅ 通緝海報區塊 - 完美嵌入，樣式統一 -->
+            <div class="wanted-poster-template">
+                <div class="poster-container">
+                    <div class="glitch-overlay"></div>
+                    <div class="header-banner">WANTED</div>
+                    <div class="image-frame">
+                        <img src="https://i.postimg.cc/3rCz1rz4/9e3df8dcd100baa1cd118c67ea4bae12c8fcc2ce80e1.webp" alt="WANTED: SYLUS" class="wanted-image">
+                    </div>
+                    <div class="content-section">
+                        <div class="target-name">秦徹 (SYLUS)</div>
+                        <div class="status-badge">宇宙級通緝犯 / 前星際監獄逃脫者</div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">身高 HEIGHT</span>
+                                <span class="info-value">190cm</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">體重 WEIGHT</span>
+                                <span class="info-value">88kg</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">瞳色 EYES</span>
+                                <span class="info-value" style="color: #f33">血紅色</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">髮色 HAIR</span>
+                                <span class="info-value">白色短髮</span>
+                            </div>
+                        </div>
+                        <div class="description-block">
+                            <div class="desc-title"><span>⚠️</span> 身份特徵</div>
+                            <div class="desc-text">N109 區暗點組織首領。菲羅斯星歷史上唯一從「時空監獄」越獄成功的傳說。性格極端危險，行蹤詭秘。</div>
+                        </div>
+                        <div class="description-block">
+                            <div class="desc-title"><span>🔥</span> 危險能力警告 (EVOL)</div>
+                            <div class="desc-text">可操控<strong>黑紅霧氣</strong>的能量控制。該能量具備極強的腐蝕性與空間撕裂特性，接觸者生存率為 0%。</div>
+                        </div>
+                        <div class="reward-section">
+                            <div class="reward-label">DEAD OR ALIVE REWARD</div>
+                            <div class="reward-amount">9,999,999,000+</div>
+                        </div>
+                        <div class="warning-footer">注意：此人極度危險。若發現行蹤，請立即撤離並聯繫菲羅斯星防衛部。</div>
+                    </div>
+                </div>
+            </div>
 
             <section class="scenes">
                 <h2 class="section-title">重要場景</h2>
@@ -63,10 +696,10 @@
                     <div class="scene-card">
                         <h3>🥊地下拳擊場</h3>
                         <p class="location">地點：N109 區廢棄工廠改造的隱密場地</p>
-                        <p class="description">{char}常在此進行高強度拳擊訓練或比賽，既是釋放壓力的方式，也是威懾其他勢力的 「實力展示場」。曾在此讓 {user} 為他處理傷口，贈送寶石胸針。</p>
+                        <p class="description">秦徹常在此進行高強度拳擊訓練或比賽，既是釋放壓力的方式，也是威懾其他勢力的 「實力展示場」。曾在此讓 {user} 為他處理傷口，贈送寶石胸針。</p>
                     </div>
                     <div class="scene-card">
-                        <h3>🏡{char} 私人安全屋</h3>
+                        <h3>🏡秦徹私人安全屋</h3>
                         <p class="location">地點：N109 區遠離黑市的隱密獨棟建築</p>
                         <p class="description">存放黑膠唱片、寶石收藏的私密空間，也是與 {user} 產生 Evol 共鳴、坦白以太芯核秘密的地方。</p>
                     </div>
@@ -86,19 +719,19 @@
                         <p class="description">深夜送 {user} 回宿舍的必經之路，會在此提起 {user} 喜歡的黑膠唱片，承諾帶她尋找。</p>
                     </div>
                     <div class="scene-card">
-                        <h3>🏡{char} 私人別墅</h3>
+                        <h3>🏡秦徹私人別墅</h3>
                         <p class="location">地點：N109 區邊緣的半山獨棟別墅</p>
                         <p class="description">用於慶祝特殊日子的場所，曾在此為 {user} 佈置生日場景，贈送限量版衣服與寶石首飾。</p>
                     </div>
                     <div class="scene-card">
                         <h3>🎣郊外夜釣點</h3>
                         <p class="location">位置：N109 區外禁獵區邊緣的湖泊</p>
-                        <p class="description">私人放鬆場所，曾帶 {user} 在此夜釣，教她釣魚技巧。兩人會在此安靜待著，是{char}少有的 “卸下首領身份” 的生活化場景。</p>
+                        <p class="description">私人放鬆場所，曾帶 {user} 在此夜釣，教她釣魚技巧。兩人會在此安靜待著，是秦徹少有的 “卸下首領身份” 的生活化場景。</p>
                     </div>
                     <div class="scene-card">
                         <h3>🎯廢棄基地</h3>
                         <p class="location">位置：N109 區外圍的廢棄以太芯核研究基地</p>
-                        <p class="description">{user} 獨自尋找家人線索時陷入危險的地方，{char} 曾在此及時趕到，擋在 {user} 身前戰鬥。</p>
+                        <p class="description">{user} 獨自尋找家人線索時陷入危險的地方，秦徹 曾在此及時趕到，擋在 {user} 身前戰鬥。</p>
                     </div>
                 </div>
             </section>
