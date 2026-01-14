@@ -1,0 +1,696 @@
+<html>
+<head>
+<style>
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFA07A 50%, #FFD700 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            color: #8B4513;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.2);
+        }
+
+        header p {
+            font-size: 1.5em;
+            color: #A0522D;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #DEB887;
+            border-radius: 10px;
+            background-color: #FFF8DC;
+            color: #8B4513;
+        }
+
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #FF8C00;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+        }
+
+        /* 共用選項按鈕樣式（性別/品種/職業） */
+        .option-grid {
+            display: grid;
+            gap: 20px;
+        }
+        /* 性別選項 - 2列 */
+        .gender-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+        /* 品種選項 - 適配列數 */
+        .breed-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        /* 職業選項 */
+        .job-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .option-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background-color: #FFF8DC;
+            border: 3px solid #DEB887;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+            border-color: #FF8C00;
+        }
+
+        .option-card input[type="radio"] {
+            display: none;
+        }
+
+        /* 選中狀態樣式 */
+        .option-card input[type="radio"]:checked + .card-content {
+            border: 3px solid #FF8C00;
+            border-radius: 12px;
+            background-color: #FFE4B5;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 5px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .option-card img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #DEB887;
+        }
+
+        .option-card span {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: center;
+        }
+
+        /* 倉鼠品種資訊區域 */
+        .breed-info {
+            background-color: #FFF8DC;
+            border: 3px solid #DEB887;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .breed-info.hidden {
+            display: none;
+        }
+
+        .breed-image img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #DEB887;
+        }
+
+        .breed-details pre {
+            font-size: 1.1em;
+            color: #8B4513;
+            white-space: pre-wrap;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.5;
+        }
+
+        /* 毛色選項優化 */
+        .color-options {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            font-size: 1.3em;
+            color: #8B4513;
+            transition: all 0.3s ease;
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+        }
+
+        .color-option input[type="radio"] {
+            display: none;
+        }
+
+        .color-option input[type="radio"]:checked + .color-swatch {
+            border-color: #FF8C00;
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 4px solid #DEB887;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 修正毛色值 - 更準確且明顯 */
+        .color-swatch.white {
+            background-color: #FFFFFF;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .color-swatch.gray {
+            background-color: #808080;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .color-swatch.golden {
+            background-color: #FFD700;
+            box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* 提交按鈕 */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #FFA500, #FFB733);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.5em;
+            }
+            
+            .breed-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .option-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .color-options {
+                justify-content: center;
+            }
+            
+            .color-swatch {
+                width: 50px;
+                height: 50px;
+            }
+        }
+</style>
+<meta name="cg-name" content="請選擇你想成為的倉鼠品種" />
+<meta name="cg-command-name" content="請選擇你想成為的倉鼠品種" />
+<meta name="cg-color" content="#DC9351" />
+<meta name="cg-icon" content="Cat" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="container">
+        <header>
+            <h1>開啟你的倉鼠冒險</h1>
+            <p>請填寫你想成為的倉鼠資料</p>
+        </header>
+        <main>
+            <form id="character-form">
+                <!-- 姓名 -->
+                <div class="form-group">
+                    <label for="hamster-name">姓名:</label>
+                    <input type="text" id="hamster-name" name="hamster-name" required="" placeholder="請輸入你的倉鼠名字">
+                </div>
+
+                <!-- 性別（改為按鈕式） -->
+                <div class="form-group">
+                    <label>性別:</label>
+                    <div class="option-grid gender-grid">
+                        <label class="option-card">
+                            <input type="radio" name="hamster-gender" value="male" required="">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/sfcCGHbR/MEITU-20250807-065340757.jpg" alt="男孩">
+                                <span>男孩</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-gender" value="female">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/Gm6WnWTt/xiu-gai-tu-pian-yu-feng-shou-zhi-yue-(1).webp" alt="女孩">
+                                <span>女孩</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 倉鼠品種（改為按鈕式） -->
+                <div class="form-group">
+                    <label>倉鼠品種:</label>
+                    <div class="option-grid breed-grid">
+                        <label class="option-card" data-breed="short-hair">
+                            <input type="radio" name="hamster-breed" value="short-hair" required="">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/mkss70yK/94799F73-05101e5a-5f9a-4c73-b453-8b5564dee301.png" alt="短毛倉鼠（三線類）">
+                                <span>短毛倉鼠（三線類）</span>
+                            </div>
+                        </label>
+                        <label class="option-card" data-breed="long-hair">
+                            <input type="radio" name="hamster-breed" value="long-hair">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/4yQTPBWF/A50E0D39-80011262-dcc2-49e5-808b-f36f74ac978a.png" alt="長毛倉鼠（三線類）">
+                                <span>長毛倉鼠（三線類）</span>
+                            </div>
+                        </label>
+                        <label class="option-card" data-breed="golden">
+                            <input type="radio" name="hamster-breed" value="golden">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/MHSS1hmL/A8DA8AB0-2da4e232-f041-4daf-b12c-e2a0790774f8.png
+" alt="金絲熊倉鼠">
+                                <span>金絲熊倉鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card" data-breed="roborovski">
+                            <input type="radio" name="hamster-breed" value="roborovski">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/qqTT29x9/369FE58A-2417bf4f-0f3a-41a8-9f7b-f015ff0f8930.png" alt="老公公倉鼠">
+                                <span>老公公倉鼠（羅伯羅夫斯基）</span>
+                            </div>
+                        </label>
+                        <label class="option-card" data-breed="three-line">
+                            <input type="radio" name="hamster-breed" value="three-line">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/Y0HHQJzV/4D0FEF04-4ab2be03-5f73-45d5-acb9-1fdab338f319.png" alt="三線倉鼠">
+                                <span>三線倉鼠（標準型）</span>
+                            </div>
+                        </label>
+                        <label class="option-card" data-breed="pudding">
+                            <input type="radio" name="hamster-breed" value="pudding">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/rsNLjQfH/A4049F2E-26fb2b56-9d77-47ca-96df-7333ce712fe6.png" alt="布丁倉鼠">
+                                <span>布丁倉鼠</span>
+                            </div>
+                        </label>
+                    </div>
+                    <!-- 品種資訊展示區 -->
+                    <div id="breed-info" class="breed-info hidden">
+                        <div class="breed-image" id="breed-image"></div>
+                        <div class="breed-details" id="breed-details"></div>
+                    </div>
+                </div>
+
+                <!-- 倉鼠毛色（優化樣式） -->
+                <div class="form-group">
+                    <label>倉鼠毛色:</label>
+                    <div class="color-options">
+                        <label class="color-option">
+                            <input type="radio" name="hamster-color" value="white" required="">
+                            <span class="color-swatch white"></span>
+                            <span>白色</span>
+                        </label>
+                        <label class="color-option">
+                            <input type="radio" name="hamster-color" value="gray">
+                            <span class="color-swatch gray"></span>
+                            <span>灰色</span>
+                        </label>
+                        <label class="color-option">
+                            <input type="radio" name="hamster-color" value="golden">
+                            <span class="color-swatch golden"></span>
+                            <span>金黃色</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 職業（保留原有樣式，統一為option-card） -->
+                <div class="form-group">
+                    <label>職業:</label>
+                    <div class="option-grid job-grid">
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="farmer" required="">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/RFrxVKCV/生成职业仓鼠_(19).png" alt="農田刨土鼠">
+                                <span>農田刨土鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="harvester">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/VN0c8D8W/生成职业仓鼠_(15).png" alt="堅果豐收鼠">
+                                <span>堅果豐收鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="forager">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/kg4mj7YZ/生成职业仓鼠_(7).png" alt="野菜挖掘鼠">
+                                <span>野菜挖掘鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="builder">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/T34XFBZd/生成职业仓鼠_(10).png" alt="木屑建築鼠">
+                                <span>木屑建築鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="water-carrier">
+                            <div class="card-content">
+                                <span>溪流運水鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="fruit-sorter">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/rsM65Ttv/生成职业仓鼠_(23).png" alt="果實分類鼠">
+                                <span>果實分類鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="insect-catcher">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/P5xj6dV6/生成职业仓鼠_(6).png" alt="蟲蟲捕捉鼠">
+                                <span>蟲蟲捕捉鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="weaver">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/MTRxyt31/生成职业仓鼠_(1).png" alt="草木編織鼠">
+                                <span>草木編織鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="seed-raiser">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/13jZ2bLz/生成职业仓鼠_(11).png" alt="種子培育鼠">
+                                <span>種子培育鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="guard">
+                            <div class="card-content">
+                                <span>洞穴安保鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="grain-dryer">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/GtCRzY6H/生成职业仓鼠_(4).png" alt="穀物晾曬鼠">
+                                <span>穀物晾曬鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="pollinator">
+                            <div class="card-content">
+                                <span>花粉傳播鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="leaf-collector">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/Gm51V66Z/生成职业仓鼠_(8).png" alt="落葉收集鼠">
+                                <span>落葉收集鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="water-purifier">
+                            <div class="card-content">
+                                <span>水源淨化鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="food-mixer">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/9QnjKsvH/生成职业仓鼠_(9).png" alt="鼠糧調配鼠">
+                                <span>鼠糧調配鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="baby-sitter">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/QtpGBCVX/生成职业仓鼠_(20).png" alt="幼鼠看護鼠">
+                                <span>幼鼠看護鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="construction-worker">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/QdyrwvRW/生成职业仓鼠_(13).png" alt="建築施工鼠">
+                                <span>建築施工鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="food-deliverer">
+                            <div class="card-content">
+                                <span>食物配送鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="garbage-sorter">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/Bb4W231p/生成职业仓鼠_(22).png" alt="垃圾分類鼠">
+                                <span>垃圾分類鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="security-guard">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/wBRdp0pZ/生成职业仓鼠_(18).png" alt="安全巡邏鼠">
+                                <span>安全巡邏鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="plumber">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/PrKHzCy2/生成职业仓鼠_(5).png" alt="管道維護鼠">
+                                <span>管道維護鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="messenger">
+                            <div class="card-content">
+                                <span>訊息傳遞鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="decorator">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/6pmNgFDn/生成职业仓鼠_(14).png" alt="裝飾設計鼠">
+                                <span>裝飾設計鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="doctor">
+                            <div class="card-content">
+                                <span>醫療照護老鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="entertainment-planner">
+                            <div class="card-content">
+                                <span>娛樂策劃鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="teacher">
+                            <div class="card-content">
+                                <span>教育指導鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="resource-manager">
+                            <div class="card-content">
+                                <span>資源調度鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="traffic-director">
+                            <div class="card-content">
+                                <span>交通疏導鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="warehouse-manager">
+                            <div class="card-content">
+                                <span>倉庫管理鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="landscape-designer">
+                            <div class="card-content">
+                                <img src="https://i.postimg.cc/VN0c8D8F/生成职业仓鼠_(16).png" alt="景觀佈置鼠">
+                                <span>景觀佈置鼠</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="hamster-job" value="receptionist">
+                            <div class="card-content">
+                                <span>禮儀接待鼠</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">創建我的倉鼠角色</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // 倉鼠品種資訊數據
+        const breedData = {
+            "short-hair": {
+                image: "https://i.postimg.cc/0Q7X7Z8Y/short-hair.jpg",
+                info: "短毛倉鼠（三線類）\n性格活潑親人，體型小巧，毛髮短而順滑，容易飼養，是新手入門的最佳選擇。\n體重：30-45g | 壽命：2-3年"
+            },
+            "long-hair": {
+                image: "https://i.postimg.cc/8C7X8Z9Y/long-hair.jpg",
+                info: "長毛倉鼠（三線類）\n毛髮柔軟蓬鬆，外型像小絨球，性格溫和，需要定期梳理毛髮避免打結。\n體重：35-50g | 壽命：2-3年"
+            },
+            "golden": {
+                image: "https://i.postimg.cc/9f7X7Z8Y/golden.jpg",
+                info: "金絲熊倉鼠\n也稱為熊仔鼠，體型較大，毛髮金黃色，性格膽小但認主後極為黏人。\n體重：100-150g | 壽命：2-3.5年"
+            },
+            "roborovski": {
+                image: "https://i.postimg.cc/7d7X7Z8Y/roborovski.jpg",
+                info: "老公公倉鼠（羅伯羅夫斯基）\n體型最小的倉鼠品種，毛色淺黃帶白眉，動作敏捷，壽命較長。\n體重：20-30g | 壽命：3-4年"
+            },
+            "three-line": {
+                image: "https://i.postimg.cc/6b7X7Z8Y/three-line.jpg",
+                info: "三線倉鼠（標準型）\n背部有三條明顯的深色條紋，性格穩定，適合飼養，抗病能力強。\n體重：30-45g | 壽命：2-3年"
+            },
+            "pudding": {
+                image: "https://i.postimg.cc/5t7X7Z8Y/pudding.jpg",
+                info: "布丁倉鼠\n毛色像布丁一樣呈淺黃色，性格溫順，容易馴服，是受歡迎的寵物倉鼠。\n體重：30-45g | 壽命：2-3年"
+            }
+        };
+
+        // 監聽品種選擇，顯示對應資訊
+        const breedRadios = document.querySelectorAll('input[name="hamster-breed"]');
+        const breedInfo = document.getElementById('breed-info');
+        const breedImage = document.getElementById('breed-image');
+        const breedDetails = document.getElementById('breed-details');
+
+        breedRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const breedKey = this.value;
+                const data = breedData[breedKey];
+                
+                if (data) {
+                    breedImage.innerHTML = `<img src="${data.image}" alt="${this.parentElement.querySelector('span').textContent}">`;
+                    breedDetails.innerHTML = `<pre>${data.info}</pre>`;
+                    breedInfo.classList.remove('hidden');
+                } else {
+                    breedInfo.classList.add('hidden');
+                }
+            });
+        });
+
+        // 表單提交處理
+        document.getElementById('character-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 收集表單數據
+            const formData = new FormData(this);
+            const hamsterData = {};
+            formData.forEach((value, key) => {
+                hamsterData[key] = value;
+            });
+            
+            // 顯示創建成功提示（可根據需求替換為後端請求）
+            alert(`🎉 你的倉鼠角色創建成功！
+姓名：${hamsterData['hamster-name']}
+性別：${hamsterData['hamster-gender'] === 'male' ? '男孩' : '女孩'}
+品種：${document.querySelector(`input[name="hamster-breed"][value="${hamsterData['hamster-breed']}"]`).parentElement.querySelector('span').textContent}
+毛色：${hamsterData['hamster-color'] === 'white' ? '白色' : hamsterData['hamster-color'] === 'gray' ? '灰色' : '金黃色'}
+職業：${document.querySelector(`input[name="hamster-job"][value="${hamsterData['hamster-job']}"]`).parentElement.querySelector('span').textContent}
+
+準備好開始倉鼠冒險了嗎？`);
+            
+            // 重置表單
+            this.reset();
+            breedInfo.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

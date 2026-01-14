@@ -1,0 +1,403 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.hamster-world {
+  --bg-page: #fff8e1;
+  --bg-card: #ffffff;
+  --text-main: #2d1b0e; /* Deep chocolate for high contrast */
+  --text-sub: #5d4037;
+  --accent-primary: #ff7043;
+  --accent-secondary: #ffccbc;
+  --accent-bg: #fff3e0;
+  --border-color: #ffe0b2;
+  --shadow-color: rgba(255, 112, 67, 0.15);
+  
+  font-family: 'Nunito', 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+  background-color: var(--bg-page);
+  background-image: radial-gradient(var(--accent-secondary) 1px, transparent 1px);
+  background-size: 20px 20px;
+  color: var(--text-main);
+  padding: 1.5rem;
+  min-height: 100vh;
+}
+
+/* Utilities */
+.hamster-world * {
+  box-sizing: border-box;
+}
+
+/* Header */
+.hamster-world .page-header {
+  background: var(--bg-card);
+  border: 4px solid var(--accent-secondary);
+  border-radius: 2rem;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 0 var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.hamster-world .page-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #d84315;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 0px #ffccbc;
+}
+
+.hamster-world .page-subtitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+/* Grid Layout */
+.hamster-world .card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Card Component */
+.hamster-world .hamster-card {
+  background: var(--bg-card);
+  border-radius: 2rem;
+  overflow: hidden;
+  border: 3px solid var(--accent-secondary);
+  box-shadow: 0 12px 24px -6px var(--shadow-color), 0 0 0 1px var(--border-color);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.hamster-world .hamster-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px -4px var(--shadow-color);
+  border-color: var(--accent-primary);
+}
+
+/* Image Container - No shrinking, full width */
+.hamster-world .card-image-box {
+  background: #fffcf5;
+  width: 100%;
+  padding: 1.5rem;
+  border-bottom: 3px dashed var(--accent-secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamster-world .hamster-img {
+  width: 100%;
+  height: auto;
+  max-height: 500px; /* Prevent excessively tall images on large screens */
+  object-fit: contain;
+  border-radius: 1rem;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  display: block;
+}
+
+/* Content Area */
+.hamster-world .card-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hamster-world .card-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #bf360c;
+  margin: 0;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.hamster-world .card-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+}
+
+/* Stats Grid */
+.hamster-world .stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hamster-world .stat-row {
+  background: var(--accent-bg);
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.hamster-world .stat-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #e65100;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hamster-world .stat-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #ff7043;
+  border-radius: 50%;
+}
+
+.hamster-world .stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main); /* High contrast enforced */
+  line-height: 1.4;
+  padding-left: 1rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .hamster-world .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hamster-world .page-header {
+    padding: 3rem;
+  }
+}
+</style>
+<meta name="cg-name" content="倉鼠世界的品種介紹" />
+<meta name="cg-command-name" content="倉鼠世界的品種介紹" />
+<meta name="cg-color" content="#F5745B" />
+<meta name="cg-icon" content="Rat" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.hamster-world {--bg-page: #fff8e1; --bg-card: #fff; --text-main: #2d1b0e; --text-sub: #5d4037; --accent-primary: #ff7043; --accent-secondary: #ffccbc; --accent-bg: #fff3e0; --border-color: #ffe0b2; --shadow-color: rgba(255, 112, 67, 0.15); font-family: "Nunito", "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--bg-page); background-image: radial-gradient(var(--accent-secondary) 1px, transparent 1px); background-size: 20px 20px; color: var(--text-main); padding: 1.5rem; min-height: 100vh;}
+.hamster-world * {box-sizing: border-box;}
+.hamster-world .page-header {background: var(--bg-card); border: 4px solid var(--accent-secondary); border-radius: 2rem; padding: 2rem; text-align: center; margin-bottom: 3rem; box-shadow: 0 10px 0 var(--border-color); position: relative; overflow: hidden;}
+.hamster-world .page-title {font-size: 2.2rem; font-weight: 900; color: #d84315; margin: 0 0 0.5rem 0; letter-spacing: 0.05em; text-shadow: 2px 2px 0 #ffccbc;}
+.hamster-world .page-subtitle {font-size: 1.1rem; font-weight: 700; color: var(--text-sub);}
+.hamster-world .card-grid {display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 800px; margin: 0 auto;}
+.hamster-world .hamster-card {background: var(--bg-card); border-radius: 2rem; overflow: hidden; border: 3px solid var(--accent-secondary); box-shadow: 0 12px 24px -6px var(--shadow-color), 0 0 0 1px var(--border-color); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column;}
+.hamster-world .hamster-card:hover {transform: translatey(-8px); box-shadow: 0 20px 30px -4px var(--shadow-color); border-color: var(--accent-primary);}
+.hamster-world .card-image-box {background: #fffcf5; width: 100%; padding: 1.5rem; border-bottom: 3px dashed var(--accent-secondary); display: flex; justify-content: center; align-items: center;}
+.hamster-world .hamster-img {width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 1rem; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1)); display: block;}
+.hamster-world .card-content {padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;}
+.hamster-world .card-name {font-size: 1.75rem; font-weight: 800; color: #bf360c; margin: 0; text-align: center; position: relative; padding-bottom: 1rem;}
+.hamster-world .card-name::after {content: ""; position: absolute; bottom: 0; left: 50%; transform: translatex(-50%); width: 60px; height: 4px; background: var(--accent-primary); border-radius: 2px;}
+.hamster-world .stats-container {display: flex; flex-direction: column; gap: 1rem;}
+.hamster-world .stat-row {background: var(--accent-bg); border-radius: 1rem; padding: 1rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.4rem;}
+.hamster-world .stat-label {font-size: 0.9rem; font-weight: 800; color: #e65100; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;}
+.hamster-world .stat-label::before {content: ""; display: inline-block; width: 8px; height: 8px; background: #ff7043; border-radius: 50%;}
+.hamster-world .stat-value {font-size: 1.1rem; font-weight: 700; color: var(--text-main); line-height: 1.4; padding-left: 1rem;}
+@media (min-width: 768px) {
+  .hamster-world .card-grid {grid-template-columns: repeat(2, 1fr);}
+  .hamster-world .page-header {padding: 3rem;}
+}
+</style>
+
+<div class="hamster-world">
+  <header class="page-header">
+    <h1 class="page-title">🐹 倉鼠世界品種大百科</h1>
+    <div class="page-subtitle">歡迎來到毛茸茸的可愛樂園！</div>
+  </header>
+
+  <div class="card-grid">
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/v8gvM3jT/cang-shu-duan-mao-cang-shu.png" alt="短毛倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">短毛倉鼠（三線類）</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長8-10cm，體重30-45g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">背部3條深色縱紋</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">擅長用爪子扒洞、推重物</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特點</span>
+            <span class="stat-value">溫順穩重，耐力強，不急躁</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/KjMVMF8r/zhang-mao-shu-hua-hua-ban.png" alt="長毛倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">長毛倉鼠（三線類）</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長9-11cm，體重35-50g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">毛髮長1-2cm (長毛銀狐, 長毛布丁)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">擅長梳理絨毛、編織</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特點</span>
+            <span class="stat-value">細緻溫柔，動手能力強</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/MZMYxd4z/zhang-mao-cang-shu.png" alt="金絲熊倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">金絲熊倉鼠</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長12-18cm，體重80-150g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">短毛，常見「奶油色」「金黃色」</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">體型大、力氣足，擅長搬運重物</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特徵</span>
+            <span class="stat-value">開朗有力，責任感強，有威懾力</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/PJwb45ZK/lao-gong-gong-cang-shu.png" alt="老公公倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">老公公倉鼠<br>（羅伯羅夫斯基）</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長4-5cm，體重15-25g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">體型最小，背部淺棕色，眉毛處有明顯「白眉」特徵</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">警覺性極高，擅長站立觀察</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特點</span>
+            <span class="stat-value">機警聰慧記憶力強，膽小但專注</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/prFQZL8Z/san-xian-cang-shu.png" alt="三線倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">三線倉鼠（標準型）</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長7-9cm，體重25-40g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">背部3條深色縱紋清晰（黑紋）</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">牙齒堅硬，擅長啃咬木材、磨石器</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特點</span>
+            <span class="stat-value">堅韌務實，耐苦，執行力強</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    
+    <article class="hamster-card">
+      <div class="card-image-box">
+        <img src="https://i.postimg.cc/wMm5VjJc/bu-ding-cang-shu.png" alt="布丁倉鼠" class="hamster-img">
+      </div>
+      <div class="card-content">
+        <h2 class="card-name">布丁倉鼠</h2>
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">體型尺寸</span>
+            <span class="stat-value">體長12-15cm，體重30-45g</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">毛色特徵</span>
+            <span class="stat-value">毛色為淺黃/奶黃色</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">生活習慣</span>
+            <span class="stat-value">動作敏捷，擅長攀爬</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">性格特徵</span>
+            <span class="stat-value">活潑靈動，嗅覺準，善於溝通</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+/* 
+   Root Scope: .hamster-cny 
+   Theme: Lunar New Year, Hamster, Red/Gold/Paper
+   ★ 長圖專用設定：一頁到底 無滾動 無橫滑 ★
+*/
+.hamster-cny {
+  --c-red: #C02C2C;
+  --c-red-dark: #8E1F1F;
+  --c-gold: #E6B85C;
+  --c-gold-light: #F9E8B8;
+  --c-paper: #FDFBF7;
+  --c-ink: #2C2424;
+  --font-serif: "Songti SC", "SimSun", "PingFang TC", "Microsoft JhengHei", serif;
+  
+  font-family: var(--font-serif);
+  background-color: var(--c-paper);
+  color: var(--c-ink);
+  line-height: 1.6;
+  position: relative;
+  width: 100%;
+  max-width: 420px; /* 長圖最佳寬度 適配手機+長圖保存 */
+  margin: 0 auto;
+}
+
+/* Background Texture - Subtle Rice Paper 新年宣纸底紋 */
+.hamster-cny::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(#E6B85C 1px, transparent 1px), 
+    radial-gradient(#E6B85C 1px, transparent 1px);
+  background-position: 0 0, 20px 20px;
+  background-size: 40px 40px;
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Utilities 通用樣式補全 */
+.hamster-cny .z-10 { z-index: 10; position: relative; }
+.hamster-cny .shadow-gold { box-shadow: 0 4px 15px -3px rgba(230, 184, 92, 0.5); }
+.hamster-cny .text-gold { color: var(--c-gold); }
+.hamster-cny .bg-red-gradient { background: linear-gradient(180deg, var(--c-red) 0%, var(--c-red-dark) 100%); }
+.hamster-cny .text-red-700 { color: #b41616; }
+.hamster-cny .text-red-800 { color: #8c1414; }
+.hamster-cny .text-gray-500 { color: #6b7280; }
+.hamster-cny .text-gray-600 { color: #4b5563; }
+.hamster-cny .bg-red-50 { background-color: #fef2f2; }
+.hamster-cny .border-red-100 { border:1px solid #fee2e2; }
+.hamster-cny .text-yellow-200 { color: #fde68a; }
+.hamster-cny .text-yellow-300 { color: #fcd34d; }
+.hamster-cny .hidden { display: none; }
+.hamster-cny .flex { display: flex; }
+.hamster-cny .justify-center { justify-content: center; }
+.hamster-cny .gap-4 { gap: 1rem; }
+.hamster-cny .text-center { text-align: center; }
+
+/* Lantern Animation 新年燈籠擺動動畫 */
+@keyframes hamster-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.hamster-cny .lantern {
+  transform-origin: top center;
+  animation: hamster-sway 4s ease-in-out infinite;
+}
+
+/* Header 新年頭部Banner */
+.hamster-cny .hero-header {
+  position: relative;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  padding: 3rem 1.5rem 4rem;
+	text-align: center;
+  overflow: visible;
+  box-shadow: 0 10px 30px -5px rgba(192, 44, 44, 0.4);
+}
+
+.hamster-cny .hero-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--c-gold);
+  box-shadow: 0 0 0 4px var(--c-red-dark), 0 8px 20px rgba(0,0,0,0.3);
+  margin: 0 auto 1rem;
+  object-fit: cover;
+  background: #fff;
+}
+
+.hamster-cny .hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--c-gold-light);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.hamster-cny .hero-subtitle {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* ★ 長圖專用：書法揮毫區 改網格排版 取代橫滑 ★ */
+.hamster-cny .scroll-section {
+  padding: 2rem 1.5rem;
+}
+.hamster-cny .scroll-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+.hamster-cny .scroll-item {
+  background: #fff;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+.hamster-cny .scroll-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background: var(--c-paper);
+}
+
+/* 新春納福 春聯圖片網格 */
+.hamster-cny .fai-chun-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  padding: 0 1.5rem 2rem;
+}
+.hamster-cny .fai-chun-item {
+  background: #fff;
+  padding: 0.5rem;
+  border: 2px solid var(--c-red);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(192, 44, 44, 0.15);
+}
+.hamster-cny .fai-chun-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0.25rem;
+}
+
+/* Red Packet Interaction 紅包點擊交互 (完整保留) */
+.hamster-cny .red-packet-container {
+  margin: 0 1.5rem 2rem;
+  text-align: center;
+}
+.hamster-cny .rp-label {
+  display: block;
+  background: linear-gradient(135deg, #D9281C 0%, #B21F1F 100%);
+  color: var(--c-gold-light);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(217, 40, 28, 0.5);
+  border: 2px solid var(--c-gold);
+  position: relative;
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+.hamster-cny .rp-label:active {
+  transform: scale(0.98);
+}
+.hamster-cny .rp-label::after {
+  content: "🧧";
+  font-size: 3rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+.hamster-cny .rp-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.8s ease-out, opacity 0.5s ease-in;
+  background: #fff;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--c-gold);
+  text-align: center;
+}
+.hamster-cny .rp-toggle:checked ~ .rp-content {
+  max-height: 800px;
+  opacity: 1;
+	padding: 1.5rem;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+}
+
+/* Section Titles 區塊標題樣式 */
+.hamster-cny .section-title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--c-red-dark);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.hamster-cny .section-title::before,
+.hamster-cny .section-title::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: var(--c-red);
+  opacity: 0.3;
+}
+
+/* Footer 頁腳 */
+.hamster-cny .footer {
+  text-align: center;
+  padding: 2rem 1.5rem 3rem;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Animations 漸入動畫 (完整保留) */
+.hamster-cny .fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.hamster-cny .delay-100 { animation-delay: 0.1s; }
+.hamster-cny .delay-200 { animation-delay: 0.2s; }
+.hamster-cny .delay-300 { animation-delay: 0.3s; }
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+<meta name="cg-name" content="新春慶圖" />
+<meta name="cg-command-name" content="新春慶圖" />
+<meta name="cg-color" content="#FF0000" />
+<meta name="cg-icon" content="Cat" />
+<meta name="cg-mode" content="release" />
+</head>
+<body style="margin:0;background:#f5f5f0;">
+
+<div class="hamster-cny">
+
+  <!-- 頭部Banner 新年燈籠+頭像+標題 -->
+  <header class="hero-header bg-red-gradient z-10">
+    <div class="lantern absolute top-0 left-8 text-4xl" style="animation-delay: 0s">🏮</div>
+    <div class="lantern absolute top-0 right-8 text-4xl" style="animation-delay: 1s">🏮</div>
+    <img src="https://i.postimg.cc/x1LVJqmz/176C7879-3c25634b-b6c3-414c-a778-4b6820f4a898.png" alt="Hamster Avatar" class="hero-avatar fade-in-up">
+    <h1 class="hero-title fade-in-up delay-100">金倉賀歲</h1>
+    <p class="hero-subtitle fade-in-up delay-200">Hamster's Lunar New Year</p>
+    <div class="text-yellow-200 text-sm mt-2 fade-in-up delay-200">
+      祝 <span class="font-bold border-b border-yellow-300">大家</span> 新年快樂，萬事如意！
+    </div>
+  </header>
+
+  <!-- 揮毫潑墨 - 長圖專用網格排版 -->
+  <section class="scroll-section fade-in-up delay-300">
+    <h2 class="section-title"><span>揮毫潑墨 · Writing</span></h2>
+    <div class="scroll-grid">
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/2SnNb3WV/4C3FC185-9826d39b-8db4-471a-b997-42774758ac05.png" class="scroll-img" alt="Writing 1">
+        <p class="text-center text-xs text-gray-500 mt-2">凝神聚氣</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/2SnNb3W5/57C59937-ec63f041-3bbd-4dcd-b0ab-ba1d996b969a.png" class="scroll-img" alt="Writing 2">
+        <p class="text-center text-xs text-gray-500 mt-2">落筆生花</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/rw520z4s/67E31649-c3d63bba-b9e9-43f2-9b66-ede58e88a1f9.png" class="scroll-img" alt="Writing 3">
+        <p class="text-center text-xs text-gray-500 mt-2">翰墨飄香</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/jSyYwCfC/6F7819B7-4f0929d3-e2c8-41df-86a2-bc17fd0f8608.png" class="scroll-img" alt="Writing 4">
+        <p class="text-center text-xs text-gray-500 mt-2">福滿乾坤</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/1zPhpP0f/886340A5-f19f0598-8e82-4424-832a-78036e5f42b3.png" class="scroll-img" alt="Writing 5">
+        <p class="text-center text-xs text-gray-500 mt-2">喜氣洋洋</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.postimg.cc/Bvs9xs5j/A9668138-b03db10c-7a4e-47c1-a730-8390cfb346ad.png" class="scroll-img" alt="Writing 6">
+        <p class="text-center text-xs text-gray-500 mt-2">功成名就</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 新春納福 倉鼠圖片區 -->
+  <section class="z-10 relative">
+    <h2 class="section-title"><span>新春納福 · Blessings</span></h2>
+    <div class="fai-chun-grid">
+      <div class="fai-chun-item">
+        <img src="https://i.postimg.cc/PqFpC6Yj/2B0F0F04-24071646-ab7d-45c7-8676-312cab643bc3.jpg" class="fai-chun-img" alt="Blessing 1">
+      </div>
+      <div class="fai-chun-item">
+        <img src="https://i.postimg.cc/g0BXxM8p/35E9637F-eb38536e-a9d4-4456-b82b-b8dea32ed4a8.jpg" class="fai-chun-img" alt="Blessing 2">
+      </div>
+      <div class="fai-chun-item">
+        <img src="https://i.postimg.cc/zfPbydK8/5929DD35-d4122865-079a-414d-aae8-879629e69ac6.jpg" class="fai-chun-img" alt="Blessing 3">
+      </div>
+      <div class="fai-chun-item">
+        <img src="https://i.postimg.cc/TPHLKkgv/9B218C1B-833152e7-e994-4756-acf6-b66315640630.jpg" class="fai-chun-img" alt="Blessing 4">
+      </div>
+      <div class="fai-chun-item" style="grid-column: span 2;">
+        <img src="https://i.postimg.cc/bvFDZ6kr/DDE49F9C-f3e15f1b-f731-4ad4-8c3e-b3c171cd8f0c.jpg" class="fai-chun-img" alt="Blessing 5">
+      </div>
+    </div>
+  </section>
+
+  <!-- 紅包點擊交互區 (完整保留功能) -->
+  <section class="red-packet-container z-10 relative">
+    <input type="checkbox" id="rp-toggle" class="rp-toggle peer hidden">
+    <label for="rp-toggle" class="rp-label">
+      點擊領取您的新年好運<br>
+      <span class="text-sm opacity-80 font-normal">Click to Open Red Packet</span>
+    </label>
+    <div class="rp-content">
+      <h3 class="text-xl font-bold text-red-700 mb-2">大吉大利 · Good Fortune</h3>
+      <p class="text-gray-600 mb-4">
+        倉鼠大師祝 {user}：<br>
+        身體健康，財源廣進！<br>
+        鼠年數錢數到手軟！
+      </p>
+      <div class="flex justify-center gap-4 text-4xl">
+        <span>🍊</span>
+        <span>💰</span>
+        <span>🐹</span>
+      </div>
+      <div class="mt-4 p-4 bg-red-50 rounded-lg border-red-100 text-sm text-red-800">
+        "May your year be filled with abundance and joy!"
+      </div>
+    </div>
+  </section>
+
+  <!-- 頁腳版權資訊 -->
+  <footer class="footer">
+    <p>© {yy} {char} Lunar New Year Celebration</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<html>
+<head>
+<style>
+.hamster-world {
+  --bg-cream: #FFF8E1;
+  --card-bg: #FFFFFF;
+  --text-main: #3E2723;
+  --text-accent: #D84315;
+  --badge-bg: #FFECB3;
+  --badge-text: #6D4C41;
+  --shadow-soft: 0 10px 25px -5px rgba(62, 39, 35, 0.15);
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--bg-cream);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Scoped Layout */
+.hamster-world .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Hero Section */
+.hamster-world .hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: var(--shadow-soft);
+  border: 4px solid #FFE0B2;
+}
+
+.hamster-world .hero-avatar {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid #FFCC80;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.hamster-world .hero-avatar:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+
+.hamster-world .hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-accent);
+  margin-bottom: 0.5rem;
+}
+
+.hamster-world .hero-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #5D4037;
+}
+
+/* Card Grid */
+.hamster-world .grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .hamster-world .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Hamster Card */
+.hamster-world .card {
+  background: var(--card-bg);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #FFF3E0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hamster-world .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -5px rgba(62, 39, 35, 0.2);
+  border-color: #FFCC80;
+}
+
+.hamster-world .card-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 75%; /* 4:3 Aspect Ratio */
+  overflow: hidden;
+  background: #FFF3E0;
+}
+
+.hamster-world .card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image fills space without distortion */
+  transition: transform 0.5s ease;
+}
+
+.hamster-world .card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.hamster-world .card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hamster-world .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.hamster-world .hamster-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-accent);
+}
+
+.hamster-world .location-badge {
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.hamster-world .bobo-comment {
+  background-color: #FBE9E7;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  color: #4E342E;
+  position: relative;
+  margin-top: auto;
+  font-weight: 600;
+}
+
+.hamster-world .bobo-comment::before {
+  content: "🐹 波波說:";
+  display: block;
+  font-size: 0.75rem;
+  color: #BF360C;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+/* Interactive Reveal (Pure CSS) */
+.hamster-world .toggle-checkbox {
+  display: none;
+}
+
+.hamster-world .toggle-label {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #FFAB91;
+  color: white;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.hamster-world .toggle-label:hover {
+  background: #FF8A65;
+}
+
+.hamster-world .details-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  margin-top: 0;
+}
+
+.hamster-world .toggle-checkbox:checked ~ .details-panel {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+.hamster-world .detail-text {
+  font-size: 0.9rem;
+  color: #6D4C41;
+  background: #FFF8E1;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px dashed #FFCC80;
+}
+</style>
+<meta name="cg-name" content="倉鼠世界的生活" />
+<meta name="cg-command-name" content="倉鼠世界的生活" />
+<meta name="cg-color" content="#8B5CF6" />
+<meta name="cg-icon" content="SquareLibrary" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.hamster-world {--bg-cream: #FFF8E1; --card-bg: #FFF; --text-main: #3E2723; --text-accent: #D84315; --badge-bg: #FFECB3; --badge-text: #6D4C41; --shadow-soft: 0 10px 25px -5px rgba(62, 39, 35, 0.15); font-family: "Nunito", "Segoe UI", system-ui, sans-serif; background-color: var(--bg-cream); color: var(--text-main); line-height: 1.6;}
+.hamster-world .container {max-width: 800px; margin: 0 auto; padding: 2rem 1rem;}
+.hamster-world .hero {text-align: center; margin-bottom: 3rem; background: white; padding: 2rem; border-radius: 2rem; box-shadow: var(--shadow-soft); border: 4px solid #FFE0B2;}
+.hamster-world .hero-avatar {width: 180px; height: 180px; object-fit: cover; border-radius: 50%; border: 6px solid #FFCC80; margin: 0 auto 1.5rem; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease;}
+.hamster-world .hero-avatar:hover {transform: rotate(5deg) scale(1.05);}
+.hamster-world .hero-title {font-size: 2rem; font-weight: 800; color: var(--text-accent); margin-bottom: 0.5rem;}
+.hamster-world .hero-subtitle {font-size: 1.1rem; font-weight: 600; color: #5D4037;}
+.hamster-world .grid {display: grid; grid-template-columns: 1fr; gap: 2rem;}
+@media (min-width: 640px) {
+  .hamster-world .grid {grid-template-columns: repeat(2, 1fr);}
+}
+.hamster-world .card {background: var(--card-bg); border-radius: 1.5rem; overflow: hidden; box-shadow: var(--shadow-soft); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 2px solid #FFF3E0; display: flex; flex-direction: column;}
+.hamster-world .card:hover {transform: translatey(-5px); box-shadow: 0 15px 30px -5px rgba(62, 39, 35, 0.2); border-color: #FFCC80;}
+.hamster-world .card-image-wrapper {position: relative; width: 100%; padding-top: 75%; overflow: hidden; background: #FFF3E0;}
+.hamster-world .card-image {position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;}
+.hamster-world .card:hover .card-image {transform: scale(1.05);}
+.hamster-world .card-content {padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;}
+.hamster-world .card-header {display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;}
+.hamster-world .hamster-name {font-size: 1.25rem; font-weight: 800; color: var(--text-accent);}
+.hamster-world .location-badge {background-color: var(--badge-bg); color: var(--badge-text); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.25rem;}
+.hamster-world .bobo-comment {background-color: #FBE9E7; padding: 0.75rem; border-radius: 1rem; font-size: 0.95rem; color: #4E342E; position: relative; margin-top: auto; font-weight: 600;}
+.hamster-world .bobo-comment::before {content: "🐹 波波說:"; display: block; font-size: 0.75rem; color: #BF360C; font-weight: 800; margin-bottom: 0.25rem;}
+.hamster-world .toggle-checkbox {display: none;}
+.hamster-world .toggle-label {display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #FFAB91; color: white; border-radius: 999px; cursor: pointer; font-weight: bold; font-size: 0.9rem; text-align: center; transition: background 0.2s; user-select: none;}
+.hamster-world .toggle-label:hover {background: #FF8A65;}
+.hamster-world .details-panel {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.4s ease; margin-top: 0;}
+.hamster-world .toggle-checkbox:checked ~ .details-panel {max-height: 200px; opacity: 1; margin-top: 1rem;}
+.hamster-world .detail-text {font-size: 0.9rem; color: #6D4C41; background: #FFF8E1; padding: 0.75rem; border-radius: 0.75rem; border: 1px dashed #FFCC80;}
+</style>
+
+<div class="hamster-world">
+  <div class="container">
+    
+    
+    <section class="hero">
+      <img src="https://i.postimg.cc/9XwFp74Y/bo-bo.png" alt="Bobo" class="hero-avatar">
+      <h1 class="hero-title">歡迎來到倉鼠世界！</h1>
+      <p class="hero-subtitle">嗨 ！我是波波。快來看看我的朋友們都在哪裡玩耍吧！</p>
+    </section>
+
+    
+    <main class="grid">
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/fWSTK93q/bu-ding-cang-shu-zai-ke-ting.png" alt="布丁倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">布丁倉鼠</h2>
+            <span class="location-badge">🛋️ 客廳</span>
+          </div>
+          <div class="bobo-comment">
+            你看！布丁正在客廳的沙發上坐著，黃澄澄的好像一顆大布丁！
+          </div>
+          
+          <input type="checkbox" id="toggle-1" class="toggle-checkbox">
+          <label for="toggle-1" class="toggle-label">🔍 觀察一下</label>
+          <div class="details-panel">
+            <p class="detail-text">布丁倉鼠性格溫和，最喜歡在寬敞的客廳裡發呆，偶爾會為了葵花子跑兩圈。</p>
+          </div>
+        </div>
+      </article>
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/7PJYV2Cj/jin-si-xiong-cang-shu.png" alt="金絲熊倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">金絲熊倉鼠</h2>
+            <span class="location-badge">🛋️ 客廳</span>
+          </div>
+          <div class="bobo-comment">
+            金絲熊個頭最大了，他總是霸佔著客廳最舒服的角落整理毛髮。
+          </div>
+        </div>
+      </article>
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/RCJVRH3P/lao-gong-gong-cang-shu-zai-chu-fang.png" alt="老公公倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">老公公倉鼠</h2>
+            <span class="location-badge">🍳 廚房</span>
+          </div>
+          <div class="bobo-comment">
+            噓——老公公倉鼠膽子很小，正在廚房偷偷找掉落的麵包屑呢。
+          </div>
+          
+          <input type="checkbox" id="toggle-2" class="toggle-checkbox">
+          <label for="toggle-2" class="toggle-label">🔍 悄悄靠近</label>
+          <div class="details-panel">
+            <p class="detail-text">老公公倉鼠跑得飛快，眉毛白白的很像老爺爺，是家園裡動作最敏捷的廚房探險家。</p>
+          </div>
+        </div>
+      </article>
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/TY82H3mB/zhang-mao-cang-shu.png" alt="三線倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">三線倉鼠</h2>
+            <span class="location-badge">🛏️ 睡房</span>
+          </div>
+          <div class="bobo-comment">
+            三線倉鼠已經在睡房鋪好床了，背上的三條線在被窩裡若隱若現。
+          </div>
+        </div>
+      </article>
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/FstFnH3r/pu-tong-cang-shu-zai-wo-shi.png" alt="短毛倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">短毛倉鼠</h2>
+            <span class="location-badge">🛏️ 臥室</span>
+          </div>
+          <div class="bobo-comment">
+            短毛倉鼠喜歡簡單的生活，正在臥室的窗台上曬太陽，看起來好愜意。
+          </div>
+        </div>
+      </article>
+
+      
+      <article class="card">
+        <div class="card-image-wrapper">
+          <img src="https://i.postimg.cc/Gh03SmGb/zhang-mao-shu.png" alt="長毛倉鼠" class="card-image">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h2 class="hamster-name">長毛倉鼠</h2>
+            <span class="location-badge">🏔️ 山洞</span>
+          </div>
+          <div class="bobo-comment">
+            哇！長毛倉鼠躲在神秘的山洞裡，他的長毛像獅子一樣威風！
+          </div>
+          
+          <input type="checkbox" id="toggle-3" class="toggle-checkbox">
+          <label for="toggle-3" class="toggle-label">🔍 探險山洞</label>
+          <div class="details-panel">
+            <p class="detail-text">雖然長毛倉鼠看起來很狂野，但其實很愛乾淨，每天都要花好多時間梳理那一身漂亮的長毛。</p>
+          </div>
+        </div>
+      </article>
+
+    </main>
+
+    <footer style="text-align: center; margin-top: 3rem; color: #8D6E63; font-size: 0.9rem">
+      <p>🐹 Hamster World • 跟隨波波一起探索</p>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>

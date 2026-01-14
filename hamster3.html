@@ -1,0 +1,469 @@
+<html>
+<head>
+<style>
+.hamster-wiki {
+  --bg-color: #fff8f8;
+  --card-bg: #ffffff;
+  --primary: #ffab91;
+  --primary-dark: #ff8a65;
+  --text-main: #5d4037;
+  --text-light: #8d6e63;
+  --border-color: #ffccbc;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  background-image: radial-gradient(#ffede0 15%, transparent 16%), radial-gradient(#ffede0 15%, transparent 16%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  padding: 2rem 1rem;
+  line-height: 1.5;
+}
+
+.hamster-wiki .container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+.hamster-wiki .header-badge {
+  display: inline-block;
+  background: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  box-shadow: 0 4px 6px -1px rgba(255, 171, 145, 0.3);
+  border: 2px solid var(--primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.hamster-wiki h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Grid */
+.hamster-wiki .grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .hamster-wiki .grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Card */
+.hamster-wiki .card {
+  background: var(--card-bg);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+  border: 4px solid white;
+  outline: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.hamster-wiki .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(255, 171, 145, 0.25);
+}
+
+.hamster-wiki .card-header {
+  padding: 1.25rem;
+  text-align: center;
+  background: linear-gradient(to bottom, #fff, #fffbfb);
+}
+
+.hamster-wiki .breed-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.hamster-wiki .main-img-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  padding: 4px;
+  background: white;
+  overflow: hidden;
+}
+
+.hamster-wiki .main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.hamster-wiki .tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  background: var(--primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  margin-top: -1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Toggle Logic */
+.hamster-wiki input[type="checkbox"] {
+  display: none;
+}
+
+.hamster-wiki .expandable-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  background: #fffbfb;
+}
+
+.hamster-wiki input:checked ~ .expandable-content {
+  max-height: 2000px;
+  opacity: 1;
+  padding-bottom: 1.5rem;
+}
+
+.hamster-wiki .variant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  padding: 0 1.25rem;
+  margin-top: 1rem;
+}
+
+.hamster-wiki .variant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.hamster-wiki .variant-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.hamster-wiki .variant-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* Button */
+.hamster-wiki .toggle-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: #fff;
+  color: var(--primary);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  border-top: 1px dashed var(--border-color);
+  transition: background 0.2s;
+  margin-top: auto;
+}
+
+.hamster-wiki .toggle-btn:hover {
+  background: #fff5f0;
+}
+
+.hamster-wiki .toggle-btn span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.hamster-wiki .icon-paw {
+  width: 1.2em;
+  height: 1.2em;
+  fill: currentColor;
+}
+
+.hamster-wiki input:checked ~ .toggle-btn .text-show { display: none; }
+.hamster-wiki input:not(:checked) ~ .toggle-btn .text-hide { display: none; }
+</style>
+<meta name="cg-name" content="倉鼠品種大圖鑑" />
+<meta name="cg-command-name" content="倉鼠品種大圖鑑" />
+<meta name="cg-color" content="#FDC359" />
+<meta name="cg-icon" content="Cat" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.hamster-wiki {--bg-color: #fff8f8; --card-bg: #fff; --primary: #ffab91; --primary-dark: #ff8a65; --text-main: #5d4037; --text-light: #8d6e63; --border-color: #ffccbc; font-family: "Nunito", "Segoe UI", system-ui, sans-serif; color: var(--text-main); background-color: var(--bg-color); background-image: radial-gradient(#ffede0 15%, transparent 16%), radial-gradient(#ffede0 15%, transparent 16%); background-size: 20px 20px; background-position: 0 0, 10px 10px; padding: 2rem 1rem; line-height: 1.5;}
+.hamster-wiki .container {max-width: 1000px; margin: 0 auto;}
+.hamster-wiki .header-badge {display: inline-block; background: white; padding: 0.5rem 1.5rem; border-radius: 999px; box-shadow: 0 4px 6px -1px rgba(255, 171, 145, 0.3); border: 2px solid var(--primary); margin-bottom: 2rem; text-align: center;}
+.hamster-wiki h1 {font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem;}
+.hamster-wiki .grid-layout {display: grid; grid-template-columns: 1fr; gap: 2rem;}
+@media (min-width: 768px) {
+  .hamster-wiki .grid-layout {grid-template-columns: repeat(2, 1fr);}
+}
+.hamster-wiki .card {background: var(--card-bg); border-radius: 1.5rem; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025); border: 4px solid white; outline: 1px solid var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; display: flex; flex-direction: column;}
+.hamster-wiki .card:hover {transform: translatey(-4px); box-shadow: 0 20px 25px -5px rgba(255, 171, 145, 0.25);}
+.hamster-wiki .card-header {padding: 1.25rem; text-align: center; background: linear-gradient(to bottom, #fff, #fffbfb);}
+.hamster-wiki .breed-title {font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;}
+.hamster-wiki .main-img-wrapper {position: relative; width: 160px; height: 160px; margin: 0 auto 1rem; border-radius: 50%; border: 4px solid var(--primary); padding: 4px; background: white; overflow: hidden;}
+.hamster-wiki .main-img {width: 100%; height: 100%; object-fit: cover; border-radius: 50%;}
+.hamster-wiki .tag {display: inline-block; font-size: 0.75rem; font-weight: 600; color: white; background: var(--primary); padding: 0.25rem 0.75rem; border-radius: 99px; margin-top: -1rem; position: relative; z-index: 2;}
+.hamster-wiki input[type="checkbox"] {display: none;}
+.hamster-wiki .expandable-content {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; background: #fffbfb;}
+.hamster-wiki input:checked ~ .expandable-content {max-height: 2000px; opacity: 1; padding-bottom: 1.5rem;}
+.hamster-wiki .variant-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 0 1.25rem; margin-top: 1rem;}
+.hamster-wiki .variant-item {display: flex; flex-direction: column; align-items: center; background: white; border-radius: 1rem; padding: 0.5rem; border: 1px solid var(--border-color);}
+.hamster-wiki .variant-img {width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.75rem; margin-bottom: 0.5rem;}
+.hamster-wiki .variant-name {font-size: 0.8rem; font-weight: 600; color: var(--text-light); text-align: center;}
+.hamster-wiki .toggle-btn {display: block; width: 100%; padding: 1rem; background: #fff; color: var(--primary); font-weight: 700; text-align: center; cursor: pointer; border-top: 1px dashed var(--border-color); transition: background 0.2s; margin-top: auto;}
+.hamster-wiki .toggle-btn:hover {background: #fff5f0;}
+.hamster-wiki .toggle-btn span {display: flex; align-items: center; justify-content: center; gap: 0.5rem;}
+.hamster-wiki .icon-paw {width: 1.2em; height: 1.2em;}
+.hamster-wiki input:checked ~ .toggle-btn .text-show {display: none;}
+.hamster-wiki input:not(:checked) ~ .toggle-btn .text-hide {display: none;}
+</style>
+
+<div class="hamster-wiki">
+  <div class="container">
+    <div class="flex justify-center">
+      <div class="header-badge">
+        <h1>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"></path></svg>
+          倉鼠品種大圖鑑
+        </h1>
+      </div>
+    </div>
+    
+    <p class="text-center mb-8 text-sm">歡迎！點擊下方按鈕探索更多可愛毛色 ✨</p>
+
+    <div class="grid-layout">
+
+      
+      <div class="card">
+        <input type="checkbox" id="ham-1" class="peer">
+        <div class="card-header">
+          <div class="main-img-wrapper">
+            <img src="https://i.postimg.cc/Y0HHQJzV/4D0FEF04_4ab2be03_5f73_45d5_acb9_1fdab338f319.png" alt="三線倉鼠" class="main-img">
+          </div>
+          <span class="tag">原色</span>
+          <h2 class="breed-title mt-4">三線倉鼠 (加卡利亞)</h2>
+        </div>
+        
+        <div class="expandable-content">
+          <div class="variant-grid">
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/gJzHm6YV/san-xian-(nai-you-se).jpg" alt="奶油色" class="variant-img">
+              <span class="variant-name">奶油色 (布丁)</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/pTWJRn2B/san-xian-(qiao-ke-li-se).jpg" alt="巧克力色" class="variant-img">
+              <span class="variant-name">巧克力色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/pTWJRn2K/san-xian-(bai-se).jpg" alt="白色" class="variant-img">
+              <span class="variant-name">白色 (銀狐)</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/FRTgRsRL/san-xian-(hui).png" alt="灰色" class="variant-img">
+              <span class="variant-name">深灰色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/tTBtTCT6/san-xian-(hu-ban-se).jpg" alt="虎斑色" class="variant-img">
+              <span class="variant-name">虎斑色</span>
+            </div>
+          </div>
+        </div>
+
+        <label for="ham-1" class="toggle-btn">
+          <span class="text-show">查看更多毛色 ▼</span>
+          <span class="text-hide">收起 ▲</span>
+        </label>
+      </div>
+
+      
+      <div class="card">
+        <input type="checkbox" id="ham-2" class="peer">
+        <div class="card-header">
+          <div class="main-img-wrapper">
+            <img src="https://i.postimg.cc/mkss70yK/94799F73_05101e5a_5f9a_4c73_b453_8b5564dee301.png" alt="一線倉鼠" class="main-img">
+          </div>
+          <span class="tag">原色</span>
+          <h2 class="breed-title mt-4">一線倉鼠 (坎貝爾)</h2>
+        </div>
+        
+        <div class="expandable-content">
+          <div class="variant-grid">
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/YSbmNDHH/yi-xian-(bai-se).jpg" alt="白色" class="variant-img">
+              <span class="variant-name">白色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/R0Xn1pBz/yi-xian-(hui-se).jpg" alt="灰色" class="variant-img">
+              <span class="variant-name">灰色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/xdtbGp2Q/yi-xian-(yun-shi-se).jpg" alt="雲石色" class="variant-img">
+              <span class="variant-name">雲石色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/6QYGVbX2/yi-xian-(huang).png" alt="黃色" class="variant-img">
+              <span class="variant-name">黃色</span>
+            </div>
+          </div>
+        </div>
+
+        <label for="ham-2" class="toggle-btn">
+          <span class="text-show">查看更多毛色 ▼</span>
+          <span class="text-hide">收起 ▲</span>
+        </label>
+      </div>
+
+      
+      <div class="card">
+        <input type="checkbox" id="ham-3" class="peer">
+        <div class="card-header">
+          <div class="main-img-wrapper">
+            <img src="https://i.postimg.cc/4yQTPBWF/A50E0D39_80011262_dcc2_49e5_808b_f36f74ac978a.png" alt="長毛倉鼠" class="main-img">
+          </div>
+          <span class="tag">原色</span>
+          <h2 class="breed-title mt-4">長毛倉鼠 (三線類)</h2>
+        </div>
+        
+        <div class="expandable-content">
+          <div class="variant-grid">
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/m2L399MS/zhang-mao-shu-(jin-huang-se).jpg" alt="金黃色" class="variant-img">
+              <span class="variant-name">金黃色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/9FmP99TT/zhang-mao-shu-(mi-se).jpg" alt="奶油/米色" class="variant-img">
+              <span class="variant-name">奶油/米色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/TYdjbbmq/zhang-mao-shu-(qiao-ke-li-se).jpg" alt="巧克力色" class="variant-img">
+              <span class="variant-name">巧克力色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/zXzwhhWw/zhang-mao-shu-(rou-gui-se).jpg" alt="肉桂色" class="variant-img">
+              <span class="variant-name">肉桂色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/TYdjbbgM/zhang-mao-shu-(xiong-mao-se).jpg" alt="熊貓色" class="variant-img">
+              <span class="variant-name">熊貓色</span>
+            </div>
+          </div>
+        </div>
+
+        <label for="ham-3" class="toggle-btn">
+          <span class="text-show">查看更多毛色 ▼</span>
+          <span class="text-hide">收起 ▲</span>
+        </label>
+      </div>
+
+      
+      <div class="card">
+        <input type="checkbox" id="ham-4" class="peer">
+        <div class="card-header">
+          <div class="main-img-wrapper">
+            <img src="https://i.postimg.cc/fRgVJtjV/(xiong-zi-shu).jpg" alt="金絲熊" class="main-img">
+          </div>
+          <span class="tag">原色</span>
+          <h2 class="breed-title mt-4">金絲熊 (敘利亞)</h2>
+        </div>
+        
+        <div class="expandable-content">
+          <div class="variant-grid">
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/qMJqwX1G/(xiong-zi-shu)2.jpg" alt="原色" class="variant-img">
+              <span class="variant-name">原色(深)</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/wTqM2cw2/xiong-zi-shu-(mi-se).jpg" alt="米色" class="variant-img">
+              <span class="variant-name">米色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/jdx2cQMX/xiong-zi-shu-(rou-gui-se).jpg" alt="肉桂色" class="variant-img">
+              <span class="variant-name">肉桂色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/c4xChMFT/xiong-zi-shu-(dai-mao-se).jpg" alt="玳瑁色" class="variant-img">
+              <span class="variant-name">玳瑁色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/MK9TFML1/xiong-zi-shu-(yin-hui-se).jpg" alt="銀灰色" class="variant-img">
+              <span class="variant-name">銀灰色</span>
+            </div>
+          </div>
+        </div>
+
+        <label for="ham-4" class="toggle-btn">
+          <span class="text-show">查看更多毛色 ▼</span>
+          <span class="text-hide">收起 ▲</span>
+        </label>
+      </div>
+
+      
+      <div class="card">
+        <input type="checkbox" id="ham-5" class="peer">
+        <div class="card-header">
+          <div class="main-img-wrapper">
+            <img src="https://i.postimg.cc/qqTT29x9/369FE58A_2417bf4f_0f3a_41a8_9f7b_f015ff0f8930.png" alt="老公公鼠" class="main-img">
+          </div>
+          <span class="tag">原色</span>
+          <h2 class="breed-title mt-4">老公公鼠 (羅伯羅夫斯基)</h2>
+        </div>
+        
+        <div class="expandable-content">
+          <div class="variant-grid">
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/sXzsXs8S/lao-gong-gong-(bai-se).jpg" alt="白色" class="variant-img">
+              <span class="variant-name">白色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/MTwqTq4Q/lao-gong-gong-(yun-shi-se).jpg" alt="雲石色" class="variant-img">
+              <span class="variant-name">雲石色</span>
+            </div>
+            <div class="variant-item">
+              <img src="https://i.postimg.cc/Jn8MnMgB/lao-gong-gong-(hei-se).jpg" alt="黑色" class="variant-img">
+              <span class="variant-name">黑色</span>
+            </div>
+          </div>
+        </div>
+
+        <label for="ham-5" class="toggle-btn">
+          <span class="text-show">查看更多毛色 ▼</span>
+          <span class="text-hide">收起 ▲</span>
+        </label>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
