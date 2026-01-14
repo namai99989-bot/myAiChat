@@ -1,0 +1,305 @@
+<html>
+<head>
+<style>
+/* 全局樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", 微軟正黑體, sans-serif;
+}
+
+body {
+    background: linear-gradient(120deg, #f8f0ff 0%, #e9d8fd 50%, #d6bcfa 100%);
+    color: #4a148c; /* 深紫色文字，與淺紫背景形成強對比 */
+    line-height: 1.6;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 頂部橫幅 */
+.banner {
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.2);
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 表格區域 */
+.form-section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 6px 15px rgba(124, 77, 255, 0.15);
+    position: relative; /* 用於推薦人定位 */
+}
+
+.form-title {
+    font-size: 24px;
+    color: #7b1fa2;
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ce93d8;
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.table-header {
+    background: #ba68c8;
+    color: #ffffff; /* 白色文字，與深紫背景對比強烈 */
+    padding: 12px;
+    font-size: 18px;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+}
+
+.label-cell {
+    width: 20%;
+    padding: 12px 15px;
+    background: #f3e5f5;
+    font-weight: bold;
+    border: 1px solid #e1bee7;
+    vertical-align: top;
+}
+
+.content-cell {
+    padding: 12px 15px;
+    border: 1px solid #e1bee7;
+    font-size: 15px;
+}
+
+.text-area {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ce93d8;
+    border-radius: 6px;
+    padding: 10px;
+    background: #faf6ff;
+    color: #4a148c;
+    resize: none;
+    font-size: 14px;
+}
+
+/* 推薦人標註 */
+.recommender {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 14px;
+    color: #8e24aa;
+    font-style: italic;
+}
+
+/* 社長介紹區域 */
+.president-section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(124, 77, 255, 0.15);
+}
+
+.president-title {
+    font-size: 22px;
+    color: #7b1fa2;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ce93d8;
+}
+
+.president-card {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.president-img {
+    flex: 0 0 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(124, 77, 255, 0.2);
+}
+
+.president-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.president-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.info-text {
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.info-subtitle {
+    font-size: 17px;
+    font-weight: bold;
+    color: #8e24aa;
+    margin: 10px 0 5px;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .form-section {
+        padding: 20px;
+    }
+    
+    .president-card {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .president-img {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    
+    .label-cell {
+        width: 25%;
+    }
+}
+</style>
+<meta name="cg-name" content="文學社申請表" />
+<meta name="cg-command-name" content="文學社申請表" />
+<meta name="cg-color" content="#D1BEFF" />
+<meta name="cg-icon" content="RectangleVertical" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文學社課外活動申請表格</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 頂部橫幅圖片 -->
+        <div class="banner">
+            <img src="https://i.postimg.cc/XvvJWk0C/from_Pix_AI_1960012533018487782.webp" alt="文學社橫幅">
+        </div>
+
+        <!-- 申請表格區域 -->
+        <div class="form-section">
+            <h2 class="form-title">校文學社課外活動申請表格</h2>
+            <table class="application-table">
+                <thead>
+                    <tr>
+                        <th class="table-header" colspan="2">基本資訊</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="label-cell">申請人姓名</td>
+                        <td class="content-cell">________________________</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">性別</td>
+                        <td class="content-cell">□ 男 □ 女 □ 其他</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">年級/班級</td>
+                        <td class="content-cell">____年____班</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">專業</td>
+                        <td class="content-cell">________________________</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">聯繫方式</td>
+                        <td class="content-cell">手機：________________ Email：________________</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header" colspan="2">申請資訊</th>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">申請社團</td>
+                        <td class="content-cell">校文學社</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">申請職位</td>
+                        <td class="content-cell">□ 普通社員 □ 幹事 □ 部長助理 □ 其他：________</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">申請動機</td>
+                        <td class="content-cell">
+                            <textarea readonly class="text-area" placeholder="請簡述申請加入文學社的原因（不少於100字）"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">相關經歷</td>
+                        <td class="content-cell">
+                            <textarea readonly class="text-area" placeholder="文學相關獲獎、寫作、策劃等經歷"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">可參與活動時間</td>
+                        <td class="content-cell">
+                            □ 週一 □ 週二 □ 週三 □ 週四 □ 週五 □ 週六 □ 週日<br>
+                            可參與時段：□ 上午 □ 下午 □ 晚上
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">自薦優勢</td>
+                        <td class="content-cell">
+                            <textarea readonly class="text-area" placeholder="請說明自身加入文學社的優勢"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">是否同意遵守社團規章</td>
+                        <td class="content-cell">□ 同意 □ 不同意</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- 推薦人標註 -->
+            <div class="recommender">推薦人:夏知許</div>
+        </div>
+
+        <!-- 社長人物介紹 -->
+        <div class="president-section">
+            <h2 class="president-title">社長介紹</h2>
+            <div class="president-card">
+                <div class="president-img">
+                    <img src="https://i.postimg.cc/gJX2XcjW/from_Pix_AI_1960013175333092453.png" alt="文學社社長"> 
+                </div>
+                <div class="president-info">
+                    <p class="info-text">考上本地高校的漢語言文學專業，毫不猶豫地加入了校文學社，憑藉溫柔的性格和豐富的 “理論知識” 成為幹事；原本只是想好好開展社團活動，直到遇到{user}，才第一次體會到心動的感覺，開始笨拙地學習如何表達喜歡，把從文學作品裡學到的浪漫，一點點用在{user}身上。</p>
+                    <p class="info-subtitle">小遺憾：</p>
+                    <p class="info-text">高中時因為害羞，沒敢把自己寫的詩分享給同學；大學剛開始，第一次寫情書給{user}時，因為太緊張，把信紙折壞了，只能重新寫一遍。</p>
+                    <p class="info-subtitle">小成就：</p>
+                    <p class="info-text">策劃的文學社 「詩句盲盒」 活動受到大家的一致好評；成功邀請{user}加入文學社，並且和{user}慢慢熟悉起來；第一次給{user}讀詩時，雖然緊張但沒有讀錯，還得到了{user}的認可。</p>
+{latest_character_message}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+</body>
+</html>
