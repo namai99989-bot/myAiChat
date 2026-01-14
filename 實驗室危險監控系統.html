@@ -1,0 +1,41 @@
+<html>
+<head>
+<style>
+.lab-status-template { --danger-red: #ff3e3e; --bg-dark: #0a0a0c; --glass-border: rgba(255, 62, 62, 0.2); --accent-glow: rgba(255, 62, 62, 0.1); font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: #e0e0e0; padding: 1.5rem; line-height: 1.6; } .lab-status-template .status-container { max-width: 600px; margin: 0 auto; border: 1px solid var(--glass-border); background: linear-gradient(145deg, #121216, #0a0a0c); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); } .lab-status-template .header-panel { background: linear-gradient(to right, #201010, #0a0a0c); padding: 1.5rem; border-bottom: 2px solid var(--danger-red); position: relative; } .lab-status-template .header-title { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.1em; color: var(--danger-red); text-transform: uppercase; display: flex; align-items: center; gap: 0.75rem; } .lab-status-template .header-subtitle { font-size: 0.75rem; color: #888; margin-top: 0.25rem; } .lab-status-template .scroll-area { max-height: 500px; overflow-y: auto; padding: 1rem; scrollbar-width: thin; scrollbar-color: var(--danger-red) transparent; } .lab-status-template .status-item { position: relative; padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-left: 3px solid transparent; background: rgba(255, 255, 255, 0.02); transition: all 0.3s ease; display: flex; flex-direction: column; } .lab-status-template .status-item:hover { background: rgba(255, 62, 62, 0.05); border-left-color: var(--danger-red); } .lab-status-template .value-badge { font-family: 'Courier New', monospace; font-weight: bold; font-size: 0.85rem; color: var(--danger-red); background: rgba(255, 62, 62, 0.1); padding: 2px 6px; border-radius: 4px; width: fit-content; margin-bottom: 0.25rem; } .lab-status-template .desc-text { font-size: 0.95rem; color: #ccc; } .lab-status-template .current-marker { border-left-color: var(--danger-red); background: rgba(255, 62, 62, 0.08); } .lab-status-template .footer-note { padding: 1rem; font-size: 0.75rem; color: #666; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); } .lab-status-template .warning-pulse { display: inline-block; width: 8px; height: 8px; background-color: var(--danger-red); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px var(--danger-red); animation: pulse 2s infinite; } @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+</style>
+<meta name="cg-name" content="危險的的狀態" />
+<meta name="cg-command-name" content="危險的的狀態" />
+<meta name="cg-color" content="#FF0000" />
+<meta name="cg-icon" content="DraftingCompass" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.lab-status-template {--danger-red: #ff3e3e; --bg-dark: #0a0a0c; --glass-border: rgba(255, 62, 62, 0.2); --accent-glow: rgba(255, 62, 62, 0.1); font-family: "Inter", system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: #e0e0e0; padding: 1.5rem; line-height: 1.6;}
+.lab-status-template .status-container {max-width: 600px; margin: 0 auto; border: 1px solid var(--glass-border); background: linear-gradient(145deg, #121216, #0a0a0c); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);}
+.lab-status-template .header-panel {background: linear-gradient(to right, #201010, #0a0a0c); padding: 1.5rem; border-bottom: 2px solid var(--danger-red); position: relative;}
+.lab-status-template .header-title {font-size: 1.25rem; font-weight: 800; letter-spacing: 0.1em; color: var(--danger-red); text-transform: uppercase; display: flex; align-items: center; gap: 0.75rem;}
+.lab-status-template .header-subtitle {font-size: 0.75rem; color: #888; margin-top: 0.25rem;}
+.lab-status-template .scroll-area {max-height: 500px; overflow-y: auto; padding: 1rem;}
+.lab-status-template .status-item {position: relative; padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-left: 3px solid transparent; background: rgba(255, 255, 255, 0.02); transition: all 0.3s ease; display: flex; flex-direction: column;}
+.lab-status-template .status-item:hover {background: rgba(255, 62, 62, 0.05); border-left-color: var(--danger-red);}
+.lab-status-template .value-badge {font-family: "Courier New", monospace; font-weight: bold; font-size: 0.85rem; color: var(--danger-red); background: rgba(255, 62, 62, 0.1); padding: 2px 6px; border-radius: 4px; width: fit-content; margin-bottom: 0.25rem;}
+.lab-status-template .desc-text {font-size: 0.95rem; color: #ccc;}
+.lab-status-template .current-marker {border-left-color: var(--danger-red); background: rgba(255, 62, 62, 0.08);}
+.lab-status-template .footer-note {padding: 1rem; font-size: 0.75rem; color: #666; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05);}
+.lab-status-template .warning-pulse {display: inline-block; width: 8px; height: 8px; background-color: var(--danger-red); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px var(--danger-red); animation: pulse 2s infinite;}
+@keyframes pulse {
+  0% {opacity: 1; transform: scale(1);}
+  50% {opacity: 0.4; transform: scale(1.2);}
+  100% {opacity: 1; transform: scale(1);}
+}
+</style>
+
+<div class="lab-status-template"><div class="status-container"><div class="header-panel"><div class="header-title"><span class="warning-pulse"></span>實驗室危險監控系統</div><div class="header-subtitle">實驗體編號：A-107 | 權限等級：受限</div></div><div class="scroll-area"><div class="status-item"><span class="value-badge">危險值：0</span><span class="desc-text">教導主任不認識你</span></div><div class="status-item"><span class="value-badge">危險值：100</span><span class="desc-text">教導主任才知道你的名字</span></div><div class="status-item"><span class="value-badge">危險值：200</span><span class="desc-text">教導主任開始要求你每週進行一次「深度連結實驗」</span></div><div class="status-item"><span class="value-badge">危險值：300</span><span class="desc-text">教導主任在實驗中刻意延長🐍抽插時間。</span></div><div class="status-item"><span class="value-badge" 危險值：400<="" span=""><span class="desc-text">實驗後會強制檢查你🍑敏感度</span></span></div><div class="status-item"><span class="value-badge">危險值：500</span><span class="desc-text">在你實驗台加裝了針對🍑的震動探針</span></div><div class="status-item"><span class="value-badge">危險值：1000</span><span class="desc-text">開始要求主角穿著特別色感的服裝進行實驗。。每週實驗次數增加至七次，包含凌晨敏感時段</span></div><div class="status-item"><span class="value-badge">危險值：2000</span><span class="desc-text">教導主任將你的呻_吟聲設為私人鈴聲</span></div><div class="status-item"><span class="value-badge">危險值：3000</span><span class="desc-text">強制錄製你高💥失🚽禁的實驗紀錄
+</span></div><div class="status-item"><span class="value-badge">危險值：4000</span><span class="desc-text">在無麻醉狀態下進行🍑頸擴張實驗</span></div><div class="status-item"><span class="value-badge">危險值：5000</span><span class="desc-text">教導主任將潤滑液換成帶有催❤️成分的黏液</span></div><div class="status-item"><span class="value-badge">危險值：6666</span><span class="desc-text">每日🐍進入時長超過十四小時，禁止🚽
+</span></div><div class="status-item"><span class="value-badge">危險值：7777</span><span class="desc-text">開始在你🍑內植入遠端控制高💥裝置
+</span></div><div class="status-item"><span class="value-badge">危險值：8888</span><span class="desc-text">實驗數據與教導主任的⚧️慾指數同步連結
+</span></div><div class="status-item"><span class="value-badge">危險值：9999</span><span class="desc-text">你被宣告為「永久實驗體」，🍑頸烙上專屬紋章
+</span></div></div><div class="footer-note"><p class="mb-2">⚠️ 警告：危險值根據被教導主任捕捉實驗的次數累積遞增。</p><p>當前初始狀態：-9999 | 實驗進程：進行中</p></div></div></div>
+</body>
+</html>

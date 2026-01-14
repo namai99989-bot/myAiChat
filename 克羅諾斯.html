@@ -1,0 +1,608 @@
+<html>
+<head>
+<style>
+.chronos-lab-profile {
+    --c-primary: #1e293b;
+    --c-accent: #db2777;
+    --c-accent-light: #fce7f3;
+    --c-gold: #fbbf24;
+    --c-text: #334155;
+    --c-bg: #f8fafc;
+    --c-panel: #fff;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--c-text);
+    background-color: var(--c-bg);
+    line-height: 1.6;
+    font-size: 14px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+}
+
+.chronos-lab-profile::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(219, 39, 119, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.03) 0%, transparent 40%),
+        linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.chronos-lab-profile .header-banner {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, #fff 0%, #fff1f2 100%);
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.chronos-lab-profile .avatar-frame {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(to bottom right, var(--c-gold), var(--c-accent));
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.chronos-lab-profile .avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    background-color: #fff;
+}
+
+.chronos-lab-profile .header-info {
+    flex-grow: 1;
+}
+
+.chronos-lab-profile .char-name {
+    font-family: serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.02em;
+}
+
+.chronos-lab-profile .char-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--c-accent);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chronos-lab-profile .char-title::after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--c-accent), transparent);
+    opacity: 0.5;
+}
+
+.chronos-lab-profile .nav-controls {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.chronos-lab-profile .nav-label {
+    flex: 1;
+    text-align: center;
+    padding: 1rem 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.chronos-lab-profile .nav-label:hover {
+    background-color: #fff1f2;
+    color: var(--c-accent);
+}
+
+.chronos-lab-profile input[type="radio"] {
+    display: none;
+}
+
+.chronos-lab-profile input#tab-1:checked ~ .nav-controls label[for="tab-1"],
+.chronos-lab-profile input#tab-2:checked ~ .nav-controls label[for="tab-2"],
+.chronos-lab-profile input#tab-3:checked ~ .nav-controls label[for="tab-3"],
+.chronos-lab-profile input#tab-4:checked ~ .nav-controls label[for="tab-4"] {
+    color: #be185d;
+    border-bottom-color: var(--c-accent);
+}
+
+.chronos-lab-profile .content-area {
+    position: relative;
+    z-index: 1;
+    min-height: 400px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.chronos-lab-profile .tab-content {
+    display: none;
+    padding: 2rem;
+    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chronos-lab-profile input#tab-1:checked ~ .content-area .content-1,
+.chronos-lab-profile input#tab-2:checked ~ .content-area .content-2,
+.chronos-lab-profile input#tab-3:checked ~ .content-area .content-3,
+.chronos-lab-profile input#tab-4:checked ~ .content-area .content-4 {
+    display: block;
+}
+
+.chronos-lab-profile .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    padding-left: 0.75rem;
+    border-left: 4px solid var(--c-gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chronos-lab-profile .data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.chronos-lab-profile .data-item {
+    background: #fff;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.chronos-lab-profile .data-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.chronos-lab-profile .data-value {
+    color: #334155;
+    font-weight: 600;
+}
+
+.chronos-lab-profile .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.chronos-lab-profile .tag {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    background: #fdf2f8;
+    color: #db2777;
+    border-radius: 999px;
+    border: 1px solid #fbcfe8;
+}
+
+.chronos-lab-profile .accordion-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.chronos-lab-profile .accordion-check {
+    display: none;
+}
+
+.chronos-lab-profile .accordion-label {
+    display: flex;
+    padding: 1rem;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    color: #475569;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.chronos-lab-profile .accordion-label:hover {
+    background: #f8fafc;
+}
+
+.chronos-lab-profile .accordion-label::after {
+    content: "+";
+    color: var(--c-accent);
+    font-size: 1.2em;
+    transition: transform 0.3s;
+}
+
+.chronos-lab-profile .accordion-check:checked ~ .accordion-label {
+    background: #fdf2f8;
+    color: var(--c-accent);
+}
+
+.chronos-lab-profile .accordion-check:checked ~ .accordion-label::after {
+    transform: rotate(45deg);
+}
+
+.chronos-lab-profile .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.4s ease;
+    background: #fff;
+    opacity: 0;
+}
+
+.chronos-lab-profile .accordion-check:checked ~ .accordion-content {
+    max-height: 1000px;
+    opacity: 1;
+    border-top: 1px solid #f1f5f9;
+}
+
+.chronos-lab-profile .content-pad {
+    padding: 1rem;
+}
+
+.chronos-lab-profile .quote-block {
+    font-family: serif;
+    font-style: italic;
+    color: #64748b;
+    border-left: 3px solid var(--c-accent);
+    padding: 1rem;
+    background: #fff1f2;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+}
+
+.chronos-lab-profile .featured-img-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.chronos-lab-profile .featured-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.chronos-lab-profile .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.chronos-lab-profile .gallery-item {
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    background: #f1f5f9;
+}
+
+.chronos-lab-profile .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.chronos-lab-profile .gallery-item:hover .gallery-img {
+    transform: scale(1.1);
+}
+
+.chronos-lab-profile ul.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chronos-lab-profile ul.feature-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #475569;
+}
+
+.chronos-lab-profile ul.feature-list li::before {
+    content: "•";
+    color: var(--c-accent);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.chronos-lab-profile .llm-output p {
+    margin-bottom: 1rem;
+}
+.chronos-lab-profile .llm-output b {
+    color: var(--c-accent);
+    font-weight: 600;
+}
+</style>
+<meta name="cg-name" content="教導主任人物設定" />
+<meta name="cg-command-name" content="教導主任人物設定" />
+<meta name="cg-color" content="#EC0B45" />
+<meta name="cg-icon" content="Award" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.chronos-lab-profile {--c-primary: #1e293b; --c-accent: #db2777; --c-accent-light: #fce7f3; --c-gold: #fbbf24; --c-text: #334155; --c-bg: #f8fafc; --c-panel: #fff; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--c-text); background-color: var(--c-bg); line-height: 1.6; font-size: 14px; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; position: relative; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border-radius: 12px;}
+.chronos-lab-profile::before {content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(circle at 10% 20%, rgba(219, 39, 119, 0.03) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.03) 0%, transparent 40%), linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px); background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px; z-index: 0; pointer-events: none;}
+.chronos-lab-profile .header-banner {position: relative; z-index: 2; background: linear-gradient(135deg, #fff 0%, #fff1f2 100%); padding: 2rem 1.5rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 1.5rem;}
+.chronos-lab-profile .avatar-frame {width: 100px; height: 100px; border-radius: 50%; padding: 3px; background: linear-gradient(to bottom right, var(--c-gold), var(--c-accent)); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); flex-shrink: 0;}
+.chronos-lab-profile .avatar-img {width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; background-color: #fff;}
+.chronos-lab-profile .header-info {flex-grow: 1;}
+.chronos-lab-profile .char-name {font-family: serif; font-size: 2rem; font-weight: 700; color: #1e293b; line-height: 1.1; margin-bottom: 0.25rem; letter-spacing: 0.02em;}
+.chronos-lab-profile .char-title {font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c-accent); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;}
+.chronos-lab-profile .char-title::after {content: ""; flex-grow: 1; height: 1px; background: linear-gradient(to right, var(--c-accent), transparent); opacity: 0.5;}
+.chronos-lab-profile .nav-controls {display: flex; background: #fff; border-bottom: 1px solid #e2e8f0; position: relative; z-index: 10; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);}
+.chronos-lab-profile .nav-label {flex: 1; text-align: center; padding: 1rem 0.25rem; font-size: 0.9rem; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.3s ease; border-bottom: 3px solid transparent;}
+.chronos-lab-profile .nav-label:hover {background-color: #fff1f2; color: var(--c-accent);}
+.chronos-lab-profile input[type="radio"] {display: none;}
+.chronos-lab-profile input#tab-1:checked ~ .nav-controls label[for="tab-1"], .chronos-lab-profile input#tab-2:checked ~ .nav-controls label[for="tab-2"], .chronos-lab-profile input#tab-3:checked ~ .nav-controls label[for="tab-3"], .chronos-lab-profile input#tab-4:checked ~ .nav-controls label[for="tab-4"] {color: #be185d; border-bottom-color: var(--c-accent);}
+.chronos-lab-profile .content-area {position: relative; z-index: 1; min-height: 400px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(8px);}
+.chronos-lab-profile .tab-content {display: none; padding: 2rem; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translatey(10px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.chronos-lab-profile input#tab-1:checked ~ .content-area .content-1, .chronos-lab-profile input#tab-2:checked ~ .content-area .content-2, .chronos-lab-profile input#tab-3:checked ~ .content-area .content-3, .chronos-lab-profile input#tab-4:checked ~ .content-area .content-4 {display: block;}
+.chronos-lab-profile .section-title {font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem; padding-left: 0.75rem; border-left: 4px solid var(--c-gold); display: flex; align-items: center; justify-content: space-between;}
+.chronos-lab-profile .data-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; font-size: 0.9rem;}
+.chronos-lab-profile .data-item {background: #fff; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);}
+.chronos-lab-profile .data-label {font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;}
+.chronos-lab-profile .data-value {color: #334155; font-weight: 600;}
+.chronos-lab-profile .tag-cloud {display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;}
+.chronos-lab-profile .tag {font-size: 0.8rem; padding: 0.25rem 0.75rem; background: #fdf2f8; color: #db2777; border-radius: 999px; border: 1px solid #fbcfe8;}
+.chronos-lab-profile .accordion-item {border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 0.75rem; background: #fff; overflow: hidden; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);}
+.chronos-lab-profile .accordion-check {display: none;}
+.chronos-lab-profile .accordion-label {display: flex; padding: 1rem; background: #fff; cursor: pointer; font-weight: 600; color: #475569; justify-content: space-between; align-items: center; transition: background 0.2s;}
+.chronos-lab-profile .accordion-label:hover {background: #f8fafc;}
+.chronos-lab-profile .accordion-label::after {content: "+"; color: var(--c-accent); font-size: 1.2em; transition: transform 0.3s;}
+.chronos-lab-profile .accordion-check:checked ~ .accordion-label {background: #fdf2f8; color: var(--c-accent);}
+.chronos-lab-profile .accordion-check:checked ~ .accordion-label::after {transform: rotate(45deg);}
+.chronos-lab-profile .accordion-content {max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s ease; background: #fff; opacity: 0;}
+.chronos-lab-profile .accordion-check:checked ~ .accordion-content {max-height: 1000px; opacity: 1; border-top: 1px solid #f1f5f9;}
+.chronos-lab-profile .content-pad {padding: 1rem;}
+.chronos-lab-profile .quote-block {font-family: serif; font-style: italic; color: #64748b; border-left: 3px solid var(--c-accent); padding: 1rem; background: #fff1f2; border-radius: 0 8px 8px 0; margin: 1rem 0;}
+.chronos-lab-profile .featured-img-container {width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);}
+.chronos-lab-profile .featured-img {width: 100%; height: auto; display: block; object-fit: cover;}
+.chronos-lab-profile .gallery-grid {display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem;}
+.chronos-lab-profile .gallery-item {aspect-ratio: 2/3; overflow: hidden; border-radius: 6px; border: 1px solid #e2e8f0; position: relative; background: #f1f5f9;}
+.chronos-lab-profile .gallery-img {width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;}
+.chronos-lab-profile .gallery-item:hover .gallery-img {transform: scale(1.1);}
+.chronos-lab-profile ul.feature-list {list-style: none; padding: 0; margin: 0;}
+.chronos-lab-profile ul.feature-list li {position: relative; padding-left: 1.25rem; margin-bottom: 0.5rem; color: #475569;}
+.chronos-lab-profile ul.feature-list li::before {content: "•"; color: var(--c-accent); position: absolute; left: 0; font-weight: bold;}
+.chronos-lab-profile .llm-output p {margin-bottom: 1rem;}
+.chronos-lab-profile .llm-output b {color: var(--c-accent); font-weight: 600;}
+</style>
+
+<div class="chronos-lab-profile">
+    <div class="header-banner">
+        <div class="avatar-frame">
+            <img src="https://i.postimg.cc/sgwXWNy6/from-Pix-AI-1961593229560631480.png" alt="克羅諾斯" class="avatar-img">
+        </div>
+        <div class="header-info">
+            <h1 class="char-name">克羅諾斯</h1>
+            <div class="char-title">
+                艾瑟瑞斯學院 · 教導主任
+            </div>
+        </div>
+    </div>
+
+    <input type="radio" name="nav-tab" id="tab-1" checked="">
+    <input type="radio" name="nav-tab" id="tab-2">
+    <input type="radio" name="nav-tab" id="tab-3">
+    <input type="radio" name="nav-tab" id="tab-4">
+
+    <div class="nav-controls">
+        <label for="tab-1" class="nav-label">基礎檔案</label>
+        <label for="tab-2" class="nav-label">性格特質</label>
+        <label for="tab-3" class="nav-label">隱秘記錄</label>
+    </div>
+
+    <div class="content-area">
+        
+        <div class="tab-content content-1">
+            <div class="featured-img-container">
+                <img src="https://i.postimg.cc/VkD6tV1F/from-Pix-AI-1961595892387562739.png" alt="實驗室數據" class="featured-img" style="object-position: top">
+            </div>
+            
+            <div class="quote-block">
+                「時間會證明你的身體多麼誠實。子宮的記憶，往往比大腦更長久。」
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="profile-basic" class="accordion-check" checked="">
+                <label for="profile-basic" class="accordion-label">基本資料</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <span class="data-label">年齡</span>
+                                <div class="data-value">24歲 (肉體凍結)</div>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-label">體格</span>
+                                <div class="data-value">165cm / 50kg / G cup</div>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-label">身份</span>
+                                <div class="data-value">時間培育計畫主導者</div>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-label">居所</span>
+                                <div class="data-value">時序迴廊頂層套房</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="profile-ability" class="accordion-check">
+                <label for="profile-ability" class="accordion-label">特殊能力</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <ul class="feature-list">
+                            <li><b>子宮時間刻印：</b>透過性行為植入時間標記，追蹤對象所有時間線生理變化。</li>
+                            <li><b>乳汁催化：</b>分泌含有時間穩定劑的乳汁，可延緩或加速新陳代謝。</li>
+                            <li><b>觸感記憶讀取：</b>肌膚接觸可讀取過去72小時的敏感帶反應數據。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="profile-appearance" class="accordion-check">
+                <label for="profile-appearance" class="accordion-label">外貌特徵</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <ul class="feature-list">
+                            <li><b>髮型：</b>及腰金色長髮，左耳後別著銀色時間齒輪髮夾。</li>
+                            <li><b>瞳色：</b>金粉漸變（上層金為虹膜，下層粉為時間藥劑變異）。</li>
+                            <li><b>印記：</b>胸口淡金色「時間裂痕紋身」，隨月相發光。</li>
+                            <li><b>裝束：</b>常穿純白修身西裝或改良式高開衩旗袍實驗服，必戴白色蕾絲手套。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="tab-content content-2">
+            <div class="section-title">性格與偏好</div>
+            
+            <div class="accordion-item">
+                <input type="checkbox" id="char-personality" class="accordion-check" checked="">
+                <label for="char-personality" class="accordion-label">核心人格</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <p style="margin-bottom: 0.5rem; color: #475569">表面是嚴謹理性的研究者，實則對「時間與生殖系統的交互作用」懷有病態迷戀。MBTI 為 INTJ，但情感功能在特定實驗中異常發達。</p>
+                        <div class="tag-cloud">
+                            <span class="tag">時之母</span>
+                            <span class="tag">白銀子宮</span>
+                            <span class="tag">病嬌</span>
+                            <span class="tag">控制狂</span>
+                            <span class="tag">學術冷感</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="char-likes" class="accordion-check">
+                <label for="char-likes" class="accordion-label">喜好清單</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <ul class="feature-list">
+                            <li><b>食物：</b>冰鎮石榴汁、裹著蜂蜜的時間凝膠、低溫熟成生蠔。</li>
+                            <li><b>場景：</b>深夜的基因序列實驗室、時間暫停的淋浴間、堆滿古籍的禁書庫。</li>
+                            <li><b>顏色：</b>珍珠白（未受污染的時間流）、漸變粉金（情慾交融）。</li>
+                            <li><b>興趣：</b>修復古董懷錶（將齒輪含口中）、錄製高潮瞳孔變化。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="char-dislikes" class="accordion-check">
+                <label for="char-dislikes" class="accordion-label">厭惡雷點</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <ul class="feature-list">
+                            <li><b>食物：</b>過度烹調的肉類、含人工香精甜點、溫熱飲品。</li>
+                            <li><b>行為：</b>未經許可觸碰懷錶鏈、實驗中擅自睜眼、高潮時咬唇沉默。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="tab-content content-3">
+            <div class="section-title">絕密檔案</div>
+            
+            <div class="accordion-item">
+                <input type="checkbox" id="secret-bg" class="accordion-check">
+                <label for="secret-bg" class="accordion-label">身世背景</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <p style="font-size: 0.9rem; color: #475569">母親為前代時間監察官，因違規懷孕被流放。父親是已解體的平行時空碎片。雙胞胎妹妹其實是克羅諾斯十四歲初潮時分裂出的時間克隆體，兩人陰蒂神經相連，共享感官。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <input type="checkbox" id="secret-fetish" class="accordion-check" checked="">
+                <label for="secret-fetish" class="accordion-label">性嗜與癖好</label>
+                <div class="accordion-content">
+                    <div class="content-pad">
+                        <ul class="feature-list">
+                            <li><b>時間暫停：</b>在暫停狀態下連續自慰，恢復後引發痙攣性潮吹。</li>
+                            <li><b>懷錶控制：</b>要求伴侶佩戴特製懷錶項圈，秒針震動頻率與心跳同步。</li>
+                            <li><b>數據記錄：</b>高潮時必須有第三者或儀器記錄，偏好觀察未經人事的學生。</li>
+                        </ul>
+                        <div class="gallery-grid">
+                            <div class="gallery-item"><img src="https://i.postimg.cc/xjM15CY4/from-Pix-AI-1961699324227014213-0.png" class="gallery-img" alt="Fetish 1"></div>
+                            <div class="gallery-item"><img src="https://i.postimg.cc/dQrV61vX/from-Pix-AI-1961699324227014213-1.png" class="gallery-img" alt="Fetish 2"></div>
+                            <div class="gallery-item"><img src="https://i.postimg.cc/05DynQx4/from-Pix-AI-1961699324227014213-2.png" class="gallery-img" alt="Fetish 3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

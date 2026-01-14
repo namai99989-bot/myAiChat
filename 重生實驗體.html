@@ -1,0 +1,539 @@
+<html>
+<head>
+<style>
+.academy-reborn { 
+  --primary-gold: #d4af37; 
+  --accent-cinnabar: #e63946; 
+  --deep-void: #1a1a1d; 
+  --glass-bg: rgba(25, 25, 25, 0.85); 
+  --text-dim: #a0a0a0; 
+  --text-light: #e0e0e0; 
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+  background: var(--deep-void); 
+  color: var(--text-light); 
+  max-width: 600px; 
+  margin: 0 auto; 
+  overflow: hidden; 
+  position: relative; 
+  border: 1px solid #333; 
+  border-radius: 8px;
+  padding-bottom: 20px; /* 新增：底部留白，优化版面 */
+}
+.academy-reborn .header-banner { 
+  position: relative; 
+  height: 120px; 
+  background: linear-gradient(135deg, #2c3e50, #000); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
+  border-bottom: 2px solid var(--primary-gold); 
+}
+.academy-reborn .header-banner::after { 
+  content: "TOP SECRET"; 
+  position: absolute; 
+  top: 10px; 
+  right: -30px; 
+  background: var(--accent-cinnabar); 
+  color: white; 
+  transform: rotate(35deg); 
+  padding: 2px 40px; 
+  font-size: 10px; 
+  font-weight: bold; 
+  letter-spacing: 2px; 
+}
+.academy-reborn .selector-container { 
+  padding: 16px; 
+  background: #111; 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 8px; 
+  border-bottom: 1px solid #222; 
+}
+.academy-reborn .role-tab { 
+  cursor: pointer; 
+  border: 1px solid #444; 
+  padding: 8px 4px; 
+  text-align: center; 
+  border-radius: 4px; 
+  transition: all 0.3s ease; 
+  font-size: 12px; 
+  color: var(--text-dim); 
+  background: #1a1a1a; 
+}
+.academy-reborn .role-tab:hover { 
+  border-color: var(--primary-gold); 
+  color: white; 
+}
+.academy-reborn input[type="radio"] { 
+  display: none; 
+}
+.academy-reborn .content-section { 
+  display: none; 
+  padding: 20px; 
+  opacity: 0; 
+  transform: translateY(10px); /* 修复：标准驼峰式写法，兼容所有浏览器 */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+.academy-reborn #tab-1:checked ~ .selector-container .label-1, 
+.academy-reborn #tab-2:checked ~ .selector-container .label-2, 
+.academy-reborn #tab-3:checked ~ .selector-container .label-3, 
+.academy-reborn #tab-4:checked ~ .selector-container .label-4 { 
+  background: var(--primary-gold); 
+  color: black; 
+  font-weight: bold; 
+  border-color: var(--primary-gold); 
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); 
+}
+.academy-reborn #tab-1:checked ~ .content-1, 
+.academy-reborn #tab-2:checked ~ .content-2, 
+.academy-reborn #tab-3:checked ~ .content-3, 
+.academy-reborn #tab-4:checked ~ .content-4 { 
+  display: block; 
+  opacity: 1; 
+  transform: translateY(0); /* 修复：标准驼峰式写法，兼容所有浏览器 */
+}
+.academy-reborn .photo-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px; 
+  margin-bottom: 20px; 
+}
+.academy-reborn .char-img { 
+  width: 100%; 
+  aspect-ratio: 1/1; 
+  object-fit: cover; 
+  border-radius: 4px; 
+  border: 1px solid #333; 
+  filter: grayscale(30%) contrast(1.1); 
+  transition: filter 0.3s; 
+}
+.academy-reborn .char-img:hover { 
+  filter: grayscale(0%); 
+}
+.academy-reborn .profile-card { 
+  background: var(--glass-bg); 
+  border-left: 4px solid var(--primary-gold); 
+  padding: 15px; 
+  margin-bottom: 20px; 
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.5); 
+}
+.academy-reborn .info-label { 
+  font-size: 11px; 
+  color: var(--primary-gold); 
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  margin-bottom: 4px; 
+  display: block; 
+}
+.academy-reborn .story-box { 
+  line-height: 1.6; 
+  font-size: 14px; 
+  text-align: left; 
+  background: rgba(255,255,255,0.03); 
+  padding: 16px; 
+  border-radius: 4px; 
+  border: 1px dashed #444; 
+  position: relative; 
+}
+.academy-reborn .story-box::before { 
+  content: "RE-RUN LOG"; 
+  position: absolute; 
+  top: -10px; 
+  left: 10px; 
+  background: #111; 
+  padding: 0 8px; 
+  font-size: 10px; 
+  color: var(--accent-cinnabar); 
+}
+.academy-reborn .quote-block { 
+  border-top: 1px solid #333; 
+  margin-top: 12px; 
+  padding-top: 12px; 
+  font-style: italic; 
+  color: var(--text-dim); 
+  font-size: 13px; 
+}
+/* 新增：修复文本样式缺失，优化显示效果 */
+.text-xl { font-size: 1.25rem; }
+.text-lg { font-size: 1.1rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.font-bold { font-weight: 700; }
+.tracking-widest { letter-spacing: 0.2em; }
+.mt-1 { margin-top: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.text-center { text-align: center; }
+.text-gray-500 { color: #6b7280; }
+.text-gray-400 { color: #9ca3af; }
+</style>
+<meta name="cg-name" content="選擇你想當的角色" />
+<meta name="cg-command-name" content="選擇你想當的角色" />
+<meta name="cg-color" content="#F2F5FF" />
+<meta name="cg-icon" content="MousePointerClick" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- 修复1：移除body内重复的style标签，避免样式冗余与冲突 -->
+
+<div class="academy-reborn">
+  <div class="header-banner">
+    <div class="text-center">
+      <h1 class="text-xl font-bold tracking-widest text-white">重生實驗體：重置協議</h1>
+      <p class="text-xs text-gray-500 mt-1">REBIRTH EXPERIMENT: RESET PROTOCOL</p>
+    </div>
+  </div>
+
+  <input type="radio" id="tab-1" name="role-select" checked>
+  <input type="radio" id="tab-2" name="role-select">
+  <input type="radio" id="tab-3" name="role-select">
+  <input type="radio" id="tab-4" name="role-select">
+
+  <div class="selector-container">
+    <label for="tab-1" class="role-tab label-1">主角一</label>
+    <label for="tab-2" class="role-tab label-2">主角二</label>
+    <label for="tab-3" class="role-tab label-3">主角三</label>
+    <label for="tab-4" class="role-tab label-4">主角四</label>
+  </div>
+
+  <div class="content-section content-1">
+    <div class="photo-grid">
+      <img src="https://i.postimg.cc/cJHpbD3n/guan-cha-zhe.png" class="char-img">
+      <img src="https://i.postimg.cc/R0FkDPtw/guan-cha-zhe2.png" class="char-img">
+      <img src="https://i.postimg.cc/SKsBvZ98/guan-cha-zhe3.png" class="char-img">
+      <img src="https://i.postimg.cc/jj5pF8fP/guan-cha-zhe4.png" class="char-img">
+    </div>
+    <div class="profile-card">
+      <span class="info-label">基礎檔案：觀察者</span>
+      <h2 class="text-lg font-bold mb-2">19歲女性｜旁觀見證者</h2>
+      <p class="text-sm text-gray-400">黑髮及肩，右眼下有淺淡疤痕。左手腕有專屬編號印記，耳飾內藏微型裝置。</p>
+    </div>
+    <div class="story-box">
+      <p class="mb-4">主角低著頭快速穿過人群，卻在轉角處聽見教導主任與醫療中心負責人的對話片段：「...這次新生中有幾個特殊體質需要特別關注...」當晚體檢時，主角發現醫療儀器比記憶中更早顯示異常數據，而教導主任提前出現在觀察窗外。次日，主角被分配到生物實驗室助理職位，這個職位在前世是第三年才出現的。</p>
+      <div class="quote-block">（教導主任的眼鏡反射著醫療中心的冷光，手指輕輕敲擊著新生名冊）</div>
+    </div>
+  </div>
+
+  <div class="content-section content-2">
+    <div class="photo-grid">
+      <img src="https://i.postimg.cc/zfsxFpSM/meng-you-zhe-(1).png" class="char-img">
+      <img src="https://i.postimg.cc/9fRx9sZC/meng-you-zhe-(2).png" class="char-img">
+      <img src="https://i.postimg.cc/MGMsBgVz/meng-you-zhe-(3).png" class="char-img">
+      <img src="https://i.postimg.cc/mrvmyVNK/meng-you-zhe4.png" class="char-img">
+    </div>
+    <div class="profile-card">
+      <span class="info-label">基礎檔案：夢遊者</span>
+      <h2 class="text-lg font-bold mb-2">20歲女性｜無意識媒介</h2>
+      <p class="text-sm text-gray-400">白金長髮，虹膜隨時段變色。頸部繫黑色裝飾項圈，腳底布滿細小傷痕，後腦勺有淺淡印記。</p>
+    </div>
+    <div class="story-box">
+      <p class="mb-4">主角刻意避開教導主任可能經過的路線，卻發現主任正在遠處與其他教師交談。當晚主角會不自覺夢遊到尚未開放的地下區域，在那裡看到許多儲存罐。隔天的體檢過程中，主角會突然說出自己從未學過的醫學術語，而檢查報告顯示她的身體對某些特定藥物有異常反應。</p>
+      <div class="quote-block">（教導主任似乎察覺到什麼，視線掃過人群但未停留在主角身上）</div>
+    </div>
+  </div>
+
+  <div class="content-section content-3">
+    <div class="photo-grid">
+      <img src="https://i.postimg.cc/Xq8x3WS7/gong-sheng-zhe-(1).png" class="char-img">
+      <img src="https://i.postimg.cc/ZncjZmtb/gong-sheng-zhe-(2).png" class="char-img">
+      <img src="https://i.postimg.cc/FzZGmv5F/gong-sheng-zhe-(3).png" class="char-img">
+      <img src="https://i.postimg.cc/sxcKyzdV/gong-sheng-zhe-(4).png" class="char-img">
+    </div>
+    <div class="profile-card">
+      <span class="info-label">基礎檔案：共生者</span>
+      <h2 class="text-lg font-bold mb-2">19歲女性｜雙生夥伴</h2>
+      <p class="text-sm text-gray-400">深棕短髮，瞳孔邊緣有金色環狀斑點。妹妹正於B-7區休養，前世的遺憾尚未發生，命運正悄然改變。</p>
+    </div>
+    <div class="story-box">
+      <p class="mb-4">主角拉著妹妹躲進人群時，妹妹的髮夾意外掉落。教導主任經過時撿起髮夾，透過鏡片觀察上面的細節。當晚體檢，妹妹的報告顯示「雙生子宮共鳴反應異常」，而主角的數據完全正常。隔天妹妹收到生物研究社特別邀請，主角則被分配至普通班級，但妹妹開始在夢中重複主角前世的實驗記憶。</p>
+      <div class="quote-block">（教導主任將髮夾放入密封袋，目光掃過人群卻未停留）</div>
+    </div>
+  </div>
+
+  <div class="content-section content-4">
+    <div class="photo-grid">
+      <img src="https://i.postimg.cc/qvYwpQYw/shi-pei-zhe-(1).png" class="char-img">
+      <img src="https://i.postimg.cc/0y3n9Z3c/shi-pei-zhe-(2).png" class="char-img">
+      <img src="https://i.postimg.cc/zGM7qpMp/shi-pei-zhe-(3).png" class="char-img">
+      <img src="https://i.postimg.cc/jS9cRv9X/shi-pei-zhe-(4).png" class="char-img">
+    </div>
+    <div class="profile-card">
+      <span class="info-label">基礎檔案：適配者</span>
+      <h2 class="text-lg font-bold mb-2">20歲女性｜優質個體</h2>
+      <p class="text-sm text-gray-400">銀灰色長髮，雙色虹膜（金與深灰）。頸部皮下裝置在情緒波動時會浮現幾何圖案。</p>
+    </div>
+    <div class="story-box">
+      <p class="mb-4">主角的檔案在報到時自動觸發特殊協議，導師的全息平板顯示金色權限標誌。教導主任原本要前往會議室，卻突然轉向報到大廳。當晚體檢取消，改為直接進行「初始適配測試」。主角被帶往地下三層的潔淨室，那裡擺放著前世熟悉的培養槽，但槽內液體呈現從未見過的琥珀色。</p>
+      <div class="quote-block">（教導主任的眼鏡映出檔案上閃爍的金色字樣「自願協議仍有效力」，嘴角微微上揚）</div>
+    </div>
+  </div>
+
+  <script data-cg-audio-helper="">
+  (function() {
+    var autoPlayAttached = false;
+
+    function bindPlayer(controls) {
+      if (!controls) return;
+      var targetId = (controls.getAttribute('data-target') || 'bgm').trim() || 'bgm';
+      var audio = document.getElementById(targetId);
+      if (!audio) return;
+
+      if (!audio.hasAttribute('controls')) {
+        audio.setAttribute('controls', 'controls');
+      }
+      if (!audio.preload) audio.preload = 'auto';
+
+      var rawList = audio.getAttribute('data-playlist') || '';
+      var trackInputs = Array.prototype.slice.call(
+        controls.querySelectorAll('input.cg-audio-track[value]')
+      );
+      var tracks = [];
+      var index = 0;
+
+      function refreshTracks(forceIndexFromChecked) {
+        if (trackInputs.length) {
+          tracks = trackInputs
+            .map(function(inp){ return (inp.value || '').trim(); })
+            .filter(Boolean);
+        } else {
+          tracks = rawList.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+        }
+        if (!tracks.length) {
+          if (audio.currentSrc) tracks = [audio.currentSrc];
+          else if (audio.src) tracks = [audio.src];
+        }
+        if (trackInputs.length && forceIndexFromChecked) {
+          var checkedIdx = -1;
+          for (var i = 0; i < trackInputs.length; i++) {
+            if (trackInputs[i].checked) { checkedIdx = i; break; }
+          }
+          index = checkedIdx >= 0 ? checkedIdx : 0;
+        }
+      }
+
+      refreshTracks(true);
+
+      function normalizeLoop(val) {
+        if (!val) return 'all';
+        val = val.toLowerCase();
+        if (val === 'single') return 'single';
+        if (val === 'off' || val === 'none') return 'off';
+        return 'all';
+      }
+      var loopMode = normalizeLoop(audio.getAttribute('data-loop') || (audio.loop ? 'single' : ''));
+
+      function applySrc() {
+        if (!tracks.length) return;
+        audio.src = tracks[index] || '';
+      }
+
+      function setActive(btn, active) {
+        if (!btn) return;
+        if (active) {
+          btn.setAttribute('data-state', 'active');
+          btn.classList.add('cg-audio-controls__btn--active');
+        } else {
+          btn.removeAttribute('data-state');
+          btn.classList.remove('cg-audio-controls__btn--active');
+        }
+      }
+
+      function markActiveTrack(i) {
+        if (!trackInputs.length) return;
+        trackInputs.forEach(function(inp, idx){
+          inp.checked = idx === i;
+          var item = inp.closest ? inp.closest('.cg-mb-list-item') : null;
+          if (item) item.classList.toggle('cg-mb-list-item--active', idx === i);
+        });
+      }
+
+      var prevBtn = controls.querySelector('[data-action="prev"]');
+      var toggleBtn = controls.querySelector('[data-action="toggle"]');
+      var nextBtn = controls.querySelector('[data-action="next"]');
+      var loopBtn = controls.querySelector('[data-action="loop"]');
+      var progress = controls.querySelector('.cg-audio-progress');
+      var progressBar = controls.querySelector('.cg-audio-progress__bar');
+      var isDragging = false;
+
+      function playCurrent() {
+        applySrc();
+        audio.play().catch(function(){});
+        setActive(toggleBtn, true);
+        markActiveTrack(index);
+      }
+
+      function pauseCurrent() {
+        audio.pause();
+        setActive(toggleBtn, false);
+      }
+
+      function nextTrack() {
+        if (!tracks.length) return;
+        if (loopMode === 'off' && index >= tracks.length - 1) {
+          pauseCurrent();
+          return;
+        }
+        index = (index + 1) % tracks.length;
+        playCurrent();
+      }
+
+      function prevTrack() {
+        if (!tracks.length) return;
+        if (loopMode === 'off' && index <= 0) {
+          pauseCurrent();
+          return;
+        }
+        index = (index - 1 + tracks.length) % tracks.length;
+        playCurrent();
+      }
+
+      function setLoopMode(mode) {
+        loopMode = normalizeLoop(mode);
+        audio.loop = loopMode === 'single';
+        updateLoopLabel();
+      }
+
+      function updateLoopLabel() {
+        if (!loopBtn) return;
+        var labels = { single: 'Single', all: 'Loop', off: 'Order' };
+        loopBtn.textContent = labels[loopMode] || 'Loop';
+        if (loopMode === 'off') loopBtn.removeAttribute('data-state');
+        else loopBtn.setAttribute('data-state', 'active');
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function(){ prevTrack(); });
+      if (nextBtn) nextBtn.addEventListener('click', function(){ nextTrack(); });
+      if (toggleBtn) toggleBtn.addEventListener('click', function(){
+        if (audio.paused) playCurrent();
+        else pauseCurrent();
+      });
+      if (loopBtn) {
+        loopBtn.addEventListener('click', function(){
+          if (loopMode === 'all') setLoopMode('single');
+          else if (loopMode === 'single') setLoopMode('off');
+          else setLoopMode('all');
+        });
+      }
+
+      if (trackInputs.length) {
+        controls.addEventListener('click', function(evt){
+          var el = evt.target;
+          var input = el && el.closest ? el.closest('input.cg-audio-track') : null;
+          if (!input || !controls.contains(input)) return;
+          refreshTracks(true);
+          var val = (input.value || '').trim();
+          var idx = tracks.indexOf(val);
+          if (idx < 0) idx = trackInputs.indexOf(input);
+          if (idx < 0) idx = 0;
+          index = idx;
+          playCurrent();
+        });
+        markActiveTrack(index);
+      }
+
+      if (progress && progressBar) {
+        audio.addEventListener('timeupdate', function(){
+          if (isDragging) return;
+          if (audio.duration && isFinite(audio.duration)) {
+            var percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percent + '%';
+          } else {
+            progressBar.style.width = '0%';
+          }
+        });
+        audio.addEventListener('loadedmetadata', function(){
+          progressBar.style.width = '0%';
+        });
+        var seekByClientX = function(clientX) {
+          if (!(progress instanceof HTMLElement)) return;
+          var rect = progress.getBoundingClientRect();
+          var ratio = (clientX - rect.left) / rect.width;
+          ratio = Math.max(0, Math.min(1, ratio));
+          if (audio.duration && isFinite(audio.duration)) {
+            audio.currentTime = audio.duration * ratio;
+            progressBar.style.width = (ratio * 100) + '%';
+          }
+        };
+        var onDragMove = function(e) {
+          if (!isDragging) return;
+          if (e.touches && e.touches.length) {
+            seekByClientX(e.touches[0].clientX);
+          } else if (typeof e.clientX === 'number') {
+            seekByClientX(e.clientX);
+          }
+        };
+        var endDrag = function() {
+          if (!isDragging) return;
+          isDragging = false;
+          window.removeEventListener('mousemove', onDragMove);
+          window.removeEventListener('mouseup', endDrag);
+          window.removeEventListener('touchmove', onDragMove);
+          window.removeEventListener('touchend', endDrag);
+        };
+        var startDrag = function(e) {
+          isDragging = true;
+          if (e.touches && e.touches.length) {
+            seekByClientX(e.touches[0].clientX);
+          } else if (typeof e.clientX === 'number') {
+            seekByClientX(e.clientX);
+          }
+          window.addEventListener('mousemove', onDragMove);
+          window.addEventListener('mouseup', endDrag);
+          window.addEventListener('touchmove', onDragMove, { passive: false });
+          window.addEventListener('touchend', endDrag);
+        };
+        progress.addEventListener('mousedown', startDrag);
+        progress.addEventListener('touchstart', function(e){
+          startDrag(e);
+          if (e.cancelable) e.preventDefault();
+        }, { passive: false });
+        progress.addEventListener('click', function(e){
+          if (isDragging) return;
+          if (!e || !e.currentTarget) return;
+          var rect = e.currentTarget.getBoundingClientRect();
+          var ratio = (e.clientX - rect.left) / rect.width;
+          if (audio.duration && isFinite(audio.duration)) {
+            audio.currentTime = Math.max(0, Math.min(audio.duration * ratio, audio.duration));
+          }
+        });
+      }
+
+      audio.addEventListener('ended', function() {
+        if (loopMode === 'single') {
+          playCurrent();
+          return;
+        }
+        if (loopMode === 'off' && index >= tracks.length - 1) {
+          pauseCurrent();
+          return;
+        }
+        nextTrack();
+      });
+
+      if (!autoPlayAttached) {
+        autoPlayAttached = true;
+        var oncePlay = function() {
+          if (audio.paused) playCurrent();
+          window.removeEventListener('click', oncePlay);
+        };
+        var oncePlayTouch = function() {
+          if (audio.paused) playCurrent();
+          window.removeEventListener('touchstart', oncePlayTouch);
+        };
+        window.addEventListener('click', oncePlay);
+        window.addEventListener('touchstart', oncePlayTouch, { passive: true });
+      }
+
+      applySrc();
+      setLoopMode(loopMode);
+    }
+
+    var controlsList = Array.prototype.slice.call(document.querySelectorAll('.cg-audio-controls[data-target]'));
+    if (!controlsList.length) return;
+    controlsList.forEach(bindPlayer);
+  })();
+  </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.aetheris-academy {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --accent-main: #6366f1; /* Indigo */
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: rgba(148, 163, 184, 0.2);
+  
+  /* Underground Theme overrides */
+  --ug-accent: #f43f5e; /* Rose for danger/taboo */
+  --ug-glow: rgba(244, 63, 94, 0.2);
+
+  font-family: 'ui-sans-serif', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.5;
+}
+
+/* Scrollbar */
+.aetheris-academy ::-webkit-scrollbar {
+  width: 6px;
+}
+.aetheris-academy ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.aetheris-academy ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+/* Layout */
+.aetheris-academy .main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: radial-gradient(circle at top right, #1e1b4b 0%, transparent 40%),
+              radial-gradient(circle at bottom left, #312e81 0%, transparent 40%);
+}
+
+/* Header */
+.aetheris-academy .header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+.aetheris-academy .title {
+  font-family: 'ui-serif', Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: linear-gradient(to right, #e2e8f0, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.25rem;
+}
+.aetheris-academy .subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Tabs */
+.aetheris-academy .tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.aetheris-academy .tab-label {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.aetheris-academy .tab-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+/* Tab Logic */
+.aetheris-academy input[type="radio"] {
+  display: none;
+}
+
+/* Active State Styling via Sibling Selector */
+.aetheris-academy #tab-ground:checked ~ .main-container .tabs-nav label[for="tab-ground"],
+.aetheris-academy #tab-under:checked ~ .main-container .tabs-nav label[for="tab-under"],
+.aetheris-academy #tab-common:checked ~ .main-container .tabs-nav label[for="tab-common"] {
+  background: var(--accent-main);
+  color: white;
+  box-shadow: 0 0 15px var(--accent-glow);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.aetheris-academy #tab-under:checked ~ .main-container .tabs-nav label[for="tab-under"] {
+  background: var(--ug-accent);
+  box-shadow: 0 0 15px var(--ug-glow);
+}
+
+/* Content Areas */
+.aetheris-academy .content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: none; /* Hidden by default */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  padding-bottom: 4rem;
+}
+
+.aetheris-academy #tab-ground:checked ~ .main-container .content-ground,
+.aetheris-academy #tab-under:checked ~ .main-container .content-under,
+.aetheris-academy #tab-common:checked ~ .main-container .content-common {
+  display: block;
+  opacity: 1;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floor Section */
+.aetheris-academy .floor-block {
+  margin-bottom: 2rem;
+}
+.aetheris-academy .floor-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  background: rgba(15, 23, 42, 0.95);
+  padding: 0.75rem 0;
+  z-index: 5;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(4px);
+}
+.aetheris-academy .floor-badge {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--accent-main);
+  font-size: 0.9rem;
+}
+.aetheris-academy .ug-badge {
+  color: var(--ug-accent);
+  border-color: rgba(244, 63, 94, 0.3);
+}
+.aetheris-academy .floor-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Grid */
+.aetheris-academy .card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 600px) {
+  .aetheris-academy .card-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Cards */
+.aetheris-academy .room-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.aetheris-academy .room-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.aetheris-academy .card-img-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background: #000;
+  overflow: hidden;
+}
+.aetheris-academy .card-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  opacity: 0.9;
+}
+.aetheris-academy .room-card:hover .card-img {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.aetheris-academy .card-info {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(to bottom, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8));
+}
+.aetheris-academy .card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.2rem;
+}
+.aetheris-academy .card-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Taboo Styling */
+.aetheris-academy .taboo-zone .room-card {
+  border-color: rgba(244, 63, 94, 0.2);
+  background: rgba(20, 10, 10, 0.6);
+}
+.aetheris-academy .taboo-zone .card-title {
+  color: #fda4af;
+}
+.aetheris-academy .taboo-zone .floor-header {
+  border-bottom-color: rgba(244, 63, 94, 0.3);
+}
+</style>
+<meta name="cg-name" content="艾瑟瑞斯學院的場景" />
+<meta name="cg-command-name" content="艾瑟瑞斯學院的場景" />
+<meta name="cg-color" content="#E1C788" />
+<meta name="cg-icon" content="Badge" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.aetheris-academy {--bg-primary: #0f172a; --bg-secondary: #1e293b; --bg-card: rgba(30, 41, 59, 0.7); --accent-main: #6366f1; --accent-glow: rgba(99, 102, 241, 0.3); --text-main: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148, 163, 184, 0.2); --ug-accent: #f43f5e; --ug-glow: rgba(244, 63, 94, 0.2); font-family: "ui-sans-serif", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-primary); color: var(--text-main); width: 100%; height: 100%; overflow: hidden; position: relative; line-height: 1.5;}
+.aetheris-academy ::-webkit-scrollbar {width: 6px;}
+.aetheris-academy ::-webkit-scrollbar-track {background: transparent;}
+.aetheris-academy ::-webkit-scrollbar-thumb {background: var(--border-color); border-radius: 3px;}
+.aetheris-academy .main-container {display: flex; flex-direction: column; height: 100%; max-width: 800px; margin: 0 auto; background: radial-gradient(circle at top right, #1e1b4b 0%, transparent 40%), radial-gradient(circle at bottom left, #312e81 0%, transparent 40%);}
+.aetheris-academy .header {padding: 1.5rem 1.5rem 0.5rem; text-align: center; border-bottom: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); z-index: 10;}
+.aetheris-academy .title {font-family: "ui-serif", Georgia, Cambria, "Times New Roman", Times, serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; background: linear-gradient(to right, #e2e8f0, #a5b4fc); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.25rem;}
+.aetheris-academy .subtitle {font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em;}
+.aetheris-academy .tabs-nav {display: flex; justify-content: center; gap: 1rem; padding: 1rem; background: rgba(15, 23, 42, 0.6);}
+.aetheris-academy .tab-label {cursor: pointer; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); border: 1px solid transparent; transition: all 0.3s ease; background: rgba(255, 255, 255, 0.03);}
+.aetheris-academy .tab-label:hover {background: rgba(255, 255, 255, 0.08); color: var(--text-main);}
+.aetheris-academy input[type="radio"] {display: none;}
+.aetheris-academy #tab-ground:checked ~ .main-container .tabs-nav label[for="tab-ground"], .aetheris-academy #tab-under:checked ~ .main-container .tabs-nav label[for="tab-under"], .aetheris-academy #tab-common:checked ~ .main-container .tabs-nav label[for="tab-common"] {background: var(--accent-main); color: white; box-shadow: 0 0 15px var(--accent-glow); border-color: rgba(255, 255, 255, 0.2);}
+.aetheris-academy #tab-under:checked ~ .main-container .tabs-nav label[for="tab-under"] {background: var(--ug-accent); box-shadow: 0 0 15px var(--ug-glow);}
+.aetheris-academy .content-area {flex: 1; overflow-y: auto; padding: 1rem; display: none; opacity: 0; transition: opacity 0.4s ease; padding-bottom: 4rem;}
+.aetheris-academy #tab-ground:checked ~ .main-container .content-ground, .aetheris-academy #tab-under:checked ~ .main-container .content-under, .aetheris-academy #tab-common:checked ~ .main-container .content-common {display: block; opacity: 1; animation: fadeIn 0.5s ease-out forwards;}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translatey(10px);}
+  to {opacity: 1; transform: translatey(0);}
+}
+.aetheris-academy .floor-block {margin-bottom: 2rem;}
+.aetheris-academy .floor-header {display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; top: 0; background: rgba(15, 23, 42, 0.95); padding: 0.75rem 0; z-index: 5; border-bottom: 1px solid var(--border-color); backdrop-filter: blur(4px);}
+.aetheris-academy .floor-badge {background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.25rem 0.6rem; border-radius: 4px; font-family: monospace; font-weight: 700; color: var(--accent-main); font-size: 0.9rem;}
+.aetheris-academy .ug-badge {color: var(--ug-accent); border-color: rgba(244, 63, 94, 0.3);}
+.aetheris-academy .floor-title {font-size: 1rem; font-weight: 600; letter-spacing: 0.05em;}
+.aetheris-academy .card-grid {display: grid; grid-template-columns: 1fr; gap: 1rem;}
+@media (min-width: 600px) {
+  .aetheris-academy .card-grid {grid-template-columns: 1fr 1fr;}
+}
+.aetheris-academy .room-card {background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0.75rem; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;}
+.aetheris-academy .room-card:hover {transform: translatey(-2px); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3); border-color: rgba(255, 255, 255, 0.2);}
+.aetheris-academy .card-img-wrap {position: relative; width: 100%; padding-top: 56.25%; background: #000; overflow: hidden;}
+.aetheris-academy .card-img {position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; opacity: 0.9;}
+.aetheris-academy .room-card:hover .card-img {transform: scale(1.05); opacity: 1;}
+.aetheris-academy .card-info {padding: 0.75rem 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05); background: linear-gradient(to bottom, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8));}
+.aetheris-academy .card-title {font-size: 0.95rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.2rem;}
+.aetheris-academy .card-desc {font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;}
+.aetheris-academy .taboo-zone .room-card {border-color: rgba(244, 63, 94, 0.2); background: rgba(20, 10, 10, 0.6);}
+.aetheris-academy .taboo-zone .card-title {color: #fda4af;}
+.aetheris-academy .taboo-zone .floor-header {border-bottom-color: rgba(244, 63, 94, 0.3);}
+</style>
+
+<div class="aetheris-academy">
+  
+  
+  <input type="radio" name="tab" id="tab-ground" checked="">
+  <input type="radio" name="tab" id="tab-under">
+  <input type="radio" name="tab" id="tab-common">
+
+  <div class="main-container">
+    
+    
+    <header class="header">
+      <div class="title">艾瑟瑞斯學院</div>
+      <div class="subtitle">AETHERIS ACADEMY DATABASE</div>
+    </header>
+
+    
+    <nav class="tabs-nav">
+      <label for="tab-ground" class="tab-label">地上主校舍</label>
+      <label for="tab-under" class="tab-label">地下實驗區</label>
+      <label for="tab-common" class="tab-label">公共設施</label>
+    </nav>
+
+    
+    <div class="content-area content-ground">
+      
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">1F</span>
+          <span class="floor-title">基礎教學區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/d0sH0njm/li-shi-ji-nian-ting-zhan-shi-xiao-shi-wen-wu.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">歷史紀念廳</div>
+              <div class="card-desc">展示校史文物與歷代榮譽</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/W16YjxrH/xin-sheng-bao-dao-chu-ban-li-ru-xue-shou-xu.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">新生報到處</div>
+              <div class="card-desc">辦理入學手續與學籍管理</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/2SF9mgvx/jiao-shi-ban-gong-shi-jiao-zhi-yuan-ban-gong-kong-jian.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">教師辦公室</div>
+              <div class="card-desc">教職員辦公與備課空間</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">2F</span>
+          <span class="floor-title">文科教室區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/YCwD5t44/wen-xue-jian-shang-shi-shi-ge-xiao-shuo-fen-xi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">文學鑑賞室</div>
+              <div class="card-desc">詩歌小說分析與創作研討</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/d0sH0nj2/li-shi-yan-jiu-shi-shi-liao-jie-du-jiao-xue.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">歷史研究室</div>
+              <div class="card-desc">史料解讀與古物考證教學</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/6QWjQzfw/yu-yan-shi-xi-shi-wai-yu-hui-hua-lian-xi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">語言實習室</div>
+              <div class="card-desc">多語種會話練習與語音矯正</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">3F</span>
+          <span class="floor-title">理科教室區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/0yqXT96Y/wu-li-shi-yan-shi-ji-chu-li-xue-shi-yan.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">物理實驗室</div>
+              <div class="card-desc">基礎力學與光電實驗設施</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/gkhBtx0J/hua-xue-zhun-bei-shi-shi-ji-diao-pei-kong-jian.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">化學準備室</div>
+              <div class="card-desc">精密試劑調配與反應觀察</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/qvdDPptz/sheng-wu-guan-cha-shi-biao-ben-xian-wei-jing-guan-cha.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">生物觀察室</div>
+              <div class="card-desc">顯微鏡陣列與標本製作區</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">4F</span>
+          <span class="floor-title">藝術專區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/g2PtCGwM/yin-le-lian-xi-shi-ge-yin-qin-fang.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">音樂練習室</div>
+              <div class="card-desc">專業隔音琴房與錄音設備</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/nhtSyns0/mei-shu-chuang-zuo-shi-hui-hua-diao-su-kong-jian.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">美術創作室</div>
+              <div class="card-desc">採光優良的繪畫與雕塑空間</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/cLMkZPwJ/wu-dao-pai-lian-ting-jing-mian-qiang-ti-cao-fang.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">舞蹈排練廳</div>
+              <div class="card-desc">大面積鏡面牆與彈性地板</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">5F</span>
+          <span class="floor-title">特殊教室</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/CL86rRKR/tian-wen-guan-ce-tai-ding-lou-wang-yuan-jing-she-bei.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">天文觀測台</div>
+              <div class="card-desc">高倍率望遠鏡與星圖投影</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/3xHfs3yb/jia-zheng-shi-xi-shi-peng-ren-feng-ren-jiao-xue.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">家政實習室</div>
+              <div class="card-desc">全套廚具與縫紉教學區</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/rwLZBqdW/duo-mei-ti-jiao-shi-dian-nao-tou-ying-she-bei.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">多媒體教室</div>
+              <div class="card-desc">先進視聽設備與電腦陣列</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">6F</span>
+          <span class="floor-title">行政與休閒</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/QdrY2jBP/xiao-zhang-ban-gong-shi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">校長辦公室</div>
+              <div class="card-desc">學院核心管理中樞</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/Z5FsZX31/hui-yi-shi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">會議室</div>
+              <div class="card-desc">校務決策與學術研討場所</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/q7Jb7Qx6/xue-sheng-jiao-yi-ting.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">學生交誼廳</div>
+              <div class="card-desc">放鬆交流的舒適公共空間</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">7F</span>
+          <span class="floor-title">頂樓設施</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/DwdpFRLK/tu-shu-guan-yue-lan-qu.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">圖書館閱覽區</div>
+              <div class="card-desc">浩瀚藏書與寧靜閱讀區</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/hGDyGM11/jing-si-ming-xiang-shi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">靜思冥想室</div>
+              <div class="card-desc">心靈沉澱與精神集中訓練</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/DwKp97Wd/wu-ding-hua-yuan.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">屋頂花園</div>
+              <div class="card-desc">俯瞰校園的空中綠地</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
+    <div class="content-area content-under taboo-zone">
+      
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge ug-badge">B1</span>
+          <span class="floor-title" style="color: #e2e8f0">基礎實驗區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/Jhzx80Rr/de-xia-yi-ceng-ji-chu-shi-yan-qu-(1).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">時間流體觀測室</div>
+              <div class="card-desc">觀測時間粒子流動的基礎實驗室</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/MGp5wHzW/de-xia-yi-ceng-ji-chu-shi-yan-qu-(2).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">生理週期分析室</div>
+              <div class="card-desc">生物數據記錄與週期監控</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/q7vwrqpv/de-xia-yi-ceng-ji-chu-shi-yan-qu-(3).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">聲波共振實驗艙</div>
+              <div class="card-desc">極低頻與超聲波頻率研究</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge ug-badge">B2</span>
+          <span class="floor-title" style="color: #e2e8f0">特殊研究區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/QMdmDCjf/de-xia-san-ceng-jin-ji-shi-yan-qu-(2).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">同步感知實驗室</div>
+              <div class="card-desc">神經反應同步率測試與調整</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/wBj2zM90/de-xia-san-ceng-jin-ji-shi-yan-qu-(3).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">記憶萃取準備室</div>
+              <div class="card-desc">腦波數據採集與前處理程序</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/3wx1hN3S/de-xia-san-ceng-jin-ji-shi-yan-qu-(4).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">時間膠囊封存庫</div>
+              <div class="card-desc">重要實驗標本的低溫冷藏保存</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge ug-badge">B3</span>
+          <span class="floor-title" style="color: #f43f5e">禁忌實驗區 (權限鎖定)</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/pdLCvrP9/de-xia-er-ceng-te-shu-yan-jiu-qu-(2).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">時空妊娠模擬艙</div>
+              <div class="card-desc">高機密生命數據採集室</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/wBj2zM9R/de-xia-er-ceng-te-shu-yan-jiu-qu-(3).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">痛覺快感轉化實驗室</div>
+              <div class="card-desc">神經刺激閾值與極限研究</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/VNkgwvzt/de-xia-er-ceng-te-shu-yan-jiu-qu-(4).png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">體液時間分析室</div>
+              <div class="card-desc">特殊生物樣本檢測分析</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
+    <div class="content-area content-common">
+      
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">通用</span>
+          <span class="floor-title">各樓層設施</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/Nj7CYZTd/jie-ti-jiao-shi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">階梯教室</div>
+              <div class="card-desc">大型講座與學術發表會場</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/KvTsp1Y4/xiao-zu-tao-lun-shi.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">小組討論室</div>
+              <div class="card-desc">配備白板與投影的4-8人討論空間</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/KYGqYQDY/qi-cai-chu-cang-shi-jiao-xue-yong-ju-cun-fang.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">器材儲藏室</div>
+              <div class="card-desc">各類教學用具與耗材存放區</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="floor-block">
+        <div class="floor-header">
+          <span class="floor-badge">戶外</span>
+          <span class="floor-title">教學園區</span>
+        </div>
+        <div class="card-grid">
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/BvSYvNBC/yao-cao-zai-pei-yuan-yao-yong-zhi-wu-yuan.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">藥草栽培園</div>
+              <div class="card-desc">珍稀藥用植物與魔法植株培育</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/qvdDPptg/tian-xiang-guan-ce-ping-tai-lu-tian-guan-xing-qu.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">天象觀測平台</div>
+              <div class="card-desc">無光害露天觀星與儀式區</div>
+            </div>
+          </div>
+          <div class="room-card">
+            <div class="card-img-wrap"><img src="https://i.postimg.cc/T3XNzTy5/sheng-tai-guan-cha-chi-shui-sheng-sheng-wu-yan-jiu.png" class="card-img"></div>
+            <div class="card-info">
+              <div class="card-title">生態觀察池</div>
+              <div class="card-desc">水生生物與濕地生態研究</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

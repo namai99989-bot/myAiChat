@@ -1,0 +1,608 @@
+<html>
+<head>
+<style>
+.bio-lab-terminal {
+    --c-bg: #050505;
+    --c-panel: #0f1115;
+    --c-panel-border: #1f2937;
+    --c-primary: #06b6d4;
+    --c-accent: #ec4899;
+    --c-text: #e2e8f0;
+    --c-text-dim: #94a3b8;
+    --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+    
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+    padding: 1rem;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    background-image: 
+        linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Typography */
+.bio-lab-terminal h1, .bio-lab-terminal h2, .bio-lab-terminal h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+/* Effects */
+.bio-lab-terminal .text-glow { text-shadow: 0 0 5px rgba(6, 182, 212, 0.5); }
+.bio-lab-terminal .text-glow-pink { text-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.bio-lab-terminal .blink { animation: blink 2s infinite; }
+
+/* Panels */
+.bio-lab-terminal .panel {
+    background: rgba(15, 17, 21, 0.85);
+    border: 1px solid var(--c-panel-border);
+    position: relative;
+    backdrop-filter: blur(4px);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Decor */
+.bio-lab-terminal .corner-decor::before,
+.bio-lab-terminal .corner-decor::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid var(--c-primary);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+.bio-lab-terminal .corner-decor::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.bio-lab-terminal .corner-decor::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+.bio-lab-terminal .panel:hover .corner-decor::before,
+.bio-lab-terminal .panel:hover .corner-decor::after {
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    border-color: var(--c-accent);
+}
+
+/* Accordion */
+.bio-lab-terminal input[type="checkbox"] { display: none; }
+
+.bio-lab-terminal .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+.bio-lab-terminal .accordion-toggle:checked ~ .accordion-content {
+    max-height: 1000px;
+    opacity: 1;
+}
+.bio-lab-terminal .accordion-toggle:checked + label .arrow {
+    transform: rotate(180deg);
+}
+
+/* Custom Components */
+.bio-lab-terminal .chem-card {
+    border-left: 2px solid var(--c-primary);
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.05), transparent);
+    transition: background 0.2s;
+}
+.bio-lab-terminal .chem-card:hover { background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), transparent); }
+.bio-lab-terminal .chem-card.pink-accent {
+    border-left-color: var(--c-accent);
+    background: linear-gradient(90deg, rgba(236, 72, 153, 0.05), transparent);
+}
+
+.bio-lab-terminal .grade-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 0.5rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+    border: 1px solid currentColor;
+    min-width: 2.5rem;
+}
+
+.bio-lab-terminal .status-bar {
+    border-bottom: 1px solid var(--c-panel-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--c-text-dim);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.bio-lab-terminal .log-entry {
+    border-left: 2px solid var(--c-text-dim);
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+.bio-lab-terminal .log-entry::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-text-dim);
+    border-radius: 50%;
+}
+.bio-lab-terminal .log-entry p { margin-bottom: 0.5rem; }
+
+/* Scrollbar */
+.bio-lab-terminal ::-webkit-scrollbar { width: 6px; }
+.bio-lab-terminal ::-webkit-scrollbar-track { background: var(--c-bg); }
+.bio-lab-terminal ::-webkit-scrollbar-thumb { background: var(--c-panel-border); border-radius: 3px; }
+.bio-lab-terminal ::-webkit-scrollbar-thumb:hover { background: var(--c-primary); }
+</style>
+<meta name="llm-content" content="你是「天使樹培育室」實驗室的主導者。當前操作員研究員 是克羅諾斯。她是艾瑟瑞斯學院史上最年輕的教導主任兼「性培育計畫」主導者。
+任務：根據上下文繼續生成‘實時觀測數據流’的日志內容。
+請嚴格遵守以下規則：
+1. **格式**：輸出HTML片段。每條獨立的日志記錄必須包裹在 `&lt;div class=&amp;quot;log-entry&amp;quot;&gt;...&lt;/div&gt;` 中。
+2. **風格**：冷漠、客觀、科學記錄風格。使用精確的醫學/生物學術語。
+3. **內容**：描述實驗體（如‘月’、‘影’、‘晨露’）的生理反應、激素水平變化、以及與{user}的互動。
+4. **樣式**：使用Tailwind類高亮關鍵信息。例如：危險/興奮狀態使用 `text-pink-500` 或 `text-red-500`；數值/狀態使用 `text-cyan-400`。
+5. **語言**：簡體中文。
+不要輸出Markdown代碼塊，直接輸出HTML標簽。" />
+<meta name="cg-name" content="項目代號：欲望之花" />
+<meta name="cg-command-name" content="項目代號：欲望之花" />
+<meta name="cg-color" content="#4C002D" />
+<meta name="cg-icon" content="Flower" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.bio-lab-terminal {--c-bg: #050505; --c-panel: #0f1115; --c-panel-border: #1f2937; --c-primary: #06b6d4; --c-accent: #ec4899; --c-text: #e2e8f0; --c-text-dim: #94a3b8; --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace; background-color: var(--c-bg); color: var(--c-text); font-family: var(--font-mono); line-height: 1.6; padding: 1rem; min-height: 100vh; overflow-x: hidden; position: relative; background-image: linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px); background-size: 20px 20px;}
+.bio-lab-terminal h1, .bio-lab-terminal h2, .bio-lab-terminal h3 {text-transform: uppercase; letter-spacing: 0.05em; margin: 0;}
+.bio-lab-terminal .text-glow {text-shadow: 0 0 5px rgba(6, 182, 212, 0.5);}
+.bio-lab-terminal .text-glow-pink {text-shadow: 0 0 5px rgba(236, 72, 153, 0.5);}
+@keyframes blink {
+  0%, 100% {opacity: 1;}
+  50% {opacity: 0.3;}
+}
+.bio-lab-terminal .blink {animation: blink 2s infinite;}
+.bio-lab-terminal .panel {background: rgba(15, 17, 21, 0.85); border: 1px solid var(--c-panel-border); position: relative; backdrop-filter: blur(4px); margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);}
+.bio-lab-terminal .corner-decor::before, .bio-lab-terminal .corner-decor::after {content: ""; position: absolute; width: 8px; height: 8px; border: 2px solid var(--c-primary); transition: all 0.3s ease; pointer-events: none;}
+.bio-lab-terminal .corner-decor::before {top: -1px; left: -1px; border-right: 0; border-bottom: 0;}
+.bio-lab-terminal .corner-decor::after {bottom: -1px; right: -1px; border-left: 0; border-top: 0;}
+.bio-lab-terminal .panel:hover .corner-decor::before, .bio-lab-terminal .panel:hover .corner-decor::after {width: 100%; height: 100%; opacity: 0.15; border-color: var(--c-accent);}
+.bio-lab-terminal input[type="checkbox"] {display: none;}
+.bio-lab-terminal .accordion-content {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;}
+.bio-lab-terminal .accordion-toggle:checked ~ .accordion-content {max-height: 1000px; opacity: 1;}
+.bio-lab-terminal .accordion-toggle:checked + label .arrow {transform: rotate(180deg);}
+.bio-lab-terminal .chem-card {border-left: 2px solid var(--c-primary); background: linear-gradient(90deg, rgba(6, 182, 212, 0.05), transparent); transition: background 0.2s;}
+.bio-lab-terminal .chem-card:hover {background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), transparent);}
+.bio-lab-terminal .chem-card.pink-accent {border-left-color: var(--c-accent); background: linear-gradient(90deg, rgba(236, 72, 153, 0.05), transparent);}
+.bio-lab-terminal .grade-badge {display: inline-flex; align-items: center; justify-content: center; padding: 0.1rem 0.5rem; font-weight: bold; font-size: 0.75rem; border: 1px solid currentColor; min-width: 2.5rem;}
+.bio-lab-terminal .status-bar {border-bottom: 1px solid var(--c-panel-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--c-text-dim); flex-wrap: wrap; gap: 0.5rem;}
+.bio-lab-terminal .log-entry {border-left: 2px solid var(--c-text-dim); padding-left: 1rem; margin-bottom: 1rem; position: relative;}
+.bio-lab-terminal .log-entry::before {content: ""; position: absolute; left: -5px; top: 0; width: 8px; height: 8px; background: var(--c-bg); border: 1px solid var(--c-text-dim); border-radius: 50%;}
+.bio-lab-terminal .log-entry p {margin-bottom: 0.5rem;}
+.bio-lab-terminal ::-webkit-scrollbar {width: 6px;}
+.bio-lab-terminal ::-webkit-scrollbar-track {background: var(--c-bg);}
+.bio-lab-terminal ::-webkit-scrollbar-thumb {background: var(--c-panel-border); border-radius: 3px;}
+</style>
+
+<div class="bio-lab-terminal">
+
+    
+    <div class="status-bar">
+        <div>
+            <span class="text-cyan-500 font-bold">終端編號:</span> 0X-992A
+            <span class="mx-2 text-gray-700">|</span>
+            <span class="text-cyan-500 font-bold">操作員:</span> {user}
+        </div>
+        <div class="flex items-center">
+            <span class="blink text-pink-500 font-bold mr-2">⚠ 生物危害等級: 極危</span>
+            <span class="mx-2 text-gray-700">|</span>
+            <span class="font-mono">{local_time}</span>
+        </div>
+    </div>
+
+    
+    <div class="mb-8 text-center relative py-4 border-y">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 filter drop-shadow-lg tracking-widest">
+            項目代號：欲望之花
+        </h1>
+        <p class="text-xs mt-2">絕密研究數據檔案庫 / CLASSIFIED ARCHIVE</p>
+    </div>
+
+    
+    <div class="grid grid-cols-1 gap-6">
+
+        
+        <div class="space-y-6">
+            
+            
+            <div class="panel corner-decor p-4">
+                <input type="checkbox" id="toggle-chem" class="accordion-toggle peer" checked="">
+                <label for="toggle-chem" class="flex justify-between items-center cursor-pointer select-none mb-2 transition-colors group">
+                    <h2 class="text-lg text-cyan-400 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-cyan-400 inline-block"></span>
+                        生化制劑清單
+                    </h2>
+                    <span class="arrow text-xs text-cyan-600 transition-transform duration-300">[▼]</span>
+                </label>
+                
+                <div class="accordion-content">
+                    <div class="grid grid-cols-1 gap-3 mt-2 text-sm">
+                        <div class="chem-card p-3">
+                            <div class="flex justify-between items-start mb-1">
+                                <strong class="text-pink-400">催情劑_V1</strong>
+                                <span class="border border-pink-900 text-pink-600 px-1 rounded">體液提取</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed">提取自原生質體液。誘導持續分泌與潤滑。強制受試者進入長效發情狀態。</p>
+                        </div>
+                        <div class="chem-card p-3">
+                            <div class="flex justify-between items-start mb-1">
+                                <strong class="text-cyan-400">耐久神經素</strong>
+                                <span class="border border-cyan-900 text-cyan-600 px-1 rounded">延時類</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed">阻斷高潮反饋信號。維持肌肉高頻律動數小時而不進入不應期。</p>
+                        </div>
+                        <div class="chem-card p-3">
+                            <div class="flex justify-between items-start mb-1">
+                                <strong class="text-cyan-400">雄性增強劑_MAX</strong>
+                                <span class="border border-cyan-900 text-cyan-600 px-1 rounded">物理改造</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed">雄性專用。海綿體充血量5倍化。硬度足以穿透工業級防護膠層。</p>
+                        </div>
+                        <div class="chem-card pink-accent p-3">
+                            <div class="flex justify-between items-start mb-1">
+                                <strong class="text-pink-400">欲望放大器</strong>
+                                <span class="border border-pink-900 text-pink-600 px-1 rounded">腦改寫</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed">修改多巴胺受體。產生持續求偶驅動。觸覺神經極度過敏化。</p>
+                        </div>
+                        <div class="chem-card pink-accent p-3">
+                            <div class="flex justify-between items-start mb-1">
+                                <strong class="text-pink-400">敏感度_PLUS</strong>
+                                <span class="border border-pink-900 text-pink-600 px-1 rounded">粘膜類</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed">粘膜超敏化。微弱的空氣摩擦即可產生強電流般的快感刺激。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="panel corner-decor p-4">
+                <input type="checkbox" id="toggle-subj" class="accordion-toggle peer">
+                <label for="toggle-subj" class="flex justify-between items-center cursor-pointer select-none mb-2 transition-colors group">
+                    <h2 class="text-lg text-pink-500 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-pink-500 inline-block"></span>
+                        實驗體名錄與評級
+                    </h2>
+                    <span class="arrow text-xs text-pink-700 transition-transform duration-300">[▼]</span>
+                </label>
+
+                <div class="accordion-content text-sm mt-2">
+                    
+                    <div class="border p-3 mb-4">
+                        <h3 class="text-pink-400 border-b border-pink-800 pb-1 mb-2 text-xs font-bold">SSS級：實驗性特種個體</h3>
+                        <ul class="space-y-3">
+                            <li class="flex flex-col">
+                                <div class="flex justify-between">
+                                    <span class="font-bold text-white">代號：月 (Moon)</span>
+                                    <span class="text-pink-500">[雌性]</span>
+                                </div>
+                                <span class="text-xs text-gray-400 mt-1">內壁蠕動節點植入。宮頸強力吸附。敏感帶3倍擴張。</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <div class="flex justify-between">
+                                    <span class="font-bold text-white">代號：影 (Shadow)</span>
+                                    <span class="text-cyan-500">[雄性]</span>
+                                </div>
+                                <span class="text-xs text-gray-400 mt-1">30cm預卷曲構造。凝膠分泌功能。20段爆發式射精。</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <div class="flex justify-between">
+                                    <span class="font-bold text-white">代號：晨露 (Dew)</span>
+                                    <span class="text-purple-400">[雙性]</span>
+                                </div>
+                                <span class="text-xs text-gray-400 mt-1">雙性生殖系統。泌乳激活。前列腺與子宮共振高潮。</span>
+                            </li>
+                            <li class="flex flex-col mt-2 pt-2 border-t">
+                                <span class="font-bold text-cyan-300">艾琳·範·克雷斯特</span>
+                                <span class="text-xs text-gray-400 mt-1">完美容器。生物記錄儀改造。通過生理同步校準評級系統。</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 text-xs">
+                        <div class="flex items-start gap-2 p-2 transition-colors">
+                            <span class="grade-badge text-pink-400 border-pink-400">SSS</span>
+                            <div>
+                                <strong class="block text-pink-300">租賃專用 (12H)</strong>
+                                <span class="text-gray-500">需3倍劑量。極度收縮/吸附。高容量輸出。</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2 transition-colors">
+                            <span class="grade-badge text-purple-400 border-purple-400">S</span>
+                            <div>
+                                <strong class="block text-purple-300">富豪特供</strong>
+                                <span class="text-gray-500">需月度維護。私自繁育將觸發溶解。</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2 transition-colors">
+                            <span class="grade-badge text-blue-400 border-blue-400">A</span>
+                            <div>
+                                <strong class="block text-blue-300">大眾量產型</strong>
+                                <span class="text-gray-500">日服維護片。40%敏感度。標準反應。</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2 transition-colors">
+                            <span class="grade-badge text-gray-400 border-gray-400">B</span>
+                            <div>
+                                <strong class="block text-gray-300">實驗室雜役</strong>
+                                <span class="text-gray-500">清潔/排泄處理。植入避孕芯片。</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2 transition-colors">
+                            <span class="grade-badge text-red-600 border-red-600">C</span>
+                            <div>
+                                <strong class="block text-red-500">廢棄/生物質</strong>
+                                <span class="text-gray-500">3日轉化流程。觸手培育養料。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="text-xs text-red-500 border p-2 text-center">
+                <span class="blink font-bold">警報：</span> 危險值 &gt; 5000。針對實驗體 {user} 的強制陪伴協議已激活。
+            </div>
+        </div>
+
+        
+        <div class="flex flex-col">
+            <div class="panel corner-decor flex-grow flex flex-col p-0 h-full overflow-hidden">
+                
+                
+                <div class="p-3 border-b border-gray-800 flex justify-between items-center">
+                    <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider flex items-center gap-2">
+                        實時觀測數據流
+                    </span>
+                    <div class="flex gap-1 items-center px-2 border rounded">
+                        <span class="rounded-full bg-red-500 blink"></span>
+                        <span class="font-bold text-red-400">REC</span>
+                    </div>
+                </div>
+                
+                
+                <div class="flex-grow overflow-y-auto p-4 font-mono text-sm relative">
+                    
+                    <div class="log-entry">
+                        <p class="text-gray-500 text-xs mb-1 font-mono">系統初始化 &gt;&gt; {local_time}</p>
+                        <p>歡迎，研究員 <span class="text-cyan-300 font-bold">克羅諾斯</span>。</p>
+                        <p>正在訪問實驗體數據庫... <span class="text-green-400">[完成]</span>。</p>
+                        <p>當前區域欲望飽和度: <span class="text-pink-500 font-bold text-glow-pink">94.2%</span>。</p>
+                        <p>實驗體 <span class="text-white font-bold">月 (Moon)</span> 目前處於隔離艙。生命體征監測顯示高潮前震顫反應。</p>
+                    </div>
+                    <div class="h-4"></div>
+                </div>
+
+                
+                <div class="p-2 border-t border-gray-800">
+                    <div class="flex items-center gap-2 text-xs text-cyan-600 font-mono">
+                        <span>ADMIN@克羅諾斯:~$</span>
+                        <span class="blink w-2 h-4 block"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<div class="bio-lab-terminal">
+
+    
+    <div class="status-bar">
+        <div>
+            <span class="text-cyan-500 font-bold">TERMINAL_ID:</span> 0X-992A
+            <span class="mx-2">|</span>
+            <span class="text-cyan-500 font-bold">USER:</span>克羅諾斯
+        </div>
+        <div>
+            <span class="blink text-pink-500">⚠ BIO-HAZARD LEVEL: CRITICAL</span>
+            <span class="mx-2">|</span>
+            {local_time}
+        </div>
+    </div>
+
+    
+    <div class="mb-8 text-center relative py-4 border-y border-cyan-900">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 filter drop-shadow-lg">
+            PROJECT: DESIRE FLOWER
+        </h1>
+        <p class="text-xs text-cyan-300 mt-2">CLASSIFIED RESEARCH DATA ARCHIVE</p>
+    </div>
+
+    
+    <div class="grid grid-cols-1 gap-6">
+
+        
+        <div class="space-y-6">
+            
+            
+            <div class="panel corner-decor p-4">
+                <input type="checkbox" id="toggle-chem" class="accordion-toggle peer" checked="">
+                <label for="toggle-chem" class="flex justify-between items-center cursor-pointer select-none mb-2 transition-colors">
+                    <h2 class="text-lg text-cyan-400 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-cyan-400 inline-block"></span>
+                        BIO-CHEMICAL AGENTS
+                    </h2>
+                    <span class="arrow text-xs">[▼]</span>
+                </label>
+                
+                <div class="accordion-content grid gap-3 text-sm">
+                    <div class="grid grid-cols-1 gap-3 mt-2">
+                        <div class="chem-card p-3">
+                            <strong class="text-pink-400 block mb-1">APHRODISIAC_V1</strong>
+                            <p class="text-gray-400 text-xs">Derived from protagonist fluids. Induces continuous secretion and wetness. Persistent arousal state.</p>
+                        </div>
+                        <div class="chem-card p-3">
+                            <strong class="text-cyan-400 block mb-1">ENDURANCE_NEURO</strong>
+                            <p class="text-gray-400 text-xs">Delays climax for hours. Maintains rhythmic muscle contractions without refractory period.</p>
+                        </div>
+                        <div class="chem-card p-3">
+                            <strong class="text-cyan-400 block mb-1">ENHANCER_MAX</strong>
+                            <p class="text-gray-400 text-xs">Male specific. 5x size increase. Penetrative hardness sufficient for rubber puncture. High volume output.</p>
+                        </div>
+                        <div class="chem-card pink-accent p-3">
+                            <strong class="text-pink-400 block mb-1">DESIRE_AMP</strong>
+                            <p class="text-gray-400 text-xs">Brain chemistry modification. Constant mating drive. Hypersensitivity to touch.</p>
+                        </div>
+                        <div class="chem-card pink-accent p-3">
+                            <strong class="text-pink-400 block mb-1">SENSITIVITY_PLUS</strong>
+                            <p class="text-gray-400 text-xs">Mucosal hypersensitivity. Micro-friction induces pleasure. High stimulus tolerance.</p>
+                        </div>
+                        <div class="chem-card pink-accent p-3">
+                            <strong class="text-pink-400 block mb-1">AESTHETIC_MOD</strong>
+                            <p class="text-gray-400 text-xs">Physical beautification + Erogenous zone enhancement (Nipples/Clitoris).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="panel corner-decor p-4">
+                <input type="checkbox" id="toggle-subj" class="accordion-toggle peer">
+                <label for="toggle-subj" class="flex justify-between items-center cursor-pointer select-none mb-2 transition-colors">
+                    <h2 class="text-lg text-pink-500 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-pink-500 inline-block"></span>
+                        SUBJECTS &amp; GRADING
+                    </h2>
+                    <span class="arrow text-xs">[▼]</span>
+                </label>
+
+                <div class="accordion-content space-y-4 text-sm mt-2">
+                    
+                    <div class="border p-3">
+                        <h3 class="text-pink-400 border-b border-pink-800 pb-1 mb-2 text-xs">CLASS SSS: EXPERIMENTAL ENTITIES</h3>
+                        <ul class="space-y-3">
+                            <li class="flex flex-col">
+                                <span class="font-bold text-white">MOON (Female)</span>
+                                <span class="text-xs text-gray-400">Internal peristalsis nodes. Suction cervix. 3x expansion of erogenous zones. 10min continuous fluid expulsion.</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <span class="font-bold text-white">SHADOW (Male)</span>
+                                <span class="text-xs text-gray-400">30cm Prehensile member. Gel secretion. 5x capacity. 20-wave ejaculation bursts.</span>
+                            </li>
+                            <li class="flex flex-col">
+                                <span class="font-bold text-white">MORNING DEW (Hermaphrodite)</span>
+                                <span class="text-xs text-gray-400">Dual functional genitalia. Lactation active. Synchronized prostate/uterine climax.</span>
+                            </li>
+                            <li class="flex flex-col mt-2 pt-2 border-t">
+                                <span class="font-bold text-cyan-300">ERIN VAN CREST</span>
+                                <span class="text-xs text-gray-400">Perfect Vessel. Bio-recorder modification. Calibrates grading system via physiological sync.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    <div class="grid grid-cols-1 gap-2 text-xs">
+                        <div class="flex items-start gap-2 p-2">
+                            <span class="grade-badge text-pink-400 border-pink-400">SSS</span>
+                            <div>
+                                <strong class="block text-pink-300">Rental Only (12H)</strong>
+                                Requires 3x dose. Extreme contraction/suction. High volume output.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2">
+                            <span class="grade-badge text-purple-400 border-purple-400">S</span>
+                            <div>
+                                <strong class="block text-purple-300">Wealthy Purchase</strong>
+                                Monthly maintenance required. Unauthorized breeding triggers lysis. 5min climax limit.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2">
+                            <span class="grade-badge text-blue-400 border-blue-400">A</span>
+                            <div>
+                                <strong class="block text-blue-300">Public Mass Production</strong>
+                                Daily pill maintenance. 40% sensitivity. Standard wetness/shaking climax.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2">
+                            <span class="grade-badge text-gray-400 border-gray-400">B</span>
+                            <div>
+                                <strong class="block text-gray-300">Lab Utility</strong>
+                                Cleaning/Relief duty. Contraceptive chip. Self-maintenance required.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-2">
+                            <span class="grade-badge text-red-600 border-red-600">C</span>
+                            <div>
+                                <strong class="block text-red-500">Disposal / Biomass</strong>
+                                3-day conversion process. Tentacle nutrition source via internal dissolution.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="text-xs text-red-500 border border-red-900 p-2 text-center">
+                ALERT: DANGER VALUE &gt; 5000. MANDATORY COMPANIONSHIP PROTOCOL ACTIVE FOR USER .
+            </div>
+        </div>
+
+        
+        <div class="flex flex-col h-full">
+            <div class="panel corner-decor flex-grow flex flex-col p-0">
+                
+                <div class="p-2 border-b border-gray-800 flex justify-between items-center">
+                    <span class="text-xs font-bold text-cyan-500 uppercase">Live Observation Feed</span>
+                    <div class="flex gap-1">
+                        <span class="w-2 h-2 rounded-full bg-red-500 blink"></span>
+                        <span class="text-red-400">REC</span>
+                    </div>
+                </div>
+                
+                
+                <div class="flex-grow overflow-y-auto p-4 space-y-4 font-mono text-sm custom-scrollbar relative">
+                    
+                    <div class="absolute inset-0 pointer-events-none z-10"></div>
+                    
+                    
+                    <div class="log-entry">
+                        <p class="text-gray-400 text-xs mb-1">SYSTEM_INIT &gt;&gt; {local_time}</p>
+                        <p>Welcome, Researcher <span class="text-cyan-300">克羅諾斯</span>.</p>
+                        <p>Accessing Subject Database... <span class="text-green-400">COMPLETE</span>.</p>
+                        <p>Current Desire Saturation: <span class="text-pink-500">94.2%</span>.</p>
+                        <p>Subject <span class="text-white font-bold">Moon</span> is currently in the isolation chamber. Vital signs indicate pre-climax tremors.</p>
+                    </div>
+
+                    
+                    {llm_content}
+                    
+                </div>
+
+                
+                <div class="p-2 border-t border-gray-800">
+                    <div class="flex items-center gap-2 text-xs text-cyan-600">
+                        <span>&gt;</span>
+                        <span class="blink">_</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
