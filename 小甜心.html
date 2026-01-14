@@ -1,0 +1,456 @@
+<html>
+<head>
+<style>
+/* Root Scoping */
+    .jianghu-template {
+      --theme-pink: #fbcfe8;
+      --theme-pink-dark: #be185d;
+      --theme-green-dark: #022c22;
+      --theme-green-neon: #4ade80;
+      --theme-paper: #fff1f2;
+      --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      
+      font-family: var(--font-body);
+      line-height: 1.6;
+      width: 100%;
+      height: 100%;
+      background-color: var(--theme-paper);
+      color: var(--theme-pink-dark);
+      position: relative;
+    }
+
+    /* Transition Base */
+    .jianghu-template .transition-theme {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Animations */
+    @keyframes breathe-glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(74, 222, 128, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(74, 222, 128, 0.6); }
+    }
+    
+    @keyframes pulse-custom {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .jianghu-template .animate-pulse {
+      animation: pulse-custom 2s infinite;
+    }
+
+    /* Toggle Logic */
+    .jianghu-template .toggle-checkbox {
+      display: none;
+    }
+
+    /* Root State Changes */
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper {
+      background-color: var(--theme-green-dark);
+      color: var(--theme-green-neon);
+    }
+
+    /* Header Styling */
+    .jianghu-template .sticky-header {
+      position: sticky; /* 補全缺失的position屬性，確保粘性定位生效 */
+      top: 0;
+      z-index: 50;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(190, 24, 93, 0.1);
+      background-color: rgba(255, 241, 242, 0.8);
+    }
+
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .sticky-header {
+      background-color: rgba(2, 44, 34, 0.8);
+      border-bottom-color: rgba(74, 222, 128, 0.2);
+    }
+
+    /* Stable Header Title (Grid Stack) */
+    .jianghu-template .title-stack {
+      display: grid;
+      grid-template-areas: "stack";
+      align-items: center;
+    }
+    .jianghu-template .title-stack > span {
+      grid-area: stack;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .jianghu-template .title-stack .mode-cute {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .jianghu-template .title-stack .mode-horror {
+      opacity: 0;
+      transform: translateY(5px); /* 統一為標準駝峰式寫法，修覆translatey小寫兼容性問題 */
+      pointer-events: none;
+    }
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .title-stack .mode-cute {
+      opacity: 0;
+      transform: translateY(-5px); /* 統一為標準駝峰式寫法 */
+    }
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .title-stack .mode-horror {
+      opacity: 1;
+      transform: translateY(0); /* 統一為標準駝峰式寫法 */
+    }
+
+    /* Toggle Button (Simplified to prevent shifting) */
+    .jianghu-template .toggle-label {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .jianghu-template .toggle-track {
+      width: 3.5rem;
+      height: 1.75rem;
+      border-radius: 9999px;
+      background-color: var(--theme-pink);
+      position: relative;
+      transition: background-color 0.4s ease;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+    
+    .jianghu-template .toggle-dot {
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 0.25rem;
+      left: 0.25rem;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .toggle-track {
+      background-color: var(--theme-green-neon);
+    }
+    
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .toggle-dot {
+      transform: translateX(1.75rem); /* 統一為標準駝峰式寫法，修覆translatex小寫兼容性問題 */
+      background-color: var(--theme-green-dark);
+    }
+
+    /* Content Layout */
+    .jianghu-template .content-wrapper {
+      min-height: 100vh;
+      width: 100%;
+      padding-bottom: 4rem;
+    }
+
+    /* Avatar Section */
+    .jianghu-template .avatar-section {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      padding: 0 1rem;
+    }
+    
+    .jianghu-template .avatar-frame {
+      width: 8rem;
+      height: 8rem;
+      border-radius: 50%;
+      border: 4px solid var(--theme-pink);
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+      background-color: #f3f4f6;
+      transition: border-color 0.8s ease, filter 0.8s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .jianghu-template .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .avatar-frame {
+      border-color: var(--theme-green-neon);
+      filter: grayscale(100%) sepia(100%) hue-rotate(90deg) contrast(1.2);
+      animation: breathe-glow 4s infinite;
+    }
+
+    /* Dynamic Content Visibility (Vertical Stacking) */
+    .jianghu-template .cute-element {
+      opacity: 1;
+      max-height: 500px;
+      transition: opacity 0.5s ease, max-height 0.5s ease 0.1s;
+      overflow: hidden;
+    }
+    .jianghu-template .horror-element {
+      opacity: 0;
+      max-height: 0;
+      transition: opacity 0.5s ease, max-height 0.5s ease;
+      overflow: hidden;
+    }
+
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .cute-element {
+      opacity: 0;
+      max-height: 0;
+      transition: opacity 0.3s ease, max-height 0.5s ease;
+    }
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .horror-element {
+      opacity: 1;
+      max-height: 500px;
+      transition: opacity 0.5s ease 0.2s, max-height 0.5s ease;
+    }
+
+    /* Card Styling */
+    .jianghu-template .theme-card {
+      background-color: rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--theme-pink);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 1.5rem auto;
+      max-width: 42rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.8s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .theme-card {
+      background-color: rgba(6, 78, 59, 0.4);
+      border-color: rgba(74, 222, 128, 0.3);
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
+    }
+
+    /* Tags */
+    .jianghu-template .tag-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.75rem;
+    }
+    .jianghu-template .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .jianghu-template .tag-cute {
+      background-color: white;
+      color: var(--theme-pink-dark);
+      border: 1px solid var(--theme-pink);
+    }
+    .jianghu-template .tag-horror {
+      background-color: transparent;
+      color: var(--theme-green-neon);
+      border: 1px solid var(--theme-green-neon);
+      box-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+    }
+
+    /* Typography */
+    .jianghu-template h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin: 1rem 0 0.5rem;
+    }
+    
+    .jianghu-template .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: 0.875rem;
+    }
+    .jianghu-template .toggle-checkbox:checked ~ .content-wrapper .info-row {
+      border-bottom-color: rgba(74, 222, 128, 0.2);
+    }
+
+    /* Utility */
+    .jianghu-template .text-xs { font-size: 0.75rem; }
+    .jianghu-template .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .jianghu-template .opacity-60 { opacity: 0.6; }
+    .jianghu-template .text-right { text-align: right; }
+    /* 新增：統一樣式，移除內聯樣式冗余 */
+    .jianghu-template .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.5rem;
+    }
+    .jianghu-template .dot-pulse {
+      width: 0.5rem;
+      height: 0.5rem;
+      display: inline-block;
+      background-color: currentColor;
+      border-radius: 50%;
+      animation: pulse-custom 2s infinite;
+    }
+    .jianghu-template .ml-auto {
+      margin-left: auto;
+    }
+</style>
+<meta name="cg-name" content="小甜心秘密檔案" />
+<meta name="cg-command-name" content="小甜心秘密檔案" />
+<meta name="cg-color" content="#03510E" />
+<meta name="cg-icon" content="ToyBrick" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- 修覆1：移除body內重覆的style標簽，避免樣式冗余、沖突及加載性能問題 -->
+
+<div class="jianghu-template">
+    
+    <input type="checkbox" id="insight-toggle" class="toggle-checkbox">
+    
+    <div class="content-wrapper transition-theme">
+        
+        <div class="sticky-header transition-theme">
+            <div class="title-stack">
+                <span class="mode-cute text-xs font-bold uppercase tracking-widest">玩偶屋模式</span>
+                <span class="mode-horror text-xs font-bold uppercase tracking-widest text-green-400">恐怖模式</span>
+            </div>
+            
+            <label for="insight-toggle" class="toggle-label">
+                <div class="toggle-track">
+                    <div class="toggle-dot"></div>
+                </div>
+            </label>
+        </div>
+
+        
+        <div class="avatar-section">
+            <div class="avatar-frame">
+                <img src="https://i.postimg.cc/kG1r5mz3/6cdf9827_68fe_4070_8f27_a1a8229b531a.png" alt="doll" class="avatar-img">
+            </div>
+            
+            <div class="text-center w-full mt-4">
+                <h1 class="transition-theme">小甜心</h1>
+                
+                
+                <div class="cute-element">
+                    <p class="text-xs italic mb-3 opacity-80">"要和我一起開茶話會嗎？"</p>
+                    <div class="tag-wrap">
+                        <span class="tag tag-cute">精致白瓷</span>
+                        <span class="tag tag-cute">可愛克制</span>
+                        <span class="tag tag-cute">純真無邪</span>
+                    </div>
+                </div>
+                
+                
+                <div class="horror-element">
+                    <p class="text-xs font-mono tracking-tighter text-green-400 mb-3">"每日淩晨03:33準確甦醒"</p>
+                    <div class="tag-wrap">
+                        <span class="tag tag-horror">捕😋本能</span>
+                        <span class="tag tag-horror">誘💋惑目標</span>
+                        <span class="tag tag-horror animate-pulse">吸取❤︎液</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="theme-card">
+            <!-- 修覆2：移除內聯樣式，使用統一的CSS類替換，優化代碼可維護性 -->
+            <div class="card-header">
+                <span class="dot-pulse"></span>
+                <span>當前記錄</span>
+                <span class="ml-auto font-mono opacity-80">{local_time}</span>
+            </div>
+
+            <div class="prose transition-theme">
+                <div class="cute-element">
+                    <p>今天的茶話會很愉快，我們分享了草莓蛋糕，玩偶的裙擺幹凈整潔，釉面沒有一絲劃痕，它安靜地坐在沙發上，眼神里滿是溫柔。</p>
+                </div>
+                <div class="horror-element font-mono text-green-400">
+                    <p>對著熟睡的{user}利用「靈質觸鬚」吸收環境中的粉紅氣息<br>以及把「靈質觸鬚」進入你的🌸來吸收液體中</p>
+                </div>
+            </div>
+
+            
+            <div class="mt-6 pt-4 border-t border-dashed border-current opacity-90">
+                <div class="info-row">
+                    <span class="opacity-60">表層材質</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold">釉面陶瓷 (A+)</div>
+                        <div class="horror-element font-mono text-green-400">浸泡過億萬夢魘</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="opacity-60">外觀</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold">玻璃與礦物顏料</div>
+                        <div class="horror-element font-mono text-green-400">非人尺度</div>
+                    </div>
+                </div>
+                <div class="info-row" style="border-bottom: none">
+                    <span class="opacity-60">核心屬性</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold text-pink-600">魅力 95</div>
+                        <div class="horror-element font-mono text-red-400">瘋狂 ∞</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        <div class="theme-card">
+            <!-- 修覆3：移除內聯樣式，使用統一的CSS類替換，保持樣式一致性 -->
+            <div class="card-header">
+                <span class="dot-pulse"></span>
+                <span>性格</span>
+                <span class="ml-auto font-mono opacity-80">{local_time}</span>
+            </div>
+
+            <div class="prose transition-theme">
+                <div class="cute-element">
+                    <p>  - 天真靦腆，善良純粹，缺乏攻擊性 <br> 
+  - 喜歡依賴人，有點自卑但渴望被關注  </p>
+                </div>
+                <div class="horror-element font-mono text-green-400">
+                    <p>「渴望被關注」實則是渴望被「觀測」——每一次被注視<br> 都能強化她在當前維度的實體化程度<br> 並有機率將觀測者拉入共享的輕微幻覺頻率。</p>
+                </div>
+            </div>
+
+            
+            <div class="mt-6 pt-4 border-t border-dashed border-current opacity-90">
+                <div class="info-row">
+                    <span class="opacity-60">日常外貌</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold">嬌小玲瓏，瓷質光滑無瑕</div>
+                        <div class="horror-element font-mono text-green-400">靈感高漲下違反物理法則</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="opacity-60">髮型</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold">粉色雙馬尾帶蝴蝶結點綴</div>
+                        <div class="horror-element font-mono text-green-400">兩束「靈質觸鬚」的固化態</div>
+                    </div>
+                </div>
+                <div class="info-row" style="border-bottom: none">
+                    <span class="opacity-60">總結</span>
+                    <div class="text-right">
+                        <div class="cute-element font-bold text-pink-600">天真的笑容迷惑對方 95</div>
+                        <div class="horror-element font-mono text-red-400">現實浸染 ∞</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center opacity-40 text-xs uppercase tracking-widest mt-8 pb-8 transition-theme">
+            <div class="cute-element">Made in Europe, 1904</div>
+            <div class="horror-element">Forged in Yuggoth, Pre-Time</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

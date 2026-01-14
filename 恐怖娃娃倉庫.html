@@ -1,0 +1,245 @@
+<html>
+<head>
+<style>
+/* 全局樣式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 頁面基礎背景 */
+body {
+    background-color: #000;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    font-family: 'Times New Roman', serif;
+}
+
+/* 主容器樣式（核心主題色：深海墨綠+幽暗黑+深紫+冰冷藍） */
+.cursed-doll-container {
+    max-width: 100%;
+    width: 780px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #0a0a0a 0%, #1a0a2e 30%, #003333 70%, #0a0a0a 100%);
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 17px;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(128, 0, 128, 0.5);
+    border-radius: 25px;
+    border: 3px solid #4b0082;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 裝飾圓形（視覺點綴） */
+.decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 70%);
+    animation: pulse 4s infinite;
+}
+.circle-left {
+    top: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+}
+.circle-right {
+    bottom: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    animation: pulse 4s infinite reverse;
+}
+
+/* 標題區域樣式 */
+.title-section {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.title-section h1 {
+    font-size: 34px;
+    color: #8a2be2;
+    text-shadow: 0 0 15px #8a2be2, 0 0 25px #00ffff;
+    margin: 0;
+    line-height: 1.2;
+    font-family: 'Creepster', cursive, sans-serif;
+    animation: flash 2.5s infinite;
+}
+.title-section h1 span {
+    animation: wobble 3s infinite;
+}
+.title-section hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #00ffff, #8a2be2, transparent);
+    margin: 25px auto;
+    width: 80%;
+    animation: pulse 3s infinite;
+}
+
+/* 介紹文本區域樣式 */
+.intro-section {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #4b0082;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 18px rgba(0, 255, 255, 0.2), 0 0 25px rgba(128, 0, 128, 0.4);
+}
+.intro-text {
+    font-size: 18px;
+    color: #c0c0c0;
+    line-height: 1.7;
+    text-align: justify;
+    text-shadow: 1px 1px 3px #000000;
+}
+.intro-text + .intro-text {
+    margin-top: 15px;
+}
+
+/* 圖片顯示區域樣式 */
+.image-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+#cursed-doll-image {
+    max-width: 90%;
+    height: auto;
+    border-radius: 15px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.5), 0 0 40px rgba(128, 0, 128, 0.6);
+    transition: all 0.5s ease-in-out;
+    animation: tada 3s infinite;
+}
+
+/* 切換按鈕區域樣式 */
+.button-section {
+    text-align: center;
+}
+#toggle-doll-button {
+    background: linear-gradient(45deg, #4b0082, #00ffff);
+    color: #ffffff;
+    border: none;
+    padding: 15px 35px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 30px rgba(128, 0, 128, 0.7);
+    font-family: 'Metal Mania', cursive, sans-serif;
+    animation: pulse 2s infinite;
+}
+#toggle-doll-button:hover {
+    background: linear-gradient(45deg, #6a0dad, #00e6e6);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 40px rgba(128, 0, 128, 0.9);
+    transform: scale(1.05);
+}
+
+/* 頁腳小字樣式 */
+.footer-note {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 14px;
+    color: #808080;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+/* 動畫定義（核心視覺動效） */
+/* 脈沖動畫 */
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* 閃爍動畫 */
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* 搖晃動畫 */
+@keyframes wobble {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-2deg); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(5px) rotate(2deg); }
+    100% { transform: translateX(0); }
+}
+
+/* 抖動動畫 */
+@keyframes tada {
+    0% { transform: scale(1); }
+    10%, 20% { transform: scale(0.95) rotate(-3deg); }
+    30%, 50%, 70%, 90% { transform: scale(1.05) rotate(3deg); }
+    40%, 60%, 80% { transform: scale(1.05) rotate(-3deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+</style>
+<meta name="cg-name" content="古老恐怖娃娃倉庫" />
+<meta name="cg-command-name" content="古老恐怖娃娃倉庫" />
+<meta name="cg-color" content="#E55BF5" />
+<meta name="cg-icon" content="Baby" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="cursed-doll-container">
+        <!-- 裝飾圓形（視覺點綴） -->
+        <div class="decor-circle circle-left"></div>
+        <div class="decor-circle circle-right"></div>
+        <!-- 標題區域 -->
+        <div class="title-section">
+            <h1><span>詛咒娃娃：舊日低語的實體</span></h1>
+            <hr>
+        </div>
+        <!-- 介紹文本區域 -->
+        <div class="intro-section">
+            <p class="intro-text">
+                <i>*在時間與空間的夾層中，古老的倉庫靜靜蟄伏。這裡的陰影並非光線的缺席，而是某種更古老、更黏稠的存在所投下的實體帷幕。空氣中懸浮著來自不同維度的塵埃，每一粒都承載著被遺忘文明的恐懼殘響。*</i>
+            </p>
+            <p class="intro-text">
+                <i>*倉庫的角落裡，陳列著來自人類歷史各個斷層的恐怖娃娃。它們並非單純的人造物，而是人類集體潛意識中恐懼原型的物質錨點，是舊日低語透過現實裂縫滲透而成的畸形結晶。*</i>
+            </p>
+        </div>
+        <!-- 圖片顯示區域 -->
+        <div class="image-section">
+            <img id="cursed-doll-image" src="https://i.postimg.cc/L4ttQgyx/chuang-jian-dai-you-qie-huan-gong-neng-de-zu-zhou-wa-wa-tu-pian-ji-xiang-guan-dai-ma-fu-ben.webp" alt="詛咒娃娃">
+        </div>
+        <!-- 切換按鈕區域 -->
+        <div class="button-section">
+            <button id="toggle-doll-button">切換幽影娃娃</button>
+        </div>
+        <!-- 頁腳小字 -->
+        <div class="footer-note">
+            <i>*來自深淵的凝視...*</i>
+        </div>
+    </div>
+    <script>
+        // 定義切換的三張圖片URL（修正阿菊URL筆誤，保留用戶提供的原始地址）
+        const images = [
+            "https://i.postimg.cc/PfgW2zzx/vidu_video_3087790101087025.gif", // 小甜心
+            "https://i.postimg.cc/dVqTxW7w/0055633D-c3f65056-45ef-4367-aacf-691f128aa2c4.png", // 安娜貝爾
+            "https://i.postimg.cc/XYVyz2Z3/F514A32A-29c5d295-8490-41b2-ad97-16b0a554d228.png"  // 阿菊（修正用戶筆誤的尾號）
+        ];
+        let currentIndex = 0;
+        const dollImage = document.getElementById('cursed-doll-image');
+        const toggleButton = document.getElementById('toggle-doll-button');
+        // 按鈕點擊切換圖片邏輯
+        toggleButton.addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % images.length;
+            dollImage.src = images[currentIndex];
+            // 重新觸發圖片動畫
+            dollImage.style.animation = 'none';
+            void dollImage.offsetWidth; // 強制觸發DOM重繪
+            dollImage.style.animation = 'tada 3s infinite';
+        });
+    </script>
+</body>
+</html>
