@@ -1,0 +1,674 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.star-class-roster {
+  --bg-pink: #ffe4e6;
+  --bg-blue: #dbeafe;
+  --accent-pink: #ec4899;
+  --accent-blue: #3b82f6;
+  --text-dark: #1e293b;
+  --card-bg: #ffffff;
+  
+  font-family: "Comic Sans MS", "Chalkboard SE", sans-serif; /* Playful font for kindergarten theme */
+  background: linear-gradient(135deg, var(--bg-pink) 0%, #fff 50%, var(--bg-blue) 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* Typography & Layout */
+.star-class-roster h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  text-shadow: 2px 2px 0px var(--bg-pink);
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.star-class-roster .roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.star-class-roster .student-card {
+  background: var(--card-bg);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 3px solid;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Alternating Card Colors */
+.star-class-roster .student-card:nth-child(odd) {
+  border-color: var(--accent-pink);
+  box-shadow: 6px 6px 0px var(--bg-pink);
+}
+.star-class-roster .student-card:nth-child(even) {
+  border-color: var(--accent-blue);
+  box-shadow: 6px 6px 0px var(--bg-blue);
+}
+
+.star-class-roster .student-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+}
+
+/* Image Handling - Vertical & Full */
+.star-class-roster .card-image-frame {
+  width: 100%;
+  aspect-ratio: 3/4; /* Vertical portrait ratio */
+  overflow: hidden;
+  border-bottom: 2px dashed #cbd5e1;
+  position: relative;
+}
+
+.star-class-roster .card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+}
+
+.star-class-roster .student-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+/* Content Area */
+.star-class-roster .card-content {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.star-class-roster .student-name {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.star-class-roster .student-card:nth-child(odd) .student-name { color: var(--accent-pink); }
+.star-class-roster .student-card:nth-child(even) .student-name { color: var(--accent-blue); }
+
+.star-class-roster .mbti-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  font-weight: 700;
+}
+
+/* Stats Grid */
+.star-class-roster .stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  background: #f8fafc;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.star-class-roster .stat-item {
+  display: flex;
+  flex-direction: column;
+}
+.star-class-roster .stat-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.star-class-roster .stat-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Expander Mechanism */
+.star-class-roster .toggle-input {
+  display: none;
+}
+
+.star-class-roster .toggle-label {
+  margin-top: auto;
+  padding: 0.75rem;
+  text-align: center;
+  background: #f1f5f9;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #475569;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.star-class-roster .toggle-input:checked ~ .toggle-label {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.star-class-roster .student-card:nth-child(odd) .toggle-label:hover {
+  background: var(--bg-pink);
+  color: var(--accent-pink);
+  border-color: var(--accent-pink);
+}
+
+.star-class-roster .student-card:nth-child(even) .toggle-label:hover {
+  background: var(--bg-blue);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.star-class-roster .details-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.star-class-roster .toggle-input:checked ~ .details-content {
+  max-height: 800px; /* Large enough to fit content */
+  opacity: 1;
+  transition: max-height 0.6s ease-in-out, opacity 0.4s ease;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px dashed #e2e8f0;
+}
+
+/* Detail Sections */
+.star-class-roster .detail-block {
+  margin-bottom: 0.8rem;
+}
+.star-class-roster .detail-title {
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+.star-class-roster .student-card:nth-child(odd) .detail-title { color: var(--accent-pink); }
+.star-class-roster .student-card:nth-child(even) .detail-title { color: var(--accent-blue); }
+
+.star-class-roster .tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.star-class-roster .tag {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+}
+</style>
+<meta name="cg-name" content="二班同學的資料" />
+<meta name="cg-command-name" content="二班同學的資料" />
+<meta name="cg-color" content="#5BF5E8" />
+<meta name="cg-icon" content="TypeOutline" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.star-class-roster {--bg-pink: #ffe4e6; --bg-blue: #dbeafe; --accent-pink: #ec4899; --accent-blue: #3b82f6; --text-dark: #1e293b; --card-bg: #fff; font-family: "Comic Sans MS", "Chalkboard SE", sans-serif; background: linear-gradient(135deg, var(--bg-pink) 0%, #fff 50%, var(--bg-blue) 100%); min-height: 100vh; padding: 2rem; color: var(--text-dark); line-height: 1.6;}
+.star-class-roster h1 {text-align: center; font-size: 2.5rem; font-weight: 800; color: var(--accent-blue); text-shadow: 2px 2px 0 var(--bg-pink); margin-bottom: 2rem; letter-spacing: 0.05em;}
+.star-class-roster .roster-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1400px; margin: 0 auto;}
+.star-class-roster .student-card {background: var(--card-bg); border-radius: 1.5rem; overflow: hidden; border: 3px solid; transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; display: flex; flex-direction: column;}
+.star-class-roster .student-card:nth-child(odd) {border-color: var(--accent-pink); box-shadow: 6px 6px 0 var(--bg-pink);}
+.star-class-roster .student-card:nth-child(even) {border-color: var(--accent-blue); box-shadow: 6px 6px 0 var(--bg-blue);}
+.star-class-roster .student-card:hover {transform: translatey(-4px); box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);}
+.star-class-roster .card-image-frame {width: 100%; aspect-ratio: 3/4; overflow: hidden; border-bottom: 2px dashed #cbd5e1; position: relative;}
+.star-class-roster .card-image {width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.5s ease;}
+.star-class-roster .student-card:hover .card-image {transform: scale(1.05);}
+.star-class-roster .card-content {padding: 1.25rem; flex-grow: 1; display: flex; flex-direction: column;}
+.star-class-roster .student-name {font-size: 1.5rem; font-weight: 900; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}
+.star-class-roster .student-card:nth-child(odd) .student-name {color: var(--accent-pink);}
+.star-class-roster .student-card:nth-child(even) .student-name {color: var(--accent-blue);}
+.star-class-roster .mbti-badge {font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; font-weight: 700;}
+.star-class-roster .stats-grid {display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem; border-radius: 0.75rem;}
+.star-class-roster .stat-item {display: flex; flex-direction: column;}
+.star-class-roster .stat-label {font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: bold;}
+.star-class-roster .stat-value {font-weight: 600; color: var(--text-dark);}
+.star-class-roster .toggle-input {display: none;}
+.star-class-roster .toggle-label {margin-top: auto; padding: 0.75rem; text-align: center; background: #f1f5f9; border-radius: 0.75rem; cursor: pointer; font-weight: 700; font-size: 0.9rem; color: #475569; transition: all 0.2s; border: 2px solid transparent;}
+.star-class-roster .toggle-input:checked ~ .toggle-label {background: #e2e8f0; color: #1e293b;}
+.star-class-roster .student-card:nth-child(odd) .toggle-label:hover {background: var(--bg-pink); color: var(--accent-pink); border-color: var(--accent-pink);}
+.star-class-roster .student-card:nth-child(even) .toggle-label:hover {background: var(--bg-blue); color: var(--accent-blue); border-color: var(--accent-blue);}
+.star-class-roster .details-content {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease; font-size: 0.9rem; color: #334155;}
+.star-class-roster .toggle-input:checked ~ .details-content {max-height: 800px; opacity: 1; transition: max-height 0.6s ease-in-out, opacity 0.4s ease; margin-top: 1rem; padding-top: 1rem; border-top: 2px dashed #e2e8f0;}
+.star-class-roster .detail-block {margin-bottom: 0.8rem;}
+.star-class-roster .detail-title {font-weight: 800; margin-bottom: 0.25rem; display: block;}
+.star-class-roster .student-card:nth-child(odd) .detail-title {color: var(--accent-pink);}
+.star-class-roster .student-card:nth-child(even) .detail-title {color: var(--accent-blue);}
+.star-class-roster .tag-cloud {display: flex; flex-wrap: wrap; gap: 0.25rem;}
+.star-class-roster .tag {font-size: 0.75rem; padding: 0.1rem 0.4rem; border-radius: 4px; background: #fff; border: 1px solid #cbd5e1;}
+</style>
+
+<div class="star-class-roster">
+  <h1>🌟 星耀二班學生名冊 🌟</h1>
+  
+  <div class="roster-grid">
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/KcwgNb04/lin-xiao-xingpixai-1943711184883116016-1-(2)-fu-ben.webp" class="card-image" alt="User Avatar">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          {user} <span class="mbti-badge">INFJ</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">03月12日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小大人</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">105cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">18kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-1" class="toggle-input">
+        <label for="toggle-1" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>通透敏銳、隱忍謹慎。表面軟萌天真，實則心思縝密，核心目標是自保。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>媽媽做的番茄雞蛋麵、看繪本、觀察情緒、淺藍色、晴天午後。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">討厭 💔</span>
+            <p>辛辣食物、欺負同學、說話不算數。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>睡前抱媽媽說「我愛你」，鞋子永遠擦得乾淨，遇事觀察後再行動。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/L8MYcTd7/li-hao-ran-(29).png" class="card-image" alt="Li Haoran">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          李浩然 <span class="mbti-badge">ESTP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">11月05日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">浩哥</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">115cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">22kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-2" class="toggle-input">
+        <label for="toggle-2" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>活潑好動、精力旺盛、勇敢仗義。班上的小領袖，雖然有點小固執但重感情。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>巧克力、漢堡、戶外跑鬧、奧特曼、紅色深藍色。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">討厭 💔</span>
+            <p>青菜、苦瓜、長時間待在室內、被說教。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>吃飯狼吞虎嚥，見義勇為，喜歡轉鉛筆。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/T3qLfDfK/su-yu-tong-(12).png" class="card-image" alt="Su Yutong">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          蘇語桐 <span class="mbti-badge">ISFP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">05月20日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小公主</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">103cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">17kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-3" class="toggle-input">
+        <label for="toggle-3" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>嬌嫩敏感、愛乾淨、膽小依賴。心地善良有美學，容易害羞臉紅。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>草莓、馬卡龍、畫畫、芭蕾、粉紅色、晴天花園。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">討厭 💔</span>
+            <p>腥味海鮮、髒亂、蟲子、大聲喧嘩。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>細嚼慢嚥，睡前抱粉紅小熊，說話細聲細氣。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/dVKkbBPs/li-hao-yu-(24).png" class="card-image" alt="Li Haoyu">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          李浩宇 <span class="mbti-badge">INTP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">09月30日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小博士</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">110cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">19kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-4" class="toggle-input">
+        <label for="toggle-4" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>內向寡言、聰明好學、邏輯清晰。懂很多生僻字和科學知識。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>科學繪本、觀察昆蟲、藍色綠色、安靜的圖書角。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">討厭 💔</span>
+            <p>甜食、油炸物、被打斷思考、不懂裝懂。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>睡前看20分鐘科學繪本，收集昆蟲標本，語速慢但有條理。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/8zVJ2H89/wang-le-yao-(22).png" class="card-image" alt="Wang Leyao">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          王樂瑤 <span class="mbti-badge">ESFP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">07月22日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">開心果</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">107cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">19kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-5" class="toggle-input">
+        <label for="toggle-5" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>活潑開朗、熱心腸、做事馬虎。喜歡幫老師做事，是大家的開心果。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>繪畫（喜歡混色）、熱鬧、幫忙。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">外貌</span>
+            <p>娃娃臉、月牙眼、短髮蓬鬆如蘑菇，衣服常沾顏料。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>畫畫時弄髒衣服也不在意，做事常舉手。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/jSrwpXVB/zhang-zi-xuan-(12).png" class="card-image" alt="Zhang Zixuan">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          張子軒 <span class="mbti-badge">INFP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">04月15日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小膽怯</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">101cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">17kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-6" class="toggle-input">
+        <label for="toggle-6" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>內向膽小、細心、怕成為焦點。會悄悄歸還他人遺失物品。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">家庭背景</span>
+            <p>父母務工，家境貧寒，常穿舊衣，個性自卑。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">口頭禪</span>
+            <p>「我…我不敢」「對不起」</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>吃飯小口慢嚼，不主動發言，睡前將衣服疊得整整齊齊。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/g2qXmZmY/liu-yu-xin-(10).png" class="card-image" alt="Liu Yuxin">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          劉雨欣 <span class="mbti-badge">ISTJ</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">11月08日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">大姐姐</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">112cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">20kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-7" class="toggle-input">
+        <label for="toggle-7" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>堅強獨立、懂事。跌倒不哭，會照顧弟弟和同學，內心渴望關注。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">外貌</span>
+            <p>方圓臉，眼神堅毅，衣服疊得整齊，簡單馬尾辮。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">口頭禪</span>
+            <p>「我能行」「沒關係」「我幫你」</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>早到教室幫忙搬椅子，默默撿垃圾，睡前默念故事。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/pLYhRFRV/zheng-kai-wen-(10).png" class="card-image" alt="Zheng Kaiwen">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          鄭凱文 <span class="mbti-badge">ENTJ</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">08月20日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小紳士</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">114cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">20kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-8" class="toggle-input">
+        <label for="toggle-8" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>驕傲自信、有禮貌、有條理。混血兒，家境優渥，對規則要求嚴格。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">外貌</span>
+            <p>五官立體，深邃棕眼，園服筆挺，領帶整齊。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">口頭禪</span>
+            <p>「I can do it！」「請保持秩序」</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>睡前聽英文繪本，吃水果用叉子，會提醒同學排隊。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/CxHBSqS0/yang-shi-han-(5).png" class="card-image" alt="Yang Shihan">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          楊詩涵 <span class="mbti-badge">ISFJ</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">06月25日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小護士</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">103cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">18kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-9" class="toggle-input">
+        <label for="toggle-9" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>溫柔善良、細心體貼。父母是醫生，隨身帶著護士包玩具，喜歡安慰同學。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">外貌</span>
+            <p>蘋果臉，桃花眼，低馬尾，粉嫩可愛。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">口頭禪</span>
+            <p>「你還好嗎？」「我幫你吹吹」</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>整理護士包，上課坐筆直，受委屈會躲去圖書角。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="student-card">
+      <div class="card-image-frame">
+        <img src="https://i.postimg.cc/T3qLfDfM/zhao-wen-bo-(1).png" class="card-image" alt="Zhao Wenbo">
+      </div>
+      <div class="card-content">
+        <div class="student-name">
+          趙文博 <span class="mbti-badge">ESFP</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-label">生日</span><span class="stat-value">01月15日</span></div>
+          <div class="stat-item"><span class="stat-label">外號</span><span class="stat-value">小淘氣</span></div>
+          <div class="stat-item"><span class="stat-label">身高</span><span class="stat-value">108cm</span></div>
+          <div class="stat-item"><span class="stat-label">體重</span><span class="stat-value">20kg</span></div>
+        </div>
+        
+        <input type="checkbox" id="toggle-10" class="toggle-input">
+        <label for="toggle-10" class="toggle-label">查看詳細資料 📂</label>
+        
+        <div class="details-content">
+          <div class="detail-block">
+            <span class="detail-title">個性特徵</span>
+            <p>調皮搗蛋、頭腦靈活。喜歡惡作劇引起注意，但本性熱情仗義。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">喜好 ❤️</span>
+            <p>辣條、惡作劇、爬樹、橘色。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">討厭 💔</span>
+            <p>青菜、安靜待著、被忽視。</p>
+          </div>
+          <div class="detail-block">
+            <span class="detail-title">習慣</span>
+            <p>坐不住，咬指甲，犯錯後很快就忘。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

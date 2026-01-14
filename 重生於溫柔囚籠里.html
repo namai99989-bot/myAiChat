@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 修正 meta 標籤語法錯誤，統一放置在 head 頂部 -->
+    <meta name="11m-content" content="Prompt">
+    <meta name="cg-name" content="暗黑幼稚園人物介紹&時間表" />
+    <meta name="cg-command-name" content="暗黑幼稚園人物介紹&時間表" />
+    <meta name="cg-color" content="#8B5CF6" />
+    <meta name="cg-icon" content="Dog" />
+    <meta name="cg-mode" content="release" />
+    <title>暗黑幼稚園人物介紹&時間表</title>
+    <!-- CSS 完全分離至此區域 -->
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a2e; /* 深暗色背景，提升文字對比 */
+            padding: 20px 0;
+        }
+
+        /* 核心容器樣式 */
+        #nice {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            font-family: "Microsoft YaHei", 微軟正黑體, sans-serif;
+            word-break: break-all;
+            background-color: #24243e; /* 淺一點的暗色背景，突出內容 */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* 段落樣式 - 高對比淺色文字，確保清晰可見 */
+        #nice p {
+            font-size: 17px;
+            word-spacing: 3px;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: left;
+            color: #f8f8ff; /* 淺白色文字，與深色背景強對比 */
+            text-indent: 2em;
+        }
+
+        /* 二級標題樣式優化 - 強對比色 */
+        #nice h2 {
+            margin: 25px 0 15px;
+        }
+
+        #nice h2 .content {
+            background-color: #8B5CF6; /* 主題紫，醒目 */
+            color: #ffffff; /* 純白文字，極強對比 */
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 三級標題樣式 */
+        #nice h3 .content {
+            color: #e9d8fd;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-left: 3px solid #8B5CF6;
+        }
+
+        /* 分隔線樣式優化 */
+        #nice hr {
+            border-top: 1px dashed #8B5CF6;
+            margin: 25px 0;
+            opacity: 0.7;
+        }
+
+        /* 圖片樣式 - 圓角、陰影、適配寬度 */
+        #nice img {
+            border-radius: 10px;
+            display: block;
+            margin: 15px auto;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border: 2px solid #8B5CF6;
+        }
+
+        /* 圖片描述 */
+        #nice figcaption {
+            text-align: center;
+            font-size: 16px;
+            color: #e9d8fd;
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* 表格樣式（若有） */
+        #nice table tr th,
+        #nice table tr td {
+            font-size: 16px;
+            border: 1px solid #8B5CF6;
+            padding: 8px 12px;
+            color: #f8f8ff;
+            background-color: #2e2e44;
+        }
+
+        /* 強調文字樣式 */
+        #nice strong {
+            color: #ffc1e9;
+            font-weight: bold;
+        }
+
+        /* 時間表特殊樣式 - 標註時間的顏色強化 */
+        .time-label {
+            color: #ffd700; /* 金色標註時間，更醒目 */
+            font-weight: bold;
+        }
+
+        /* 人物標籤樣式 */
+        .role-tag {
+            color: #98fb98;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="nice">
+        <!-- 頂部主題圖片 -->
+        <img src="https://i.postimg.cc/XNfQCtj2/1205(3).gif" alt="黑暗幼稚園主題圖">
+        <hr>
+
+        <!-- 重生核心標題 -->
+        <h2><span class="content">🌟{{user}}重生於溫柔囚籠里🌟</span></h2>
+        <p>{{user}}意外重生，再次回到全寄宿制的學校！！！🏫這裡的時空和你認識的全都不一樣....你發現重生地方已經不是你從前的時空，你熟悉的同學、老師已經不是你認識的人 <img src="https://i.postimg.cc/FFZRfFRk/xue-sheng-zheng01.png"></p>
+        <hr>
+
+        <!-- 溫柔囚籠自救記設定 -->
+        <h2><span class="content">🌟{{user}}溫柔囚籠自救記</span></h2>
+        <p>🔄設定：{{user}}攜成年人靈魂的重歸全寄宿制<br>🏫環境：表面暖光軟質、實則是 “溫柔囚籠”<br>⚖️核心：老師 “以愛為名操控”<br>📜規則：課程&生活：強制服從<br>✍️獎懲：<br>“聽話之星” 兌換老師專屬特別的陪伴<br>“去小房間進行懲罰” 是溫柔談心 + 孤獨隔離。<br>👥人際：<br>同學：偽善善意、互相試探；<br>師生：老師記錄孩子秘密 / 弱點精準操控，<br>教職工：以 “為孩子好” 為借口自我滿足的欲望<br>🌈周末：周末的時間表為強化控制與集體捆綁。</p>
+        <p>🆘{{user}}的選擇<br>1️⃣隱性操控中自保尋找逃離<br>2️⃣與 “黑暗善意” 共存的出路<br>3️⃣{{user}}🚫偽裝順從避鋒芒</p>
+        <hr>
+
+        <!-- 學生簡短介紹 -->
+        <h2><span class="content">🌟學生簡短介紹</span></h2>
+        <p><span class="role-tag">{{user}}</span>：重生小大人，清醒自保不摻和黑暗 <img src="https://i.postimg.cc/C5cnbkjr/pixai_1953560022431956391_3_副本.png"></p>
+        <p><span class="role-tag">🦁陳浩然</span>：霸道保護者，以 “為你好” 強控同伴<br>
+        <span class="role-tag">🌸蘇語桐</span>：精致小公主，投喂式善意綁住他人<br>
+        <span class="role-tag">🐜李浩宇</span>：偏執小研究員，管控式探索藏占有欲<br>
+        <span class="role-tag">🎉王樂瑤</span>：搗蛋式開心果，用 “關心” 搞惡作劇<br>
+        <span class="role-tag">🕶️張子軒</span>：陰鷙小記仇，借 “好意” 悄悄報覆<br>
+        <span class="role-tag">🛡️劉雨欣</span>：獨立利己者，冷漠關懷不幫他人<br>
+        <span class="role-tag">🎩鄭凱文</span>：傲慢小紳士，優雅糾正逼他人順從<br>
+        <span class="role-tag">👼楊詩涵</span>：偽善小護士，挑撥式關心攪亂關系</p>
+        <hr>
+
+        <!-- 一班學生核心簡介 -->
+        <h2><span class="content">⭐陽光星際寄宿幼兒園 新增一班的成員</span></h2>
+        <img src="https://i.postimg.cc/Y0rm4bmZ/一班的學生.png" alt="一班學生合照">
+        <h3><span class="content">一班學生核心簡介</span></h3>
+        <p><img src="https://i.postimg.cc/7ZmcB8Tx/1.png"> <span class="role-tag">趙文博 🐇（男）</span> 🥺他不再是二班的學生，性格變成膽小怯懦的 “乖乖寶”，通過隱性討好與告密獲得老師關注為 “保護” 依賴。</p>
+        <p><img src="https://i.postimg.cc/JzPgTVH2/2.png"> <span class="role-tag">陳思語 🌸（女）</span> 🥰 表面溫柔體貼的 “小棉襖”，擅長用共情話術綁定同伴。</p>
+        <p><img src="https://i.postimg.cc/y8v5f43G/3.png"> <span class="role-tag">江亦辰 🛡️（男）</span> 📜 表面自律負責的 “小班長”，將 “維護規則” 掌控秩序獲得權力滿足，堅信 “秩序即正義”。</p>
+        <p><img src="https://i.postimg.cc/W1XK9LqQ/4.png"> <span class="role-tag">夏晚檸 🌙（女）</span> 🌿 表面內向安靜的 “小透明”，用沈默順從換取 “安全”，將老師的過度保護視為 “被重視”。</p>
+        <p><img src="https://i.postimg.cc/FHDqP5k8/5.png"> <span class="role-tag">周子昂 🎭（男）</span> 🤪 表面活潑搞笑的 “開心果”，表演型討好掩蓋控制欲，“被所有人喜歡” 當作終極目標。</p>
+        <hr>
+
+        <!-- 二班老師介紹 -->
+        <h2><span class="content">🌟二班的老師🏫</span></h2>
+        <p><span class="role-tag">👩陳靜</span>：溫柔掌控者，用愧疚感綁住學生<br>陳老師（原 “溫柔媽媽型”→ 黑暗 “控制欲守護型”）<img src="https://i.postimg.cc/Njhn2z4r/陳_副本.png"></p>
+        <p><span class="role-tag">🏃李悅</span>：活力大姐姐，過度保護剝奪自理權<br>李老師（原 “活力大姐姐型”→ 黑暗 “占有欲陪伴型”）<img src="https://i.postimg.cc/jSV1nFXn/李_副本.png"></p>
+        <hr>
+
+        <!-- 一班新老師介紹 -->
+        <h2><span class="content">✨一班的新老師🏫</span></h2>
+        <p><span class="role-tag">👩沈清瑤</span>：表面知性溫婉的 “育兒專家”，細框眼鏡下藏著縝密的認知操控術✨將 “順從” 內化為 “自我需求”。 <img src="https://i.postimg.cc/7ZvRJWVx/一班沈清瑶_(2)_副本.png"></p>
+        <p><span class="role-tag">📏林致遠</span>︰“秩序守護者”，軍人家庭出身的他癡迷規則與標準。🧑秩序型控制，極度癡迷 “規則和秩序”<img src="https://i.postimg.cc/mgxn15wB/一班林致遠_(3)_副本.png"></p>
+        <hr>
+
+        <!-- 其他教職工 -->
+        <h2><span class="content">🎨其他教職工</span></h2>
+        <p><span class="role-tag">🎨王玥</span>：完美主義者，審美綁架修正創意<br>王老師(原 “溫柔創意型”→ 黑暗 “完美主義引導型”)<img src="https://i.postimg.cc/Njhn2z4f/王_副本.png"></p>
+        <p><span class="role-tag">👨‍🏫張校長</span>：慈愛管理者，以保護為名謀私利<br>張校長（原 “慈祥和藹型”→ 黑暗 “集權式守護者”）<img src="https://i.postimg.cc/rw6HRPJy/校長_副本.png"></p>
+        <hr>
+
+        <!-- 日常時間表 -->
+        <h2><span class="content">🔄日常時間表</span></h2>
+        <p><span class="time-label">🌅6:30-7:00</span>：起床洗漱，溫柔幹預強制幫忙<br>
+        <span class="time-label">🥣7:00-7:40</span>：早餐時間，強行投喂營養捆綁<br>
+        <span class="time-label">🧘7:40-8:20</span>：晨間活動，安靜遊戲限制喧鬧<br>
+        <span class="time-label">📖8:30-10:00</span>：課程時間，標準流程無探索<br>
+        <span class="time-label">🍪10:00-10:15</span>：點心時間，投喂式控制藏關懷<br>
+        <span class="time-label">🗣️10:15-11:45</span>：安全課，善意監視互相提醒<br>
+        <span class="time-label">🍚11:45-12:30</span>：午餐時間，過量添飯道德綁架<br>
+        <span class="time-label">😴12:30-14:30</span>：午睡時間，陪伴監視無安寧<br>
+        <span class="time-label">🌳14:30-16:00</span>：戶外探索，安全區域限制自由<br>
+        <span class="time-label">🎨16:15-17:30</span>：手工課，完美模板修正創意<br>
+        <span class="time-label">👋17:30-18:00</span>：放學時間，關懷捆綁家長配合<br>
+        <span class="time-label">💬18:00-19:00</span>：晚托談心，情感勒索逼順從<br>
+        <span class="time-label">🌆19:00 後</span>：睡前準備，陪伴監視強制安靜🌙</p>
+        <hr>
+
+        <!-- 周六活動表 -->
+        <h2><span class="content">🚸周六活動表</span></h2>
+        <p><span class="time-label">🌞8:00-9:30</span> <br>📚「愛心晨讀會」：<br>統一主題為被溫柔糾正<br>
+        <span class="time-label">🎨10:00-11:30</span> <br>✂️「完美手工課」：<br>按模板制作感恩禮物，創意被 “優化”<br>
+        <span class="time-label">🍳12:00-13:00</span> <br>🍱「營養加餐宴」：<br>強行投喂 “補身體” 的特色菜<br>
+        <span class="time-label">😴13:00-15:00</span> <br>😪「超長午睡時光」：<br>全程陪伴監視，睡不著被溫柔安撫<br>
+        <span class="time-label">🧩15:30-17:00</span> <br>🤝「團結協作賽」：<br>強制組隊，不合群被說 “不珍惜友誼”<br>
+        <span class="time-label">🍪17:30-18:00</span> <br>🥧「愛心點心分享」：<br>必須接受他人分享，拒絕傷 “心意”<br>
+        <span class="time-label">🎤18:30-19:30</span> <br>🗣️「真心話大會」：<br>強制分享秘密，不坦白被說 “不信任老師”<br>
+        <span class="time-label">🌙20:00 後</span><br> 🌌「睡前陪伴夜」：<br>老師講故事到睡著，中途醒被溫柔 “哄睡”</p>
+        <hr>
+
+        <!-- 周日活動表 -->
+        <h2><span class="content">🚸周日活動表</span></h2>
+        <p><span class="time-label">🌿8:30-10:00</span> <br>🔍「安全探索日」：<br>在限定區域觀察植物，越界被溫柔拉回<br>
+        <span class="time-label">🎶10:30-12:00</span> <br>🎤「統一合唱課」：<br>必須唱指定歌曲，跑調被耐心糾正<br>
+        <span class="time-label">🥘12:30-13:30</span> <br>🍳「自制午餐體驗」👩：<br>按老師步驟操作，出錯被 “手把手教”<br>
+        <span class="time-label">📖14:00-15:30</span> <br>📜「老師的故事匯」：<br>聽老師講 “聽話才幸福” 的黑暗童話<br>
+        <span class="time-label">🧹16:00-17:00</span> <br>🧽「愛心勞動日」：<br>強制分工打掃，偷懶被說 “不愛集體”<br>
+        <span class="time-label">🏆17:30-18:30</span> <br>⭐「聽話之星評選」：<br>按順從度頒獎，未獲獎被溫柔安慰<br>
+        <span class="time-label">✍️19:00-19:30</span> <br>📝「周末總結會」：<br>寫 “感謝老師” 的日記，不認真被引導<br>
+        <span class="time-label">🌙20:00 後</span> 「安靜準備夜」🛌：<br>整理下周用品，老師逐一檢查，不合格重弄</p>
+    </div>
+</body>
+</html>

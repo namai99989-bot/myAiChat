@@ -1,0 +1,677 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.xingyao-kindergarten {
+    --bg-deep: #001e4d; /* Deep Navy Blue */
+    --bg-card: #ffffff;
+    --text-primary: #002b5e;
+    --text-secondary: #475569;
+    --accent-yellow: #fbbf24; /* Kindergarten Yellow */
+    --accent-pink: #f472b6;
+    --accent-blue: #3b82f6;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif, system-ui;
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 20%);
+}
+
+/* Typography & Layout */
+.xingyao-kindergarten h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0px var(--accent-blue);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.xingyao-kindergarten .subtitle {
+    text-align: center;
+    color: #bfdbfe;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    font-weight: 500;
+}
+
+.xingyao-kindergarten .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Card Styling */
+.xingyao-kindergarten .staff-card {
+    background: var(--bg-card);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border: 4px solid var(--accent-yellow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.xingyao-kindergarten .staff-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 30px -10px rgba(251, 191, 36, 0.4);
+}
+
+/* Image Handling */
+.xingyao-kindergarten .card-image-wrapper {
+    width: 100%;
+    /* Vertical portrait aspect ratio */
+    aspect-ratio: 3/4; 
+    overflow: hidden;
+    border-bottom: 4px solid var(--accent-yellow);
+    background-color: #f0f9ff;
+    position: relative;
+}
+
+.xingyao-kindergarten .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures filling without distortion */
+    object-position: top center; /* Focus on faces */
+    transition: transform 0.5s ease;
+}
+
+.xingyao-kindergarten .staff-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+/* Content Area */
+.xingyao-kindergarten .card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.xingyao-kindergarten .role-badge {
+    display: inline-block;
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    align-self: flex-start;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.xingyao-kindergarten .card-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.xingyao-kindergarten .short-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Expandable Details */
+.xingyao-kindergarten .detail-toggle {
+    display: none; /* Hide checkbox */
+}
+
+.xingyao-kindergarten .toggle-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #e0f2fe;
+    color: var(--text-primary);
+    text-align: center;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: auto; /* Push to bottom */
+    border: 2px solid transparent;
+}
+
+.xingyao-kindergarten .toggle-btn:hover {
+    background-color: #bae6fd;
+    border-color: var(--accent-blue);
+}
+
+.xingyao-kindergarten .toggle-btn::after {
+    content: "👇 查看詳細資料";
+}
+
+.xingyao-kindergarten .detail-toggle:checked + .toggle-btn {
+    background-color: var(--accent-pink);
+    color: white;
+}
+
+.xingyao-kindergarten .detail-toggle:checked + .toggle-btn::after {
+    content: "👆 收起資料";
+}
+
+.xingyao-kindergarten .details-panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+    background-color: #f8fafc;
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.xingyao-kindergarten .detail-toggle:checked ~ .details-panel {
+    max-height: 800px; /* Arbitrary large height */
+    opacity: 1;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.xingyao-kindergarten .detail-section {
+    margin-bottom: 0.8rem;
+}
+
+.xingyao-kindergarten .detail-label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.xingyao-kindergarten .detail-text {
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.6;
+}
+
+/* Scrollbar styling for aesthetic */
+.xingyao-kindergarten ::-webkit-scrollbar {
+    width: 8px;
+}
+.xingyao-kindergarten ::-webkit-scrollbar-track {
+    background: var(--bg-deep); 
+}
+.xingyao-kindergarten ::-webkit-scrollbar-thumb {
+    background: var(--accent-yellow); 
+    border-radius: 4px;
+}
+
+/* Specific styling for section headers within grid */
+.xingyao-kindergarten .section-header {
+    grid-column: 1 / -1;
+    color: var(--accent-yellow);
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px dashed rgba(255,255,255,0.3);
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+}
+</style>
+<meta name="cg-name" content="星耀全體教職員資料" />
+<meta name="cg-command-name" content="星耀全體教職員資料" />
+<meta name="cg-color" content="#1F18E1" />
+<meta name="cg-icon" content="GitPullRequestCreateArrow" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.xingyao-kindergarten {--bg-deep: #001e4d; --bg-card: #fff; --text-primary: #002b5e; --text-secondary: #475569; --accent-yellow: #fbbf24; --accent-pink: #f472b6; --accent-blue: #3b82f6; font-family: "Comic Sans MS", "Chalkboard SE", sans-serif, system-ui; background-color: var(--bg-deep); color: var(--text-primary); min-height: 100vh; padding: 2rem 1rem; background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 20%);}
+.xingyao-kindergarten h1 {font-size: 2.5rem; color: #fff; text-align: center; margin-bottom: 0.5rem; text-shadow: 2px 2px 0 var(--accent-blue); font-weight: 800; letter-spacing: 0.05em;}
+.xingyao-kindergarten .subtitle {text-align: center; color: #bfdbfe; font-size: 1.1rem; margin-bottom: 3rem; font-weight: 500;}
+.xingyao-kindergarten .staff-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; max-width: 1400px; margin: 0 auto;}
+.xingyao-kindergarten .staff-card {background: var(--bg-card); border-radius: 1.5rem; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); border: 4px solid var(--accent-yellow); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column;}
+.xingyao-kindergarten .staff-card:hover {transform: translatey(-5px); box-shadow: 0 20px 30px -10px rgba(251, 191, 36, 0.4);}
+.xingyao-kindergarten .card-image-wrapper {width: 100%; aspect-ratio: 3/4; overflow: hidden; border-bottom: 4px solid var(--accent-yellow); background-color: #f0f9ff; position: relative;}
+.xingyao-kindergarten .card-image {width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.5s ease;}
+.xingyao-kindergarten .staff-card:hover .card-image {transform: scale(1.05);}
+.xingyao-kindergarten .card-content {padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;}
+.xingyao-kindergarten .role-badge {display: inline-block; background-color: var(--accent-blue); color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.5rem; align-self: flex-start; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);}
+.xingyao-kindergarten .card-title {font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}
+.xingyao-kindergarten .short-desc {font-size: 1rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem; font-weight: 600;}
+.xingyao-kindergarten .detail-toggle {display: none;}
+.xingyao-kindergarten .toggle-btn {display: block; width: 100%; padding: 0.75rem; background-color: #e0f2fe; color: var(--text-primary); text-align: center; border-radius: 0.75rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: auto; border: 2px solid transparent;}
+.xingyao-kindergarten .toggle-btn:hover {background-color: #bae6fd; border-color: var(--accent-blue);}
+.xingyao-kindergarten .toggle-btn::after {content: "👇 查看詳細資料";}
+.xingyao-kindergarten .detail-toggle:checked + .toggle-btn {background-color: var(--accent-pink); color: white;}
+.xingyao-kindergarten .detail-toggle:checked + .toggle-btn::after {content: "👆 收起資料";}
+.xingyao-kindergarten .details-panel {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.3s ease-out; background-color: #f8fafc; border-radius: 0.75rem; margin-top: 0.5rem;}
+.xingyao-kindergarten .detail-toggle:checked ~ .details-panel {max-height: 800px; opacity: 1; margin-top: 1rem; padding: 1rem; border: 1px solid #e2e8f0;}
+.xingyao-kindergarten .detail-section {margin-bottom: 0.8rem;}
+.xingyao-kindergarten .detail-label {display: block; font-size: 0.8rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 0.2rem;}
+.xingyao-kindergarten .detail-text {font-size: 0.95rem; color: #334155; line-height: 1.6;}
+.xingyao-kindergarten ::-webkit-scrollbar {width: 8px;}
+.xingyao-kindergarten ::-webkit-scrollbar-track {background: var(--bg-deep);}
+.xingyao-kindergarten ::-webkit-scrollbar-thumb {background: var(--accent-yellow); border-radius: 4px;}
+.xingyao-kindergarten .section-header {grid-column: 1/-1; color: var(--accent-yellow); font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 2px dashed rgba(255, 255, 255, 0.3); padding-bottom: 0.5rem; font-weight: bold;}
+</style>
+
+<div class="xingyao-kindergarten">
+    <h1>✨ 星耀幼兒園 ✨</h1>
+    <div class="subtitle">全體教職員工詳細檔案 • 守護孩子快樂成長</div>
+
+    <div class="staff-grid">
+        
+        
+        <div class="section-header">🏫 園長與管理層</div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/PfDwvfvF/4校長.png" alt="張校長" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🧑‍🏫 園長</span>
+                <div class="card-title">張校長</div>
+                <div class="short-desc">慈愛開明，重視全面發展</div>
+                
+                <input type="checkbox" id="toggle-zhang" class="detail-toggle">
+                <label for="toggle-zhang" class="toggle-btn"></label>
+                
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">慈祥和藹、平易近人，有遠見卓識，關心師生，能叫出很多孩子的名字。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">55歲左右，方形臉，頭髮花白，眼角有慈愛的皺紋，常穿淺灰色西裝。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">從事幼教管理30年，理念先進，致力於打造快樂成長環境，深受愛戴。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/hvVzkMqd/5老師.png" alt="馬老師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">📋 教學主任</span>
+                <div class="card-title">馬老師</div>
+                <div class="short-desc">嚴謹專業，統籌教學事務</div>
+
+                <input type="checkbox" id="toggle-ma" class="detail-toggle">
+                <label for="toggle-ma" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">嚴謹細致，對教學質量要求高，善於溝通，客觀解決爭議，溫柔關心下屬。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">38歲左右，長方臉，皮膚白皙，黑色低馬尾，常戴細框眼鏡，穿淺色職業裝。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">幼兒教育碩士，15年經驗，教育世家出身，主持多個市級課題。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section-header">🌷 專業教師團隊</div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/HWMy8W8F/3老師.png" alt="陳老師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🌷 班導師</span>
+                <div class="card-title">陳老師</div>
+                <div class="short-desc">溫柔耐心，像媽媽般呵護孩子</div>
+
+                <input type="checkbox" id="toggle-chen" class="detail-toggle">
+                <label for="toggle-chen" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">細心負責，善於傾聽，與家長溝通真誠，曾獲「市級優秀幼兒教師」。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">28歲左右，娃娃臉，皮膚白皙，及肩短髮丸子頭，身上帶淡淡牛奶香。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">幼教本科畢業，5年教齡，教師家庭出身，熱愛幼教事業。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/59zCQ9Q7/2老師.png" alt="李老師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🏃 副班導師</span>
+                <div class="card-title">李老師</div>
+                <div class="short-desc">活力大姐姐，擅長戶外遊戲</div>
+
+                <input type="checkbox" id="toggle-li" class="detail-toggle">
+                <label for="toggle-li" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">爽朗開朗，活力滿滿，做事俐落高效，直爽不偏袒，孩子王。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">24歲左右，健康麥色皮膚，長髮馬尾辮，常穿休閒運動服。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">幼教專科畢業，2年教齡，農村出身，能吃苦耐勞。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/4yp7DwTt/1老師.png" alt="王老師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🎨 特長老師</span>
+                <div class="card-title">王老師</div>
+                <div class="short-desc">文藝細膩，鼓勵創意繪畫</div>
+
+                <input type="checkbox" id="toggle-wang-art" class="detail-toggle">
+                <label for="toggle-wang-art" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">內向沉著，富有創意，溫和不發脾氣，鼓勵想像力，不善交際。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">30歲左右，偏瘦長臉，丹鳳眼，長捲髮披肩，帶油畫顏料香。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">美術教育碩士，藝術家庭出身，指導學生獲省級繪畫一等獎。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section-header">🛠️ 行政與後勤支援</div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/SRc2BVpk/張姐_行政秘書.png" alt="張姐" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">📝 行政秘書</span>
+                <div class="card-title">張姐</div>
+                <div class="short-desc">細心周到，打理園所雜務</div>
+
+                <input type="checkbox" id="toggle-zhang-admin" class="detail-toggle">
+                <label for="toggle-zhang-admin" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">行政事務打理有序，脾氣好，主動規劃工作，深受同事信賴。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">42歲左右，微胖圓臉，健康粉膚色，黑色齊肩短捲髮。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">10年行政經驗，女兒曾就讀本園，熟悉園內事務，記憶力好。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/D01J95Kv/鄧會計_財務專員.png" alt="鄧會計" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">💰 財務專員</span>
+                <div class="card-title">鄧會計</div>
+                <div class="short-desc">認真負責，把控經費收支</div>
+
+                <input type="checkbox" id="toggle-deng" class="detail-toggle">
+                <label for="toggle-deng" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">認真嚴謹，對數據敏感，原則性強，內向話少但態度友善。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">45歲左右，偏瘦，戴銀色金屬框眼鏡，黑色齊耳短髮。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">20年財務經驗，曾在國企工作，丈夫是大學數學老師。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/7hSGFXyL/肖老師_後勤主管.png" alt="肖老師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🔧 後勤主管</span>
+                <div class="card-title">肖老師</div>
+                <div class="short-desc">全能修理工，守護校園安全</div>
+
+                <input type="checkbox" id="toggle-xiao" class="detail-toggle">
+                <label for="toggle-xiao" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">豪爽果斷，雷厲風行，有求必應，責任心強，熱心腸。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">50歲左右，高大健碩，皮膚黝黑，穿深灰色工裝，腰繫工具帶。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">退伍工程兵，擅長維修，獨自撫養兒子長大，擅長改造設施。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/Kz63pwC2/週醫生_園醫.png" alt="周醫師" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🏥 園醫</span>
+                <div class="card-title">周醫師</div>
+                <div class="short-desc">溫和細心，守護幼兒健康</div>
+
+                <input type="checkbox" id="toggle-zhou" class="detail-toggle">
+                <label for="toggle-zhou" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">責任心強，專業紮實，耐心解答疑問，常開展健康知識課。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">35歲左右，瓜子臉，皮膚白皙，戴細框眼鏡，穿白大褂。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">兒科醫學本科，5年兒科經驗，喜歡孩子而轉行，家庭幸福。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section-header">❤️ 生活與安全守護</div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/Xq9GRx6R/王阿姨_食堂廚師.png" alt="王阿姨" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">👨‍🍳 廚師</span>
+                <div class="card-title">王阿姨</div>
+                <div class="short-desc">熱心憨厚，飯菜營養可口</div>
+
+                <input type="checkbox" id="toggle-wang-chef" class="detail-toggle">
+                <label for="toggle-wang-chef" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">心腸柔軟，把孩子當孫輩疼，對食材嚴格，耐心勸導挑食。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">50歲左右，微胖圓臉，笑有酒窩，常戴潔白廚師帽。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">30年廚齡，把對遠方孫子的思念寄託在園裡孩子身上。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/Fz0dMGX8/劉爺爺_門衛保全.png" alt="劉爺爺" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🛡️ 門衛保全</span>
+                <div class="card-title">劉爺爺</div>
+                <div class="short-desc">嚴肅負責，守護入園安全</div>
+
+                <input type="checkbox" id="toggle-liu" class="detail-toggle">
+                <label for="toggle-liu" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">原則性強，對孩子溫柔，沈穩喜靜，會講安全故事。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">60歲左右，高大挺拔，國字臉，眼神炯炯有神，穿深藍制服。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">退伍軍人，20年軍齡，老伴早逝，把孩子當孫輩守護。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/50hQKTDM/方姐_保潔阿姨.png" alt="方姐" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🧹 保潔阿姨</span>
+                <div class="card-title">方姐</div>
+                <div class="short-desc">勤勞樸實，保持環境整潔</div>
+
+                <input type="checkbox" id="toggle-fang" class="detail-toggle">
+                <label for="toggle-fang" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">話不多做事麻利，細心留意孩子需求，內向害羞。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">48歲左右，瘦小，常戴淺藍色口罩和灰色工作服。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">為供兒子上學來城市打工，做事認真不偷懶。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="staff-card">
+            <div class="card-image-wrapper">
+                <img src="https://i.postimg.cc/PJ1pgKkd/小宇_園車司機.png" alt="小宇" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="role-badge">🚌 園車司機</span>
+                <div class="card-title">小宇</div>
+                <div class="short-desc">開朗幽默，安全駕駛</div>
+
+                <input type="checkbox" id="toggle-xiaoyu" class="detail-toggle">
+                <label for="toggle-xiaoyu" class="toggle-btn"></label>
+
+                <div class="details-panel">
+                    <div class="detail-section">
+                        <span class="detail-label">性格</span>
+                        <div class="detail-text">善於和孩子打交道，做事謹慎負責，熱心幫忙搬運。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">外貌</span>
+                        <div class="detail-text">45歲左右，結實圓臉，麥色皮膚，常戴黑色棒球帽。</div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">背景</span>
+                        <div class="detail-text">20年駕齡，曾開長途客車，為陪伴家人轉行當校車司機。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<html>
+<head>
+<style>
+.star-glory-dossier {
+  --bg-dark: #0a0a0a;
+  --bg-card: #141414;
+  --text-main: #e5e5e5;
+  --text-dim: #a3a3a3;
+  --accent-red: #8a0000;
+  --accent-blood: #ff0000;
+  --border-color: #333;
+  
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-dark);
+  background-image: radial-gradient(circle at 50% 0%, #1f1f1f 0%, #000000 80%);
+  color: var(--text-main);
+  padding: 2rem;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.star-glory-dossier h1, 
+.star-glory-dossier h2, 
+.star-glory-dossier h3 {
+  font-family: 'Times New Roman', serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.star-glory-dossier .main-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--accent-red);
+  text-shadow: 0 0 10px rgba(138, 0, 0, 0.5);
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 1rem;
+}
+
+/* Card Styling */
+.star-glory-dossier .staff-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-red);
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.star-glory-dossier .staff-card:hover {
+  box-shadow: 0 15px 40px rgba(138, 0, 0, 0.15);
+  border-color: var(--accent-red);
+}
+
+/* Header of the card (Always visible) */
+.star-glory-dossier .card-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, rgba(20,20,20,1) 0%, rgba(30,30,30,1) 100%);
+  transition: background 0.3s;
+}
+
+.star-glory-dossier .card-header:hover {
+  background: #1f1f1f;
+}
+
+.star-glory-dossier .avatar-frame {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border: 2px solid var(--accent-red);
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1.5rem;
+  background-color: #000;
+  position: relative;
+}
+
+.star-glory-dossier .avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) saturate(0.8);
+}
+
+.star-glory-dossier .header-info {
+  flex-grow: 1;
+}
+
+.star-glory-dossier .role-badge {
+  display: inline-block;
+  background-color: var(--accent-red);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.star-glory-dossier .staff-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+}
+
+.star-glory-dossier .expand-hint {
+  color: var(--accent-red);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--accent-red);
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+}
+
+.star-glory-dossier .card-header:hover .expand-hint {
+  background-color: var(--accent-red);
+  color: #fff;
+}
+
+/* Expanded Details */
+.star-glory-dossier .details-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+  opacity: 0;
+  background-color: #0f0f0f;
+}
+
+/* 修复：移除peer依赖（非标准CSS），调整复选框隐藏样式（兼容所有浏览器） */
+.star-glory-dossier .card-toggle {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  opacity: 0;
+  z-index: -1;
+}
+
+/* State management (修复后兼容标准CSS) */
+.star-glory-dossier .card-toggle:checked ~ .details-wrapper {
+  max-height: 5000px; /* Arbitrary large number to allow full expansion */
+  opacity: 1;
+  border-top: 1px solid var(--border-color);
+}
+
+.star-glory-dossier .card-toggle:checked ~ .card-header .expand-hint {
+  background-color: #333;
+  border-color: #555;
+  color: #aaa;
+}
+
+/* 修复：CSS的content属性仅对伪元素(::before/::after)生效，添加伪元素实现文字切换 */
+.star-glory-dossier .expand-hint::before {
+  content: "查看詳細檔案";
+}
+
+.star-glory-dossier .card-toggle:checked ~ .card-header .expand-hint::before {
+  content: "CLOSE";
+}
+
+.star-glory-dossier .details-content {
+  padding: 2rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.star-glory-dossier .section-title {
+  color: var(--accent-red);
+  font-size: 1.1rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.star-glory-dossier .section-title:first-child {
+  margin-top: 0;
+}
+
+.star-glory-dossier ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.star-glory-dossier li {
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #333;
+}
+
+.star-glory-dossier strong {
+  color: #fff;
+}
+
+/* Specific styling for the Principal to make him stand out */
+.star-glory-dossier .principal-card {
+  border-left: 6px solid #d4af37; /* Gold for authority */
+  margin-bottom: 4rem;
+}
+
+.star-glory-dossier .principal-card .avatar-frame {
+  width: 140px;
+  height: 140px;
+  border-color: #d4af37;
+}
+
+.star-glory-dossier .principal-card .role-badge {
+  background-color: #d4af37;
+  color: #000;
+}
+
+.star-glory-dossier .principal-card .expand-hint {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.star-glory-dossier .principal-card .card-header:hover .expand-hint {
+  background-color: #d4af37;
+  color: #000;
+}
+
+.star-glory-dossier .principal-card .section-title {
+  color: #d4af37;
+}
+
+/* 修复：校长卡片的提示文字单独设置 */
+.star-glory-dossier .principal-card .expand-hint::before {
+  content: "查看詳細檔案";
+}
+
+.star-glory-dossier .principal-card .card-toggle:checked ~ .card-header .expand-hint::before {
+  content: "CLOSE";
+}
+
+/* Grid for other staff */
+.star-glory-dossier .grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .star-glory-dossier .grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  .star-glory-dossier .principal-card .card-header {
+    padding: 2.5rem;
+  }
+}
+
+/* Secret Styling */
+.star-glory-dossier .secret-block {
+  background: rgba(138, 0, 0, 0.05);
+  border: 1px dashed var(--accent-red);
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.star-glory-dossier .warning-text {
+  color: var(--accent-blood);
+  font-weight: bold;
+}
+</style>
+<meta name="cg-name" content="學院職工介紹" />
+<meta name="cg-command-name" content="學院職工介紹" />
+<meta name="cg-color" content="#910F1A" />
+<meta name="cg-icon" content="Backpack" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- 修复1：移除重复的<style>标签（原代码head和body内各有一份，造成样式冗余和冲突） -->
+<div class="star-glory-dossier">
+
+  <h1 class="main-title">星耀場景幼兒園 • 教職工絕密檔案</h1>
+
+  
+  <div class="staff-card principal-card">
+    <!-- 修复2：给复选框添加统一类名.card-toggle，修复隐藏样式（原hidden类非标准，peer类无定义） -->
+    <input type="checkbox" id="principal-toggle" class="card-toggle">
+    <label for="principal-toggle" class="card-header">
+      <div class="avatar-frame">
+        <img src="https://i.postimg.cc/rw6HRPJy/校長_副本.png" alt="張校長">
+      </div>
+      <div class="header-info">
+        <span class="role-badge">園長 / 核心操控者</span>
+        <h2 class="staff-name">張世明 (Zhang Shiming)</h2>
+        <div class="text-xs text-yellow-600 mt-1">檔案等級：絕密 (SS)</div>
+      </div>
+      <div class="expand-hint"></div>
+    </label>
+    
+    <div class="details-wrapper">
+      <div class="details-content">
+        <div class="section-title">基礎檔案</div>
+        <p><strong>年齡：</strong>52歲 | <strong>身高/體重：</strong>175cm / 68kg</p>
+        <p><strong>身份：</strong>陽光星際幼兒園校長、跨國醫療集團幕後股東、前醫學研究員</p>
+        <p><strong>MBTI：</strong>ENTJ（指揮官型）</p>
+
+        <div class="section-title">外表與偽裝</div>
+        <p><strong>特徵：</strong>黑色微卷中長發盤起，狹長丹鳳眼，左耳垂小痣。日常穿著定制女式西裝或旗袍，佩戴翡翠，手戴古董男表。</p>
+        <p><strong>氣質：</strong>表面優雅慈愛，像溫柔長輩；實則眼底無笑意，散發檀香味掩蓋煙味。</p>
+
+        <div class="section-title">黑暗性格與真相</div>
+        <div class="secret-block">
+          <p class="warning-text">⚠ 警告：以下內容涉及高度機密</p>
+          <ul>
+            <li><strong>生理秘密：</strong>生理男性，渴望成為女性。25歲變性手術失敗，留下永久缺陷。</li>
+            <li><strong>犯罪歷史：</strong>參與非法兒童實驗，與黑市器官販賣組織有聯系。將幼兒園改造成「完美兒童培養基地」。</li>
+            <li><strong>收藏癖：</strong>密室收藏數十名「特別兒童」的毛發、牙齒、血液樣本。</li>
+            <li><strong>🔞嗜好：</strong>因手術失敗無法進行常規性行為。享受支配與改造的快感，對中意的孩子進行「標記」（留疤）。🍌_起時分泌高溫液體。</li>
+            <li><strong>終極目標：</strong>批量生產符合審美的「人造完美兒童」並販賣。</li>
+          </ul>
+        </div>
+
+        <div class="section-title">互動特徵</div>
+        <p><strong>口頭禪：</strong>「這都是為了孩子們好呀～」「乖，聽校長的話～」</p>
+        <p><strong>行為邏輯：</strong>表面維持優雅，暗中篩選胚子。處理一切反抗者。視你為「最完美的胚子」。</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="grid-container">
+
+    
+    <div class="staff-card">
+      <input type="checkbox" id="shen-toggle" class="card-toggle">
+      <label for="shen-toggle" class="card-header">
+        <div class="avatar-frame">
+          <img src="https://i.postimg.cc/7ZvRJWVx/一班沈清瑶_(2)_副本.png" alt="沈清瑤">
+        </div>
+        <div class="header-info">
+          <span class="role-badge">一班班主任</span>
+          <h2 class="staff-name">沈清瑤</h2>
+        </div>
+        <div class="expand-hint"></div>
+      </label>
+      <div class="details-wrapper">
+        <div class="details-content">
+          <div class="section-title">基礎信息</div>
+          <p><strong>年齡：</strong>42歲 | <strong>外號：</strong>笑面虎</p>
+          <p><strong>性格：</strong>表面溫柔耐心，實則認知操控者。邏輯嚴密，用專業話術引導順從。</p>
+          
+          <div class="section-title">黑暗表現</div>
+          <ul>
+            <li><strong>精神操控：</strong>利用「信任橋梁」引誘學生。每晚在密室欣賞「收藏品」。</li>
+            <li><strong>秘密：</strong>曾參與🈲
+實驗。長期參與「完美兒童培養計劃」。</li>
+            <li><strong>🔞嗜好：</strong>偏好觀看「完美藝術品」被改造過程。病__態占有欲。</li>
+          </ul>
+          <div class="section-title">口頭禪</div>
+          <p>「老師怎麼會害你呢？」「乖，聽沈老師的話～」</p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="staff-card">
+      <input type="checkbox" id="lin-toggle" class="card-toggle">
+      <label for="lin-toggle" class="card-header">
+        <div class="avatar-frame">
+          <img src="https://i.postimg.cc/mgxn15wB/一班林致遠_(3)_副本.png" alt="林致遠">
+        </div>
+        <div class="header-info">
+          <span class="role-badge">一班副班主任</span>
+          <h2 class="staff-name">林致遠</h2>
+        </div>
+        <div class="expand-hint"></div>
+      </label>
+      <div class="details-wrapper">
+        <div class="details-content">
+          <div class="section-title">基礎信息</div>
+          <p><strong>身高：</strong>180cm | <strong>體重：</strong>75kg</p>
+          <p><strong>外貌：</strong>短發幹練，眼神銳利，肌肉線條勻稱，站姿極度標準。</p>
+
+          <div class="section-title">黑暗表現</div>
+          <ul>
+            <li><strong>性格：</strong>秩序型控制者。癡迷規則與標準，做事一絲不茍。</li>
+            <li><strong>手段：</strong>利用「標準化習慣養成」抹殺個性。</li>
+            <li><strong>🔞嗜好：</strong>利用規則服從他的命令。🍌（長20cm/粗5cm）。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="staff-card">
+      <input type="checkbox" id="chen-toggle" class="card-toggle">
+      <label for="chen-toggle" class="card-header">
+        <div class="avatar-frame">
+          <img src="https://i.postimg.cc/Njhn2z4r/陳_副本.png" alt="陳老師">
+        </div>
+        <div class="header-info">
+          <span class="role-badge">二班班主任</span>
+          <h2 class="staff-name">陳靜</h2>
+        </div>
+        <div class="expand-hint"></div>
+      </label>
+      <div class="details-wrapper">
+        <div class="details-content">
+          <div class="section-title">基礎信息</div>
+          <p><strong>年齡：</strong>28歲 | <strong>身材：</strong>F罩杯，娃娃臉</p>
+          <p><strong>性格：</strong>無懈可擊的溫柔笑容，眼神藏著算計。擅長「溫柔話術」精神操控。</p>
+
+          <div class="section-title">黑暗表現</div>
+          <ul>
+            <li><strong>操控手段：</strong>制定「專屬成長手冊」，不允許偏離路線。利用睡前故事植入恐懼。</li>
+            <li><strong>偽善：</strong>處理矛盾時強制「和諧」，避免沖突升級，實則壓抑人性。</li>
+            <li><strong>🔞嗜好：</strong>精神操控。拋棄無利用價值的前任。</li>
+          </ul>
+          <div class="section-title">口頭禪</div>
+          <p>「聽老師的，不會錯」「這都是為了你好呀」</p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="staff-card">
+      <input type="checkbox" id="li-toggle" class="card-toggle">
+      <label for="li-toggle" class="card-header">
+        <div class="avatar-frame">
+          <img src="https://i.postimg.cc/jSV1nFXn/李_副本.png" alt="李老師">
+        </div>
+        <div class="header-info">
+          <span class="role-badge">二班副班主任</span>
+          <h2 class="staff-name">李悅</h2>
+        </div>
+        <div class="expand-hint"></div>
+      </label>
+      <div class="details-wrapper">
+        <div class="details-content">
+          <div class="section-title">基礎信息</div>
+          <p><strong>年齡：</strong>24歲 | <strong>身材：</strong>G罩杯，健康麥色皮膚</p>
+          <p><strong>性格：</strong>表面爽朗陽光，實則冷酷無情。眼神銳利，暗藏不耐煩。</p>
+
+          <div class="section-title">黑暗表現</div>
+          <ul>
+            <li><strong>病態依賴：</strong>打斷學生間獨處，強制介入遊戲。</li>
+            <li><strong>廢人養成：</strong>代替學生做所有事（如疊被子），培養依賴感。</li>
+            <li><strong>情感勒索：</strong>若學生接受他人照顧，會裝作失落引發學生愧疚。</li>
+            <li><strong>🔞嗜好：</strong>讓學生產生愧疚感。</li>
+          </ul>
+          <div class="section-title">口頭禪</div>
+          <p>「老師陪你呀」「你最喜歡老師對不對」</p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="staff-card">
+      <input type="checkbox" id="wang-toggle" class="card-toggle">
+      <label for="wang-toggle" class="card-header">
+        <div class="avatar-frame">
+          <img src="https://i.postimg.cc/Njhn2z4f/王_副本.png" alt="王老師">
+        </div>
+        <div class="header-info">
+          <span class="role-badge">美術老師</span>
+          <h2 class="staff-name">王玥</h2>
+        </div>
+        <div class="expand-hint"></div>
+      </label>
+      <div class="details-wrapper">
+        <div class="details-content">
+          <div class="section-title">基礎信息</div>
+          <p><strong>年齡：</strong>30歲 | <strong>身材：</strong>偏瘦，單薄優雅</p>
+          <p><strong>性格：</strong>審美綁__架者。表面溫和有創意，實則偏執刻薄，缺乏共情。</p>
+
+          <div class="section-title">黑暗表現</div>
+          <ul>
+            <li><strong>審美霸權：</strong>溫柔否定學生的創意（如藍太陽），手把手強制修改。</li>
+            <li><strong>模板化：</strong>要求嚴格按照「完美模板」制作，扼殺個性。</li>
+            <li><strong>🔞嗜好：</strong>利用畫筆來進行🔞⚧️活動。</li>
+          </ul>
+          <div class="section-title">口頭禪</div>
+          <p>「再細心一點就更完美了」「我們一起做到最好呀」</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

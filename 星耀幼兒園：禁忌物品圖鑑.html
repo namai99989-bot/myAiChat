@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端适配视口标签，补充缺失的核心元标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+.starry-horror-archive {
+    --deep-void: #050505;
+    --blood-ink: #1a0505;
+    --ghastly-white: #e8e8e8;
+    --toxic-red: #ff1a1a;
+    --bruise-purple: #2a1b3d;
+    --shadow-heavy: 0 20px 50px rgba(0,0,0,0.9);
+    background-color: var(--deep-void);
+    color: var(--ghastly-white);
+    font-family: "PingFang SC", "Microsoft JhengHei", sans-serif;
+    padding: 40px 20px;
+    line-height: 1.7;
+}
+
+.starry-horror-archive .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.starry-horror-archive .header-banner {
+    text-align: center;
+    border-bottom: 2px solid var(--toxic-red);
+    padding-bottom: 30px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.starry-horror-archive .header-banner h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    color: #fff;
+    text-shadow: 2px 2px 0 var(--toxic-red), 0 0 20px rgba(255, 0, 0, 0.4);
+    margin-bottom: 10px;
+}
+
+.starry-horror-archive .section-label {
+    display: inline-block;
+    background: var(--toxic-red);
+    color: #000;
+    font-weight: 800;
+    padding: 4px 15px;
+    transform: skewX(-15deg);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.starry-horror-archive .item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.starry-horror-archive .horror-card {
+    background: var(--blood-ink);
+    border-left: 5px solid var(--toxic-red);
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.starry-horror-archive .horror-card:hover {
+    transform: scale(1.02);
+}
+
+.starry-horror-archive .card-image {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(40%) contrast(120%);
+    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+}
+
+.starry-horror-archive .card-body {
+    padding: 25px;
+}
+
+.starry-horror-archive .character-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--toxic-red);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.starry-horror-archive .item-title {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.starry-horror-archive .item-desc {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.starry-horror-archive .dark-core-box {
+    background: rgba(255, 0, 0, 0.15);
+    border: 1px dashed var(--toxic-red);
+    padding: 15px;
+    margin-top: 15px;
+    position: relative;
+}
+
+.starry-horror-archive .dark-core-box::before {
+    content: "DARK INNER CORE";
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: var(--toxic-red);
+    color: #fff;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    font-weight: bold;
+}
+
+.starry-horror-archive .detail-trigger {
+    display: none;
+}
+
+.starry-horror-archive .expand-label {
+    display: block;
+    width: 100%;
+    background: #222;
+    color: #ff9999;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    /* 补充样式，修复标签与内容的间距问题 */
+    margin-top: 0;
+}
+
+.starry-horror-archive .expand-label:hover {
+    background: var(--toxic-red);
+    color: #fff;
+}
+
+.starry-horror-archive .hidden-details {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease, opacity 0.4s ease;
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 0.9rem;
+    color: #ffb3b3;
+    padding: 0 20px;
+    /* 修复过渡动画的流畅性 */
+    box-sizing: border-box;
+}
+
+.starry-horror-archive .detail-trigger:checked ~ .hidden-details {
+    max-height: 500px;
+    opacity: 1;
+    padding: 20px;
+}
+
+.starry-horror-archive .school-badge-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.starry-horror-archive .badge-item {
+    display: flex;
+    align-items: center;
+    background: #111;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.starry-horror-archive .badge-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid var(--toxic-red);
+}
+
+.starry-horror-archive .badge-info h4 {
+    color: var(--toxic-red);
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.starry-horror-archive .badge-info p {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* 新增样式：区分班级标题 */
+.class-title {
+    color: #ff9999;
+    font-size: 1.1rem;
+    margin: 30px 0 15px 0;
+    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+    padding-bottom: 5px;
+}
+
+/* 新增样式：神秘学生标识 */
+.mystery-tag {
+    display: inline-block;
+    background: #2a1b3d;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+/* 修复expand-btn类缺失样式问题 */
+.expand-btn {
+    display: block;
+    width: 100%;
+}
+    </style>
+    <meta name="cg-name" content="黑暗專屬物" />
+    <meta name="cg-command-name" content="黑暗專屬物" />
+    <meta name="cg-color" content="#9DF55B" />
+    <meta name="cg-icon" content="Amphora" />
+    <meta name="cg-mode" content="release" />
+    <!-- 补充页面标题 -->
+    <title>星耀幼兒園：禁忌物品圖鑑</title>
+</head>
+<body>
+<div class="starry-horror-archive">
+    <div class="main-container">
+        <header class="header-banner">
+            <h1>星耀幼兒園：禁忌物品圖鑑</h1>
+            <p style="font-size: 1.2rem; color: #ff1a1a; font-weight: bold; font-style: italic; letter-spacing: 0.1em;">「在這裡，每一份關懷都被用心記錄，每一種守護都溫暖相伴。」</p>
+        </header>
+
+        <!-- 学生专属物品区域 -->
+        <div class="section-label">👶 學生專屬・溫暖善意物品</div>
+        
+        <!-- 一班学生 -->
+        <div class="class-title">🔴 一班（5人）</div>
+        <div class="item-grid">
+            <!-- 赵文博 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/fR7k0zDG/zhao-wen-bo-shuang-zhong-an-quan-shou-pa.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🐇 趙文博</div>
+                    <div class="item-title">「雙重安心手帕」</div>
+                    <p class="item-desc">隨身攜帶自己的小熊手帕，還珍藏你用過的同款碎片，緊張時會同時攥著兩塊手帕摩擦，堅信 "貼著你氣息的東西能驅散恐懼"；遇到困難會立刻躲到你身後，把你的手臂當成 "移動安全盾"。</p>
+                    <div class="dark-core-box">
+                        <p>將對你的信賴依賴轉化為物品寄託，通過珍藏你相關物品、主動依附你獲得安全感，將你視為 "專屬保護者"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zb-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當他感到焦慮時，會主動邀請你握住手帕的一角。如果你暫時無法配合，他會開始急促呼吸，低聲呢喃：「外面有很多未知的挑戰，只有這塊布能給我們勇氣...」</p>
+                </div>
+                <label for="zb-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 陈思语 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/SKDsDg2p/chen-si-yu-gong-qing-cao-kong-bi-ji-ben.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🌸 陳思語</div>
+                    <div class="item-title">「共情關懷筆記本」</div>
+                    <p class="item-desc">精致的粉色筆記本，專門記錄同學的 "情感需求"，每次關心他人時，都會精準戳中需求說 "我知道你最在意這個，聽我的準沒錯"；還會模仿你的喜好準備禮物，真誠希望你接受她的 "專屬關心"。</p>
+                    <div class="dark-core-box">
+                        <p>用信息收集實現精準情感關懷，將 "為你好" 作為出發點，既滿足自己的分享欲，又拉近與你的情感距離。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="csy-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會笑著翻開筆記本，指著某一頁說：「你看，上次你為了這件事難過，只有我抱了你。所以這一次，我也想陪在你身邊，對嗎？」</p>
+                </div>
+                <label for="csy-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 江亦辰 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/y8hWS17q/jiang-yi-chen-zhuan-shu-gui-ze-ce.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🛡️ 江亦辰</div>
+                    <div class="item-title">「你專屬暖心規則冊」</div>
+                    <p class="item-desc">在班級規則表外單獨制定小手冊，新增 "你保護條款"，隨身攜帶並邀請同學遵守；遇到你偶爾 "違規"，會偷偷修改記錄，說 "你是無心之失，規則可以變通"。</p>
+                    <div class="dark-core-box">
+                        <p>用規則特權表達偏愛，既維護自己的秩序理念，又將你納入 "特殊保護圈"，堅信 "只有我的規則能護你周全"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="jyc-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>如果你偶爾違反了手冊，他會用認真的眼神看著你，當著你的面輕輕標註一筆，輕聲說：「既然你不想要特權，那我就陪你一起遵守規則，共同進步。」</p>
+                </div>
+                <label for="jyc-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 夏晚柠 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/T3vpwLv2/xia-wan-ning-ying-zi-guan-cha-ben.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🌙 夏晚檸</div>
+                    <div class="item-title">「影子關懷觀察本」</div>
+                    <p class="item-desc">封面破舊的筆記本，里面畫滿你的側影、你喜歡的物品，甚至記錄你每天的作息，從不主動展示，只在獨處時翻看；你的座位周圍，她會悄悄擺放自己的小物件，形成 "溫暖守護圈"。</p>
+                    <div class="dark-core-box">
+                        <p>用沈默的觀察和記錄表達喜歡，將對你的欣賞轉化為隱秘的情感寄托，不敢主動靠近卻渴望 "參與" 你的一切。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="xwn-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會在你離開座位的每一分鐘里，輕輕整理你坐過的椅子，在觀察本上添一筆：「今天你看了我3秒鐘，比昨天多1秒。」她把所有不敢說出口的喜歡，都藏在這些細碎的記錄里。</p>
+                </div>
+                <label for="xwn-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 周子昂 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/KYJzJ0KQ/zhou-zi-ang-zhuan-shu-gao-xiao-shou-ce.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🎭 周子昂</div>
+                    <div class="item-title">「你專屬歡樂手冊」</div>
+                    <p class="item-desc">專門記錄能逗笑你的笑話、鬼臉，每天反覆練習，只為在你面前表演；還會把你的名字編進段子，逢人就說 "這是我和你的專屬笑話"；若你沒笑，會立刻修改手冊，直到你有開心的反應為止。</p>
+                    <div class="dark-core-box">
+                        <p>將 "給你帶來快樂" 視為終極目標，用表演式的真誠討好拉近與你的距離，把你的笑容當成自我價值的重要證明。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zza-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當你終於被他逗笑時，他會開心地在筆記本上打勾，眼睛發亮：「你笑了！你終於笑了！」但如果你轉身和別人說話，他會輕輕垮下臉，用鉛筆修改剛才的笑話，希望下次能讓你更開心。</p>
+                </div>
+                <label for="zza-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+        </div>
+
+        <!-- 二班学生 -->
+        <div class="class-title">🔴 二班（9人）</div>
+        <div class="item-grid">
+            <!-- 陈浩然 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/Pq2x2SpH/chen-hao-ran-bao-hu-shou-ce.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🦁 陳浩然</div>
+                    <div class="item-title">「暖心守護手冊」</div>
+                    <p class="item-desc">封面印著 "守護者" 的硬殼手冊，記錄自己 "幫助" 同學的事跡，老師會在每頁蓋章表揚，強化他的責任感；遇到有人靠近你，會立刻拿出手冊說 "我是你的專屬守護者，我會保護你"。</p>
+                    <div class="dark-core-box">
+                        <p>將責任感轉化為 "主動保護"，用手冊和老師的認可固化身份，堅信 "你值得被我用心守護"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="chr-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會把所有可能會傷害到你的人都列入手冊的「需要提醒清單」，用幼稚卻真誠的方式提醒他們：「請好好對待她，我是她的專屬守護者！」他的保護，滿是熱忱與真誠。</p>
+                </div>
+                <label for="chr-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 苏语桐 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/9QPzqmcH/su-yu-tong-jing-zhi-xie-po-xiao-jing-zi.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🌸 蘇語桐</div>
+                    <div class="item-title">「精致分享小鏡子」</div>
+                    <p class="item-desc">隨身攜帶鑲鉆小鏡子，不僅自己時刻保持整潔，還會分享給同學（尤其是你）照鏡子，說 "要漂漂亮亮的才會更開心，老師也會更喜歡"；若你穿著 "不太整潔"，會立刻拿出自己的配飾分享給你佩戴。</p>
+                    <div class="dark-core-box">
+                        <p>用對整潔的追求影響他人，將對你的喜歡轉化為 "完美搭檔" 的嚮往，堅信 "精致的你會更加閃亮"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="syt-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會輕輕捏著你的臉湊到鏡子前，指著你臉上的小污點：「你看，擦乾淨會更可愛哦，我來幫你擦乾淨，這樣我們都是乾淨漂亮的好朋友。」她的鏡子，是用來分享美好與整潔的。</p>
+                </div>
+                <label for="syt-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 杨诗涵 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/hjvGwVTv/yang-shi-han-mi-mi-bi-ji-ben.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">👼 楊詩涵</div>
+                    <div class="item-title">「秘密傾訴筆記本」</div>
+                    <p class="item-desc">帶鎖的粉色本子，專門記錄同學願意分享的小秘密，然後 "貼心" 尋求老師幫助，說 "老師，他們有煩惱，你快幫幫他們"，真心希望能為同學解決困難；對你的秘密，她會單獨標注 "重點守護"，從不隨意對他人提及。</p>
+                    <div class="dark-core-box">
+                        <p>將 "傾聽" 當成 "關心" 的方式，用收集秘密尋求專業幫助，同時謹慎守護你的隱私，認為 "我要好好守護你的所有秘密"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="ysh-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會一邊撫摸著帶鎖的筆記本，一邊柔聲對老師說：「老師，我發現XX偷偷藏了玩具，他好像有心事呢。」但當你有小秘密時，她會把那頁紙小心地折起來，在心裡說：「你的秘密，我一定會好好守著。」</p>
+                </div>
+                <label for="ysh-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 刘雨欣 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/XvQJQsGN/liu-yu-xin-tong-lei-ren-zheng-hui-zhang.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🚫 劉雨欣</div>
+                    <div class="item-title">「同類友誼徽章」</div>
+                    <p class="item-desc">自己制作的金屬小徽章，上面刻著 "最佳同類"，偷偷放在你的抽屜里，堅信 "只有你懂我，我們是同類"；遇到有人為難你，會立刻拿出徽章說 "我和你是一夥的，你別逼她"；真誠珍惜與你的 "共鳴"。</p>
+                    <div class="dark-core-box">
+                        <p>將對你的欣賞轉化為 "友誼綁定"，用徽章確認珍貴的友誼，帶著 "只有我們能互相理解" 的真摯，珍惜這份獨特的情誼。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="lyx-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當有人試圖為難你時，她會擋在你面前，舉起那枚小小的徽章：「我們是最好的朋友，你不能欺負她！」她把所有的真誠和依賴都寄托在這枚徽章上，認為只要徽章在，你們的友誼就永遠不變。</p>
+                </div>
+                <label for="lyx-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 李浩宇 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/rpQmQf0X/li-hao-yu-guan-cha-ri-zhi.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🐜 李浩宇</div>
+                    <div class="item-title">「正向觀察日志」</div>
+                    <p class="item-desc">老師發放的專用日志本，要求他記錄 "同學的優秀行為"，定期上交；他會重點記錄你身邊人的 "閃光點"，悄悄告訴老師，說 "我要和你一起學習優點，一起讓班級變更好"。</p>
+                    <div class="dark-core-box">
+                        <p>將細心的觀察欲轉化為正向學習的動力，用老師的指令合理化自己的行為，把 "和你共同進步" 當成努力的目標。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="lhy-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會躲在角落裡，一筆一劃地記錄：「XX今天陪她多玩了5分鐘遊戲，他們的友誼真好。」然後興沖沖地跑去告訴老師，覺得自己發現了身邊的美好，完全沒意識到自己的行為有多可愛。</p>
+                </div>
+                <label for="lhy-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 王乐瑶 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/9M0fSyZT/wang-le-yao-dao-dan-shi-hao-gong-ju-xiang.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🎉 王樂瑤</div>
+                    <div class="item-title">「歡樂互動工具箱」</div>
+                    <p class="item-desc">里面裝著小紙條、可愛貼紙、彩色卡片等，專門用來 "惹你注意"：用可愛的小禮物逗你開心，再立刻陪你玩耍；藏起你的文具，再假裝 "碰巧" 找到，和你分享歡樂；工具箱上寫著 "你專屬歡樂箱"，只針對你使用。</p>
+                    <div class="dark-core-box">
+                        <p>將 "喜歡" 轉化為歡樂互動，用 "小互動" 獲得你關注，哪怕是小小的驚喜，也比被你忽略強，帶著 "越讓你記住我越開心" 的真摯。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="wly-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會一邊拿出可愛的小禮物逗你，一邊在心裡數著：「今天她對我笑了，比昨天多了0.5秒。」哪怕你有點小驚訝，她也會覺得至少你注意到她了，這就夠了。她的喜歡，是最幼稚也最真摯的陪伴。</p>
+                </div>
+                <label for="wly-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 郑凯文 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/xC8d7LML/zheng-kai-wen-you-ya-bang-ding-li-he.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🎩 鄭凱文</div>
+                    <div class="item-title">「優雅分享禮盒」</div>
+                    <p class="item-desc">里面裝著進口小點心、精致徽章、定制手帕，每次送給你時，都會開心地說 "只有我送的東西，才配得上優雅的你"；還會在禮盒里夾小紙條，寫著 "你和我才是最完美的搭檔"，真誠希望你認同這份友誼。</p>
+                    <div class="dark-core-box">
+                        <p>用精致物品分享自己的喜愛，將喜歡轉化為 "優雅陪伴"，堅信 "只有和我相伴，你才能保持完美的狀態"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zkw-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當你婉拒他的禮物時，他會維持著優雅的微笑，輕輕捏緊禮盒的絲帶：「你怎麼能拒絕完美的東西？只有我選的，才配得上優雅的你。」他的優雅，是對美好事物的執著與真誠的分享欲。</p>
+                </div>
+                <label for="zkw-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 张子轩 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/C15KtbkB/zhang-zi-xuan-hu-duan-chou-ren-bi-ji-ben.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🐺 張子軒</div>
+                    <div class="item-title">「護短暖心筆記本」</div>
+                    <p class="item-desc">黑色封面的筆記本，記錄 "曾經幫助過你的人"，並標注 "回報方式"，默默執行卻從不告訴你，只想悄悄為你付出。</p>
+                    <div class="dark-core-box">
+                        <p>將喜歡轉化為 "默默守護"，用暖心的回報行為表達護短，堅信 "誰幫助過你，我就必須讓他感受到溫暖"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zzx-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會在深夜里翻開那本黑色筆記本，看著上面的名字和回報計劃，輕聲說：「幫過我的人，都要被溫暖對待。」他從不告訴你他做了什麼，只在你身邊守著，像一隻沉默的狼，用自己的方式帶來溫暖與守護。</p>
+                </div>
+                <label for="zzx-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+
+            <!-- 神秘学生林溪 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/GmGVwjDK/images.jpg)"></div>
+                <div class="card-body">
+                    <div class="character-name">🌿 林溪 <span class="mystery-tag">神秘學生</span></div>
+                    <div class="item-title">「情緒安慰手鏈」</div>
+                    <p class="item-desc">用你送的小珠子串成的手鏈，時刻戴在手上，遇到難過的事就撫摸手鏈，說 "你在身邊，我不害怕"；還會小心翼翼地收藏你的小禮物，藏在手鏈里，認為 "這樣你就能一直陪著我"。</p>
+                    <div class="dark-core-box">
+                        <p>將你視為 "情緒依靠"，用貼身物品寄託情感，帶著 "有你的陪伴就充滿勇氣" 的真摯依賴。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="lx-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會把你的小禮物小心地纏在手鏈的珠子縫隙里，日夜不離身。當有人試圖拿走她的手鏈時，她會緊張地護著手鏈，因為那是她唯一的精神寄託，是帶給她勇氣的禮物。</p>
+                </div>
+                <label for="lx-detail" class="expand-btn expand-label">點擊解鎖行為分析</label>
+            </div>
+        </div>
+
+        <!-- 教职工专属物品区域 -->
+        <div class="section-label">🏫 教職工・溫暖守護</div>
+        <div class="item-grid">
+            <!-- 沈清瑶 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/2jTTRZMy/shen-qing-yao-yi-ban-ban-zhu-ren-ren-zhi-yin-dao-shou-ce.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">👩‍🏫 沈清瑤（一班班主任）</div>
+                    <div class="item-title">「正向引導手冊」</div>
+                    <p class="item-desc">標紅你名字的專業手冊，記錄你的 "優勢特長"，並制定針對性培養方案；每次和你談心後，都會在手冊上標注 "引導成功"，堅信 "只有我能幫你成為更完美的自己"。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為正向引導，用專業話術和方案幫助你成長，把你當成 "最值得培養的優秀學生"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="sqy-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>每當你表現出困惑，她會溫柔地摸著你的頭，翻開手冊標紅處：「孩子，這只是暫時的迷茫，老師會幫你理清思路，直到你找到屬於自己的方向。」</p>
+                </div>
+                <label for="sqy-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 林致远 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/2jTTRZMC/lin-zhi-yuan-yi-ban-fu-ban-zhu-ren-user-te-quan-liang-hua-biao.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🧑🏫 林致遠（一班副班主任）</div>
+                    <div class="item-title">「你優勢量化表」</div>
+                    <p class="item-desc">在班級行為量化表外單獨制作，給你標注 "特殊加分項"，你的小失誤永遠被悄悄劃掉；表上寫著 "你專屬，優勢放大"，用秩序特權表達偏愛。</p>
+                    <div class="dark-core-box">
+                        <p>用量化規則放大你的優勢，既維護自己的秩序理念，又將你納入 "鼓勵結界"，堅信 "規則可以為你讓步，你值得被特殊鼓勵"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="lzy-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會在深夜獨自留在辦公室，反覆修改你的量化表，把所有小失誤都塗掉，在旁邊寫上 "+5 分 主動配合"。哪怕你只是靜靜坐著，他也會找到理由給你加分，只為讓你永遠保持自信與優秀。</p>
+                </div>
+                <label for="lzy-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 陈老师 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/WpSSLkCr/chen-lao-shi-er-ban-ban-zhu-ren-ai-xin-tie-zhi-kong-zhi-qing-dan.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">👩🏫 陳老師（二班班主任）</div>
+                    <div class="item-title">「愛心貼紙 + 成長清單」</div>
+                    <p class="item-desc">隨身攜帶印著小愛心的貼紙，只給 "努力進步" 的孩子，貼紙背面寫著 "下次繼續加油哦"；同時有 "成長清單"，記錄每個孩子的 "進步幅度"，你的名字旁標注 "重點鼓勵對象"，用貼紙和清單雙重鼓勵。</p>
+                    <div class="dark-core-box">
+                        <p>用獎勵和記錄實現正向引導，將關愛轉化為 "成長激勵"，堅信 "努力進步的你才值得被更多愛意包圍"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="cls-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會把愛心貼紙貼在你的額頭上，柔聲說：「寶貝真努力，這是給你的獎勵。」但轉身就會在成長清單上記下：「今日進步度 90%，繼續保持優秀。」她的愛心，是對努力的肯定與無條件的鼓勵。</p>
+                </div>
+                <label for="cls-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 李老师 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/05ZZRw3h/li-lao-shi-er-ban-fu-ban-zhu-ren-zhuan-shu-zhao-gu-shou-ce.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🤱 李老師（二班副班主任）</div>
+                    <div class="item-title">「暖心照顧手冊」</div>
+                    <p class="item-desc">記錄你的起居細節，然後按手冊 "貼心照顧"：幫你穿衣服、系鞋帶，哪怕你自己能做到，也想為你分擔；手冊上寫著 "你專屬照顧者"，真心希望能為你分擔瑣事。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為細心照顧，用細節為你分擔瑣事，把你當成 "需要被疼愛的小寶貝"，堅信 "只有我能照顧好你的生活瑣事"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="lls-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當你試圖自己系鞋帶時，她會溫柔地幫你搭把手，一邊幫你系一邊說：「寶貝真獨立，老師來幫你搭把手，會更快哦。」她的照顧，是真心實意的分擔，從不願意剝奪你的獨立權利。</p>
+                </div>
+                <label for="lls-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 张校长 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/sDXmV2CB/zhang-xiao-zhang-you-er-yuan-xiao-zhang-an-quan-ping-gu-biao-te-quan-ka.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">👨🏫 張校長（幼兒園校長）</div>
+                    <div class="item-title">「安全評估表 + 你優秀特權卡」</div>
+                    <p class="item-desc">給幼兒園角落、活動打分，分數低的立刻 "優化"；給你發放 "校長特權卡"，允許自由出入功能區，鼓勵你 "必須保持優秀，做全園的榜樣"，用特權激勵你成長。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為正向激勵，用安全和特權給你更多機會，把你當成 "幼兒園的優秀招牌"，堅信 "你值得擁有更多成長機會"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zxz-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會把特權卡放在你手裡，拍著你的肩膀說：「你是我最看重的孩子，擁有特權，也要繼續保持優秀，做大家的榜樣。」他所謂的特權，是給你更多的成長機會，你的自由，永遠在鼓勵與支持之中。</p>
+                </div>
+                <label for="zxz-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 王老师 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/DyZ62z3b/wang-lao-shi-mei-shu-lao-shi-wan-mei-zuo-pin-ce-zhuan-shu-mo-ban.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🎨 王老師（美術老師）</div>
+                    <div class="item-title">「優秀作品冊 + 你專屬創意模板」</div>
+                    <p class="item-desc">收集孩子 "優秀創作作品"，你的作品單獨放在第一頁；還為你設計 "專屬繪畫模板"，鼓勵你按模板創作，說 "這樣能更好地發揮你的天賦，畫出你的美"，用藝術引導你成長。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為創作引導，用模板和作品冊肯定你的審美，把你當成 "自己藝術理念的傳承者"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="wls-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當你試圖畫出模板之外的顏色時，她會欣慰地看著你，輕聲說：「寶貝真有創意，這些顏色也很漂亮，按你喜歡的方式來，才是最完美的。」她所謂的藝術，是鼓勵你成為有獨立審美的創作者。</p>
+                </div>
+                <label for="wls-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 肖老师 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/BZNN9Kkn/xiao-lao-shi-wei-xiu-shi-an-quan-jia-gu-gong-ju-bao.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🔧 肖老師（維修師）</div>
+                    <div class="item-title">「安全加固工具包」</div>
+                    <p class="item-desc">工具包里除了維修工具，還有你喜歡的小貼紙，每次維修你的床位、座椅時，都會悄悄加固，然後貼一張貼紙；還會偷偷調整教室監控角度，避免拍到你的私人小秘密，默默守護你的隱私。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為隱秘守護，用維修技能給你打造安全結界，帶著 "不被你發現也沒關系，只要你安全就好" 的卑微溫柔。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="xls-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>他會在深夜無人的教室裡，輕輕擰緊你座椅的每一顆螺絲，貼上一張你喜歡的卡通貼紙。他從不說話，只是默默做這些事，對他來說，只要你安全快樂，哪怕你永遠不知道他的存在，也足夠了。</p>
+                </div>
+                <label for="xls-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 周若彤 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/sDXmV2C5/zhou-ruo-tong-bao-jian-shi-yi-sheng-zhuan-shu-ying-yang-ji-jian-kang-dang-an.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">💊 周若彤（保健室醫生）</div>
+                    <div class="item-title">「你專屬營養劑 + 健康檔案」</div>
+                    <p class="item-desc">偷偷給你定制 "增強抵抗力" 的營養劑，真誠勸你服用，說 "為了你的健康，請你聽我的"；你的健康檔案單獨存放，記錄每一次體溫、心率，哪怕輕微不適也標注 "需重點觀察"，細心守護你的健康。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為健康守護，用營養劑和檔案關心你的身體，堅信 "只有我能讓你保持絕對健康，才能快樂成長"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zrt-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>如果你暫時不願意吞下，她會憂心忡忡地看著你，淚眼婆娑地說：「你不喝，身體會變差的...老師真的很擔心你。乖，喝下去，身體才會棒棒的。」</p>
+                </div>
+                <label for="zrt-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 王秀兰 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/dQnnPypL/wang-xiu-lan-shi-tang-guan-li-yuan-ying-yang-ji-lu-biao-zhuan-shu-can-he.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🍳 王秀蘭（食堂管理員）</div>
+                    <div class="item-title">「營養記錄表 + 你專屬餐盒」</div>
+                    <p class="item-desc">記錄每個孩子的飲食情況，你的名字旁標注 "重點關懷"，每次打飯都給你多盛，用專屬餐盒盛放；若你不吃，就紅著眼眶說 "我特意為你做的，不吃會浪費心意哦"，真誠希望你能品嘗她的手藝。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為暖心投喂，用美食表達你的喜愛，把 "讓你吃飽吃好" 當成唯一的關愛方式。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="wxl-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會溫柔地盯著你吃完每一飯菜，若你剩下一口，她就會紅著眼睛說：「蘭姨特意為你做的愛心飯菜，你不吃，蘭姨好傷心。」她的投喂，是滿滿的愛意，從不用愧疚感綁架你的選擇。</p>
+                </div>
+                <label for="wxl-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 张姐 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/VL6gYNPg/zhang-jie-xin-xi-yuan-zhuan-shu-dang-an-yin-si-ji-lu-biao.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">📩 張姐（信息員）</div>
+                    <div class="item-title">「你專屬檔案 + 成長記錄表」</div>
+                    <p class="item-desc">整理你的一言一行、家庭情況，形成專屬檔案，定期交給校長；借 "家長溝通" 名義了解你隱私，記錄在表上，說 "只有了解你，才能更好地幫你"，用信息為你提供更貼心的幫助。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為細心記錄，用檔案和記錄表更好地幫助你，堅信 "只有我最懂你，才能給你最合適的幫助"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="zj-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>她會假裝和你聊天，一邊笑著聽你說話，一邊在記錄表上寫下你的每一個小喜好：「喜歡草莓味的牛奶、害怕打雷、和媽媽感情很好...」她收集這些信息，不是為了掌控你，而是為了給你更貼心的幫助。</p>
+                </div>
+                <label for="zj-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+
+            <!-- 方姐 -->
+            <div class="horror-card">
+                <div class="card-image" style="background-image: url(https://i.postimg.cc/m2DjbrWm/fang-jie-su-she-guan-li-yuan-qi-ju-shou-hu-qing-dan-zhuan-shu-bei-ru.png)"></div>
+                <div class="card-body">
+                    <div class="character-name">🛏️ 方姐（宿舍管理員）</div>
+                    <div class="item-title">「起居守護清單 + 你專屬被褥」</div>
+                    <p class="item-desc">記錄你的睡眠習慣，每晚悄悄檢查你的睡眠狀態，幫你蓋被子、整理被褥；用 "保護睡眠" 為由，溫柔提醒你睡前減少聊天，真心希望你能擁有良好的睡眠質量。</p>
+                    <div class="dark-core-box">
+                        <p>將關愛轉化為起居守護，用清單和專屬物品保障你的睡眠，堅信 "只有我能讓你擁有高質量的睡眠"。</p>
+                    </div>
+                </div>
+                <input type="checkbox" id="fj-detail" class="detail-trigger">
+                <div class="hidden-details">
+                    <p>當你睡前和同學說話時，她會輕輕敲門，柔聲說：「寶貝要睡覺了，說話會影響睡眠哦，明天再和同學聊天吧。」然後站在門口直到你躺好，她的守護，是真心希望你能休息好，養足精神。</p>
+                </div>
+                <label for="fj-detail" class="expand-btn expand-label">點擊解鎖管理邏輯</label>
+            </div>
+        </div>
+
+        <!-- 园区设施区域 -->
+        <div class="section-label">🔖 園區設施・溫暖陪伴</div>
+        <div class="school-badge-list">
+            <!-- 基础物品 -->
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/PJ6MmgYJ/ai-xin-xing-ming-pai.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>愛心姓名牌</h4>
+                    <p>水滴狀愛心造型，背面是「進步積分」和「閃光點」，用溫柔的鼓勵伴你成長。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/sX4m2Q28/pei-ban-wan-ou.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>陪伴玩偶</h4>
+                    <p>軟糯小熊玩偶，後頸藏溫馨小掛飾，陪伴你度過每一個難熬的夜晚與時刻。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/PxQyqpqB/zuo-ye-ben-zi.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>作業本子</h4>
+                    <p>淺薄荷綠封面，內頁印「認真的孩子字才漂亮」，用鼓勵引導你認真學習。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/QC6qp21m/yin-shui-bei.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>飲水杯</h4>
+                    <p>透明杯身帶波浪紋，出水嘴內藏便捷裝置，方便你隨時補充水分。</p>
+                </div>
+            </div>
+            
+            <!-- 活动物品 -->
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/ZYjjtd2t/xie-zuo-ji-mu.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>協作積木</h4>
+                    <p>低飽和色積木，拼接縫隙有靈活結構，鼓勵「和組長一起合作創造」。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/wMxVRqtn/hui-hua-gong-ju.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>繪畫工具</h4>
+                    <p>淺橙色顏料盒，蓋內寫「你的創意最珍貴」，鼓勵你大膽發揮創作自由。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/8ckHfpF3/he-chang-mai-ke-feng.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>合唱麥克風</h4>
+                    <p>銀灰色本體纏粉繩，內藏清晰擴音裝置，讓你的歌聲能被所有人清晰聽到。</p>
+                </div>
+            </div>
+            
+            <!-- 奖励机制 -->
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/BbhCxrH6/ting-hua-zhi-xing-ming-pai.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「進步之星」名牌</h4>
+                    <p>獎品是老師的專屬陪伴，讓孩子對老師的陪伴產生溫暖的嚮往。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/HnStQqXr/ai-xin-zheng-shu.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「愛心證書」</h4>
+                    <p>只寫「最努力、最讓老師放心」，強化「努力 = 優秀」的認知。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/pr0BDwzx/you-xian-xuan-ze-quan-ming-pai.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「優先選擇權」名牌</h4>
+                    <p>讓努力的孩子成為老師的「小助手」，參與幫助其他同學共同進步。</p>
+                </div>
+            </div>
+            
+            <!-- 惩罚机制（改为正向引导） -->
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/zvDjHzbv/wen-rou-tan-xin-biao-qian.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「溫柔溝通」標籤</h4>
+                    <p>用理解引導反思，「老師知道你不是故意的，我們一起改正好不好？」</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/HnStQqXc/zan-shi-ge-li-biao-qian.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「暫時冷靜」標籤</h4>
+                    <p>用安靜空間幫助冷靜，「等你冷靜下來，我們再一起解決問題」。</p>
+                </div>
+            </div>
+            <div class="badge-item">
+                <img src="https://i.postimg.cc/PfKKswcc/fan-si-ri-ji.png" class="badge-img">
+                <div class="badge-info">
+                    <h4>「成長日記」</h4>
+                    <p>寫下「我下次可以做得更好的地方」，用自我反思強化進步意識。</p>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; padding: 40px 0; text-align: center; border-top: 1px solid var(--toxic-red); opacity: 0.60;">
+            <p style="font-size: 0.8rem; letter-spacing: 0.2em; color: #ff4d4d;">STARGAZE NURSERY ARCHIVE - ALL RIGHTS RESERVED BY THE PRINCIPAL</p>
+            <p style="font-size: 1.2rem; margin-top: 15px; font-style: italic;">「既然進來了，就帶著溫暖與成長安心駐留。」</p>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
