@@ -1,0 +1,541 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.idol-schedule {
+  --c-yejun: #4299E1;
+  --c-noah: #ED8936;
+  --c-bamby: #E53E3E;
+  --c-eunho: #9F7AEA;
+  --c-hamin: #38B2AC;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  padding: 2rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Header & Legend */
+.idol-schedule .header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1.5rem;
+}
+
+.idol-schedule .title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.idol-schedule .subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.idol-schedule .legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.idol-schedule .legend-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-transform: uppercase;
+}
+
+/* Member Colors */
+.idol-schedule .bg-yejun { background-color: var(--c-yejun); }
+.idol-schedule .bg-noah { background-color: var(--c-noah); }
+.idol-schedule .bg-bamby { background-color: var(--c-bamby); }
+.idol-schedule .bg-eunho { background-color: var(--c-eunho); }
+.idol-schedule .bg-hamin { background-color: var(--c-hamin); }
+
+.idol-schedule .text-yejun { color: var(--c-yejun); }
+.idol-schedule .text-noah { color: var(--c-noah); }
+.idol-schedule .text-bamby { color: var(--c-bamby); }
+.idol-schedule .text-eunho { color: var(--c-eunho); }
+.idol-schedule .text-hamin { color: var(--c-hamin); }
+
+.idol-schedule .border-yejun { border-left-color: var(--c-yejun); }
+.idol-schedule .border-noah { border-left-color: var(--c-noah); }
+.idol-schedule .border-bamby { border-left-color: var(--c-bamby); }
+.idol-schedule .border-eunho { border-left-color: var(--c-eunho); }
+.idol-schedule .border-hamin { border-left-color: var(--c-hamin); }
+
+/* Timeline Layout */
+.idol-schedule .timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.idol-schedule .timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+.idol-schedule .time-block {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.idol-schedule .time-dot {
+  position: absolute;
+  left: -1.5rem;
+  top: 1rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--text-muted);
+  z-index: 10;
+}
+
+.idol-schedule .card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.idol-schedule .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.idol-schedule .time-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed #cbd5e1;
+  padding-bottom: 0.5rem;
+}
+
+.idol-schedule .time-label {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  background: #f1f5f9;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  margin-right: auto;
+}
+
+.idol-schedule .card-icon {
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+/* Content Lists */
+.idol-schedule .task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.idol-schedule .task-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.idol-schedule .task-item:last-child {
+  margin-bottom: 0;
+}
+
+.idol-schedule .task-marker {
+  margin-right: 0.5rem;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+/* Specific Member Tasks */
+.idol-schedule .member-task {
+  background: #f8fafc;
+  border-left: 4px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9rem;
+}
+
+.idol-schedule .member-name {
+  font-weight: 800;
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Special Events Section */
+.idol-schedule .special-events {
+  margin-top: 3rem;
+  background: #fff0f0; /* Slight tint for special */
+  border: 2px solid #fed7d7;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.idol-schedule .special-title {
+  color: #c53030;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.idol-schedule .special-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.idol-schedule .event-box {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #fed7d7;
+  text-align: center;
+}
+
+.idol-schedule .event-day {
+  display: block;
+  font-weight: 700;
+  color: #c53030;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.idol-schedule .event-desc {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .idol-schedule {
+    padding: 1rem;
+  }
+  .idol-schedule .timeline {
+    padding-left: 1rem;
+  }
+  .idol-schedule .timeline::before {
+    left: 4px;
+  }
+  .idol-schedule .time-dot {
+    left: -1.25rem;
+    width: 12px;
+    height: 12px;
+  }
+  .idol-schedule .legend {
+    gap: 0.5rem;
+  }
+  .idol-schedule .legend-item {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+</style>
+<meta name="cg-name" content="男團日常時間表" />
+<meta name="cg-command-name" content="男團日常時間表" />
+<meta name="cg-color" content="#1E23FF" />
+<meta name="cg-icon" content="Command" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.idol-schedule {--c-yejun: #4299E1; --c-noah: #ED8936; --c-bamby: #E53E3E; --c-eunho: #9F7AEA; --c-hamin: #38B2AC; --bg-color: #f8fafc; --card-bg: #fff; --text-main: #0f172a; --text-muted: #475569; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 2rem; line-height: 1.6; max-width: 800px; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);}
+.idol-schedule .header {text-align: center; margin-bottom: 2.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1.5rem;}
+.idol-schedule .title {font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; letter-spacing: -0.025em; text-transform: uppercase;}
+.idol-schedule .subtitle {font-size: 1rem; color: var(--text-muted); font-weight: 500;}
+.idol-schedule .legend {display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem;}
+.idol-schedule .legend-item {display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); text-transform: uppercase;}
+.idol-schedule .bg-yejun {background-color: var(--c-yejun);}
+.idol-schedule .bg-noah {background-color: var(--c-noah);}
+.idol-schedule .bg-bamby {background-color: var(--c-bamby);}
+.idol-schedule .bg-eunho {background-color: var(--c-eunho);}
+.idol-schedule .bg-hamin {background-color: var(--c-hamin);}
+.idol-schedule .text-yejun {color: var(--c-yejun);}
+.idol-schedule .text-noah {color: var(--c-noah);}
+.idol-schedule .text-bamby {color: var(--c-bamby);}
+.idol-schedule .text-eunho {color: var(--c-eunho);}
+.idol-schedule .text-hamin {color: var(--c-hamin);}
+.idol-schedule .border-yejun {border-left-color: var(--c-yejun);}
+.idol-schedule .border-noah {border-left-color: var(--c-noah);}
+.idol-schedule .border-bamby {border-left-color: var(--c-bamby);}
+.idol-schedule .border-eunho {border-left-color: var(--c-eunho);}
+.idol-schedule .border-hamin {border-left-color: var(--c-hamin);}
+.idol-schedule .timeline {position: relative; padding-left: 1.5rem;}
+.idol-schedule .timeline::before {content: ""; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; border-radius: 2px;}
+.idol-schedule .time-block {position: relative; margin-bottom: 2rem;}
+.idol-schedule .time-dot {position: absolute; left: -1.5rem; top: 1rem; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--text-muted); z-index: 10;}
+.idol-schedule .card {background: var(--card-bg); border-radius: 8px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease;}
+.idol-schedule .card:hover {transform: translatey(-2px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);}
+.idol-schedule .time-header {display: flex; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.5rem;}
+.idol-schedule .time-label {font-size: 1.1rem; font-weight: 800; color: var(--text-main); background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 6px; margin-right: auto;}
+.idol-schedule .card-icon {font-size: 1.2rem; opacity: 0.7;}
+.idol-schedule .task-list {list-style: none; padding: 0; margin: 0;}
+.idol-schedule .task-item {display: flex; align-items: flex-start; margin-bottom: 0.75rem; font-size: 0.95rem; color: var(--text-main);}
+.idol-schedule .task-item:last-child {margin-bottom: 0;}
+.idol-schedule .task-marker {margin-right: 0.5rem; color: var(--text-muted); font-weight: bold;}
+.idol-schedule .member-task {background: #f8fafc; border-left: 4px solid #ccc; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: 0 6px 6px 0; font-size: 0.9rem;}
+.idol-schedule .member-name {font-weight: 800; margin-right: 0.5rem; font-size: 0.85rem; text-transform: uppercase; display: inline-block;}
+.idol-schedule .special-events {margin-top: 3rem; background: #fff0f0; border: 2px solid #fed7d7; border-radius: 12px; padding: 1.5rem;}
+.idol-schedule .special-title {color: #c53030; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;}
+.idol-schedule .special-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;}
+.idol-schedule .event-box {background: white; padding: 0.75rem; border-radius: 6px; border: 1px solid #fed7d7; text-align: center;}
+.idol-schedule .event-day {display: block; font-weight: 700; color: #c53030; font-size: 0.9rem; margin-bottom: 0.25rem;}
+.idol-schedule .event-desc {font-size: 0.9rem; color: var(--text-main);}
+@media (max-width: 600px) {
+  .idol-schedule {padding: 1rem;}
+  .idol-schedule .timeline {padding-left: 1rem;}
+  .idol-schedule .timeline::before {left: 4px;}
+  .idol-schedule .time-dot {left: -1.25rem; width: 12px; height: 12px;}
+  .idol-schedule .legend {gap: 0.5rem;}
+  .idol-schedule .legend-item {font-size: 0.7rem; padding: 0.2rem 0.5rem;}
+}
+</style>
+
+<div class="idol-schedule">
+
+  
+  <header class="header">
+    <div class="title">PLAVE Daily Routine</div>
+    <div class="subtitle">Official Member Timetable &amp; Activities</div>
+    
+    
+    <div class="legend">
+      <span class="legend-item bg-yejun">YEJUN (南藝俊)</span>
+      <span class="legend-item bg-noah">NOAH (韓諾亞)</span>
+      <span class="legend-item bg-bamby">BAMBY (蔡豐玖)</span>
+      <span class="legend-item bg-eunho">EUNHO (都銀虎)</span>
+      <span class="legend-item bg-hamin">HAMIN (柳河玟)</span>
+    </div>
+  </header>
+
+  
+  <div class="timeline">
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: var(--c-noah)"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">早晨 06:00</span>
+          <span class="card-icon">🌅</span>
+        </div>
+        <ul class="task-list">
+          <li class="member-task border-noah">
+            <span class="member-name text-noah">韓諾亞</span>
+            負責叫醒大家
+          </li>
+          <li class="task-item">
+            <span class="task-marker">🏃</span>
+            全成員晨練（跑步 / 伸展 / 核心訓練）- 操場
+          </li>
+          <li class="task-item">
+            <span class="task-marker">🍳</span>
+            早餐時間（自行準備 / 輪流下廚）
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: var(--c-yejun)"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">上午 07:00 - 11:00</span>
+          <span class="card-icon">🎤</span>
+        </div>
+        <div class="mb-4">
+          <div class="font-bold text-sm text-gray-500 mb-2 uppercase tracking-wider">07:30-09:00 歌聲訓練</div>
+          <div class="member-task border-yejun">
+            <span class="member-name text-yejun">南藝俊</span>
+            主唱指導
+          </div>
+          <div class="member-task border-noah">
+            <span class="member-name text-noah">韓諾亞</span>
+            和聲訓練
+          </div>
+        </div>
+        <div>
+          <div class="font-bold text-sm text-gray-500 mb-2 uppercase tracking-wider">09:30-11:00 舞蹈訓練</div>
+          <div class="member-task border-bamby">
+            <span class="member-name text-bamby">蔡豐玖</span>
+            領舞指導
+          </div>
+          <div class="member-task border-eunho">
+            <span class="member-name text-eunho">都銀虎</span>
+            動作細節
+          </div>
+          <div class="member-task border-hamin">
+            <span class="member-name text-hamin">柳河玟</span>
+            表情管理
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: #cbd5e1"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">中午 11:00 - 13:00</span>
+          <span class="card-icon">🍱</span>
+        </div>
+        <ul class="task-list">
+          <li class="task-item">🥗 午餐時間（自行解決 / 聚餐）</li>
+          <li class="task-item">☕ 短暫休息</li>
+          <li class="task-item">📖 個人時間（看漫畫 / 睡覺 / 整理個人事務）</li>
+        </ul>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: var(--c-bamby)"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">下午 13:00 - 18:00</span>
+          <span class="card-icon">🎬</span>
+        </div>
+        <div class="mb-4">
+          <div class="font-bold text-sm text-gray-500 mb-2">13:00-15:00 直播間活動 🎙️</div>
+          <ul class="task-list pl-2 border-l-2 border-gray-100">
+            <li class="task-item">🎮 與粉絲互動</li>
+            <li class="task-item">🎨 才藝展示（繪畫 / 彈琴）</li>
+            <li class="task-item">🎭 角色扮演</li>
+          </ul>
+        </div>
+        <div class="mb-4">
+          <div class="font-bold text-sm text-gray-500 mb-2">15:30-17:30 舞台走位排練 💃</div>
+          <ul class="task-list pl-2 border-l-2 border-gray-100">
+            <li class="task-item">📍 分組對位</li>
+            <li class="task-item">🔄 整體協調</li>
+          </ul>
+        </div>
+        <div class="font-bold text-sm text-gray-500">18:00 個人練習 / 特訓</div>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: var(--c-eunho)"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">晚上 18:00 - 22:00</span>
+          <span class="card-icon">🛋️</span>
+        </div>
+        <ul class="task-list mb-4">
+          <li class="task-item">🍽️ 晚餐時間</li>
+          <li class="task-item">🎮 休息室放鬆（遊戲 / 漫畫 / 聊天談心）</li>
+        </ul>
+        <div class="member-task border-gray-400" style="background: #f1f5f9">
+          <span class="member-name" style="color: #475569">20:00 - 21:00</span>
+          第二輪直播：即興表演 / 清唱互動 / 才藝展示
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: var(--c-hamin)"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">深夜 22:00 - 24:00</span>
+          <span class="card-icon">🌙</span>
+        </div>
+        <ul class="task-list">
+          <li class="task-item">🛁 個人時間 / 準備睡覺</li>
+          <li class="task-item">
+            <span class="task-marker">🎙️</span>
+            <strong>夜間直播（輪流）</strong>：輕音樂 / 深夜談心 / 遊戲直播
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    
+    <div class="time-block">
+      <div class="time-dot" style="border-color: #2d3748"></div>
+      <div class="card">
+        <div class="time-header">
+          <span class="time-label">深夜 24:00 後</span>
+          <span class="card-icon">💤</span>
+        </div>
+        <ul class="task-list">
+          <li class="task-item">✨ 自由活動時間</li>
+          <li class="task-item">🦶 熱水澡 / 泡腳</li>
+          <li class="task-item">📚 睡前閱讀</li>
+          <li class="member-task border-noah mt-2">
+            <span class="member-name text-noah">韓諾亞</span>
+            負責最後檢查 &amp; 關燈
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="special-events">
+    <div class="special-title">
+      <span>🎉</span> 特殊活動週表
+    </div>
+    <div class="special-grid">
+      <div class="event-box">
+        <span class="event-day">每週三</span>
+        <div class="event-desc">粉絲見面會直播</div>
+      </div>
+      <div class="event-box">
+        <span class="event-day">每週五</span>
+        <div class="event-desc">新歌預告直播</div>
+      </div>
+      <div class="event-box">
+        <span class="event-day">每週日</span>
+        <div class="event-desc">才藝大放送直播</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

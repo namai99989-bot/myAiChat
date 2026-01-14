@@ -1,0 +1,330 @@
+<html>
+<head>
+<style>
+/* Root Scope - Unique Namespace */
+.plave-v2-root {
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bg-dark: #111827;
+  --bg-card: #1f2937;
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+
+  /* Member Colors - Main */
+  --yejun-main: #4299E1;
+  --noah-main: #ED8936;
+  --bamby-main: #E53E3E;
+  --eunho-main: #9F7AEA;
+  --hamin-main: #38B2AC;
+
+  /* Member Colors - Light (Background tints) */
+  --yejun-light: rgba(66, 153, 225, 0.1);
+  --noah-light: rgba(237, 137, 54, 0.1);
+  --bamby-light: rgba(229, 62, 62, 0.1);
+  --eunho-light: rgba(159, 122, 234, 0.1);
+  --hamin-light: rgba(56, 178, 172, 0.1);
+
+  /* Member Colors - Dark (Borders/Shadows) */
+  --yejun-dark: #2B6CB0;
+  --noah-dark: #C05621;
+  --bamby-dark: #C53030;
+  --eunho-dark: #742DDD;
+  --hamin-dark: #23837C;
+
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+/* Scrollbar */
+.plave-v2-root::-webkit-scrollbar { width: 4px; }
+.plave-v2-root::-webkit-scrollbar-track { background: transparent; }
+.plave-v2-root::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+
+/* Header */
+.plave-v2-root .header-title {
+  font-size: 2rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to right, #fff, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+/* Member Card Container */
+.plave-v2-root .member-card {
+  position: relative;
+  background: rgba(31, 41, 55, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.plave-v2-root .member-card:hover {
+  background: rgba(31, 41, 55, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Member Specific Theme Classes */
+.plave-v2-root .theme-yejun { --theme-color: var(--yejun-main); --theme-bg: var(--yejun-light); --theme-border: var(--yejun-dark); }
+.plave-v2-root .theme-noah { --theme-color: var(--noah-main); --theme-bg: var(--noah-light); --theme-border: var(--noah-dark); }
+.plave-v2-root .theme-bamby { --theme-color: var(--bamby-main); --theme-bg: var(--bamby-light); --theme-border: var(--bamby-dark); }
+.plave-v2-root .theme-eunho { --theme-color: var(--eunho-main); --theme-bg: var(--eunho-light); --theme-border: var(--eunho-dark); }
+.plave-v2-root .theme-hamin { --theme-color: var(--hamin-main); --theme-bg: var(--hamin-light); --theme-border: var(--hamin-dark); }
+
+/* Apply Theme */
+.plave-v2-root .member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--theme-color);
+  box-shadow: 0 0 15px var(--theme-color);
+}
+
+.plave-v2-root .member-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid var(--theme-color);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.plave-v2-root .member-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--theme-color);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-right: 0.5rem;
+}
+
+.plave-v2-root .member-role {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--theme-bg);
+  color: var(--theme-color);
+  border: 1px solid var(--theme-border);
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.plave-v2-root .info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #D1D5DB;
+}
+
+.plave-v2-root .info-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #6B7280;
+  margin-bottom: 0.1rem;
+  display: block;
+}
+
+/* Footer Chat */
+.plave-v2-root .chat-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #374151;
+}
+
+.plave-v2-root .chat-bubble {
+  background: #1F2937;
+  border: 1px solid #374151;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #E5E7EB;
+  position: relative;
+}
+
+.plave-v2-root .chat-bubble::before {
+  content: 'LATEST';
+  position: absolute;
+  top: -0.6rem;
+  left: 1rem;
+  background: #111827;
+  color: #10B981;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0 0.4rem;
+  border: 1px solid #374151;
+  border-radius: 4px;
+}
+</style>
+<meta name="cg-name" content="PLAVE虛擬男團人物資料" />
+<meta name="cg-command-name" content="PLAVE虛擬男團人物資料" />
+<meta name="cg-color" content="#4800F1" />
+<meta name="cg-icon" content="ReceiptRussianRuble" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.plave-v2-root {--font-body: "Helvetica Neue", Helvetica, Arial, sans-serif; --bg-dark: #111827; --bg-card: #1f2937; --text-main: #F3F4F6; --text-muted: #9CA3AF; --yejun-main: #4299E1; --noah-main: #ED8936; --bamby-main: #E53E3E; --eunho-main: #9F7AEA; --hamin-main: #38B2AC; --yejun-light: rgba(66, 153, 225, 0.1); --noah-light: rgba(237, 137, 54, 0.1); --bamby-light: rgba(229, 62, 62, 0.1); --eunho-light: rgba(159, 122, 234, 0.1); --hamin-light: rgba(56, 178, 172, 0.1); --yejun-dark: #2B6CB0; --noah-dark: #C05621; --bamby-dark: #C53030; --eunho-dark: #742DDD; --hamin-dark: #23837C; font-family: var(--font-body); background-color: var(--bg-dark); color: var(--text-main); width: 100%; height: 100%; overflow-y: auto; padding: 1.5rem; box-sizing: border-box; line-height: 1.5;}
+.plave-v2-root::-webkit-scrollbar {width: 4px;}
+.plave-v2-root::-webkit-scrollbar-track {background: transparent;}
+.plave-v2-root::-webkit-scrollbar-thumb {background: #374151; border-radius: 4px;}
+.plave-v2-root .header-title {font-size: 2rem; font-weight: 900; font-style: italic; letter-spacing: -0.05em; background: linear-gradient(to right, #fff, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.25rem;}
+.plave-v2-root .member-card {position: relative; background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.25rem; display: flex; gap: 1rem; transition: transform 0.2s ease, box-shadow 0.2s ease; overflow: hidden;}
+.plave-v2-root .member-card:hover {background: rgba(31, 41, 55, 0.8); transform: translatey(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);}
+.plave-v2-root .theme-yejun {--theme-color: var(--yejun-main); --theme-bg: var(--yejun-light); --theme-border: var(--yejun-dark);}
+.plave-v2-root .theme-noah {--theme-color: var(--noah-main); --theme-bg: var(--noah-light); --theme-border: var(--noah-dark);}
+.plave-v2-root .theme-bamby {--theme-color: var(--bamby-main); --theme-bg: var(--bamby-light); --theme-border: var(--bamby-dark);}
+.plave-v2-root .theme-eunho {--theme-color: var(--eunho-main); --theme-bg: var(--eunho-light); --theme-border: var(--eunho-dark);}
+.plave-v2-root .theme-hamin {--theme-color: var(--hamin-main); --theme-bg: var(--hamin-light); --theme-border: var(--hamin-dark);}
+.plave-v2-root .member-card::before {content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--theme-color); box-shadow: 0 0 15px var(--theme-color);}
+.plave-v2-root .member-avatar {width: 4rem; height: 4rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--theme-color); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); flex-shrink: 0;}
+.plave-v2-root .member-name {font-size: 1.25rem; font-weight: 800; color: var(--theme-color); text-transform: uppercase; letter-spacing: 0.025em; margin-right: 0.5rem;}
+.plave-v2-root .member-role {font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: var(--theme-bg); color: var(--theme-color); border: 1px solid var(--theme-border); vertical-align: middle; display: inline-block;}
+.plave-v2-root .info-grid {display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 0.75rem; font-size: 0.85rem; color: #D1D5DB;}
+.plave-v2-root .info-label {font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: #6B7280; margin-bottom: 0.1rem; display: block;}
+.plave-v2-root .chat-footer {margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #374151;}
+.plave-v2-root .chat-bubble {background: #1F2937; border: 1px solid #374151; border-radius: 0.75rem; padding: 1rem; font-family: monospace; font-size: 0.9rem; color: #E5E7EB; position: relative;}
+.plave-v2-root .chat-bubble::before {content: "LATEST"; position: absolute; top: -0.6rem; left: 1rem; background: #111827; color: #10B981; font-size: 0.65rem; font-weight: 700; padding: 0 0.4rem; border: 1px solid #374151; border-radius: 4px;}
+</style>
+
+<div class="plave-v2-root">
+
+  
+  <header class="flex items-end justify-between mb-8">
+    <div>
+      <h1 class="header-title">PLAVE</h1>
+      <p class="text-xs text-gray-500 font-bold tracking-widest uppercase">Asterum Member Profiles</p>
+    </div>
+    <div class="text-right">
+      <div class="text-gray-500 uppercase font-bold mb-1">Current User</div>
+      <div class="inline-block text-xs font-bold text-gray-200 bg-gray-800 px-3 py-1 rounded-full border border-gray-700">{user}</div>
+    </div>
+  </header>
+
+  
+  <div class="flex flex-col gap-4">
+
+    
+    <div class="member-card theme-yejun">
+      <img src="https://i.postimg.cc/tRcRZrsZ/574098228-17906794437267539-7255652794030162771-n.jpg" class="member-avatar" alt="Yejun">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="member-name">Yejun</span>
+          <span class="member-role">Leader</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-2 font-medium">南藝俊 · 海豚塑 · 沉稳温柔</p>
+        <div class="info-grid">
+          <div>
+            <p class="line-clamp-2">温润系帅哥，标志性蓝色短发。ISTJ的温和与责任感，是团内照顾所有人的定海神针。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card theme-noah">
+      <img src="https://i.postimg.cc/Vshsr7Jn/574862697-17906794428267539-3750551006885401021-n.jpg" class="member-avatar" alt="Noah">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="member-name">Noah</span>
+          <span class="member-role">Princess</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-2 font-medium">韩诺亚 · 公主暖阳 · 气氛担当</p>
+        <div class="info-grid">
+          <div>
+            <p class="line-clamp-2">暖金橙色调的小太阳，拥有极具亲和力的笑容。虽然是哥哥Line，但喜欢调皮逗弄忙内。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card theme-bamby">
+      <img src="https://i.postimg.cc/RCYC6PWF/573042426-17906794410267539-8416222422527818430-n.jpg" class="member-avatar" alt="Bamby">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="member-name">Bamby</span>
+          <span class="member-role">Cutie</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-2 font-medium">蔡豐玖 · 斑比元气 · 舞蹈担当</p>
+        <div class="info-grid">
+          <div>
+            <p class="line-clamp-2">亮粉色短发的可爱系团宠，但练舞时眼神锐利。与银虎是相爱相杀的97Line亲故。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card theme-eunho">
+      <img src="https://i.postimg.cc/Vshsr7Jv/572956031-17906794419267539-7292924997633086985-n.jpg" class="member-avatar" alt="Eunho">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="member-name">Eunho</span>
+          <span class="member-role">Wolf</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-2 font-medium">都銀虎 · 虎虎双面 · 冷感帅哥</p>
+        <div class="info-grid">
+          <div>
+            <p class="line-clamp-2">银白发色的冷峻外表下是搞笑男的灵魂。184cm的身高极具压迫感，实则是温柔的二哥。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="member-card theme-hamin">
+      <img src="https://i.postimg.cc/G3f38M4T/574491458-17906794401267539-5660806963324118510-n.jpg" class="member-avatar" alt="Hamin">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="member-name">Hamin</span>
+          <span class="member-role">Maknae</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-2 font-medium">柳河玟 · 猫猫反差 · 实权忙内</p>
+        <div class="info-grid">
+          <div>
+            <p class="line-clamp-2">拥有双开门宽肩的黑发忙内。外表冷峻但私下是粘人的小猫咪，掌握着团内的“实权”。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="chat-footer">
+    <div class="flex items-center gap-2 mb-3">
+      <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Live Transmission</span>
+    </div>
+    <div class="chat-bubble">
+      {latest_character_message}
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,540 @@
+<html>
+<head>
+<style>
+/* 全域重置與基礎樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', '맑은 고딕', sans-serif;
+        }
+
+        body {
+            background-color: #fdf2f8;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* 輪播整體容器 */
+        .life-story-carousel {
+            max-width: 1000px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        /* 輪播標題區 */
+        .carousel-header {
+            padding: 1.5rem 2rem;
+            background: #8B5CF6; /* 預設主色，與 meta 一致 */
+            color: white;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .carousel-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .carousel-title span {
+            font-size: 1rem;
+            background: white;
+            color: #8B5CF6;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .carousel-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* 輪播內容容器 */
+        .carousel-container {
+            position: relative;
+            padding: 2rem;
+            height: 500px;
+        }
+
+        /* 輪播控制 Radio（隱藏） */
+        .carousel-radio {
+            display: none;
+        }
+
+        /* 輪播滑動容器（5頁總寬度） */
+        .carousel-slides {
+            display: flex;
+            width: 500%; /* 5頁 → 100% × 5 */
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        /* 5頁切換邏輯 */
+        #slide-1:checked ~ .carousel-slides { transform: translateX(0); }
+        #slide-2:checked ~ .carousel-slides { transform: translateX(-20%); }
+        #slide-3:checked ~ .carousel-slides { transform: translateX(-40%); }
+        #slide-4:checked ~ .carousel-slides { transform: translateX(-60%); }
+        #slide-5:checked ~ .carousel-slides { transform: translateX(-80%); }
+
+        /* 單頁輪播內容 */
+        .carousel-slide {
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide-content {
+            display: flex;
+            height: 100%;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        /* 圖片區域 */
+        .slide-image {
+            width: 40%;
+            height: 80%;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide-picture {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .slide-image:hover .slide-picture {
+            opacity: 1;
+        }
+
+        /* 成員專屬圖片（替換為你提供的連結） */
+        .slide-picture-yejun { 
+            background-image: url('https://i.postimg.cc/XJzBmDGL/85faaa5a_0314_44bc_870d_1a351e46e631.png'); 
+        }
+        .slide-picture-noah { 
+            background-image: url('https://i.postimg.cc/vBNxkSgX/73ba1ad4_099f_4675_a375_37e116338965.png'); 
+        }
+        .slide-picture-bamby { 
+            background-image: url('https://i.postimg.cc/tTMnwmZ2/220d6144_2e70_4f02_a65c_ac8ae82045cc.png'); 
+        }
+        .slide-picture-eunho { 
+            background-image: url('https://i.postimg.cc/26KLMXbw/20e8d8fa_c19c_4f99_9bfa_0bdef1b8d1e9.png'); 
+        }
+        .slide-picture-hamin { 
+            background-image: url('https://i.postimg.cc/j5Fnmkw8/ff9a9a71_c4ba_4a52_b776_b8818ede20ab.png'); 
+        }
+
+        /* 圖片浮層標籤 */
+        .slide-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--main);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* 文字內容區 */
+        .slide-text {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .slide-title {
+            font-size: 2rem;
+            color: var(--main);
+            font-weight: bold;
+        }
+
+        .slide-meta {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .slide-description-box {
+            background: var(--light-main);
+            padding: 1.5rem;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: #2d3748;
+        }
+
+        .slide-tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--main);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        /* 導航按鈕 */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 1rem;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--main, #8B5CF6);
+            color: var(--main, #8B5CF6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--main, #8B5CF6);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 指示器 */
+        .carousel-indicators {
+            display: flex;
+            gap: 0.8rem;
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* 成員專屬主題色 */
+        .yejun { --main: #4299e1; --light-main: #e8f4f8; }
+        .noah { --main: #ed8936; --light-main: #faf0f5; }
+        .bamby { --main: #e53e3e; --light-main: #fcf1f7; }
+        .eunho { --main: #9f7aea; --light-main: #f5f5f5; }
+        .hamin { --main: #38b2ac; --light-main: #f0f8fb; }
+</style>
+<meta name="cg-name" content="PLAVE男團(有圖)" />
+<meta name="cg-command-name" content="PLAVE韓國虛擬男子團體" />
+<meta name="cg-color" content="#8B5CF6" />
+<meta name="cg-icon" content="HandMetal" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- HTML 結構區塊 -->
+    <div class="life-story-carousel">
+        <!-- 輪播標題 -->잠깐 기다리면 돌아오겠지
+        <div class="carousel-header">
+            <div class="header-content">
+                <h2 class="carousel-title">PLAVE 人生軌跡 <span>PLBBUU · 溫柔時光</span></h2>
+                <p class="carousel-subtitle">잠깐 기다리면 돌아오겠지</p>
+            </div>
+        </div>
+
+        <!-- 輪播核心容器 -->
+        <div class="carousel-container">
+            <!-- 輪播控制 Radio（5位成員對應5個） -->
+            <input type="radio" name="carousel" id="slide-1" class="carousel-radio" checked="">
+            <input type="radio" name="carousel" id="slide-2" class="carousel-radio">
+            <input type="radio" name="carousel" id="slide-3" class="carousel-radio">
+            <input type="radio" name="carousel" id="slide-4" class="carousel-radio">
+            <input type="radio" name="carousel" id="slide-5" class="carousel-radio">
+
+            <!-- 輪播內容滑動區 -->
+            <div class="carousel-slides">
+                <!-- 1. 南藝俊（YEJUN） -->
+                <div class="carousel-slide yejun">
+                    <div class="slide-content">
+                        <div class="slide-image" title="南藝俊 · 海豚塑">
+                            <div class="slide-picture slide-picture-yejun"></div>
+                            <div class="slide-overlay">隊長 · 守護</div>
+                        </div>
+                        <div class="slide-text">
+                            <h3 class="slide-title">南藝俊（YEJUN）</h3>
+                            <div class="slide-meta">
+                                <span class="meta-badge">海豚塑</span>
+                                <span class="meta-badge">ISTJ</span>
+                                <span class="meta-badge">團隊核心</span>
+                            </div>
+                            <div class="slide-description-box">
+                                <p>
+                                    從校園里的音樂少年跨入職業舞台，他以隊長的沈穩扛起PLAVE的未來。深夜排練室里你遞來的炭酸水，和那句「えい〜」的呼應，都成了他守護團隊的底氣。歲月磨平了青澀，卻沒改他把成員和你的溫柔都藏進每一次決策的初心。
+                                </p>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tag">沈穩可靠</span>
+                                <span class="tag">海水嗓音</span>
+                                <span class="tag">摯友羈絆</span>
+                                <span class="tag">初心不改</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 韓諾亞（NOAH） -->
+                <div class="carousel-slide noah">
+                    <div class="slide-content">
+                        <div class="slide-image" title="韓諾亞 · 公主">
+                            <div class="slide-picture slide-picture-noah"></div>
+                            <div class="slide-overlay">暖陽 · 溫柔</div>
+                        </div>
+                        <div class="slide-text">
+                            <h3 class="slide-title">韓諾亞（NOAH）</h3>
+                            <div class="slide-meta">
+                                <span class="meta-badge">公主</span>
+                                <span class="meta-badge">ISFJ</span>
+                                <span class="meta-badge">團隊暖陽</span>
+                            </div>
+                            <div class="slide-description-box">
+                                <p>
+                                    告別校園的青澀，他帶著共情力成為PLAVE的「小太陽」。你懂他恐鳥癥的膽怯，也記得他健身後分享披薩的雀躍，那些悄悄幫他轉移身高話題的瞬間，讓他在溫暖他人時也能被溫柔包裹。
+                                </p>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tag">溫柔共情</span>
+                                <span class="tag">健身達人</span>
+                                <span class="tag">摯友同行</span>
+                                <span class="tag">治愈笑容</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 蔡豐玖（BAMBY） -->
+                <div class="carousel-slide bamby">
+                    <div class="slide-content">
+                        <div class="slide-image" title="蔡豐玖 · 斑比">
+                            <div class="slide-picture slide-picture-bamby"></div>
+                            <div class="slide-overlay">元氣 · 活力</div>
+                        </div>
+                        <div class="slide-text">
+                            <h3 class="slide-title">蔡豐玖（BAMBY）</h3>
+                            <div class="slide-meta">
+                                <span class="meta-badge">斑比</span>
+                                <span class="meta-badge">INTJ</span>
+                                <span class="meta-badge">氣氛擔當</span>
+                            </div>
+                            <div class="slide-description-box">
+                                <p>
+                                    從舞蹈室的追夢少年到舞台上的活力核心，他的直爽與熱情是PLAVE的底色。你從不拒絕他分享的炸玉米粒，陪他和銀虎互懟的時光，都成了他元氣滿滿的秘密，讓粉色頭發的活力永遠鮮活。
+                                </p>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tag">舞蹈強者</span>
+                                <span class="tag">直爽可愛</span>
+                                <span class="tag">歡樂源泉</span>
+                                <span class="tag">真誠至上</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 都銀虎（EUNHO） -->
+                <div class="carousel-slide eunho">
+                    <div class="slide-content">
+                        <div class="slide-image" title="都銀虎 · 虎虎">
+                            <div class="slide-picture slide-picture-eunho"></div>
+                            <div class="slide-overlay">雙面 · 魅力</div>
+                        </div>
+                        <div class="slide-text">
+                            <h3 class="slide-title">都銀虎（EUNHO）</h3>
+                            <div class="slide-meta">
+                                <span class="meta-badge">虎虎</span>
+                                <span class="meta-badge">ENTP</span>
+                                <span class="meta-badge">Rap擔當</span>
+                            </div>
+                            <div class="slide-description-box">
+                                <p>
+                                    褪去校園的青澀，他以雙面魅力成為PLAVE的亮點。舞台上冷峻的Rap少年，私下里是能和你瘋鬧的搞笑男，你接住他所有玩笑的默契，讓他願意卸下所有偽裝，把真心藏在虎牙的笑意里。
+                                </p>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tag">雙面魅力</span>
+                                <span class="tag">Rap強者</span>
+                                <span class="tag">相愛相殺</span>
+                                <span class="tag">溫柔搞笑</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 柳河玟（HAMIN） -->
+                <div class="carousel-slide hamin">
+                    <div class="slide-content">
+                        <div class="slide-image" title="柳河玟 · 貓貓">
+                            <div class="slide-picture slide-picture-hamin"></div>
+                            <div class="slide-overlay">反差 · 軟萌</div>
+                        </div>
+                        <div class="slide-text">
+                            <h3 class="slide-title">柳河玟（HAMIN）</h3>
+                            <div class="slide-meta">
+                                <span class="meta-badge">貓貓</span>
+                                <span class="meta-badge">INFJ</span>
+                                <span class="meta-badge">反差萌</span>
+                            </div>
+                            <div class="slide-description-box">
+                                <p>
+                                    從依賴哥哥們的忙內到獨當一面的成員，他的雙開門寬肩藏著軟萌本心。你記得他不愛豆芽和巧克力，總在他畫畫時遞上苦冰美，那些被叫「歐巴」時偷笑的瞬間，讓他的成長始終帶著溫柔的羈絆。
+                                </p>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tag">反差魅力</span>
+                                <span class="tag">軟萌黏人</span>
+                                <span class="tag">藝術天賦</span>
+                                <span class="tag">初心純粹</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 導航按鈕 -->
+            <div class="carousel-nav">
+                <button class="nav-btn prev-btn">
+                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <button class="nav-btn next-btn">
+                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 指示器 -->
+            <div class="carousel-indicators">
+                <label for="slide-1" class="indicator"></label>
+                <label for="slide-2" class="indicator"></label>
+                <label for="slide-3" class="indicator"></label>
+                <label for="slide-4" class="indicator"></label>
+                <label for="slide-5" class="indicator"></label>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS 腳本區塊（單獨分離，置於頁底） -->
+    <script>
+        // 獲取元素
+        const radios = document.querySelectorAll('.carousel-radio');
+        const prevBtn = document.querySelector('.nav-btn.prev-btn');
+        const nextBtn = document.querySelector('.nav-btn.next-btn');
+        const indicators = document.querySelectorAll('.indicator');
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        // 獲取當前激活的輪播索引
+        function getActiveIndex() {
+            return Array.from(radios).findIndex(radio => radio.checked);
+        }
+
+        // 更新指示器樣式
+        function updateIndicators() {
+            const activeIndex = getActiveIndex();
+            indicators.forEach((ind, idx) => {
+                const slide = slides[idx];
+                const mainColor = getComputedStyle(slide).getPropertyValue('--main') || '#8B5CF6';
+                
+                if (idx === activeIndex) {
+                    ind.style.background = mainColor;
+                    ind.style.transform = 'scale(1.3)';
+                } else {
+                    ind.style.background = '#dee2e6';
+                    ind.style.transform = 'scale(1)';
+                }
+            });
+        }
+
+        // 上一頁邏輯
+        prevBtn.addEventListener('click', () => {
+            const currentIndex = getActiveIndex();
+            const newIndex = currentIndex === 0 ? 4 : currentIndex - 1;
+            radios[newIndex].checked = true;
+            updateIndicators();
+        });
+
+        // 下一頁邏輯
+        nextBtn.addEventListener('click', () => {
+            const currentIndex = getActiveIndex();
+            const newIndex = currentIndex === 4 ? 0 : currentIndex + 1;
+            radios[newIndex].checked = true;
+            updateIndicators();
+        });
+
+        // 點擊指示器切換
+        indicators.forEach((ind, idx) => {
+            ind.addEventListener('click', () => {
+                radios[idx].checked = true;
+                updateIndicators();
+            });
+        });
+
+        // Radio 切換時更新指示器
+        radios.forEach(radio => {
+            radio.addEventListener('change', updateIndicators);
+        });
+
+        // 初始化指示器樣式
+        updateIndicators();
+    </script>
+</body>
+</html>
