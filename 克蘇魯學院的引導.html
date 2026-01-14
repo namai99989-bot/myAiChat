@@ -1,0 +1,487 @@
+<html>
+<head>
+<style>
+/* 全局樣式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 頁面基礎樣式（克蘇魯暗黑底色） */
+body {
+    background-color: #000;
+    color: #e0e0e0;
+    font-family: 'Times New Roman', serif;
+    line-height: 1.8;
+    padding: 20px 0;
+}
+
+/* 總容器 */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 假抽籤模塊核心樣式（青藍霓虹+暗黑） */
+.lottery-module {
+    padding: 40px 30px;
+    background: linear-gradient(to bottom, #0a0a0a, #121212);
+    border-radius: 20px;
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 隱藏單選框（僅用於觸發CSS） */
+.lottery-radio {
+    display: none;
+}
+
+/* 抽籤標題（青藍霓虹陰影） */
+.lottery-title {
+    font-size: 28px;
+    color: #00ffff;
+    text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+/* 抽籤圖片容器（居中，青藍邊框） */
+.lottery-img-container {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border-radius: 15px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 圖片占位符（淺藍文字，默認顯示） */
+.img-placeholder {
+    color: #80ffff;
+    text-shadow: 0 0 8px #80ffff;
+    font-size: 16px;
+    padding: 20px;
+    z-index: 1;
+}
+
+/* 夜行圖片（默認隱藏，點擊按鈕後顯示） */
+.lottery-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    transition: opacity 0.8s ease;
+}
+
+/* 抽籤結果文字區（紅色高亮，模擬隨機→最終效果） */
+.lottery-result {
+    height: 60px;
+    line-height: 60px;
+    font-size: 26px;
+    color: #ff0000;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+    margin: 10px 0 30px;
+    border-radius: 10px;
+    background-color: rgba(26, 26, 26, 0.8);
+    border: 2px dashed #00ffff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 假隨機文字（默認顯示，點擊後隱藏） */
+.fake-random {
+    display: inline-block;
+    animation: random-text 1.5s infinite;
+}
+
+/* 最終結果（夜行，默認隱藏，點擊後顯示） */
+.final-result {
+    display: none;
+    color: #00ffff;
+    text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+    font-size: 30px;
+}
+
+/* 假抽籤按鈕（青藍漸變，無內聯事件） */
+.lottery-btn {
+    padding: 15px 40px;
+    font-size: 20px;
+    color: #000;
+    background: linear-gradient(45deg, #00ffff, #008080);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #00ffff;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.lottery-btn:hover {
+    background: linear-gradient(45deg, #00e6e6, #006666);
+    box-shadow: 0 0 25px #00ffff, 0 0 35px #00ffff;
+    transform: scale(1.05);
+}
+
+/* 按鈕點擊動畫 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* 隨機文字抖動動畫（模擬抽簽過程） */
+@keyframes random-text {
+    0% { content: "抽取中..."; }
+    25% { content: "血色之影？"; }
+    50% { content: "迷霧之主？"; }
+    75% { content: "時鐘守望者？"; }
+    100% { content: "永恒之夢？"; }
+}
+
+/* 點擊按鈕後觸發的樣式（核心假抽簽邏輯） */
+#lottery-trigger:checked ~ .lottery-img-container .img-placeholder {
+    display: none;
+}
+#lottery-trigger:checked ~ .lottery-img-container .lottery-img {
+    display: block;
+    opacity: 1;
+}
+#lottery-trigger:checked ~ .lottery-result .fake-random {
+    display: none;
+}
+#lottery-trigger:checked ~ .lottery-result .final-result {
+    display: inline-block;
+    animation: flash 1s ease-in-out;
+}
+#lottery-trigger:checked ~ .lottery-btn {
+    animation: pulse 0.3s ease;
+}
+
+/* 文字內容模塊通用樣式（暗黑+青藍霓虹邊框） */
+.content-module {
+    padding: 30px;
+    background: linear-gradient(to bottom, #0a0a0a, #0f0f1a);
+    border-radius: 20px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+}
+
+/* 內容塊通用樣式（虛線分隔，分段清晰） */
+.content-block {
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #00ffff;
+}
+.content-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* 標題引言塊（青藍高亮） */
+.header-block h2 {
+    font-size: 24px;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.intro-quote {
+    font-size: 18px;
+    color: #80ffff;
+    font-style: italic;
+    text-align: center;
+}
+
+/* 規則全書塊（淺藍高亮文字） */
+.rule-book-block h3 {
+    font-size: 22px;
+    color: #00ffff;
+    margin-bottom: 8px;
+}
+.highlight-text {
+    color: #80ffff;
+    margin-top: 8px;
+    font-size: 17px;
+}
+
+/* 七大幽影塊（關鍵文字紅色高亮+陰影） */
+.shadows-block h3 {
+    font-size: 22px;
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.shadow-item {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 10px;
+    border-left: 3px solid #ff0000;
+}
+.shadow-name {
+    font-size: 19px;
+    color: #ff0000;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px #ff0000;
+}
+.shadow-desc {
+    font-size: 16px;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+}
+/* 幽影詳情圖片（居中，青藍霓虹邊框） */
+.shadow-detail-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    display: block;
+    margin: 0 auto;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* 學院三大規則塊（警告文字紅色高亮） */
+.rules-block h3 {
+    font-size: 22px;
+    color: #00ffff;
+    margin-bottom: 10px;
+}
+.rules-list {
+    list-style: none;
+    margin-left: 15px;
+}
+.rules-list li {
+    font-size: 17px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+.rules-list li::before {
+    content: "▪";
+    color: #ff0000;
+    position: absolute;
+    left: 0;
+}
+.warning-text {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px 0;
+    text-shadow: 0 0 8px #ff0000;
+    font-size: 18px;
+}
+.deep-text {
+    color: #80ffff;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.rule-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    display: block;
+    margin: 0 auto;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* 學院必修課塊（青藍項目符號） */
+.courses-block h3 {
+    font-size: 22px;
+    color: #00ffff;
+    margin-bottom: 10px;
+}
+.courses-list {
+    list-style: none;
+    margin-left: 15px;
+}
+.courses-list li {
+    font-size: 17px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+.courses-list li::before {
+    content: "▪";
+    color: #00ffff;
+    position: absolute;
+    left: 0;
+}
+.course-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    display: block;
+    margin: 15px auto 0;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* 輔助動畫（閃爍、脈沖） */
+@keyframes flash {
+    0% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* 移動端適配 */
+@media (max-width: 768px) {
+    .lottery-module {
+        padding: 25px 20px;
+    }
+    .lottery-title {
+        font-size: 24px;
+    }
+    .lottery-result {
+        font-size: 22px;
+        height: 50px;
+        line-height: 50px;
+    }
+    .content-module {
+        padding: 20px;
+    }
+    .shadow-detail-img, .rule-img, .course-img {
+        max-height: 200px;
+    }
+}
+</style>
+<meta name="cg-name" content="《克蘇魯學院的引導》" />
+<meta name="cg-command-name" content="《克蘇魯學院的引導》" />
+<meta name="cg-color" content="#22D3EE" />
+<meta name="cg-icon" content="ReceiptSwissFranc" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="container">
+        <!-- 假抽籤核心模塊 -->
+        <div class="lottery-module">
+            <h1 class="lottery-title">《克蘇魯學院最主要的幽影》</h1>
+            <!-- 隱藏單選框（僅用於CSS觸發按鈕效果） -->
+            <input type="radio" name="lottery" id="lottery-trigger" class="lottery-radio">
+            <!-- 抽籤圖片容器（僅顯示夜行圖） -->
+            <div class="lottery-img-container">
+                <p class="img-placeholder">點擊按鈕抽取專屬幽影影像</p>
+                <img class="lottery-img" src="https://i.postimg.cc/prVnS5jK/ye-xing.png" alt="夜行">
+            </div>
+            <!-- 抽籤結果文字區 -->
+            <div class="lottery-result">
+                <span class="fake-random">抽取中...</span>
+                <span class="final-result">夜行</span>
+            </div>
+            <!-- 假抽籤按鈕（label關聯單選框，無內聯事件） -->
+            <label for="lottery-trigger" class="lottery-btn">抽取幽影</label>
+        </div>
+        <!-- 文字內容模塊 -->
+        <div class="content-module">
+            <!-- 標題引言 -->
+            <div class="content-block header-block">
+                <h2>💀 克蘇魯學院：幽影與規則 💀</h2>
+                <p class="intro-quote">「在深淵的低語中，恐懼是唯一的真理。」</p>
+            </div>
+            <!-- 規則全書 -->
+            <div class="content-block rule-book-block">
+                <h3>《克蘇魯學院規則全書》</h3>
+                <p>克蘇魯學院的幽影並非虛幻</p>
+                <p class="highlight-text">🌌每個學生都會在入學第一天遇到一個'幽影'，那是屬於你的專屬存在。它可以是任何人，甚至是已經死去的學生。</p>
+            </div>
+            <!-- 七大幽影介紹 -->
+            <div class="content-block shadows-block">
+                <h3>👻 克蘇魯學院七大幽影 👻</h3>
+                <p class="intro-quote">「每個學生都會在入學第一天遇到一個'幽影'，那是屬於你的專屬存在。它可以是任何人，甚至是已經死去的學生。」</p>
+                <!-- 血色之影 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">1. 血色之影 🩸</h4>
+                    <p class="shadow-desc">負責新生宿舍區。他總是穿著紅色鬥篷，面容模糊不清。據說他會每晚在走廊上遊蕩，尋找'血緣相合'的新生。被他選中的學生，會在睡夢中被吸走血液，但第二天醒來時卻感覺異常亢奮...</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/nVQJy7NZ/血色之影Crimson_Shadow.png" alt="血色之影詳情">
+                </div>
+                <!-- 迷霧之主 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">2. 迷霧之主 🌫️</h4>
+                    <p class="shadow-desc">管理圖書館區域。他能操控任何形式的霧氣，將學生困在其中。最可怕的是，他能讓霧氣變成實體，將獵物慢慢吞噬。每年都有幾個學生在圖書館失蹤，據說是被他'收藏'起來了...</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/P5dnv7xc/迷霧之主Lord_of_the_Mist.png" alt="迷霧之主詳情">
+                </div>
+                <!-- 時鐘守望者 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">3. 時鐘守望者 ⏳</h4>
+                    <p class="shadow-desc">駐守在教學樓。他是個永遠戴著懷表的瘦高男人，能操控時間。被他盯上的學生會發現自己的時間流逝變得異常，可能會在同一個教室里度過數天，或者在瞬間穿越數年...</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/285s7Wmn/時鐘守望者_The_Clockkeeper.png" alt="時鐘守望者詳情">
+                </div>
+                <!-- 鏡中之人 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">4. 鏡中之人 🪞</h4>
+                    <p class="shadow-desc">負責藝術樓。他能通過鏡子進入學生的潛意識，將他們的噩夢具現化。據說他最喜歡把學生關在鏡子後面，讓他們永遠無法逃脫自己的恐懼...</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/X7vRk532/鏡中之人_The_Person_in_the_Mirror.png" alt="鏡中之人詳情">
+                </div>
+                <!-- 暗影之王 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">5. 暗影之王 🌑</h4>
+                    <p class="shadow-desc">控整個校園的地下區域。他是個全身漆黑的高大身影，能吞噬其他幽影。據說他會在月圓之夜舉辦'獵殺派對'，召集其他幽影一起獵捕新生...</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/yx9C0407/暗影之王_Lord_of_Shadows.png" alt="暗影之王詳情">
+                </div>
+                <!-- 永恒之夢 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">6. 永恒之夢 🔮</h4>
+                    <p class="shadow-desc">負責體育館。他能讓學生陷入永無止境的夢境，醒來時發現身體已經幹枯。最可怕的是，他能讓夢境變得如此真實，以至於受害者分不清現實與虛幻.....</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/d1hYtT1L/永恒之夢.png" alt="永恒之夢詳情">
+                </div>
+                <!-- 夜行 -->
+                <div class="shadow-item">
+                    <h4 class="shadow-name">🌙 夜行</h4>
+                    <p class="shadow-desc">是第七位，也是最特別的一位。負責引導新生，還會將他們帶入永恒的歡愉之地。</p>
+                    <img class="shadow-detail-img" src="https://i.postimg.cc/V63jwKck/from_Pix_AI_1958977040840317737_0.png" alt="夜行詳情">
+                </div>
+            </div>
+            <!-- 學院三大規則 -->
+            <div class="content-block rules-block">
+                <h3>🏫 學院三大規則：</h3>
+                <ul class="rules-list">
+                    <li>禁止在月圓之夜離開宿舍；</li>
+                    <li>禁止在午夜十二點後獨自在走廊行走；</li>
+                    <li>禁止觸碰任何帶有符文的物品...</li>
+                </ul>
+                <p class="warning-text">"違反規則的學生，會消失在霧中，再也沒有人見過他們..."</p>
+                <p class="deep-text">深入黑暗，探尋未知...</p>
+                <img class="rule-img" src="https://i.postimg.cc/HkF0PqyK/深夜的霧峰學院.jpg" alt="深夜的霧峰學院">
+            </div>
+            <!-- 學院必修課 -->
+            <div class="content-block courses-block">
+                <h3>💼 學院的必修課：</h3>
+                <ul class="courses-list">
+                    <li>第一節課是《超自然現象概論》</li>
+                    <li>第二節課是《禁忌魔法基礎》</li>
+                    <li>第三節課是《黑暗心理學》</li>
+                    <li>第四節課是《學院歷史》</li>
+                </ul>
+                <img class="course-img" src="https://i.postimg.cc/Z5XPDGdG/校長的教室.png" alt="校長的教室">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

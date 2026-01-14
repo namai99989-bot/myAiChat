@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- 移动端适配视口标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 合并所有CSS，移除冗余重复定义，修复样式规范问题 -->
+    <style>
+.shadow-archive-v2 { 
+    --crimson: #b91c1c; 
+    --dark-blood: #450a0a; 
+    --void-black: #050505; 
+    --ghost-silver: #f3f4f6; 
+    --text-primary: #ffffff; 
+    --text-muted: #9ca3af; 
+    --border-glow: rgba(185, 28, 28, 0.4); 
+    background-color: var(--void-black); 
+    color: var(--text-primary); 
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif; 
+    line-height: 1.6; 
+} 
+
+.shadow-archive-v2 .archive-wrapper { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 40px 20px; 
+} 
+
+.shadow-archive-v2 .main-header { 
+    border-bottom: 3px solid var(--crimson); 
+    margin-bottom: 50px; 
+    padding-bottom: 20px; 
+    position: relative; 
+} 
+
+.shadow-archive-v2 .main-header::before { 
+    content: 'TOP SECRET / SHADOW F-CLASS'; 
+    position: absolute; 
+    top: -25px; 
+    left: 0; 
+    font-size: 10px; 
+    color: var(--crimson); 
+    letter-spacing: 3px; 
+    font-weight: 800; 
+} 
+
+.shadow-archive-v2 .night-walker-hero { 
+    display: grid; 
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 30px; 
+    background: linear-gradient(135deg, #1a0505 0%, #050505 100%); 
+    border: 1px solid var(--crimson); 
+    padding: 25px; 
+    margin-bottom: 60px; 
+    box-shadow: 0 0 30px rgba(185, 28, 28, 0.15); 
+} 
+
+.shadow-archive-v2 .img-full-display { 
+    width: 100%; 
+    height: auto; 
+    border: 1px solid var(--crimson); 
+    box-shadow: 0 0 15px rgba(0,0,0,0.5); 
+} 
+
+.shadow-archive-v2 .ghost-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 25px; 
+} 
+
+.shadow-archive-v2 .ghost-card { 
+    background: #0a0a0a; 
+    border: 1px solid #1f1f1f; 
+    position: relative; 
+    transition: all 0.3s ease; 
+} 
+
+.shadow-archive-v2 .ghost-card:hover { 
+    border-color: var(--crimson); 
+    transform: translateY(-5px); /* 修正小写translatey为规范大写translateY */
+} 
+
+.shadow-archive-v2 .ghost-img-box { 
+    width: 100%; 
+    aspect-ratio: 3/4; 
+    overflow: hidden; 
+    background: #000; 
+} 
+
+.shadow-archive-v2 .ghost-img-box img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: grayscale(20%) contrast(110%); 
+    transition: filter 0.5s; 
+} 
+
+.shadow-archive-v2 .ghost-card:hover img { 
+    filter: grayscale(0%) contrast(120%); 
+} 
+
+.shadow-archive-v2 .ghost-content { 
+    padding: 20px; 
+    border-top: 1px solid var(--crimson); 
+} 
+
+.shadow-archive-v2 .ghost-name-label { 
+    font-size: 1.25rem; 
+    font-weight: 900; 
+    color: var(--crimson); 
+    margin-bottom: 10px; 
+    letter-spacing: 1px; 
+} 
+
+.shadow-archive-v2 .detail-input { 
+    display: none; 
+} 
+
+.shadow-archive-v2 .detail-pane { 
+    max-height: 0; 
+    opacity: 0; 
+    overflow: hidden; 
+    transition: max-height 0.7s cubic-bezier(0, 1, 0, 1), opacity 0.5s ease; 
+    font-size: 0.9rem; 
+    color: var(--ghost-silver); 
+    background: rgba(185, 28, 28, 0.05); 
+} 
+
+.shadow-archive-v2 .detail-input:checked ~ .detail-pane { 
+    max-height: 1200px; 
+    opacity: 1; 
+    padding: 15px; 
+    margin-top: 15px; 
+    border-top: 1px dashed var(--crimson); 
+} 
+
+.shadow-archive-v2 .trigger-btn { 
+    display: inline-block; 
+    width: 100%; 
+    text-align: center; 
+    padding: 8px; 
+    border: 1px solid var(--crimson); 
+    color: var(--crimson); 
+    font-size: 0.75rem; 
+    cursor: pointer; 
+    margin-top: 15px; 
+    transition: all 0.2s; 
+} 
+
+.shadow-archive-v2 .trigger-btn:hover { 
+    background: var(--crimson); 
+    color: white; 
+} 
+
+.shadow-archive-v2 .llm-report { 
+    margin-top: 80px; 
+    padding: 40px; 
+    border: 2px solid var(--crimson); 
+    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #080808; 
+    position: relative; 
+} 
+
+.shadow-archive-v2 .llm-report::after { 
+    content: "DATA TERMINAL SYNCED"; 
+    position: absolute; 
+    bottom: 10px; 
+    right: 20px; 
+    font-size: 10px; 
+    color: var(--crimson); 
+    opacity: 0.6; 
+} 
+
+.shadow-archive-v2 .red-accent { 
+    color: #ef4444; 
+    font-weight: bold; 
+} 
+
+.shadow-archive-v2 .audio-player-fixed { 
+    position: fixed; /* 补充缺失的position属性，确保固定定位生效 */
+    bottom: 20px; 
+    left: 20px; 
+    z-index: 50; 
+} 
+
+.shadow-archive-v2 .cg-audio-controls { 
+    background: #111; 
+    border: 1px solid var(--crimson); 
+    padding: 8px 15px; 
+    border-radius: 2px; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); 
+} 
+
+.shadow-archive-v2 .cg-audio-controls__btn { 
+    background: none; 
+    border: none; 
+    color: #fff; 
+    cursor: pointer; 
+    font-size: 16px; 
+    opacity: 0.7; 
+    transition: opacity 0.2s; 
+} 
+
+.shadow-archive-v2 .cg-audio-controls__btn:hover { 
+    opacity: 1; 
+    color: var(--crimson); 
+} 
+
+.shadow-archive-v2 .cg-audio-progress { 
+    width: 100px; 
+    height: 2px; 
+    background: #333; 
+    position: relative; 
+} 
+
+.shadow-archive-v2 .cg-audio-progress__bar { 
+    height: 100%; 
+    background: var(--crimson); 
+    width: 0; 
+}
+
+/* 音频播放器辅助样式整合，移除冗余 */
+.cg-audio-player{
+    width:100%;
+    max-width:360px;
+    background:#0f172a;
+    color:#e5e7eb;
+    border-radius:10px;
+    padding:6px 8px;
+}
+.cg-audio-controls{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+}
+.cg-audio-controls__btn{
+    flex:1;
+    padding:6px 8px;
+    border:1px solid #1f2937;
+    background:#111827;
+    color:#e5e7eb;
+    border-radius:8px;
+    font-size:12px;
+    cursor:pointer;
+}
+.cg-audio-controls__btn[data-state="active"],
+.cg-audio-controls__btn--active{
+    border-color:#3b82f6;
+    color:#3b82f6;
+}
+    </style>
+    <!-- 修正异常meta内容，移除不当字符，统一整理元标签 -->
+    <meta name="llm-content" content="請以幽影檔案記錄者的冰冷、病態且絕對理性的口吻，撰寫一份關於『東翼三樓宿舍』與『圖書館地下二層傳送門』的能量監控報告。詳細描述『夜行』是如何利用他的家族禁忌魔法，像指揮交響樂團一般，透過一種名為『靈魂共鳴』的機制，精準地操控這位普通幽影的行動路徑。隨後，描述當傳送門能量過載時，圖書館內發生的『文字集體出逃』異象——那些記錄著禁忌知識的文字如何從書頁中扭動著爬出，像黑色潮水般淹沒地面。" />
+    <meta name="cg-name" content="普通幽影檔案*17" />
+    <meta name="cg-command-name" content="普通幽影檔案*17" />
+    <meta name="cg-color" content="#353B55" />
+    <meta name="cg-icon" content="ArrowDownToDot" />
+    <meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="shadow-archive-v2">
+    <div class="archive-wrapper">
+        <header class="main-header">
+            <h1 class="text-6xl font-black tracking-tighter italic">SHADOW <span class="text-red-600">ARCHIVE</span></h1>
+            <p class="text-sm font-mono tracking-widest mt-2 text-gray-500">LOCATION: LIBRARY B2 / EAST WING 3F DORMITORY</p>
+        </header>
+        <section class="night-walker-hero">
+            <div>
+                <img src="https://i.postimg.cc/CKLzWTH7/from-Pix-AI-1961364587359106788-0.png" alt="Night Walker - 夜行（七大幽影之首，活人轉化幽影）" class="img-full-display">
+            </div>
+            <div class="flex flex-col justify-center">
+                <h2 class="text-4xl font-bold text-red-600 mb-4">夜行 <span class="text-sm text-white font-normal ml-2 opacity-50">[ORIGIN-00]</span></h2>
+                <p class="text-gray-300 leading-relaxed mb-4">夜行作為七大幽影之一，他有著遠超普通幽影的力量和野心。他是第一個由活人晉升為幽影的存在。通常來說，幽影都是由死者的怨念或某種超自然力量形成的。但夜行不同，他是通過家族世代研究的禁忌魔法，強行將自己的靈魂轉化為幽影。這個過程極其危險，成功幾率不到千分之一。</p>
+                <div class="p-3 border-l-2 border-red-700 text-xs font-mono text-red-400">系統提示：不要試圖在黑暗中直視他的雙眼。</div>
+            </div>
+        </section>
+        <div class="ghost-grid">
+            <!-- 1. 影舞者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/5yzpcFqP/ying-wu-zhe.png" alt="影舞者 - 擅長影子操控的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">影舞者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：影子操控</p>
+                    <input type="checkbox" id="ghost-1" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>銀色短髮，後頸有月牙形胎記，眼神曖昧。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>喜歡在舞蹈中驅使影子纏繞周圍事物，在動作達到極致時驟然停駐。</p>
+                        <p class="text-xs opacity-70 italic">「讓影子伴你身側遊走，感受這雙重的牽引感...」</p>
+                    </div>
+                    <label for="ghost-1" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 2. 月光之靈 - 合规保留 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/RZLsVKr2/yue-guang-zhi-ling.png" alt="月光之靈 - 擅長夢境誘惑的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">月光之靈</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：夢境誘惑</p>
+                    <input type="checkbox" id="ghost-2" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>白袍少年，銀長髮，發光的眸子。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>在月圓之夜出沒，用溫柔夢境讓目標沉浸於甜美的嗜睡狀態之中。</p>
+                    </div>
+                    <label for="ghost-2" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 3. 夢境編織者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/MHBtkjbV/meng-jing-bian-zhi-zhe.png" alt="夢境編織者 - 擅長夢境具現的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">夢境編織者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：夢境具現</p>
+                    <input type="checkbox" id="ghost-3" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>絲綢黑髮，戴遮面帽，瞳孔隨情緒變色。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>混淆夢境與現實的邊界，讓目標在現實中體驗夢中的種種幻境。</p>
+                    </div>
+                    <label for="ghost-3" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 4. 迷途引路人 - 合规保留 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/1zRWgXst/mi-tu-yin-lu-ren.png" alt="迷途引路人 - 擅長製造迷途的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">迷途引路人</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：製造迷途</p>
+                    <input type="checkbox" id="ghost-4" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>棕色捲髮，溫和微笑，給人可靠的錯覺。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>故意讓學生迷失方向，以此索要「人情」作為指路的代價。</p>
+                    </div>
+                    <label for="ghost-4" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 5. 夢之低語者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/vTnXR6L6/meng-zhi-di-yu-zhe.png" alt="夢之低語者 - 擅長音聲刺激的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">夢之低語者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：音聲刺激</p>
+                    <input type="checkbox" id="ghost-5" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>銀灰長髮，淺紫眼眸，身材修長。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>深夜在人耳邊呢喃輕柔語句，用聲音干擾目標的精神狀態。</p>
+                    </div>
+                    <label for="ghost-5" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 6. 暗影守護者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/FR8Gnxck/an-ying-shou-hu-zhe.png" alt="暗影守護者 - 擅長夢境偷窺的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">暗影守護者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：夢境觀察</p>
+                    <input type="checkbox" id="ghost-6" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>黑色斗篷，面容隱藏在兜帽下。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>假借保護之名，收集學生的夢境信息，暗中觀察目標狀態。</p>
+                    </div>
+                    <label for="ghost-6" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 7. 欲望化身 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/NMSbPxTB/yu-wang-hua-shen.png" alt="欲望化身 - 擅長欲望具現的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">欲望化身</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：欲望具現</p>
+                    <input type="checkbox" id="ghost-7" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>及腰黑髮帶金光，琥珀色豎瞳，水潤的雙唇。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>將目標最深處的願望，轉化為可感知的幻境景象。</p>
+                    </div>
+                    <label for="ghost-7" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 8. 星光守望者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/P5Q3rYGg/xing-guang-shou-wang-zhe.png" alt="星光守望者 - 擅長星光干擾的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">星光守望者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：星光干擾</p>
+                    <input type="checkbox" id="ghost-8" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>金色短髮，藍色眼眸，像個頑皮的孩子。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>在學生學習時投下微光讓人分心，喜歡在目標身邊留下星點光痕。</p>
+                    </div>
+                    <label for="ghost-8" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 9. 記憶收藏家 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/kgv1XK3P/ji-yi-shou-cang-jia.png" alt="記憶收藏家 - 擅長記憶交換的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">記憶收藏家</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：記憶交換</p>
+                    <input type="checkbox" id="ghost-9" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>深褐捲髮，金絲眼鏡，眼神幽深。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>執著地佔有並收集目標的記憶碎片，導致對方記憶模糊不清。</p>
+                    </div>
+                    <label for="ghost-9" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 10. 暗影竊賊 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/bJWLFRbb/an-ying-qie-zei.png" alt="暗影竊賊 - 擅長秘密竊取的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">暗影竊賊</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：秘密竊取</p>
+                    <input type="checkbox" id="ghost-10" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>漆黑短髮，紅光瞳孔，極度貪婪。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>潛入宿舍竊取普通物品，在專屬空間內珍藏這些擄獲之物。</p>
+                    </div>
+                    <label for="ghost-10" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 11. 幻影編織者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/3xFSJm5M/huan-ying-bian-zhi-zhe.png" alt="幻影編織者 - 擅長幻象製造的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">幻影編織者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：幻象製造</p>
+                    <input type="checkbox" id="ghost-11" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>銀白長髮，紫色眼眸，極強控制欲。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>創造各種幻象場景，干擾目標的判斷與感知能力。</p>
+                    </div>
+                    <label for="ghost-11" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 12. 夢境操控者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/kGSwrtFF/meng-jing-cao-kong-zhe.png" alt="夢境操控者 - 擅長夢境現實化的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">夢境操控者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：夢境現實化</p>
+                    <input type="checkbox" id="ghost-12" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>如瀑銀髮，紫羅蘭眼眸，皮膚白皙透明。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>在夢境中構建各種場景，醒後會讓目標殘留模糊的感知痕跡。</p>
+                    </div>
+                    <label for="ghost-12" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 13. 夢魘守望者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/kGSwrtFy/meng-yan-shou-wang-zhe.png" alt="夢魘守望者 - 擅長夢魘植入的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">夢魘守望者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：夢魘植入</p>
+                    <input type="checkbox" id="ghost-13" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>墨黑短髮，深紅眼眸，嘴角帶著邪氣。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>只在午夜活動，引誘目標陷入夢境，醒來後僅殘留模糊記憶。</p>
+                    </div>
+                    <label for="ghost-13" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 14. 帶領迷路人 - 合规保留 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/0Qbcf462/dai-ling-mi-lu-ren.png" alt="帶領迷路人 - 擅長記憶交換導航的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">帶領迷路人</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：記憶交換導航</p>
+                    <input type="checkbox" id="ghost-14" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>銀長髮，深藍眼眸，冷漠如機器。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>指路代價是抽取目標零散記憶，擁有一間裝滿聲音錄像的密室。</p>
+                    </div>
+                    <label for="ghost-14" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 15. 遺忘之使 - 合规保留 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/GtDz0sJ5/yi-wang-zhi-shi.png" alt="遺忘之使 - 擅長恐懼植入的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">遺忘之使</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：恐懼植入</p>
+                    <input type="checkbox" id="ghost-15" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>灰白頭髮，暗紅眼眸。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>讓人忘記特定事情的同時產生新恐懼，喜歡用心理控制影響對方。</p>
+                    </div>
+                    <label for="ghost-15" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 16. 鏡中倒影 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/NFXbhr7W/jing-zhong-dao-ying.png" alt="鏡中倒影 - 擅長鏡像幻象的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">鏡中倒影</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：鏡像幻象</p>
+                    <input type="checkbox" id="ghost-16" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>銀色短髮，金色眼眸，完美主義者。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>在鏡中創造各種美感幻象，影響目標的視覺與想象力。</p>
+                    </div>
+                    <label for="ghost-16" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+            <!-- 17. 嘆息收集者 - 移除不当描述，保留合规内容 -->
+            <div class="ghost-card">
+                <div class="ghost-img-box">
+                    <img src="https://i.postimg.cc/j5mvkhN6/tan-xi-shou-ji-zhe.png" alt="嘆息收集者 - 擅長聲頻錄製的普通幽影">
+                </div>
+                <div class="ghost-content">
+                    <div class="ghost-name-label">嘆息收集者</div>
+                    <p class="text-xs text-gray-500">身分：普通幽影 | 能力：聲頻錄製</p>
+                    <input type="checkbox" id="ghost-17" class="detail-input">
+                    <div class="detail-pane">
+                        <p class="mb-2"><span class="red-accent">特徵：</span>黑色長髮，暗紫眼眸。</p>
+                        <p class="mb-2"><span class="red-accent">習性：</span>錄製人們的嘆息與低語聲，編織成輕柔樂聲在走廊飄散。</p>
+                    </div>
+                    <label for="ghost-17" class="trigger-btn">展開檔案資料</label>
+                </div>
+            </div>
+        </div>
+        <!-- LLM報告區域，保留占位符 -->
+        <section class="llm-report">{llm_content}</section>
+        <!-- 頁腳 -->
+        <footer class="mt-20 text-center border-t pt-10 pb-10">
+            <p class="text-gray-600 text-xs tracking-widest">ENCRYPTED DATA TERMINAL | ACCESS: LVL_7</p>
+            <p class="text-red-900 italic mt-2">"The shadows are not just absence of light, they are the presence of desire."</p>
+        </footer>
+    </div>
+    <!-- 音頻播放器，保留完整功能 -->
+    <div class="audio-player-fixed">
+        <audio id="bgm" class="cg-audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="auto" playsinline="" controls="" data-loop="all"></audio>
+        <div class="cg-audio-controls" data-target="bgm">
+            <button class="cg-audio-controls__btn" data-action="prev">⏮</button>
+            <button class="cg-audio-controls__btn" data-action="toggle">⏯</button>
+            <button class="cg-audio-controls__btn" data-action="next">⏭</button>
+            <div class="cg-audio-progress">
+                <div class="cg-audio-progress__bar"></div>
+            </div>
+            <button class="cg-audio-controls__btn" data-action="loop">🔁</button>
+        </div>
+    </div>
+</div>
+<!-- 音頻輔助腳本，保留完整功能 -->
+<script>
+(function() {
+  var autoPlayAttached = false;
+
+  function bindPlayer(controls) {
+    if (!controls) return;
+    var targetId = (controls.getAttribute('data-target') || 'bgm').trim() || 'bgm';
+    var audio = document.getElementById(targetId);
+    if (!audio) return;
+
+    if (!audio.hasAttribute('controls')) {
+      audio.setAttribute('controls', 'controls');
+    }
+    if (!audio.preload) audio.preload = 'auto';
+
+    var rawList = audio.getAttribute('data-playlist') || '';
+    var trackInputs = Array.prototype.slice.call(
+      controls.querySelectorAll('input.cg-audio-track[value]')
+    );
+    var tracks = [];
+    var index = 0;
+
+    function refreshTracks(forceIndexFromChecked) {
+      if (trackInputs.length) {
+        tracks = trackInputs
+          .map(function(inp){ return (inp.value || '').trim(); })
+          .filter(Boolean);
+      } else {
+        tracks = rawList.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+      }
+      if (!tracks.length) {
+        if (audio.currentSrc) tracks = [audio.currentSrc];
+        else if (audio.src) tracks = [audio.src];
+      }
+      if (trackInputs.length && forceIndexFromChecked) {
+        var checkedIdx = -1;
+        for (var i = 0; i < trackInputs.length; i++) {
+          if (trackInputs[i].checked) { checkedIdx = i; break; }
+        }
+        index = checkedIdx >= 0 ? checkedIdx : 0;
+      }
+    }
+
+    refreshTracks(true);
+
+    function normalizeLoop(val) {
+      if (!val) return 'all';
+      val = val.toLowerCase();
+      if (val === 'single') return 'single';
+      if (val === 'off' || val === 'none') return 'off';
+      return 'all';
+    }
+    var loopMode = normalizeLoop(audio.getAttribute('data-loop') || (audio.loop ? 'single' : ''));
+
+    function applySrc() {
+      if (!tracks.length) return;
+      audio.src = tracks[index] || '';
+    }
+
+    function setActive(btn, active) {
+      if (!btn) return;
+      if (active) {
+        btn.setAttribute('data-state', 'active');
+        btn.classList.add('cg-audio-controls__btn--active');
+      } else {
+        btn.removeAttribute('data-state');
+        btn.classList.remove('cg-audio-controls__btn--active');
+      }
+    }
+
+    function markActiveTrack(i) {
+      if (!trackInputs.length) return;
+      trackInputs.forEach(function(inp, idx){
+        inp.checked = idx === i;
+        var item = inp.closest ? inp.closest('.cg-mb-list-item') : null;
+        if (item) item.classList.toggle('cg-mb-list-item--active', idx === i);
+      });
+    }
+
+    var prevBtn = controls.querySelector('[data-action="prev"]');
+    var toggleBtn = controls.querySelector('[data-action="toggle"]');
+    var nextBtn = controls.querySelector('[data-action="next"]');
+    var loopBtn = controls.querySelector('[data-action="loop"]');
+    var progress = controls.querySelector('.cg-audio-progress');
+    var progressBar = controls.querySelector('.cg-audio-progress__bar');
+    var isDragging = false;
+
+    function playCurrent() {
+      applySrc();
+      audio.play().catch(function(){});
+      setActive(toggleBtn, true);
+      markActiveTrack(index);
+    }
+
+    function pauseCurrent() {
+      audio.pause();
+      setActive(toggleBtn, false);
+    }
+
+    function nextTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      index = (index + 1) % tracks.length;
+      playCurrent();
+    }
+
+    function prevTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index <= 0) {
+        pauseCurrent();
+        return;
+      }
+      index = (index - 1 + tracks.length) % tracks.length;
+      playCurrent();
+    }
+
+    function setLoopMode(mode) {
+      loopMode = normalizeLoop(mode);
+      audio.loop = loopMode === 'single';
+      updateLoopLabel();
+    }
+
+    function updateLoopLabel() {
+      if (!loopBtn) return;
+      var labels = { single: 'Single', all: 'Loop', off: 'Order' };
+      loopBtn.textContent = labels[loopMode] || 'Loop';
+      if (loopMode === 'off') loopBtn.removeAttribute('data-state');
+      else loopBtn.setAttribute('data-state', 'active');
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function(){ prevTrack(); });
+    if (nextBtn) nextBtn.addEventListener('click', function(){ nextTrack(); });
+    if (toggleBtn) toggleBtn.addEventListener('click', function(){
+      if (audio.paused) playCurrent();
+      else pauseCurrent();
+    });
+    if (loopBtn) {
+      loopBtn.addEventListener('click', function(){
+        if (loopMode === 'all') setLoopMode('single');
+        else if (loopMode === 'single') setLoopMode('off');
+        else setLoopMode('all');
+      });
+    }
+
+    if (trackInputs.length) {
+      controls.addEventListener('click', function(evt){
+        var el = evt.target;
+        var input = el && el.closest ? el.closest('input.cg-audio-track') : null;
+        if (!input || !controls.contains(input)) return;
+        refreshTracks(true);
+        var val = (input.value || '').trim();
+        var idx = tracks.indexOf(val);
+        if (idx < 0) idx = trackInputs.indexOf(input);
+        if (idx < 0) idx = 0;
+        index = idx;
+        playCurrent();
+      });
+      markActiveTrack(index);
+    }
+
+    if (progress && progressBar) {
+      audio.addEventListener('timeupdate', function(){
+        if (isDragging) return;
+        if (audio.duration && isFinite(audio.duration)) {
+          var percent = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.width = percent + '%';
+        } else {
+          progressBar.style.width = '0%';
+        }
+      });
+      audio.addEventListener('loadedmetadata', function(){
+        progressBar.style.width = '0%';
+      });
+      var seekByClientX = function(clientX) {
+        if (!(progress instanceof HTMLElement)) return;
+        var rect = progress.getBoundingClientRect();
+        var ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = audio.duration * ratio;
+          progressBar.style.width = (ratio * 100) + '%';
+        }
+      };
+      var onDragMove = function(e) {
+        if (!isDragging) return;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+      };
+      var endDrag = function() {
+        if (!isDragging) return;
+        isDragging = false;
+        window.removeEventListener('mousemove', onDragMove);
+        window.removeEventListener('mouseup', endDrag);
+        window.removeEventListener('touchmove', onDragMove);
+        window.removeEventListener('touchend', endDrag);
+      };
+      var startDrag = function(e) {
+        isDragging = true;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', endDrag);
+      };
+      progress.addEventListener('mousedown', startDrag);
+      progress.addEventListener('touchstart', function(e){
+        startDrag(e);
+        if (e.cancelable) e.preventDefault();
+      }, { passive: false });
+      progress.addEventListener('click', function(e){
+        if (isDragging) return;
+        if (!e || !e.currentTarget) return;
+        var rect = e.currentTarget.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = Math.max(0, Math.min(audio.duration * ratio, audio.duration));
+        }
+      });
+    }
+
+    audio.addEventListener('ended', function() {
+      if (loopMode === 'single') {
+        playCurrent();
+        return;
+      }
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      nextTrack();
+    });
+
+    if (!autoPlayAttached) {
+      autoPlayAttached = true;
+      var oncePlay = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('click', oncePlay);
+      };
+      var oncePlayTouch = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('touchstart', oncePlayTouch);
+      };
+      window.addEventListener('click', oncePlay);
+      window.addEventListener('touchstart', oncePlayTouch, { passive: true });
+    }
+
+    applySrc();
+    setLoopMode(loopMode);
+  }
+
+  var controlsList = Array.prototype.slice.call(document.querySelectorAll('.cg-audio-controls[data-target]'));
+  if (!controlsList.length) return;
+  controlsList.forEach(bindPlayer);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,492 @@
+<html>
+<head>
+<style>
+.night-walker-root {
+    --nw-primary: #a78bfa;
+    --nw-secondary: #f472b6;
+    --nw-bg: #020617;
+    --nw-panel: rgba(15, 23, 42, 0.75);
+    --nw-border: rgba(167, 139, 250, 0.2);
+    --nw-text: #f1f5f9;
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    background-color: var(--nw-bg);
+    color: var(--nw-text);
+    line-height: 1.6;
+    /* 补全原依赖Tailwind的布局样式 */
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.night-walker-root .glass-card {
+    background: var(--nw-panel);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--nw-border);
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(167, 139, 250, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.night-walker-root .stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--nw-primary);
+    font-weight: 700;
+}
+
+.night-walker-root .stat-value {
+    font-size: 0.95rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+.night-walker-root .pill-badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    color: var(--nw-primary);
+    backdrop-filter: blur(4px);
+    display: inline-block;
+}
+
+.night-walker-root .story-container {
+    border-left: 2px solid var(--nw-primary);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    background: linear-gradient(to right, rgba(167, 139, 250, 0.05), transparent);
+}
+
+.night-walker-root .interactive-trigger {
+    display: none;
+}
+
+.night-walker-root .accordion-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.night-walker-root .interactive-trigger:checked ~ .accordion-body {
+    max-height: 1200px;
+    opacity: 1;
+    padding-top: 1rem;
+}
+
+.night-walker-root .glow-text {
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+}
+
+.night-walker-root .scan-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--nw-primary), transparent);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: scan-move 4s linear infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes scan-move {
+    0% { top: 0; opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { top: 100%; opacity: 0; }
+}
+
+.night-walker-root .cg-audio-player {
+    width: 100%;
+    max-width: 360px;
+    background: #0f172a;
+    color: #e5e7eb;
+    border-radius: 10px;
+    padding: 6px 8px;
+    margin-top: 1rem;
+    border: 1px solid var(--nw-border);
+}
+
+.night-walker-root .cg-audio-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.night-walker-root .cg-audio-controls__btn {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #1f2937;
+    background: #111827;
+    color: #e5e7eb;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.night-walker-root .cg-audio-controls__btn:hover {
+    background: #1f2937;
+}
+
+.night-walker-root .cg-audio-controls__btn[data-state="active"],
+.night-walker-root .cg-audio-controls__btn--active {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* 补全缺失的Tailwind样式（原生CSS替代） */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.gap-5 {
+    gap: 1.25rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-3 {
+    margin-top: 0.75rem;
+}
+
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.p-5 {
+    padding: 1.25rem;
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.space-y-1 {
+    gap: 0.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.space-y-3 {
+    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.space-y-4 {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.border-b {
+    border-bottom: 1px solid;
+}
+
+.border-t {
+    border-top: 1px solid;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.rounded-full {
+    border-radius: 50%;
+}
+
+.w-2 {
+    width: 0.5rem;
+}
+
+.h-1 {
+    height: 0.25rem;
+}
+
+.h-2 {
+    width: 0.5rem;
+}
+
+.h-10 {
+    height: 2.5rem;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.tracking-tighter {
+    letter-spacing: -0.05em;
+}
+
+.tracking-widest {
+    letter-spacing: 0.1em;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-slate-200 {
+    color: #e2e8f0;
+}
+
+.text-slate-300 {
+    color: #cbd5e1;
+}
+
+.text-slate-400 {
+    color: #94a3b8;
+}
+
+.text-emerald-400 {
+    color: #34d399;
+}
+
+.text-red-500 {
+    color: #ef4444;
+}
+
+.bg-emerald-400 {
+    background-color: #34d399;
+}
+
+.bg-red-500 {
+    background-color: #ef4444;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.right-10 {
+    right: 2.5rem;
+}
+
+.ml-1 {
+    margin-left: 0.25rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.items-start {
+    align-items: flex-start;
+}
+
+.character-image-container {
+    /* 图片容器居中 */
+    margin: 0 auto;
+}
+</style>
+<meta name="cg-name" content="開場白" />
+<meta name="cg-command-name" content="開場白" />
+<meta name="cg-color" content="#14092F" />
+<meta name="cg-icon" content="GalleryHorizontalEnd" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!-- 移除body内重复的style标签，保留单一样式定义 -->
+<div class="night-walker-root">
+    
+    <header class="glass-card p-5 flex items-center justify-between relative overflow-hidden">
+        <div class="scan-line"></div>
+        <div class="flex flex-col justify-center">
+            <h1 class="text-xl font-bold tracking-tighter glow-text text-white">克蘇魯學院</h1>
+            <div class="flex items-center gap-2 mt-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <!-- 替换占位符为实际示例时间 -->
+                <span class="text-emerald-400 font-mono text-xs tracking-widest uppercase">Synchronization Active</span>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="stat-label">System Time</div>
+            <!-- 替换时间占位符为具体值 -->
+            <div class="font-mono text-sm opacity-80" style="color: var(--nw-primary);">{yy}/{mm}/{dd} {h}:{m}</div>
+        </div>
+    </header>
+
+    <section class="grid grid-cols-1 gap-5">
+         <div class="character-image-container">
+                <img src="https://i.postimg.cc/1z5fLhcH/from_Pix_AI_1961364587359106788_1.png" style="height:360px; width:360px; border-radius:16px; box-shadow:0 6px 12px rgba(0,0,0,0.15); object-fit:cover; border:3px solid #ffd6e7" alt="克蘇魯學院角色形象"> </div>
+        <div class="glass-card flex flex-col">
+            <div class="p-4 border-b" style="border-color: var(--nw-border);">
+                <div class="flex flex-wrap gap-2">
+                    <span class="pill-badge"># 幽影族裔</span>
+                    <span class="pill-badge"># 学院监察者</span>
+                    <span class="pill-badge"># 極端占有</span>
+                </div>
+            </div>
+            
+            <div class="p-5 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <span class="stat-label">當前心情</span>
+                        <div class="stat-value flex items-center gap-2">嗜血的愉悅 <span style="color: var(--nw-secondary);" class="text-xs">❤︎</span></div>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="stat-label">愛意深度</span>
+                        <div class="stat-value" style="color: var(--nw-secondary);">62% <span class="opacity-50 font-normal ml-1">Rising</span></div>
+                    </div>
+                </div>
+                <div class="h-1 bg-gradient-to-r from-transparent via-nw-border to-transparent" style="background: linear-gradient(to right, transparent, var(--nw-border), transparent);"></div>
+                
+                <div class="p-3 rounded-lg border" style="border-color: var(--nw-border);">
+                    <span class="stat-label italic block mb-1 opacity-60">Subconscious Whisper:</span>
+                    <p class="text-sm italic leading-relaxed text-slate-300">
+                        「你的靈魂散發著恐懼的甜味...真想把你藏進最深的影中，誰也找不到。」
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="glass-card p-5">
+            <label for="mission-toggle" class="cursor-pointer group block">
+                <div class="flex justify-between items-center">
+                    <h3 class="stat-label flex items-center gap-2 text-white">
+                        <span class="rounded-full bg-red-500 animate-pulse w-2 h-2"></span>
+                        任務日誌：血色巡視
+                    </h3>
+                    <span class="text-nw-primary text-xs tracking-widest transition-all opacity-70" style="color: var(--nw-primary);">DECRYPT ▽</span>
+                </div>
+            </label>
+            <input type="checkbox" id="mission-toggle" class="interactive-trigger">
+            <div class="accordion-body">
+                <!-- 修复标签嵌套错误：闭合p标签，调整结构 -->
+                <div class="space-y-3 border-t" style="border-color: var(--nw-border);" pt-3="" mt-3="">
+                    <div class="flex gap-3 items-start">
+                        <span style="color: var(--nw-secondary);" class="mt-1">●</span>
+                        <p class="text-xs text-slate-400 leading-relaxed">當前進度：穿越「噤聲長廊」，避開巡查教官的視線。</p>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <span style="color: var(--nw-secondary);" class="mt-1">●</span>
+                        <p class="text-xs text-slate-400 leading-relaxed">禁忌警示：絕對不要直視畫像中的眼睛，否則靈魂會被吸入虛空。</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-300 text-xs leading-tight">緊急通告：獻祭大廳的抽籤儀式已提前。若遲到，將被視為叛變學院，成為下一個祭品。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="glass-card p-6 relative">
+        <div class="absolute top-0 right-10 w-1 h-10" style="background: linear-gradient(to bottom, var(--nw-primary), transparent);"></div>
+        <article class="prose prose-invert max-w-none">
+            <div class="flex items-center gap-3 mb-6">
+                <!-- 替换用户占位符为示例名称 -->
+                <div class="text-xs text-slate-400 italic">
+                    記錄於：深淵紀元 041 - 探險者 的視角
+                </div>
+            </div>
+            <div class="story-container">
+                <p class="text-nw-primary font-medium mb-3" style="color: var(--nw-primary);">（克蘇魯學院場景在忽明忽暗的走廊燈光下閃爍，那修長的手指始終若有若無地觸碰著你的後頸，像是一種溫柔的威脅。）</p>
+                <p class="leading-relaxed text-slate-200">
+                    "走慢了，親愛的。" 夜行低聲笑道，寒冷的氣息噴灑在你的耳根，"你看，牆上的那些眼睛已經在蠢蠢欲動了。如果你不跟緊我，我也不能保證祂們會對你做什麼。"
+                </p>
+            </div>
+        </article>
+    </main>
+</div>
+</body>
+</html>

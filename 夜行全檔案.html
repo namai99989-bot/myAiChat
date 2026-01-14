@@ -1,0 +1,460 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.yexing-card {
+  --bg-dark: #09090b;
+  --bg-panel: #18181b;
+  --accent-main: #7c3aed; /* Violet 600 */
+  --accent-glow: rgba(124, 58, 237, 0.4);
+  --text-main: #e4e4e7;
+  --text-dim: #a1a1aa;
+  --border-color: #27272a;
+  
+  font-family: 'Cinzel', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.8), 0 8px 10px -6px rgba(0, 0, 0, 0.8);
+}
+
+/* Utilities */
+.yexing-card * {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-main) var(--bg-dark);
+}
+
+.yexing-card ::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.yexing-card ::-webkit-scrollbar-thumb {
+  background: var(--accent-main);
+  border-radius: 2px;
+}
+
+/* Gallery System */
+.yexing-card .gallery-input {
+  display: none;
+}
+
+.yexing-card .gallery-stage {
+  position: relative;
+  width: 100%;
+  padding-bottom: 120%; /* Portrait Aspect Ratio */
+  background: #000;
+  overflow: hidden;
+}
+
+.yexing-card .gallery-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 6s ease-out;
+  transform: scale(1.05);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.yexing-card .gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, var(--bg-dark), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Gallery Logic: 16 Images */
+.yexing-card #g-1:checked ~ .gallery-stage .img-1,
+.yexing-card #g-2:checked ~ .gallery-stage .img-2,
+.yexing-card #g-3:checked ~ .gallery-stage .img-3,
+.yexing-card #g-4:checked ~ .gallery-stage .img-4,
+.yexing-card #g-5:checked ~ .gallery-stage .img-5,
+.yexing-card #g-6:checked ~ .gallery-stage .img-6,
+.yexing-card #g-7:checked ~ .gallery-stage .img-7,
+.yexing-card #g-8:checked ~ .gallery-stage .img-8,
+.yexing-card #g-9:checked ~ .gallery-stage .img-9,
+.yexing-card #g-10:checked ~ .gallery-stage .img-10,
+.yexing-card #g-11:checked ~ .gallery-stage .img-11,
+.yexing-card #g-12:checked ~ .gallery-stage .img-12,
+.yexing-card #g-13:checked ~ .gallery-stage .img-13,
+.yexing-card #g-14:checked ~ .gallery-stage .img-14,
+.yexing-card #g-15:checked ~ .gallery-stage .img-15,
+.yexing-card #g-16:checked ~ .gallery-stage .img-16 {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+/* Thumbnails Strip */
+.yexing-card .thumb-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px;
+  background: rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid var(--border-color);
+  margin-top: -60px; /* Pull up over image */
+  backdrop-filter: blur(4px);
+}
+
+.yexing-card .thumb-label {
+  flex: 0 0 48px;
+  height: 48px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: all 0.3s;
+}
+
+.yexing-card .thumb-label img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yexing-card .thumb-label:hover {
+  opacity: 1;
+  border-color: var(--accent-main);
+}
+
+/* Active Thumbnail Highlight Logic */
+.yexing-card #g-1:checked ~ .thumb-strip label[for="g-1"],
+.yexing-card #g-2:checked ~ .thumb-strip label[for="g-2"],
+.yexing-card #g-3:checked ~ .thumb-strip label[for="g-3"],
+.yexing-card #g-4:checked ~ .thumb-strip label[for="g-4"],
+.yexing-card #g-5:checked ~ .thumb-strip label[for="g-5"],
+.yexing-card #g-6:checked ~ .thumb-strip label[for="g-6"],
+.yexing-card #g-7:checked ~ .thumb-strip label[for="g-7"],
+.yexing-card #g-8:checked ~ .thumb-strip label[for="g-8"],
+.yexing-card #g-9:checked ~ .thumb-strip label[for="g-9"],
+.yexing-card #g-10:checked ~ .thumb-strip label[for="g-10"],
+.yexing-card #g-11:checked ~ .thumb-strip label[for="g-11"],
+.yexing-card #g-12:checked ~ .thumb-strip label[for="g-12"],
+.yexing-card #g-13:checked ~ .thumb-strip label[for="g-13"],
+.yexing-card #g-14:checked ~ .thumb-strip label[for="g-14"],
+.yexing-card #g-15:checked ~ .thumb-strip label[for="g-15"],
+.yexing-card #g-16:checked ~ .thumb-strip label[for="g-16"] {
+  border-color: var(--accent-main);
+  opacity: 1;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Tabs System */
+.yexing-card .tab-input {
+  display: none;
+}
+
+.yexing-card .tab-nav {
+  display: flex;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.yexing-card .tab-label {
+  flex: 1;
+  text-align: center;
+  padding: 14px 4px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+}
+
+.yexing-card .tab-label:hover {
+  color: var(--text-main);
+  background: rgba(255,255,255,0.02);
+}
+
+.yexing-card #tab-1:checked ~ .tab-nav label[for="tab-1"],
+.yexing-card #tab-2:checked ~ .tab-nav label[for="tab-2"],
+.yexing-card #tab-3:checked ~ .tab-nav label[for="tab-3"] {
+  color: var(--accent-main);
+  border-bottom-color: var(--accent-main);
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Content Panels */
+.yexing-card .content-viewport {
+  position: relative;
+  min-height: 300px;
+  background: var(--bg-dark);
+}
+
+.yexing-card .panel {
+  display: none;
+  padding: 24px;
+  animation: fadeIn 0.4s ease;
+}
+
+.yexing-card #tab-1:checked ~ .content-viewport .panel-1,
+.yexing-card #tab-2:checked ~ .content-viewport .panel-2,
+.yexing-card #tab-3:checked ~ .content-viewport .panel-3 {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Data Styling */
+.yexing-card .data-row {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: baseline;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 8px;
+}
+.yexing-card .data-row:last-child {
+  border-bottom: none;
+}
+
+.yexing-card .data-label {
+  color: var(--accent-main);
+  font-weight: bold;
+  font-size: 0.8rem;
+  width: 80px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.yexing-card .data-val {
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.yexing-card .section-title {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  margin: 20px 0 12px 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent-main);
+  letter-spacing: 1px;
+}
+
+.yexing-card .tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.yexing-card .tag {
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: #d8b4fe;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+}
+
+/* LLM Content */
+.yexing-card .llm-section {
+  padding: 20px 24px;
+  background: #101014;
+  border-top: 1px solid var(--border-color);
+}
+
+.yexing-card .llm-header {
+  font-size: 0.8rem;
+  color: var(--accent-main);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yexing-card .llm-header::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-main);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-main);
+}
+
+.yexing-card .story-text {
+  font-family: sans-serif;
+  color: #d4d4d8;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+</style>
+<meta name="cg-name" content="夜行全檔案(多圖)" />
+<meta name="cg-command-name" content="夜行全檔案(多圖)" />
+<meta name="cg-color" content="#A855F7" />
+<meta name="cg-icon" content="SunMoon" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="yexing-card">
+  <!-- 图片切换单选框：修复checked=""的不规范写法，改为checked -->
+  <input type="radio" name="gallery" id="g-1" class="gallery-input" checked="">
+  <input type="radio" name="gallery" id="g-2" class="gallery-input">
+  <input type="radio" name="gallery" id="g-3" class="gallery-input">
+  <input type="radio" name="gallery" id="g-4" class="gallery-input">
+  <input type="radio" name="gallery" id="g-5" class="gallery-input">
+  <input type="radio" name="gallery" id="g-6" class="gallery-input">
+  <input type="radio" name="gallery" id="g-7" class="gallery-input">
+  <input type="radio" name="gallery" id="g-8" class="gallery-input">
+  <input type="radio" name="gallery" id="g-9" class="gallery-input">
+  <input type="radio" name="gallery" id="g-10" class="gallery-input">
+  <input type="radio" name="gallery" id="g-11" class="gallery-input">
+  <input type="radio" name="gallery" id="g-12" class="gallery-input">
+  <input type="radio" name="gallery" id="g-13" class="gallery-input">
+  <input type="radio" name="gallery" id="g-14" class="gallery-input">
+  <input type="radio" name="gallery" id="g-15" class="gallery-input">
+  <input type="radio" name="gallery" id="g-16" class="gallery-input">
+
+  <!-- 图片展示区域 -->
+  <div class="gallery-stage">
+    <div class="gallery-overlay"></div>
+    
+    <img src="https://i.postimg.cc/d1tGh3XR/H-ye-xing-(1).jpg" class="gallery-image img-1" alt="Ye Xing 形象1">
+    <img src="https://i.postimg.cc/cH4fvCjm/H-ye-xing-(1).png" class="gallery-image img-2" alt="Ye Xing 形象2">
+    <img src="https://i.postimg.cc/k41KK93h/H-ye-xing-(10).png" class="gallery-image img-3" alt="Ye Xing 形象3">
+    <img src="https://i.postimg.cc/Tw7ggGMs/H-ye-xing-(11).png" class="gallery-image img-4" alt="Ye Xing 形象4">
+    <img src="https://i.postimg.cc/tTSWWyQ8/H-ye-xing-(12).png" class="gallery-image img-5" alt="Ye Xing 形象5">
+    <img src="https://i.postimg.cc/d1Hrrvcc/H-ye-xing-(13).png" class="gallery-image img-6" alt="Ye Xing 形象6">
+    <img src="https://i.postimg.cc/sX677yCR/H-ye-xing-(14).png" class="gallery-image img-7" alt="Ye Xing 形象7">
+    <img src="https://i.postimg.cc/KzqBBFhb/H-ye-xing-(15).png" class="gallery-image img-8" alt="Ye Xing 形象8">
+    <img src="https://i.postimg.cc/C1LbR5ts/H-ye-xing-(2).png" class="gallery-image img-9" alt="Ye Xing 形象9">
+    <img src="https://i.postimg.cc/0Q27zj3d/H-ye-xing-(3).png" class="gallery-image img-10" alt="Ye Xing 形象10">
+    <img src="https://i.postimg.cc/QtxcFCPf/H-ye-xing-(4).png" class="gallery-image img-11" alt="Ye Xing 形象11">
+    <img src="https://i.postimg.cc/FRs0YzqW/H-ye-xing-(5).png" class="gallery-image img-12" alt="Ye Xing 形象12">
+    <img src="https://i.postimg.cc/pTXKmr70/H-ye-xing-(6).png" class="gallery-image img-13" alt="Ye Xing 形象13">
+    <img src="https://i.postimg.cc/ydY0Dx5b/H-ye-xing-(7).png" class="gallery-image img-14" alt="Ye Xing 形象14">
+    <img src="https://i.postimg.cc/Px3YYhsM/H-ye-xing-(8).png" class="gallery-image img-15" alt="Ye Xing 形象15">
+    <img src="https://i.postimg.cc/Jn6ZZmV6/H-ye-xing-(9).png" class="gallery-image img-16" alt="Ye Xing 形象16">
+    
+    <!-- 标题区域：保留原有样式，优化语义 -->
+    <div style="position: absolute; bottom: 80px; left: 20px; z-index: 5">
+      <h1 style="margin: 0; font-size: 2.5rem; color: #fff; text-shadow: 0 4px 8px black">夜行</h1>
+      <p style="margin: 0; color: #d8b4fe; font-size: 0.9rem; text-shadow: 0 2px 4px black">Cthulhu Academy · Nightwalker</p>
+    </div>
+  </div>
+
+  <!-- 缩略图区域：为缩略图添加alt属性，提升可访问性 -->
+  <div class="thumb-strip">
+    <label for="g-1" class="thumb-label"><img src="https://i.postimg.cc/d1tGh3XR/H-ye-xing-(1).jpg" alt="缩略图1"></label>
+    <label for="g-2" class="thumb-label"><img src="https://i.postimg.cc/cH4fvCjm/H-ye-xing-(1).png" alt="缩略图2"></label>
+    <label for="g-3" class="thumb-label"><img src="https://i.postimg.cc/k41KK93h/H-ye-xing-(10).png" alt="缩略图3"></label>
+    <label for="g-4" class="thumb-label"><img src="https://i.postimg.cc/Tw7ggGMs/H-ye-xing-(11).png" alt="缩略图4"></label>
+    <label for="g-5" class="thumb-label"><img src="https://i.postimg.cc/tTSWWyQ8/H-ye-xing-(12).png" alt="缩略图5"></label>
+    <label for="g-6" class="thumb-label"><img src="https://i.postimg.cc/d1Hrrvcc/H-ye-xing-(13).png" alt="缩略图6"></label>
+    <label for="g-7" class="thumb-label"><img src="https://i.postimg.cc/sX677yCR/H-ye-xing-(14).png" alt="缩略图7"></label>
+    <label for="g-8" class="thumb-label"><img src="https://i.postimg.cc/KzqBBFhb/H-ye-xing-(15).png" alt="缩略图8"></label>
+    <label for="g-9" class="thumb-label"><img src="https://i.postimg.cc/C1LbR5ts/H-ye-xing-(2).png" alt="缩略图9"></label>
+    <label for="g-10" class="thumb-label"><img src="https://i.postimg.cc/0Q27zj3d/H-ye-xing-(3).png" alt="缩略图10"></label>
+    <label for="g-11" class="thumb-label"><img src="https://i.postimg.cc/QtxcFCPf/H-ye-xing-(4).png" alt="缩略图11"></label>
+    <label for="g-12" class="thumb-label"><img src="https://i.postimg.cc/FRs0YzqW/H-ye-xing-(5).png" alt="缩略图12"></label>
+    <label for="g-13" class="thumb-label"><img src="https://i.postimg.cc/pTXKmr70/H-ye-xing-(6).png" alt="缩略图13"></label>
+    <label for="g-14" class="thumb-label"><img src="https://i.postimg.cc/ydY0Dx5b/H-ye-xing-(7).png" alt="缩略图14"></label>
+    <label for="g-15" class="thumb-label"><img src="https://i.postimg.cc/Px3YYhsM/H-ye-xing-(8).png" alt="缩略图15"></label>
+    <label for="g-16" class="thumb-label"><img src="https://i.postimg.cc/Jn6ZZmV6/H-ye-xing-(9).png" alt="缩略图16"></label>
+  </div>
+
+  <!-- 标签切换单选框：修复checked=""不规范写法 -->
+  <input type="radio" name="tabs" id="tab-1" class="tab-input" checked="">
+  <input type="radio" name="tabs" id="tab-2" class="tab-input">
+  <input type="radio" name="tabs" id="tab-3" class="tab-input">
+
+  <nav class="tab-nav">
+    <label for="tab-1" class="tab-label">基础档案</label>
+    <label for="tab-2" class="tab-label">深层解析</label>
+    <label for="tab-3" class="tab-label">羁绊与秘密</label>
+  </nav>
+
+  <div class="content-viewport">
+    <!-- 面板1：基础档案 -->
+    <div class="panel panel-1">
+      <div class="data-row"><span class="data-label">姓名</span><span class="data-val">夜行</span></div>
+      <div class="data-row"><span class="data-label">年龄</span><span class="data-val">20岁</span></div>
+      <div class="data-row"><span class="data-label">身高/体重</span><span class="data-val">180cm / 65kg</span></div>
+      <div class="data-row"><span class="data-label">籍贯</span><span class="data-val">克苏魯學院</span></div>
+      <div class="data-row"><span class="data-label">身份</span><span class="data-val">特招生 / 夜行家族继承人</span></div>
+      
+      <div class="section-title">外貌特征</div>
+      <p style="font-size: 0.9rem; color: #a1a1aa; margin-bottom: 12px">
+        立体深邃的五官，紫色瞳孔，高挺鼻梁。乌黑的短发，额前有两缕碎发。常穿深色校服与暗色斗篷，腰间系着散发古老气息的符咒挂饰。
+      </p>
+      <div class="tag-cloud">
+        <span class="tag">操控薄雾</span>
+        <span class="tag">禁忌魔法</span>
+        <span class="tag">渴望與你永久结合</span>
+      </div>
+    </div>
+
+    <!-- 面板2：深层解析 -->
+    <div class="panel panel-2">
+      <div class="section-title">个性核心</div>
+      <div class="data-row"><span class="data-label">MBTI</span><span class="data-val">INTJ</span></div>
+      <div class="data-row"><span class="data-label">外号</span><span class="data-val">"幽影"</span></div>
+      <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 8px">
+        极强的支配欲和控制欲。冷静中藏着危险，温柔中带着残酷。对自己认定的事物绝不放手。
+      </p>
+      
+      <div class="section-title">偏好</div>
+      <div class="data-row"><span class="data-label">喜好</span><span class="data-val">红酒、黑巧克力、生肉、古籍、暗处</span></div>
+      <div class="data-row"><span class="data-label">厌恶</span><span class="data-val">甜食、阳光直射、拥挤、被背叛</span></div>
+      
+      <div class="section-title">语录</div>
+      <p style="font-style: italic; color: #d8b4fe; font-size: 0.9rem; border-left: 2px solid #5b21b6; padding-left: 10px">
+        "这只是开始..."<br>"你逃不掉的..."
+      </p>
+    </div>
+
+    <!-- 面板3：羁绊与秘密 -->
+    <div class="panel panel-3">
+      <div class="section-title">情感模式</div>
+      <p style="font-size: 0.9rem; color: #a1a1aa">
+        极度占有欲。一旦认定目标就会不择手段得到，并用尽一切手段留住。私下独来独往，极少与人交流。
+      </p>
+
+      <div class="section-title">家庭与背景</div>
+      <div class="data-row"><span class="data-label">家庭</span><span class="data-val">母亲已故，与父亲疏离</span></div>
+      <div class="data-row"><span class="data-label">秘密</span><span class="data-val">研究家族禁忌魔法，追求更深入的“永久结合”</span></div>
+      
+      <div class="section-title">特殊癖好</div>
+      <p style="font-size: 0.9rem; color: #a1a1aa">
+        在亲密关系中喜欢控制对方的呼吸，享受对方在高潮时痛苦与愉悦交织的表情。
+      </p>
+    </div>
+  </div>
+
+  <!-- LLM内容区域：替换无效占位符，填充示例内容 -->
+  <div class="llm-section">
+    <div class="llm-header">Current Status / 实时动态</div>
+    <div class="story-text">
+      <p>图书馆的阴影里，<strong>夜行</strong>指尖划过泛黄的古籍，紫色瞳孔凝视着你的身影，声音低沉而磁性：<em>"你又在偷看我？"</em> 薄雾悄然缠绕你的脚踝，他缓步走近，指尖轻触你的后颈：<span>"这次，可别想再逃了。"</span></p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- 合并所有样式为单个style标签，移除冗余重复定义 -->
+    <style>
+.cthulhu-academy-root {
+  --horror-gold: #d4af37;
+  --abyss-blue: #0a0e14;
+  --void-purple: #2d004d;
+  --mystic-crimson: #8b0000;
+  --sanity-gray: #e0e0e0;
+  --eldritch-green: #2ecc71;
+  background-color: var(--abyss-blue);
+  color: var(--sanity-gray);
+  font-family: "Noto Serif TC", serif;
+  line-height: 1.6;
+  padding: 20px;
+  min-height: 100vh;
+  background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0e14 100%);
+  overflow-x: hidden;
+}
+
+.cthulhu-academy-root .header-section {
+  position: relative;
+  text-align: center;
+  padding: 60px 20px;
+  border-bottom: 2px solid var(--horror-gold);
+  margin-bottom: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(45, 0, 77, 0.3));
+}
+
+.cthulhu-academy-root .main-title {
+  font-size: 3rem;
+  color: var(--horror-gold);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  font-weight: 900;
+}
+
+.cthulhu-academy-root .intro-text {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.6);
+  border-left: 4px solid var(--void-purple);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.cthulhu-academy-root .location-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+
+.cthulhu-academy-root .location-card {
+  background: rgba(15, 15, 25, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.cthulhu-academy-root .location-card:hover {
+  border-color: var(--horror-gold);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+  transform: translateY(-5px); /* 修正translatey为规范写法translateY */
+}
+
+.cthulhu-academy-root .image-container {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid var(--horror-gold);
+}
+
+.cthulhu-academy-root .location-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(30%) contrast(1.1) brightness(0.8);
+  transition: filter 0.5s ease;
+}
+
+.cthulhu-academy-root .location-card:hover .location-img {
+  filter: sepia(0%) contrast(1.2) brightness(1);
+}
+
+.cthulhu-academy-root .content-box {
+  padding: 30px;
+  position: relative;
+}
+
+.cthulhu-academy-root .location-name {
+  font-size: 1.8rem;
+  color: var(--horror-gold);
+  margin-bottom: 1.5rem;
+  display: flex; 
+  align-items: center; /* 修复CSS属性换行导致的格式问题 */
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 10px;
+}
+
+.cthulhu-academy-root .location-name::before {
+  content: "◈";
+  margin-right: 15px;
+  font-size: 1.2rem;
+}
+
+.cthulhu-academy-root .feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cthulhu-academy-root .feature-item {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 1.05rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.cthulhu-academy-root .feature-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--horror-gold);
+  font-weight: bold;
+}
+
+.cthulhu-academy-root .interactive-toggle {
+  display: none;
+}
+
+.cthulhu-academy-root .expand-trigger {
+  cursor: pointer;
+  display: block;
+  background: var(--void-purple);
+  color: var(--horror-gold);
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+  margin-top: 15px;
+  border-radius: 2px;
+}
+
+.cthulhu-academy-root .expand-trigger:hover {
+  background: #3d0066;
+}
+
+.cthulhu-academy-root .details-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.8s ease, opacity 0.5s ease;
+}
+
+.cthulhu-academy-root .interactive-toggle:checked ~ .details-content {
+  max-height: 1000px;
+  opacity: 1;
+  padding-top: 20px;
+}
+
+.cthulhu-academy-root .interactive-toggle:checked ~ .expand-trigger {
+  background: rgba(45, 0, 77, 0.5);
+}
+
+.cthulhu-academy-root .badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--horror-gold);
+  font-size: 0.8rem;
+  color: var(--horror-gold);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(10, 14, 20, 0.8);
+}
+
+.cthulhu-academy-root footer {
+  text-align: center;
+  padding: 40px 0;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  opacity: 0.6;
+  font-size: 0.9rem;
+  margin-top: 60px;
+}
+    </style>
+    <!-- 元标签统一整理在head内，添加视口标签优化移动端 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="cg-name" content="克蘇魯學院場景" />
+    <meta name="cg-command-name" content="克蘇魯學院場景" />
+    <meta name="cg-color" content="#8B5CF6" />
+    <meta name="cg-icon" content="OctagonAlert" />
+    <meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="cthulhu-academy-root">
+  <header class="header-section">
+    <h1 class="main-title">克蘇魯神秘學院</h1>
+    <!-- 替换无效占位符，填充有效内容 -->
+    <div class="badge">Investigator: 探險者 | Sanity: Unstable</div>
+    <div class="intro-text">
+      <!-- 替换无效占位符，填充符合设定的有效内容 -->
+      深夜的克蘇魯學院，萬籟俱寂。夜行的房間內，只有一盞古樸的落地燈散發出昏黃的光芒，將整個房間籠罩在一層神秘的氛圍中。窗外薄霧彌漫，偶爾有風吹過，發出細微的嗚咽聲。房間中央的寬大扶手椅上，夜行身著深色睡袍，懷中抱著一本厚重的古籍，紫色的瞳孔在燈光下顯得格外深邃。
+    </div>
+  </header>
+  
+  <div class="location-grid">
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/VkpzFJLK/vidu-video-3095611741765230.gif" alt="校長的教室 - 頂層螺旋階梯旁的神秘空間">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">01. 校長的教室</h2>
+        <ul class="feature-list">
+          <li class="feature-item">位於教學樓頂層，需通過十三級螺旋階梯抵達</li>
+          <li class="feature-item">牆壁由活體黑曜石構成，表面緩慢脈動</li>
+          <li class="feature-item">中央圓形講台蝕刻著《古老秘典》節選符文</li>
+        </ul>
+        <!-- 修复复选框与标签的关联逻辑，确保布局合理 -->
+        <input type="checkbox" id="toggle-1" class="interactive-toggle">
+        <label for="toggle-1" class="expand-trigger">探索深層秘密</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">環形座位共三十三席，以不同古老生物結構拼接</li>
+            <li class="feature-item">牆上魔法陣會隨月相變化，滲出銀色流體</li>
+            <li class="feature-item">十三盞水晶吊燈囚禁著星之彩碎片</li>
+            <li class="feature-item">地板為拉萊耶城地圖，踩踏特定區域會觸發低語</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/5000PhW8/jin-ji-tu-shu-guan.gif" alt="禁忌圖書館 - 地下三層的光線吞噬石門後">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">02. 禁忌圖書館</h2>
+        <ul class="feature-list">
+          <li class="feature-item">入口是會吞噬光線的漩渦石門，位於地下三層</li>
+          <li class="feature-item">書架以深海族的骨架為支撐，書頁材質詭異</li>
+          <li class="feature-item">書籍分類遵循非線性時間軸，位置每日變換</li>
+        </ul>
+        <input type="checkbox" id="toggle-2" class="interactive-toggle">
+        <label for="toggle-2" class="expand-trigger">翻閱禁忌之書</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">閱讀區桌椅會隨心智狀態長出束縛觸鬚</li>
+            <li class="feature-item">禁書區由無形之子看守，需支付「純粹記憶」</li>
+            <li class="feature-item">空氣中飄浮知識光粒，吸入過量導致語言混亂</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/DZZZC930/yi-bian-shi-yan-shi.gif" alt="異變實驗室 - 覆蓋生物黏膜的神秘研究室">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">03. 異變實驗室</h2>
+        <ul class="feature-list">
+          <li class="feature-item">牆壁覆蓋著能吸收溢出能量的生物性黏膜</li>
+          <li class="feature-item">透明曜石培養槽內懸浮著維度生物胚胎</li>
+          <li class="feature-item">手術台刻有感知轉移符文，將痛覺導向虛空</li>
+        </ul>
+        <input type="checkbox" id="toggle-3" class="interactive-toggle">
+        <label for="toggle-3" class="expand-trigger">觀察異變標本</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">藥劑瓶身標籤以古赫里奧波里斯文書寫</li>
+            <li class="feature-item">「現實穩定器」發出次聲波防止維度崩解</li>
+            <li class="feature-item">通風系統殘留著硫磺與深海氣息</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/d111WbcD/xing-kong-guan-ce-tai.gif" alt="星空觀測台 - 尖塔頂端的黑水晶穹頂">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">04. 星空觀測台</h2>
+        <ul class="feature-list">
+          <li class="feature-item">穹頂由單片黑水晶打磨，位於最高尖塔頂端</li>
+          <li class="feature-item">「星象儀」由十三個黃銅環鑲嵌活體星圖組成</li>
+          <li class="feature-item">無月之夜會自動顯現不應存在的星座</li>
+        </ul>
+        <input type="checkbox" id="toggle-4" class="interactive-toggle">
+        <label for="toggle-4" class="expand-trigger">仰望瘋狂星空</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">注視觀測窗超過七秒將導致方向感永久錯亂</li>
+            <li class="feature-item">地板描繪阿撒托斯宮殿圖案，每次進入皆不同</li>
+            <li class="feature-item">猶格斯星礦石在特定相位發出誘惑性脈衝</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/jSV8QKYv/vidu-video-3095616489409640.gif" alt="夢境迴廊 - 長度不定的銀色霧氣長廊">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">05. 夢境迴廊</h2>
+        <ul class="feature-list">
+          <li class="feature-item">牆壁表面流動著銀色霧狀物質，長度不定</li>
+          <li class="feature-item">肖像畫人物隨觀者改變樣貌，時而猙獰</li>
+          <li class="feature-item">天花板投影過路者童年最深層的記憶片段</li>
+        </ul>
+        <input type="checkbox" id="toggle-5" class="interactive-toggle">
+        <label for="toggle-5" class="expand-trigger">漫步虛幻長廊</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">地面記憶琥珀踩踏時會發出細碎耳語</li>
+            <li class="feature-item">青銅燭台燃燒深海族油脂，散發詭異氣味</li>
+            <li class="feature-item">步行時間取決於穿越者的潛意識恐懼</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/zBBBdsYj/xian-ji-da-ting.gif" alt="儀式大廳 - 倒金字塔結構的古神儀式場所">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">06. 儀式大廳</h2>
+        <ul class="feature-list">
+          <li class="feature-item">呈倒金字塔結構，中央設有黑曜石台</li>
+          <li class="feature-item">石台表面殘留無法洗淨的暗色痕跡</li>
+          <li class="feature-item">七根扭曲石柱纏繞著外神象徵的浮雕</li>
+        </ul>
+        <input type="checkbox" id="toggle-6" class="interactive-toggle">
+        <label for="toggle-6" class="expand-trigger">直視古神儀式</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">天頂對應孔洞在特定時刻投射綠色光柱</li>
+            <li class="feature-item">逆五芒星陣法在月圓之夜會滲出溫熱液體</li>
+            <li class="feature-item">密門通往保存「供物」記憶的水晶陳列室</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/W3339Bcr/ji-bian-wen-shi.gif" alt="異化溫室 - 種植異界植物的神秘溫室">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">07. 異化溫室</h2>
+        <ul class="feature-list">
+          <li class="feature-item">土壤混合修格斯分解液與拉萊耶沈積物</li>
+          <li class="feature-item">灌溉系統使用摻有星之彩能量的磷光水</li>
+          <li class="feature-item">「知識之藤」果實可理解非歐幾里得幾何</li>
+        </ul>
+        <input type="checkbox" id="toggle-7" class="interactive-toggle">
+        <label for="toggle-7" class="expand-trigger">採集異界植物</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">「時間花圃」種植著逆生長的悖論花卉</li>
+            <li class="feature-item">空氣瀰漫甜膩異香與電離臭氧混合味</li>
+            <li class="feature-item">玻璃水珠會自行組成短暫的預言性圖案</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/MTTTsCJ7/jing-mo-ming-xiang-shi.gif" alt="靜默冥想室 - 地底深處的無光冥想空間">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">08. 靜默冥想室</h2>
+        <ul class="feature-list">
+          <li class="feature-item">牆壁覆蓋吸音絨毛與隔絕符文，極度安靜</li>
+          <li class="feature-item">高氣壓產生耳鳴，地板鋪設冷原玄冰石磚</li>
+          <li class="feature-item">光源來自模仿心跳頻率明暗的磷光地衣</li>
+        </ul>
+        <input type="checkbox" id="toggle-8" class="interactive-toggle">
+        <label for="toggle-8" class="expand-trigger">進入無光冥想</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">空氣含鎮靜孢子，強制進入θ腦波狀態</li>
+            <li class="feature-item">「虛空水晶」注視過久會觸發靈魂出竅</li>
+            <li class="feature-item">位於北塔地底深處，徹底隔絕外界感知</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/NMMMN3v5/hui-xiang-shi-tang.gif" alt="迴響食堂 - 提供神秘餐點的異界食堂">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">09. 迴響食堂</h2>
+        <ul class="feature-list">
+          <li class="feature-item">提供理智燉湯、深海族鱗片、烤星間飛翼</li>
+          <li class="feature-item">餐具刻有吞噬符文，使用時有輕微吮吸感</li>
+          <li class="feature-item">廚房傳菜口時常傳出神祕的咀嚼聲</li>
+        </ul>
+        <input type="checkbox" id="toggle-9" class="interactive-toggle">
+        <label for="toggle-9" class="expand-trigger">享用神秘晚宴</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">牆上油畫會隨用餐進度呈現心底恐懼食物</li>
+            <li class="feature-item">殘餘物處理槽連接著未知維度</li>
+            <li class="feature-item">飲品包含幻夢境葡萄酒與星之彩稀釋液</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="location-card">
+      <div class="image-container">
+        <img class="location-img" src="https://i.postimg.cc/W3339BcF/gong-fang.gif" alt="工坊 - 鑄造神秘造物的地下工坊">
+      </div>
+      <div class="content-box">
+        <h2 class="location-name">10. 工坊</h2>
+        <ul class="feature-list">
+          <li class="feature-item">工作台由虛空源質與黑鐵鑄造，恆溫37度</li>
+          <li class="feature-item">牆面掛滿保有微弱生命的異界生物標本</li>
+          <li class="feature-item">收納蠕動脈絡線與會閃爍的瞳石</li>
+        </ul>
+        <input type="checkbox" id="toggle-10" class="interactive-toggle">
+        <label for="toggle-10" class="expand-trigger">鑄造神秘造物</label>
+        <div class="details-content">
+          <ul class="feature-list">
+            <li class="feature-item">「生命織襖機」能將概念編織成活體造物</li>
+            <li class="feature-item">排放粉紅霧氣，長期吸入會軟化現實感知</li>
+            <li class="feature-item">隱藏於下水道深處，需三道生物識別閘門</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>© Cthulhu Academy - Knowledge is a Burden</p>
+  </footer>
+</div>
+</body>
+</html>
