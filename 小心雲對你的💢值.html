@@ -1,0 +1,647 @@
+<html>
+<head>
+<style>
+/* 核心主题色配置：底色#E6CAFF，文字色#003060 */
+.dorm-room-template { 
+  --primary-accent: #6b7280; 
+  --soft-blue: #e0f2fe; 
+  --warm-strawberry: #fecaca; 
+  --bg-main: #E6CAFF; /* 自定义主题底色 */
+  --text-main: #003060; /* 自定义主题文字色 */
+  --paper-white: #f9fafb; 
+  --border-light: #d8b4fe; /* 配套浅紫色边框，提升美观度 */
+  --card-bg: #ffffff; /* 卡片白色背景，突出层次 */
+  --badge-bg: #f3e8ff; /* 徽章浅紫背景，呼应主题 */
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+  background-color: var(--bg-main); /* 应用主题底色 */
+  color: var(--text-main); /* 应用主题文字色 */
+  line-height: 1.6; 
+  padding: 1rem 0; /* 页面上下内边距，优化版面留白 */
+} 
+
+/* 修复+优化：卡片阴影样式 */
+.dorm-room-template .card-shadow { 
+  box-shadow: 0 10px 25px -5px rgba(167, 139, 250, 0.2), 0 8px 10px -6px rgba(167, 139, 250, 0.1); /* 浅紫阴影，呼应主题 */
+} 
+
+/* 头部横幅优化：增强层次感 */
+.dorm-room-template .parallax-header { 
+  position: relative; 
+  height: 260px; 
+  overflow: hidden; 
+  border-radius: 1.5rem; /* 圆润边角，更美观 */
+  margin: 0 1rem; /* 左右留白，优化版面 */
+} 
+
+/* 图片遮罩优化：更柔和的渐变 */
+.dorm-room-template .image-overlay { 
+  background: linear-gradient(to bottom, transparent, rgba(0, 30, 96, 0.7)); /* 文字色渐变，更协调 */
+  position: absolute; 
+  inset: 0; 
+} 
+
+/* 选项卡基础样式 */
+.dorm-room-template .tab-trigger { 
+  display: none; 
+} 
+.dorm-room-template .tab-content { 
+  max-height: 0; 
+  opacity: 0; 
+  overflow: hidden; 
+  transition: max-height 0.5s ease, opacity 0.5s ease; 
+} 
+.dorm-room-template .tab-trigger:checked + .tab-label + .tab-content { 
+  max-height: 1500px; 
+  opacity: 1; 
+  padding: 1rem 0; 
+} 
+
+/* 选项卡标签优化：呼应主题色 */
+.dorm-room-template .tab-label { 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 1rem 1.25rem; 
+  background: var(--card-bg); /* 白色卡片背景 */
+  border-radius: 1rem; /* 更圆润的边角 */
+  margin-bottom: 0.75rem; /* 增加间距，优化版面 */
+  transition: all 0.3s; 
+  border: 1px solid var(--border-light); /* 主题色边框 */
+  color: var(--text-main); /* 主题文字色 */
+  box-shadow: 0 2px 4px rgba(167, 139, 250, 0.1); /* 轻微阴影，提升立体感 */
+} 
+.dorm-room-template .tab-trigger:checked + .tab-label { 
+  border-color: #a855f7; /* 深紫边框，突出选中状态 */
+  background: #f8f0ff; /* 浅紫背景，呼应主题 */
+  box-shadow: inset 0 2px 4px rgba(167, 139, 250, 0.15); 
+} 
+
+/* 徽章样式优化：主题色适配 */
+.dorm-room-template .badge { 
+  font-size: 0.75rem; 
+  padding: 0.1rem 0.5rem; 
+  border-radius: 9999px; 
+  background: var(--badge-bg); /* 主题浅紫背景 */
+  color: var(--text-main); /* 主题文字色 */
+  border: 1px solid var(--border-light); /* 主题边框 */
+  font-weight: 500;
+} 
+
+/* 草莓发光样式优化：更柔和 */
+.dorm-room-template .strawberry-glow { 
+  box-shadow: 0 0 15px rgba(254, 202, 202, 0.4), 0 0 5px rgba(167, 139, 250, 0.2); /* 叠加主题色微光 */
+  border: 1px solid #fbcfe8 !important;
+} 
+
+/* 分隔线优化：主题色适配 */
+.dorm-room-template .divider-ink { 
+  height: 1px; 
+  background: linear-gradient(to right, transparent, var(--border-light), transparent); /* 主题色分隔线 */
+  margin: 1.5rem 0; 
+} 
+
+/* 网格布局优化：保持响应式 */
+.dorm-room-template .room-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 1rem; 
+} 
+@media (max-width: 640px) { 
+  .dorm-room-template .room-grid { 
+    grid-template-columns: 1fr; 
+  } 
+}
+
+/* 外部容器优化：居中+留白+阴影，提升版面美观度 */
+.dorm-room-template .container-wrap {
+  max-width: 768px; /* 合理最大宽度，适配平板+电脑 */
+  margin: 0 auto; /* 水平居中 */
+  min-height: calc(100vh - 2rem); /* 自适应高度 */
+  padding-bottom: 3rem;
+  background-color: var(--card-bg); /* 白色容器背景，突出内容 */
+  position: relative;
+  overflow: hidden;
+  border-radius: 2rem; /* 大圆角，更美观 */
+  box-shadow: 0 10px 30px rgba(167, 139, 250, 0.15); /* 主题色阴影，提升层次感 */
+}
+
+/* 头像容器样式优化 */
+.dorm-room-template .avatar-wrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 2px solid var(--border-light); /* 主题色边框 */
+  overflow: hidden;
+  background-color: #f3e8ff; /* 主题色背景，占位更美观 */
+}
+.dorm-room-template .avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 标题样式优化：增强层级 */
+.dorm-room-template h1,
+.dorm-room-template h2,
+.dorm-room-template h4 {
+  color: var(--text-main); /* 主题文字色 */
+  font-weight: 600;
+}
+
+/* 辅助文本样式优化 */
+.dorm-room-template .text-gray-400,
+.dorm-room-template .text-gray-600,
+.dorm-room-template .text-gray-700 {
+  color: #00306080 !important; /* 文字色半透明，保持协调 */
+}
+
+/* 标签箭头样式优化 */
+.dorm-room-template .tab-label .text-gray-400 {
+  transition: transform 0.3s ease;
+}
+.dorm-room-template .tab-trigger:checked + .tab-label .text-gray-400 {
+  transform: rotate(180deg); /* 选中时箭头翻转，提升交互体验 */
+}
+
+/* 卡片样式统一优化：呼应主题 */
+.dorm-room-template .p-4,
+.dorm-room-template .p-3 {
+  border-radius: 1rem !important;
+  border: 1px solid var(--border-light) !important;
+  background-color: #ffffff !important;
+}
+.dorm-room-template .bg-gray-800 {
+  background-color: #4a2f78 !important; /* 深紫背景，呼应主题 */
+  color: #f9fafb !important;
+}
+.dorm-room-template .bg-pink-50 {
+  background-color: #fdf2f8 !important;
+}
+.dorm-room-template .bg-gray-50 {
+  background-color: #faf5ff !important; /* 浅紫背景，呼应主题 */
+}
+
+/* 底部文本样式优化 */
+.dorm-room-template .text-gray-300 {
+  color: #00306060 !important; /* 主题文字色半透明，更协调 */
+  letter-spacing: 0.2em;
+}
+</style>
+<meta name="cg-name" content="阿雲和你阿電房間" />
+<meta name="cg-command-name" content="阿雲和你阿電房間" />
+<meta name="cg-color" content="#FFD9A1" />
+<meta name="cg-icon" content="Fingerprint" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<div class="dorm-room-template">
+  <!-- 外部容器：居中+阴影+圆角，优化版面 -->
+  <div class="container-wrap">
+    <div class="parallax-header">
+      <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/52ba960288bf42609371195b9b3991db.png" class="w-full h-full object-cover" alt="風雲宿舍302">
+      <div class="image-overlay"></div>
+      <div class="absolute bottom-6 left-6 text-white">
+        <h1 class="text-2xl font-bold tracking-wider">風雲宿舍 302</h1>
+        <p class="text-sm opacity-90 font-light">油畫才子與溫馨生活空間</p>
+      </div>
+      <div class="absolute top-6 right-6">
+        <span class="backdrop-blur-md px-3 py-1 rounded-full text-xs text-white border border-white/30">20㎡ 精緻空間</span>
+      </div>
+    </div>
+    <div class="px-6 py-8">
+      <!-- 头像+标题区域：结构规整 -->
+      <div class="flex items-center space-x-4 mb-8">
+        <div class="avatar-wrap">
+          <!-- 占位头像，可自行替换图片地址 -->
+          <img src="https://i.postimg.cc/YSmGQsnV/from_Pix_AI_1959699209598911901.png" alt="头像占位">
+        </div>
+        <div class="flex-1 border-b border-gray-100 pb-2">
+          <h2 class="text-lg font-medium text-gray-800">男主角阿雲和你的阿電的私人領域</h2>
+          <p class="text-xs text-gray-400 uppercase tracking-tighter">Roommates: Painter &amp; Dreamer</p>
+        </div>
+      </div>
+
+      <!-- 选项卡区域：美观+交互优化 -->
+      <div class="space-y-4">
+        <input type="checkbox" id="area-entrance" class="tab-trigger" checked="">
+        <label for="area-entrance" class="tab-label">
+          <span class="flex items-center gap-2">
+            <span class="badge">01</span> 浴室與入口空間
+          </span>
+          <span class="text-gray-400 text-sm">▼</span>
+        </label>
+        <div class="tab-content">
+          <div class="p-4 rounded-xl border border-blue-100">
+            <p class="text-sm text-gray-600 mb-3">進門左手邊是獨立浴室，淺藍色的瓷磚在陽光下泛著柔和的光澤。恒溫花洒安裝在正中，收納架上各色沐浴用品井然有序。</p>
+            <div class="flex gap-2 flex-wrap">
+              <span class="bg-white px-2 py-1 rounded shadow-sm text-blue-400 border border-blue-100">#淺藍瓷磚</span>
+              <span class="bg-white px-2 py-1 rounded shadow-sm text-blue-400 border border-blue-100">#恒溫系統</span>
+            </div>
+          </div>
+        </div>
+
+        <input type="checkbox" id="area-beds" class="tab-trigger">
+        <label for="area-beds" class="tab-label">
+          <span class="flex items-center gap-2">
+            <span class="badge">02</span> 雙人休憩區
+          </span>
+          <span class="text-gray-400 text-sm">▼</span>
+        </label>
+        <div class="tab-content">
+          <div class="room-grid">
+            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50">
+              <h4 class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">阿雲的床鋪</h4>
+              <p class="text-xs text-gray-600">1.5米寬，深灰色格子床單。銀灰色床尾巾垂下，透著冷調的高級感。床頭櫃放著幾包未拆的麵包。</p>
+            </div>
+            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50">
+              <h4 class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">阿電的床鋪</h4>
+              <p class="text-xs text-gray-600">同樣的格子布料，卻散落著油畫專業書籍。床頭那包檸檬茶，像是忙碌生活中的小憩預約。</p>
+            </div>
+          </div>
+        </div>
+
+        <input type="checkbox" id="area-desks" class="tab-trigger">
+        <label for="area-desks" class="tab-label">
+          <span class="flex items-center gap-2">
+            <span class="badge">03</span> L型創作工坊
+          </span>
+          <span class="text-gray-400 text-sm">▼</span>
+        </label>
+        <div class="tab-content">
+          <div class="space-y-4">
+            <div class="flex gap-4 items-start flex-wrap">
+              <div class="flex-1 min-w-[180px]">
+                <div class="p-3 bg-gray-800 text-gray-100 rounded-lg text-xs leading-relaxed">
+                  <strong>阿雲的畫架：</strong><br>
+                  幾乎被顏料佔滿，管狀顏料整齊豎立。最顯眼的是那盒貼著「今日開封」便簽的松節油。
+                </div>
+              </div>
+              <div class="flex-1 min-w-[180px]">
+                <div class="p-3 bg-pink-50 text-gray-800 rounded-lg text-xs leading-relaxed strawberry-glow border border-pink-100">
+                  <strong>阿電的書桌：</strong><br>
+                  粉色草莓造型台燈閃爍著微光。調色板靠牆，筆架撐起夢想。窗台的多肉正沾著水珠。
+                </div>
+              </div>
+              <!-- 图片自适应优化 -->
+              <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/d176c1feb9a44460aa2d0aa50cd99704.png" class="w-full max-w-[300px] h-auto rounded-xl border border-light mx-auto" alt="創作工坊細節">
+            </div>
+          </div>
+        </div>
+
+        <input type="checkbox" id="area-closet" class="tab-trigger">
+        <label for="area-closet" class="tab-label">
+          <span class="flex items-center gap-2">
+            <span class="badge">04</span> 衣櫥與收納
+          </span>
+          <span class="text-gray-400 text-sm">▼</span>
+        </label>
+        <div class="tab-content">
+          <div class="p-4 border-l-2 border-gray-200 text-sm text-gray-600 italic bg-faf5ff rounded-xl">
+            阿雲的衣櫥藏著深色針織衫與急救藥品；而阿電的衣櫥裡，除了繽紛的T恤，抽屜深處還藏著幾張未完成的速寫，那是未曾言說的心事。
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-ink"></div>
+
+      <!-- 氛围描述区域：美观优化 -->
+      <div class="relative p-6 bg-gradient-to-br from-white to-faf5ff rounded-2xl border border-light mb-4">
+        <div class="absolute -top-3 left-6 bg-white px-3 py-1 font-bold text-gray-400 uppercase tracking-widest border border-light rounded">Room Atmosphere</div>
+        <div class="flex items-start gap-4">
+          <div class="flex-1 text-sm text-gray-700 text-left leading-relaxed">
+            陽光透過半開的百葉窗，在木質地板上投下斑駁的光影。靠窗的小型休閒椅上，灰色毛毯隨意搭著，彷彿在等待主人歸來。這裡不僅是宿舍，更是兩個靈魂交匯的避風港。
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center text-gray-300 uppercase">Wind &amp; Cloud Dormitory · Room 302</div>
+    </div>
+  </div>
+</div>
+<html>
+<head>
+<style>
+/* 全局樣式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 頁面基礎樣式 - 深淺藍+淺色系調性 */
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fb 50%, #f5fafe 100%);
+  color: #0a3d62; /* 深藍字體，與淺色背景強對比 */
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* 容器樣式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+  border: 1px solid #e3f2fd;
+}
+
+/* 標題樣式 */
+.main-title {
+  font-size: 2.2rem;
+  color: #084298; /* 深藍色強調 */
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #bae6fd;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: #1e40af; /* 深藍色 */
+  margin: 2rem 0 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid #38bdf8;
+}
+
+.sub-title {
+  font-size: 1.4rem;
+  color: #1e56a0; /* 深藍色 */
+  margin: 1.5rem 0 0.8rem;
+}
+
+/* 段落與文本樣式 - 確保文字高亮顯示 */
+.paragraph, .list-item {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #0f4c81; /* 深藍字體，與淺色背景極強對比 */
+  margin-bottom: 0.8rem;
+}
+
+.unordered-list {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.list-item {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.list-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #38bdf8; /* 淺藍標點，強化層次 */
+  font-weight: bold;
+}
+
+/* 數值區間卡片樣式 */
+.value-card {
+  background: linear-gradient(180deg, #f0f8fb 0%, #e8f4f8 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid #d1e7dd;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: #084298;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #bae6fd;
+}
+
+/* 圖片容器樣式 */
+.img-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  justify-content: center;
+}
+
+.img-wrapper {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.img-element {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 3px solid #e3f2fd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.img-caption {
+  text-align: center;
+  margin-top: 0.8rem;
+  font-weight: 600;
+  color: #0a3d62;
+}
+
+/* 模塊分隔線 */
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #bae6fd 50%, transparent 100%);
+  margin: 2rem 0;
+  border: none;
+}
+
+/* 強調文本樣式 */
+.highlight {
+  color: #0b5ed7;
+  font-weight: bold;
+}
+
+/* 仇恨值警告標識 */
+.warning-tag {
+  color: #dc3545;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/* 子卡片標題樣式 */
+.sub-card-title {
+  font-size: 1.2rem;
+  color: #084298;
+  margin-top: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .main-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .img-wrapper {
+    min-width: 100%;
+  }
+}
+</style>
+<meta name="cg-name" content="小心︰雲對你的💢值" />
+<meta name="cg-command-name" content="小心︰雲對你的💢值" />
+<meta name="cg-color" content="#FDFF82" />
+<meta name="cg-icon" content="Angry" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阿白&阿電&阿雲 數值體系</title>
+  <!-- 僅引入外部CSS，無任何內聯style/script -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 頁面標題 -->
+    <h1 class="main-title">阿白對阿電爱意值 & 阿雲對阿電😠值</h1>
+
+    <!-- 阿白對阿電爱意值區塊 -->
+    <section>
+      <h2 class="section-title">✨ 阿白對阿電爱意值</h2>
+      <div class="value-card">
+        <h4 class="card-title">數值區間 50-100：阿白對阿電產生依賴感</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/3RGnfTqs/from_Pix_AI_1958635440084846860_3.webp" alt="阿白對阿電產生依賴感">
+            <p class="img-caption">阿白對阿電產生依賴感</p>
+          </div>
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/j5fZ3b9T/from_Pix_AI_1958635815557686292_1.png" alt="阿白對阿電產生依賴感">
+            <p class="img-caption">阿白對阿電產生依賴感</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <h4 class="card-title">數值區間 100-200：阿白會明確對阿電的好感</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/1zx7Z4Zc/from_Pix_AI_1958636441967002965_1.png" alt="阿白會明確對阿電的好感">
+            <p class="img-caption">阿白會明確對阿電的好感</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <h4 class="card-title">數值區間 200-500：阿白會深愛阿電</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/Dy64ds2G/from_Pix_AI_1958637021461235297_0.png" alt="阿白會深愛阿電">
+            <p class="img-caption">阿白會深愛阿電</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 阿電黑化數值區塊 -->
+    <section>
+      <h2 class="section-title">⚫ 阿電因數值而黑化</h2>
+      <div class="value-card">
+        <h4 class="card-title">數值區間 50-100</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/6Q0r1Q6Z/雲_(4).png" alt="阿電黑化50-100">
+            <p class="img-caption">阿電黑化階段（50-100）</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <h4 class="card-title">數值區間 100-200</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/W4nGf4pr/pixai_1950392419919399225_(1).png" alt="阿電黑化100-200">
+            <p class="img-caption">阿電黑化階段（100-200）</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <h4 class="card-title">數值區間 200-500</h4>
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-element" src="https://i.postimg.cc/vmzrSm8V/pixai_1950393366293592597_2_(1).png" alt="阿電黑化200-500">
+            <p class="img-caption">阿電黑化階段（200-500）</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 阿雲對阿電😠值區塊 -->
+    <section>
+      <h2 class="section-title"><span class="warning-tag">🚨</span> 阿雲對阿電的😠值</h2>
+      <p class="paragraph highlight">定義：衡量阿雲因阿電追求阿白而產生💢 意強度的核心數值</p>
+      <p class="paragraph highlight">初始值：20，對應“察覺阿電對阿白的靠近傾向”——阿雲初遇重生後的阿白時，已留意到阿電對阿白有主動靠近的意圖，由此產生基礎💢 意值。</p>
+
+      <h3 class="sub-title">（一）數值區間及對應行為</h3>
+      <div class="value-card">
+        <ul class="unordered-list">
+          <li class="list-item"><span class="highlight">0-20：</span>僅將阿電視為普通同學，無特殊關注；偶爾忽視阿電的存在；不主動幹涉阿電與阿白的互動。</li>
+          <li class="list-item"><span class="highlight">20-50：</span>開始留意阿電與阿白的互動；會刻意在兩人相處時出現（如阿電幫阿白搬畫具時主動接手）；對阿電態度冷淡，對話帶疏離感（僅用“嗯”“哦”回應）。</li>
+          <li class="list-item"><span class="highlight">50-100：</span>刻意制造阿電與阿白的相處障礙（如謊稱阿白有其他事打斷兩人討論）；在他人面前隱晦貶低阿電的畫作；用冷眼神警告阿電遠離阿白。</li>
+          <li class="list-item"><span class="highlight">100-200：</span>公開與阿電產生沖突（如在畫室爭執、爭奪與阿白合作繪畫的機會）；故意損壞阿電的畫具/畫稿；向阿白灌輸“阿電不可靠”的負面言論。</li>
+          <li class="list-item"><span class="highlight">200-500：</span>陷入極端狀態，用傷害自身的方式逼迫阿白遠離阿電（如故意不按時吃藥讓病情加重）；策劃針對阿電的報覆行為（如在阿電參賽作品中動手腳）；完全無視過往情誼，視阿電為仇💢 。</li>
+        </ul>
+      </div>
+
+      <h3 class="sub-title">（二）數值增減因素及原因</h3>
+      <div class="value-card">
+        <h4 class="card-title">▌增加因素及原因：</h4>
+        <ul class="unordered-list">
+          <li class="list-item">1. 阿電主動邀請阿白單獨相處（如約她去畫室、看畫展）——單獨相處是親密關系的信號，讓阿雲覺得阿電在刻意拉近與阿白的距離，威脅到自己的位置。</li>
+          <li class="list-item">2. 阿電在阿雲面前關心阿白（如提醒她添衣、遞上熱飲）——阿雲潛意識里仍將阿白視為“與自己有關聯的人”，阿電的關心會被解讀為“越界”，激發占有欲式💢 意。</li>
+          <li class="list-item">3. 阿白對阿電表現出明顯依賴（如主動向阿電求助、采納他的繪畫建議）——阿雲因無法繪畫而自卑，阿白對他人的依賴會讓他覺得自己失去被需要的價值，將挫敗感轉化為對阿電的😠。</li>
+          <li class="list-item">4. 阿電向阿白表達心意——明確的心意表達是直接的競爭宣言，讓阿雲意識到威脅升級，💢 意加劇。</li>
+          <li class="list-item">5. 阿白為了阿電拒絕阿雲的幫助——被拒絕會讓阿雲自尊受挫，同時認定阿白偏向阿電，😠值飆升。</li>
+        </ul>
+
+        <h4 class="sub-card-title">▌降低因素及原因：</h4>
+        <ul class="unordered-list">
+          <li class="list-item">1. 阿電主動疏遠阿白（如刻意回避兩人獨處、不主動搭話）——阿雲的核心顧慮是阿電爭奪阿白，疏遠行為會消除他的危機感。</li>
+          <li class="list-item">2. 阿電在阿雲面前明確表示“僅把阿白當學妹”——直白的表態能直接打消阿雲對阿電的💢 意，讓他認定阿電不構成威脅。</li>
+          <li class="list-item">3. 阿電在阿白面前優先維護阿雲（如他人質疑阿雲時幫腔、肯定阿雲的繪畫能力）——讓阿雲覺得阿電認可自己的地位，不構成競爭威脅，💢 意緩解。</li>
+          <li class="list-item">4. 阿電主動放棄追求阿白並祝福阿雲與阿白——主動退出會徹底消除阿雲的競爭顧慮，😠值自然下降。</li>
+          <li class="list-item">5. 阿電為救阿雲受傷——受傷是“付出”的證明，會讓阿雲產生愧疚感，抵消部分😠。</li>
+        </ul>
+      </div>
+
+      <h3 class="sub-title">（三）對阿電感情變量的影響</h3>
+      <div class="value-card">
+        <ul class="unordered-list">
+          <li class="list-item"><span class="highlight">0-20：</span>阿電無明顯壓力，能自然地與阿白相處，主動靠近的頻率較高——阿雲的無💢 意讓阿電覺得相處環境安全，無需刻意回避。</li>
+          <li class="list-item"><span class="highlight">20-50：</span>阿電感到輕微壓力，會盡量避開與阿雲正面沖突，但不會放棄靠近阿白，互動會更低調（如不在阿雲面前主動找阿白說話）——阿電性格溫和，不想引發矛盾，選擇低調相處。</li>
+          <li class="list-item"><span class="highlight">50-100：</span>阿電產生“退縮傾向”，但因對阿白的執念堅持靠近，行為更隱蔽（如偷偷送禮物而非當面遞），自我壓抑感增強——阿電害怕沖突升級傷害到阿白，也擔心自己無法應對阿雲的💢 意。</li>
+          <li class="list-item"><span class="highlight">100-200：</span>阿電陷入“抗爭與逃避”的矛盾，一方面想保護阿白不被阿雲的極端行為傷害，另一方面又因害怕沖突而猶豫，情緒易波動（如畫畫時走神、易怒）——阿雲的公開沖突讓阿電的安全區被打破，性格中的怯懦與對阿白的守護欲產生激烈對抗。</li>
+          <li class="list-item"><span class="highlight">200-500：</span>阿電面臨終極選擇——要麽為了保護阿白徹底對抗阿雲，要麽因無法承受壓力放棄；此時自我否定與隱性執著的性格特質達到極致沖突，可能出現兩種極端：要麽變得異常堅定，要麽徹底退縮回避。</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
+</body>
+</html>
