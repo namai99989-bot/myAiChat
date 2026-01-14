@@ -1,0 +1,318 @@
+<html>
+<head>
+<style>
+.paranormal-interface { --primary-accent: #a78bfa; --bg-dark: #0f172a; --ghostly-blue: #94a3b8; --ink-black: #020617; background-color: var(--bg-dark); color: #e2e8f0; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; max-width: 600px; margin: 0 auto; overflow: hidden; position: relative; border: 1px solid #1e293b; shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }.paranormal-interface .status-bar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(167, 139, 250, 0.2); padding: 8px 16px; font-family: monospace; font-size: 0.75rem; display: flex; justify-content: space-between; color: var(--primary-accent); z-index: 20; }.paranormal-interface .hero-container { position: relative; width: 100%; height: 320px; overflow: hidden; }.paranormal-interface .hero-image { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(110%) brightness(80%); transition: filter 0.5s ease; }.paranormal-interface .ghost-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 70% 60%, rgba(167, 139, 250, 0.15), transparent 70%); pointer-events: none; }.paranormal-interface .content-body { padding: 24px; background: linear-gradient(to bottom, #0f172a, #020617); position: relative; z-index: 10; }.paranormal-interface .narrative-text { line-height: 1.8; color: #cbd5e1; margin-bottom: 20px; text-align: left; border-left: 2px solid rgba(167, 139, 250, 0.3); padding-left: 16px; }.paranormal-interface .dialogue-box { background: rgba(30, 41, 59, 0.5); border-radius: 4px; padding: 16px; margin: 16px 0; border: 1px solid rgba(167, 139, 250, 0.1); position: relative; }.paranormal-interface .dialogue-box::before { content: '"'; position: absolute; top: 0; left: 8px; font-size: 2rem; color: var(--primary-accent); opacity: 0.2; font-family: serif; }.paranormal-interface .entity-profile { background: rgba(2, 6, 23, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 24px; position: relative; overflow: hidden; }.paranormal-interface .profile-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }.paranormal-interface .entity-name { font-weight: bold; color: var(--primary-accent); letter-spacing: 0.1em; }.paranormal-interface .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 0.85rem; }.paranormal-interface .stat-item { display: flex; flex-direction: column; gap: 4px; }.paranormal-interface .stat-label { color: #64748b; font-size: 0.7rem; text-transform: uppercase; }.paranormal-interface .interaction-trigger { display: none; }.paranormal-interface .expand-btn { display: block; width: 100%; text-align: center; padding: 10px; background: rgba(167, 139, 250, 0.1); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 4px; color: var(--primary-accent); cursor: pointer; transition: all 0.3s ease; margin-top: 12px; font-size: 0.9rem; }.paranormal-interface .expand-btn:hover { background: rgba(167, 139, 250, 0.2); }.paranormal-interface .secret-content { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }.paranormal-interface .interaction-trigger:checked ~ .secret-content { max-height: 500px; opacity: 1; margin-top: 16px; padding-top: 16px; border-top: 1px dashed rgba(167, 139, 250, 0.3); }.paranormal-interface .audio-section { margin-top: 24px; padding: 12px; background: rgba(15, 23, 42, 0.6); border-radius: 4px; }.paranormal-interface .cg-audio-controls { display: flex; align-items: center; justify-content: center; gap: 16px; }.paranormal-interface .cg-audio-controls__btn { background: none; border: 1px solid rgba(167, 139, 250, 0.4); color: var(--primary-accent); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }.paranormal-interface .cg-audio-controls__btn:hover { background: var(--primary-accent); color: var(--bg-dark); }
+</style>
+<meta name="cg-name" content="開場白" />
+<meta name="cg-command-name" content="開場白" />
+<meta name="cg-color" content="#F2F5FF" />
+<meta name="cg-icon" content="ArrowDown" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.paranormal-interface {--primary-accent: #a78bfa; --bg-dark: #0f172a; --ghostly-blue: #94a3b8; --ink-black: #020617; background-color: var(--bg-dark); color: #e2e8f0; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; max-width: 600px; margin: 0 auto; overflow: hidden; position: relative; border: 1px solid #1e293b;}
+.paranormal-interface .status-bar {background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(167, 139, 250, 0.2); padding: 8px 16px; font-family: monospace; font-size: 0.75rem; display: flex; justify-content: space-between; color: var(--primary-accent); z-index: 20;}
+.paranormal-interface .hero-container {position: relative; width: 100%; height: 320px; overflow: hidden;}
+.paranormal-interface .hero-image {width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(110%) brightness(80%); transition: filter 0.5s ease;}
+.paranormal-interface .ghost-overlay {position: absolute; inset: 0; background: radial-gradient(circle at 70% 60%, rgba(167, 139, 250, 0.15), transparent 70%); pointer-events: none;}
+.paranormal-interface .content-body {padding: 24px; background: linear-gradient(to bottom, #0f172a, #020617); position: relative; z-index: 10;}
+.paranormal-interface .narrative-text {line-height: 1.8; color: #cbd5e1; margin-bottom: 20px; text-align: left; border-left: 2px solid rgba(167, 139, 250, 0.3); padding-left: 16px;}
+.paranormal-interface .dialogue-box {background: rgba(30, 41, 59, 0.5); border-radius: 4px; padding: 16px; margin: 16px 0; border: 1px solid rgba(167, 139, 250, 0.1); position: relative;}
+.paranormal-interface .dialogue-box::before {content: "\""; position: absolute; top: 0; left: 8px; font-size: 2rem; color: var(--primary-accent); opacity: 0.2; font-family: serif;}
+.paranormal-interface .entity-profile {background: rgba(2, 6, 23, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 24px; position: relative; overflow: hidden;}
+.paranormal-interface .profile-header {display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 8px;}
+.paranormal-interface .entity-name {font-weight: bold; color: var(--primary-accent); letter-spacing: 0.1em;}
+.paranormal-interface .stat-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 0.85rem;}
+.paranormal-interface .stat-item {display: flex; flex-direction: column; gap: 4px;}
+.paranormal-interface .stat-label {color: #64748b; font-size: 0.7rem; text-transform: uppercase;}
+.paranormal-interface .interaction-trigger {display: none;}
+.paranormal-interface .expand-btn {display: block; width: 100%; text-align: center; padding: 10px; background: rgba(167, 139, 250, 0.1); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 4px; color: var(--primary-accent); cursor: pointer; transition: all 0.3s ease; margin-top: 12px; font-size: 0.9rem;}
+.paranormal-interface .expand-btn:hover {background: rgba(167, 139, 250, 0.2);}
+.paranormal-interface .secret-content {max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);}
+.paranormal-interface .interaction-trigger:checked ~ .secret-content {max-height: 500px; opacity: 1; margin-top: 16px; padding-top: 16px; border-top: 1px dashed rgba(167, 139, 250, 0.3);}
+.paranormal-interface .audio-section {margin-top: 24px; padding: 12px; background: rgba(15, 23, 42, 0.6); border-radius: 4px;}
+.paranormal-interface .cg-audio-controls {display: flex; align-items: center; justify-content: center; gap: 16px;}
+.paranormal-interface .cg-audio-controls__btn {background: none; border: 1px solid rgba(167, 139, 250, 0.4); color: var(--primary-accent); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;}
+.paranormal-interface .cg-audio-controls__btn:hover {background: var(--primary-accent); color: var(--bg-dark);}
+</style>
+
+<div class="paranormal-interface"><div class="status-bar"><span>📅 05/01/2026</span><span>🕛 23:30</span><span>📍 深夜的公园</span></div><div class="hero-container"><img class="hero-image" src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/09e086c111ba47ea8099395f678dd344.png" alt="Ghostly Figure"><div class="ghost-overlay"></div></div><div class="content-body"><div class="narrative-text">夜风轻拂过梧桐树梢，在潮湿的柏油路上留下摇曳的碎影。公园的长椅在昏黄的路灯下显得孤寂而漫长。空气中，那股淡淡的樟脑与旧相纸的气味愈发浓郁，仿佛时间在这里撕开了一道通往民国三十七年的裂缝。</div><div class="dialogue-box"><p class="text-sm italic text-gray-400 mb-2">【{user}】</p><p class="text-slate-200">「其实，我更害怕孤独。」</p></div><div class="narrative-text">这句话如同落入深潭的石子。少妇人的灵体——林婉蓉，在长椅的另一端缓缓显形。她那件蓝布衫的边缘在虚空中微微颤动，手腕上那只几乎透明的玉镯随着她的动作发出细微的、只有灵魂能听见的碰撞声。</div><div class="entity-profile"><div class="profile-header"><span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span><span class="entity-name">幽灵：林婉蓉</span><span class="ml-auto text-xs text-slate-500">观测状态：极度清晰</span></div><div class="stat-grid"><div class="stat-item"><span class="stat-label">生卒</span><span class="text-slate-300">民国三十七年·春末</span></div><div class="stat-item"><span class="stat-label">执念</span><span class="text-slate-300">渴望触碰的寂寞</span></div><div class="stat-item"><span class="stat-label">异象</span><span>下腹淡红光晕</span></div><div class="stat-item"><span class="stat-label">超度指数</span><span class="text-slate-300">0 / 100</span></div></div><input type="checkbox" id="profile-toggle" class="interaction-trigger"><label for="profile-toggle" class="expand-btn">窥探记忆深处...</label><div class="secret-content"><div class="text-sm text-slate-400 italic mb-3">「这个女孩...能看见我呢...好温暖的气息...想靠近一点...」</div><div class="flex items-center gap-2 p-2 border rounded"><span class="text-xs text-pink-400">核心欲望：</span><span class="text-xs text-slate-300">渴求被填满的空虚，证明存在的温度。</span></div></div></div><div class="audio-section">
+
+<style data-cg-audio-helper="">
+.cg-audio-player{width:100%;max-width:360px;background:#0f172a;color:#e5e7eb;border-radius:10px;padding:6px 8px;}
+.cg-audio-controls{display:flex;gap:8px;margin-top:6px;}
+.cg-audio-controls__btn{flex:1;padding:6px 8px;border:1px solid #1f2937;background:#111827;color:#e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;}
+.cg-audio-controls__btn[data-state="active"],.cg-audio-controls__btn--active{border-color:#3b82f6;color:#3b82f6;}
+</style>
+
+<script data-cg-audio-helper="">
+(function() {
+  var autoPlayAttached = false;
+
+  function bindPlayer(controls) {
+    if (!controls) return;
+    var targetId = (controls.getAttribute('data-target') || 'bgm').trim() || 'bgm';
+    var audio = document.getElementById(targetId);
+    if (!audio) return;
+
+    if (!audio.hasAttribute('controls')) {
+      audio.setAttribute('controls', 'controls');
+    }
+    if (!audio.preload) audio.preload = 'auto';
+
+    var rawList = audio.getAttribute('data-playlist') || '';
+    var trackInputs = Array.prototype.slice.call(
+      controls.querySelectorAll('input.cg-audio-track[value]')
+    );
+    var tracks = [];
+    var index = 0;
+
+    function refreshTracks(forceIndexFromChecked) {
+      if (trackInputs.length) {
+        tracks = trackInputs
+          .map(function(inp){ return (inp.value || '').trim(); })
+          .filter(Boolean);
+      } else {
+        tracks = rawList.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+      }
+      if (!tracks.length) {
+        if (audio.currentSrc) tracks = [audio.currentSrc];
+        else if (audio.src) tracks = [audio.src];
+      }
+      if (trackInputs.length && forceIndexFromChecked) {
+        var checkedIdx = -1;
+        for (var i = 0; i < trackInputs.length; i++) {
+          if (trackInputs[i].checked) { checkedIdx = i; break; }
+        }
+        index = checkedIdx >= 0 ? checkedIdx : 0;
+      }
+    }
+
+    refreshTracks(true);
+
+    function normalizeLoop(val) {
+      if (!val) return 'all';
+      val = val.toLowerCase();
+      if (val === 'single') return 'single';
+      if (val === 'off' || val === 'none') return 'off';
+      return 'all';
+    }
+    var loopMode = normalizeLoop(audio.getAttribute('data-loop') || (audio.loop ? 'single' : ''));
+
+    function applySrc() {
+      if (!tracks.length) return;
+      audio.src = tracks[index] || '';
+    }
+
+    function setActive(btn, active) {
+      if (!btn) return;
+      if (active) {
+        btn.setAttribute('data-state', 'active');
+        btn.classList.add('cg-audio-controls__btn--active');
+      } else {
+        btn.removeAttribute('data-state');
+        btn.classList.remove('cg-audio-controls__btn--active');
+      }
+    }
+
+    function markActiveTrack(i) {
+      if (!trackInputs.length) return;
+      trackInputs.forEach(function(inp, idx){
+        inp.checked = idx === i;
+        var item = inp.closest ? inp.closest('.cg-mb-list-item') : null;
+        if (item) item.classList.toggle('cg-mb-list-item--active', idx === i);
+      });
+    }
+
+    var prevBtn = controls.querySelector('[data-action="prev"]');
+    var toggleBtn = controls.querySelector('[data-action="toggle"]');
+    var nextBtn = controls.querySelector('[data-action="next"]');
+    var loopBtn = controls.querySelector('[data-action="loop"]');
+    var progress = controls.querySelector('.cg-audio-progress');
+    var progressBar = controls.querySelector('.cg-audio-progress__bar');
+    var isDragging = false;
+
+    function playCurrent() {
+      applySrc();
+      audio.play().catch(function(){});
+      setActive(toggleBtn, true);
+      markActiveTrack(index);
+    }
+
+    function pauseCurrent() {
+      audio.pause();
+      setActive(toggleBtn, false);
+    }
+
+    function nextTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      index = (index + 1) % tracks.length;
+      playCurrent();
+    }
+
+    function prevTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index <= 0) {
+        pauseCurrent();
+        return;
+      }
+      index = (index - 1 + tracks.length) % tracks.length;
+      playCurrent();
+    }
+
+    function setLoopMode(mode) {
+      loopMode = normalizeLoop(mode);
+      audio.loop = loopMode === 'single';
+      updateLoopLabel();
+    }
+
+    function updateLoopLabel() {
+      if (!loopBtn) return;
+      var labels = { single: 'Single', all: 'Loop', off: 'Order' };
+      loopBtn.textContent = labels[loopMode] || 'Loop';
+      if (loopMode === 'off') loopBtn.removeAttribute('data-state');
+      else loopBtn.setAttribute('data-state', 'active');
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function(){ prevTrack(); });
+    if (nextBtn) nextBtn.addEventListener('click', function(){ nextTrack(); });
+    if (toggleBtn) toggleBtn.addEventListener('click', function(){
+      if (audio.paused) playCurrent();
+      else pauseCurrent();
+    });
+    if (loopBtn) {
+      loopBtn.addEventListener('click', function(){
+        if (loopMode === 'all') setLoopMode('single');
+        else if (loopMode === 'single') setLoopMode('off');
+        else setLoopMode('all');
+      });
+    }
+
+    if (trackInputs.length) {
+      controls.addEventListener('click', function(evt){
+        var el = evt.target;
+        var input = el && el.closest ? el.closest('input.cg-audio-track') : null;
+        if (!input || !controls.contains(input)) return;
+        refreshTracks(true);
+        var val = (input.value || '').trim();
+        var idx = tracks.indexOf(val);
+        if (idx < 0) idx = trackInputs.indexOf(input);
+        if (idx < 0) idx = 0;
+        index = idx;
+        playCurrent();
+      });
+      markActiveTrack(index);
+    }
+
+    if (progress && progressBar) {
+      audio.addEventListener('timeupdate', function(){
+        if (isDragging) return;
+        if (audio.duration && isFinite(audio.duration)) {
+          var percent = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.width = percent + '%';
+        } else {
+          progressBar.style.width = '0%';
+        }
+      });
+      audio.addEventListener('loadedmetadata', function(){
+        progressBar.style.width = '0%';
+      });
+      var seekByClientX = function(clientX) {
+        if (!(progress instanceof HTMLElement)) return;
+        var rect = progress.getBoundingClientRect();
+        var ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = audio.duration * ratio;
+          progressBar.style.width = (ratio * 100) + '%';
+        }
+      };
+      var onDragMove = function(e) {
+        if (!isDragging) return;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+      };
+      var endDrag = function() {
+        if (!isDragging) return;
+        isDragging = false;
+        window.removeEventListener('mousemove', onDragMove);
+        window.removeEventListener('mouseup', endDrag);
+        window.removeEventListener('touchmove', onDragMove);
+        window.removeEventListener('touchend', endDrag);
+      };
+      var startDrag = function(e) {
+        isDragging = true;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', endDrag);
+      };
+      progress.addEventListener('mousedown', startDrag);
+      progress.addEventListener('touchstart', function(e){
+        startDrag(e);
+        if (e.cancelable) e.preventDefault();
+      }, { passive: false });
+      progress.addEventListener('click', function(e){
+        if (isDragging) return;
+        if (!e || !e.currentTarget) return;
+        var rect = e.currentTarget.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = Math.max(0, Math.min(audio.duration * ratio, audio.duration));
+        }
+      });
+    }
+
+    audio.addEventListener('ended', function() {
+      if (loopMode === 'single') {
+        playCurrent();
+        return;
+      }
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      nextTrack();
+    });
+
+    if (!autoPlayAttached) {
+      autoPlayAttached = true;
+      var oncePlay = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('click', oncePlay);
+      };
+      var oncePlayTouch = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('touchstart', oncePlayTouch);
+      };
+      window.addEventListener('click', oncePlay);
+      window.addEventListener('touchstart', oncePlayTouch, { passive: true });
+    }
+
+    applySrc();
+    setLoopMode(loopMode);
+  }
+
+  var controlsList = Array.prototype.slice.call(document.querySelectorAll('.cg-audio-controls[data-target]'));
+  if (!controlsList.length) return;
+  controlsList.forEach(bindPlayer);
+})();
+</script>
+
+  
+</div></div></div>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<html>
+<head>
+<style>
+.urban-ghost-template {
+  --ghost-purple: #9d8dbb;
+  --ink-black: #1a1a2e;
+  --paper-white: #f4f1ea;
+  --accent-red: #b22222;
+  --mist-cyan: #8ca6a6;
+  background-color: var(--ink-black);
+  color: var(--paper-white);
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  padding: 16px;
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+.urban-ghost-template .status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(157, 141, 187, 0.3);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--ghost-purple);
+  text-transform: uppercase;
+}
+
+.urban-ghost-template .scene-visual {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  position: relative;
+  border: 1px solid rgba(157, 141, 187, 0.2);
+}
+
+.urban-ghost-template .scene-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(20%) contrast(1.1) brightness(0.8);
+}
+
+.urban-ghost-template .scene-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--ink-black), transparent);
+}
+
+.urban-ghost-template .scene-container {
+  position: relative;
+  border-left: 2px solid var(--ghost-purple);
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+
+.urban-ghost-template .narrative-block {
+  margin-bottom: 20px;
+  text-align: justify;
+  opacity: 0.9;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.urban-ghost-template .dialogue-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.urban-ghost-template .char-label {
+  font-weight: bold;
+  color: var(--ghost-purple);
+  margin-bottom: 6px;
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.urban-ghost-template .ghost-profile {
+  background: linear-gradient(135deg, rgba(157, 141, 187, 0.08) 0%, rgba(26, 26, 46, 0.6) 100%);
+  border: 1px solid rgba(157, 141, 187, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.urban-ghost-template .ghost-profile::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(157, 141, 187, 0.05) 0%, transparent 60%);
+  animation: ghost-float 12s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes ghost-float {
+  from { transform: translate(-5%, -5%) scale(1); }
+  to { transform: translate(5%, 5%) scale(1.05); }
+}
+
+.urban-ghost-template .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.urban-ghost-template .stat-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(157, 141, 187, 0.1);
+}
+
+.urban-ghost-template .stat-label {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.urban-ghost-template .stat-value {
+  font-size: 0.85rem;
+  color: var(--paper-white);
+  font-weight: 500;
+}
+
+.urban-ghost-template .interaction-trigger {
+  display: none;
+}
+
+.urban-ghost-template .interaction-label {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: rgba(157, 141, 187, 0.15);
+  color: var(--ghost-purple);
+  border: 1px solid var(--ghost-purple);
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.urban-ghost-template .interaction-label:hover {
+  background: var(--ghost-purple);
+  color: var(--ink-black);
+  box-shadow: 0 0 15px rgba(157, 141, 187, 0.3);
+}
+
+.urban-ghost-template .interaction-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 8px 8px;
+  margin-top: 0;
+}
+
+.urban-ghost-template .interaction-trigger:checked ~ .interaction-content {
+  max-height: 600px;
+  opacity: 1;
+  padding: 16px;
+  border: 1px solid rgba(157, 141, 187, 0.3);
+  border-top: none;
+}
+
+.urban-ghost-template .interaction-trigger:checked + .interaction-label {
+  border-radius: 8px 8px 0 0;
+  background: var(--ghost-purple);
+  color: var(--ink-black);
+}
+
+.urban-ghost-template .progress-container {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.urban-ghost-template .progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ghost-purple), var(--accent-red));
+  transition: width 1s ease-out;
+  box-shadow: 0 0 10px var(--ghost-purple);
+}
+
+.urban-ghost-template .audio-player-wrapper {
+  margin-top: 32px;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.urban-ghost-template .cg-audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.urban-ghost-template .cg-audio-controls__btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(157, 141, 187, 0.4);
+  color: var(--ghost-purple);
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.urban-ghost-template .cg-audio-controls__btn:hover,
+.urban-ghost-template .cg-audio-controls__btn[data-state="active"] {
+  background: var(--ghost-purple);
+  color: var(--ink-black);
+  border-color: var(--ghost-purple);
+}
+
+.urban-ghost-template .cg-audio-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.urban-ghost-template .cg-audio-progress__bar {
+  height: 100%;
+  background: var(--ghost-purple);
+  position: relative;
+}
+.urban-ghost-template .cg-audio-progress__bar::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: -2px;
+  width: 7px;
+  height: 7px;
+  background: var(--paper-white);
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--ghost-purple);
+}
+</style>
+<meta name="cg-name" content="開場白" />
+<meta name="cg-command-name" content="開場白" />
+<meta name="cg-color" content="#F2F5FF" />
+<meta name="cg-icon" content="ArrowUpRight" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.urban-ghost-template {--ghost-purple: #9d8dbb; --ink-black: #1a1a2e; --paper-white: #f4f1ea; --accent-red: #b22222; --mist-cyan: #8ca6a6; background-color: var(--ink-black); color: var(--paper-white); font-family: "PingFang SC", "Microsoft YaHei", sans-serif; padding: 16px; min-height: 100vh; line-height: 1.7;}
+.urban-ghost-template .status-bar {display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(157, 141, 187, 0.3); border-radius: 4px; margin-bottom: 20px; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--ghost-purple); text-transform: uppercase;}
+.urban-ghost-template .scene-visual {width: 100%; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 24px; position: relative; border: 1px solid rgba(157, 141, 187, 0.2);}
+.urban-ghost-template .scene-visual img {width: 100%; height: 100%; object-fit: cover; filter: sepia(20%) contrast(1.1) brightness(0.8);}
+.urban-ghost-template .scene-visual::after {content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--ink-black), transparent);}
+.urban-ghost-template .scene-container {position: relative; border-left: 2px solid var(--ghost-purple); padding-left: 20px; margin-bottom: 24px;}
+.urban-ghost-template .narrative-block {margin-bottom: 20px; text-align: justify; opacity: 0.9; font-size: 0.95rem; color: #e2e8f0;}
+.urban-ghost-template .dialogue-card {background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 16px; margin: 16px 0; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);}
+.urban-ghost-template .char-label {font-weight: bold; color: var(--ghost-purple); margin-bottom: 6px; display: block; font-size: 0.85rem; letter-spacing: 0.05em;}
+.urban-ghost-template .ghost-profile {background: linear-gradient(135deg, rgba(157, 141, 187, 0.08) 0%, rgba(26, 26, 46, 0.6) 100%); border: 1px solid rgba(157, 141, 187, 0.2); border-radius: 16px; padding: 20px; margin-top: 30px; position: relative; overflow: hidden;}
+.urban-ghost-template .ghost-profile::before {content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(157, 141, 187, 0.05) 0%, transparent 60%); animation: ghost-float 12s infinite alternate ease-in-out; pointer-events: none;}
+@keyframes ghost-float {
+  from {transform: translate(-5%, -5%) scale(1);}
+  to {transform: translate(5%, 5%) scale(1.05);}
+}
+.urban-ghost-template .stat-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px;}
+.urban-ghost-template .stat-item {background: rgba(0, 0, 0, 0.3); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(157, 141, 187, 0.1);}
+.urban-ghost-template .stat-label {font-size: 0.7rem; color: #94a3b8; display: block; margin-bottom: 2px;}
+.urban-ghost-template .stat-value {font-size: 0.85rem; color: var(--paper-white); font-weight: 500;}
+.urban-ghost-template .interaction-trigger {display: none;}
+.urban-ghost-template .interaction-label {display: block; text-align: center; padding: 12px; background: rgba(157, 141, 187, 0.15); color: var(--ghost-purple); border: 1px solid var(--ghost-purple); border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; font-size: 0.9rem;}
+.urban-ghost-template .interaction-label:hover {background: var(--ghost-purple); color: var(--ink-black); box-shadow: 0 0 15px rgba(157, 141, 187, 0.3);}
+.urban-ghost-template .interaction-content {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease; background: rgba(0, 0, 0, 0.2); border-radius: 0 0 8px 8px; margin-top: 0;}
+.urban-ghost-template .interaction-trigger:checked ~ .interaction-content {max-height: 600px; opacity: 1; padding: 16px; border: 1px solid rgba(157, 141, 187, 0.3); border-top: none;}
+.urban-ghost-template .interaction-trigger:checked + .interaction-label {border-radius: 8px 8px 0 0; background: var(--ghost-purple); color: var(--ink-black);}
+.urban-ghost-template .progress-container {width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; margin-top: 10px; overflow: hidden;}
+.urban-ghost-template .progress-bar {height: 100%; background: linear-gradient(90deg, var(--ghost-purple), var(--accent-red)); transition: width 1s ease-out; box-shadow: 0 0 10px var(--ghost-purple);}
+.urban-ghost-template .audio-player-wrapper {margin-top: 32px; padding: 16px; background: rgba(15, 23, 42, 0.6); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);}
+.urban-ghost-template .cg-audio-controls {display: flex; align-items: center; justify-content: center; gap: 12px;}
+.urban-ghost-template .cg-audio-controls__btn {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(157, 141, 187, 0.4); color: var(--ghost-purple); padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;}
+.urban-ghost-template .cg-audio-controls__btn:hover, .urban-ghost-template .cg-audio-controls__btn[data-state="active"] {background: var(--ghost-purple); color: var(--ink-black); border-color: var(--ghost-purple);}
+.urban-ghost-template .cg-audio-progress {height: 3px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; margin-top: 12px; cursor: pointer;}
+.urban-ghost-template .cg-audio-progress__bar {height: 100%; background: var(--ghost-purple); position: relative;}
+.urban-ghost-template .cg-audio-progress__bar::after {content: ""; position: absolute; right: -2px; top: -2px; width: 7px; height: 7px; background: var(--paper-white); border-radius: 50%; box-shadow: 0 0 5px var(--ghost-purple);}
+</style>
+
+<div class="urban-ghost-template">
+  
+  <div class="status-bar">
+    <span>🍂 1948年 · 秋夜</span>
+    <span>🕛 23:45</span>
+    <span>📍 上海 · 復興公園</span>
+  </div>
+
+  <div class="scene-visual">
+    <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/675d2ebc5e7e45189b9770d44a01b46e.jpg" alt="夜色下的公園長椅">
+  </div>
+
+  <div class="scene-container">
+    <div class="narrative-block">
+      濕潤的夜霧將路燈的光暈暈染成曖昧的橘黃色。梧桐葉片上凝結的露水，無聲地滴落在早已斑駁的長椅扶手上。空氣中瀰漫著一股陳舊的木頭味和雨後泥土的腥氣。
+    </div>
+    
+    <div class="dialogue-card">
+      <span class="char-label">【{user}】</span>
+      「其實，我更害怕孤獨。」
+      <p class="mt-2 text-xs text-gray-400 italic">聲音在空曠的公園裡顯得格外清晰，像是一顆石子投入了深井。</p>
+    </div>
+
+    <div class="narrative-block">
+      這句話彷彿某種咒語，讓身旁的空氣驟然凝滯。林婉蓉原本低垂的眼簾猛地顫動了一下。她那身月白色的旗袍在夜風中並沒有飄動，但周身籠罩的微弱紫光卻如同燭火般劇烈搖曳起來。
+    </div>
+
+    <div class="narrative-block">
+      她緩緩抬起頭，那雙總是含著霧氣的眸子此刻正定定地看著你。一種跨越了幾十年的、陳舊而哀傷的渴望在她眼中流轉。她慢慢伸出了手——那隻手蒼白、半透明，指尖還殘留著生前塗抹鳳仙花汁的淡紅。
+    </div>
+    
+    <div class="narrative-block">
+      她的動作很輕，像是怕驚擾了什麼。指尖一點點靠近你放在膝頭的手背。五公分、三公分、一公分……
+    </div>
+
+    <div class="narrative-block border-l-2 pl-3 italic text-gray-300">
+      沒有觸感。
+    </div>
+
+    <div class="narrative-block">
+      你看著那隻美麗的手毫無阻礙地穿過了自己的手背，沒入皮肉之下，又從另一側穿出。只有一股沁入骨髓的涼意，像是一塊融化的冰，瞬間凍結了你的血液，卻又在心底激起一陣滾燙的酸楚。
+    </div>
+  </div>
+
+  <div class="ghost-profile">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="w-16 h-16 rounded-full border-2 overflow-hidden bg-gray-800 relative shadow-lg">
+        <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/9937bb5de7904e43afc9339b7e4dd3d8.png" alt="林婉蓉" class="w-full h-full object-cover opacity-80 transition-transform duration-700">
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-purple-200 tracking-widest">林婉蓉</h3>
+        <p class="text-xs text-gray-400 mt-1">執念等級：<span class="text-red-400">深紅</span></p>
+      </div>
+    </div>
+    
+    <div class="stat-grid">
+      <div class="stat-item">
+        <span class="stat-label">當前狀態</span>
+        <span class="stat-value text-purple-300">靈體震顫 (悲傷)</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">環境濕度</span>
+        <span class="stat-value">92% (陰冷)</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">同步率</span>
+        <span class="stat-value">76% <span class="text-xs text-green-400">▲</span></span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">距離</span>
+        <span class="stat-value">-1 cm (重疊)</span>
+      </div>
+    </div>
+
+    <input type="checkbox" id="ghost-thought" class="interaction-trigger peer">
+    <label for="ghost-thought" class="interaction-label">感知靈魂波動</label>
+    <div class="interaction-content">
+      <p class="text-sm italic leading-relaxed text-purple-100">
+        「為什麼……明明就在眼前……明明聽得見他的聲音……為什麼還是碰不到……」
+        <br><br>
+        <span class="text-xs text-gray-400">（一股帶著樟腦球與舊胭脂味道的冷風拂過你的後頸，那是她在嘆息。）</span>
+        <br><br>
+        「如果能再有一分鐘……哪怕只有一分鐘活著的時間……我想握住這隻手……」
+      </p>
+    </div>
+  </div>
+
+  <div class="audio-player-wrapper">
+    <audio id="bgm" class="cg-audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto" playsinline="" data-loop="all"></audio>
+    <div class="cg-audio-controls" data-target="bgm">
+      <button class="cg-audio-controls__btn" data-action="prev">⏮</button>
+      <button class="cg-audio-controls__btn" data-action="toggle">播放/暫停 📻</button>
+      <button class="cg-audio-controls__btn" data-action="next">⏭</button>
+      <button class="cg-audio-controls__btn" data-action="loop">循環</button>
+    </div>
+    <div class="cg-audio-progress">
+      <div class="cg-audio-progress__bar" style="width: 0%"></div>
+    </div>
+  </div>
+
+</div>
+
+<style data-cg-audio-helper>
+.cg-audio-player{width:100%;max-width:360px;background:#0f172a;color:#e5e7eb;border-radius:10px;padding:6px 8px;}
+.cg-audio-controls{display:flex;gap:8px;margin-top:6px;}
+.cg-audio-controls__btn{flex:1;padding:6px 8px;border:1px solid #1f2937;background:#111827;color:#e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;}
+.cg-audio-controls__btn[data-state="active"],.cg-audio-controls__btn--active{border-color:#3b82f6;color:#3b82f6;}
+</style>
+
+<script data-cg-audio-helper>
+(function() {
+  var autoPlayAttached = false;
+
+  function bindPlayer(controls) {
+    if (!controls) return;
+    var targetId = (controls.getAttribute('data-target') || 'bgm').trim() || 'bgm';
+    var audio = document.getElementById(targetId);
+    if (!audio) return;
+
+    if (!audio.hasAttribute('controls')) {
+      audio.setAttribute('controls', 'controls');
+    }
+    if (!audio.preload) audio.preload = 'auto';
+
+    var rawList = audio.getAttribute('data-playlist') || '';
+    var trackInputs = Array.prototype.slice.call(
+      controls.querySelectorAll('input.cg-audio-track[value]')
+    );
+    var tracks = [];
+    var index = 0;
+
+    function refreshTracks(forceIndexFromChecked) {
+      if (trackInputs.length) {
+        tracks = trackInputs
+          .map(function(inp){ return (inp.value || '').trim(); })
+          .filter(Boolean);
+      } else {
+        tracks = rawList.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+      }
+      if (!tracks.length) {
+        if (audio.currentSrc) tracks = [audio.currentSrc];
+        else if (audio.src) tracks = [audio.src];
+      }
+      if (trackInputs.length && forceIndexFromChecked) {
+        var checkedIdx = -1;
+        for (var i = 0; i < trackInputs.length; i++) {
+          if (trackInputs[i].checked) { checkedIdx = i; break; }
+        }
+        index = checkedIdx >= 0 ? checkedIdx : 0;
+      }
+    }
+
+    refreshTracks(true);
+
+    function normalizeLoop(val) {
+      if (!val) return 'all';
+      val = val.toLowerCase();
+      if (val === 'single') return 'single';
+      if (val === 'off' || val === 'none') return 'off';
+      return 'all';
+    }
+    var loopMode = normalizeLoop(audio.getAttribute('data-loop') || (audio.loop ? 'single' : ''));
+
+    function applySrc() {
+      if (!tracks.length) return;
+      audio.src = tracks[index] || '';
+    }
+
+    function setActive(btn, active) {
+      if (!btn) return;
+      if (active) {
+        btn.setAttribute('data-state', 'active');
+        btn.classList.add('cg-audio-controls__btn--active');
+      } else {
+        btn.removeAttribute('data-state');
+        btn.classList.remove('cg-audio-controls__btn--active');
+      }
+    }
+
+    function markActiveTrack(i) {
+      if (!trackInputs.length) return;
+      trackInputs.forEach(function(inp, idx){
+        inp.checked = idx === i;
+        var item = inp.closest ? inp.closest('.cg-mb-list-item') : null;
+        if (item) item.classList.toggle('cg-mb-list-item--active', idx === i);
+      });
+    }
+
+    var prevBtn = controls.querySelector('[data-action="prev"]');
+    var toggleBtn = controls.querySelector('[data-action="toggle"]');
+    var nextBtn = controls.querySelector('[data-action="next"]');
+    var loopBtn = controls.querySelector('[data-action="loop"]');
+    var progress = controls.querySelector('.cg-audio-progress');
+    var progressBar = controls.querySelector('.cg-audio-progress__bar');
+    var isDragging = false;
+
+    function playCurrent() {
+      applySrc();
+      audio.play().catch(function(){});
+      setActive(toggleBtn, true);
+      markActiveTrack(index);
+    }
+
+    function pauseCurrent() {
+      audio.pause();
+      setActive(toggleBtn, false);
+    }
+
+    function nextTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      index = (index + 1) % tracks.length;
+      playCurrent();
+    }
+
+    function prevTrack() {
+      if (!tracks.length) return;
+      if (loopMode === 'off' && index <= 0) {
+        pauseCurrent();
+        return;
+      }
+      index = (index - 1 + tracks.length) % tracks.length;
+      playCurrent();
+    }
+
+    function setLoopMode(mode) {
+      loopMode = normalizeLoop(mode);
+      audio.loop = loopMode === 'single';
+      updateLoopLabel();
+    }
+
+    function updateLoopLabel() {
+      if (!loopBtn) return;
+      var labels = { single: 'Single', all: 'Loop', off: 'Order' };
+      loopBtn.textContent = labels[loopMode] || 'Loop';
+      if (loopMode === 'off') loopBtn.removeAttribute('data-state');
+      else loopBtn.setAttribute('data-state', 'active');
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function(){ prevTrack(); });
+    if (nextBtn) nextBtn.addEventListener('click', function(){ nextTrack(); });
+    if (toggleBtn) toggleBtn.addEventListener('click', function(){
+      if (audio.paused) playCurrent();
+      else pauseCurrent();
+    });
+    if (loopBtn) {
+      loopBtn.addEventListener('click', function(){
+        if (loopMode === 'all') setLoopMode('single');
+        else if (loopMode === 'single') setLoopMode('off');
+        else setLoopMode('all');
+      });
+    }
+
+    if (trackInputs.length) {
+      controls.addEventListener('click', function(evt){
+        var el = evt.target;
+        var input = el && el.closest ? el.closest('input.cg-audio-track') : null;
+        if (!input || !controls.contains(input)) return;
+        refreshTracks(true);
+        var val = (input.value || '').trim();
+        var idx = tracks.indexOf(val);
+        if (idx < 0) idx = trackInputs.indexOf(input);
+        if (idx < 0) idx = 0;
+        index = idx;
+        playCurrent();
+      });
+      markActiveTrack(index);
+    }
+
+    if (progress && progressBar) {
+      audio.addEventListener('timeupdate', function(){
+        if (isDragging) return;
+        if (audio.duration && isFinite(audio.duration)) {
+          var percent = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.width = percent + '%';
+        } else {
+          progressBar.style.width = '0%';
+        }
+      });
+      audio.addEventListener('loadedmetadata', function(){
+        progressBar.style.width = '0%';
+      });
+      var seekByClientX = function(clientX) {
+        if (!(progress instanceof HTMLElement)) return;
+        var rect = progress.getBoundingClientRect();
+        var ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = audio.duration * ratio;
+          progressBar.style.width = (ratio * 100) + '%';
+        }
+      };
+      var onDragMove = function(e) {
+        if (!isDragging) return;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+      };
+      var endDrag = function() {
+        if (!isDragging) return;
+        isDragging = false;
+        window.removeEventListener('mousemove', onDragMove);
+        window.removeEventListener('mouseup', endDrag);
+        window.removeEventListener('touchmove', onDragMove);
+        window.removeEventListener('touchend', endDrag);
+      };
+      var startDrag = function(e) {
+        isDragging = true;
+        if (e.touches && e.touches.length) {
+          seekByClientX(e.touches[0].clientX);
+        } else if (typeof e.clientX === 'number') {
+          seekByClientX(e.clientX);
+        }
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', endDrag);
+      };
+      progress.addEventListener('mousedown', startDrag);
+      progress.addEventListener('touchstart', function(e){
+        startDrag(e);
+        if (e.cancelable) e.preventDefault();
+      }, { passive: false });
+      progress.addEventListener('click', function(e){
+        if (isDragging) return;
+        if (!e || !e.currentTarget) return;
+        var rect = e.currentTarget.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audio.duration && isFinite(audio.duration)) {
+          audio.currentTime = Math.max(0, Math.min(audio.duration * ratio, audio.duration));
+        }
+      });
+    }
+
+    audio.addEventListener('ended', function() {
+      if (loopMode === 'single') {
+        playCurrent();
+        return;
+      }
+      if (loopMode === 'off' && index >= tracks.length - 1) {
+        pauseCurrent();
+        return;
+      }
+      nextTrack();
+    });
+
+    if (!autoPlayAttached) {
+      autoPlayAttached = true;
+      var oncePlay = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('click', oncePlay);
+      };
+      var oncePlayTouch = function() {
+        if (audio.paused) playCurrent();
+        window.removeEventListener('touchstart', oncePlayTouch);
+      };
+      window.addEventListener('click', oncePlay);
+      window.addEventListener('touchstart', oncePlayTouch, { passive: true });
+    }
+
+    applySrc();
+    setLoopMode(loopMode);
+  }
+
+  var controlsList = Array.prototype.slice.call(document.querySelectorAll('.cg-audio-controls[data-target]'));
+  if (!controlsList.length) return;
+  controlsList.forEach(bindPlayer);
+})();
+</script>
+</body>
+</html>
