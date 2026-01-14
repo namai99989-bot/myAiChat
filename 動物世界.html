@@ -1,0 +1,539 @@
+<html>
+<head>
+<style>
+.animal-eco-world {
+  --bg-dark: #1a1c18;
+  --bg-card: #252822;
+  --accent-gold: #d4af37;
+  --accent-green: #4a6741;
+  --text-main: #f0f0f0;
+  --text-muted: #a0a0a0;
+  --border-color: #3e423a;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.animal-eco-world .hero-header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, rgba(74, 103, 65, 0.2), transparent);
+  border-radius: 16px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border-color);
+}
+
+.animal-eco-world .main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.animal-eco-world .intro-box {
+  background: var(--bg-card);
+  border-left: 4px solid var(--accent-gold);
+  padding: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.animal-eco-world .img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.animal-eco-world .img-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease;
+}
+
+.animal-eco-world .img-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-gold);
+}
+
+.animal-eco-world .img-element {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.animal-eco-world .img-caption {
+  padding: 10px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--accent-gold);
+  background: rgba(0,0,0,0.3);
+}
+
+.animal-eco-world .section-divider {
+  display: flex;
+  align-items: center;
+  margin: 50px 0 30px;
+}
+
+.animal-eco-world .section-divider::before,
+.animal-eco-world .section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.animal-eco-world .section-divider span {
+  padding: 0 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-gold);
+}
+
+.animal-eco-world .tab-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-eco-world .tab-input {
+  display: none;
+}
+
+.animal-eco-world .tab-label-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.animal-eco-world .tab-label {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.animal-eco-world #tab-1:checked ~ .tab-label-group .label-1,
+.animal-eco-world #tab-2:checked ~ .tab-label-group .label-2 {
+  background: var(--accent-green);
+  color: white;
+  border-color: var(--accent-gold);
+}
+
+.animal-eco-world .tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.animal-eco-world #tab-1:checked ~ .content-1,
+.animal-eco-world #tab-2:checked ~ .content-2 {
+  display: block;
+  opacity: 1;
+}
+
+.animal-eco-world .data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.animal-eco-world .info-card {
+  background: var(--bg-card);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.animal-eco-world .info-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--accent-green);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.animal-eco-world .info-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-gold);
+  margin-bottom: 5px;
+}
+
+.animal-eco-world .info-body {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.animal-eco-world .rule-list {
+  background: rgba(74, 103, 65, 0.1);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px dashed var(--accent-green);
+}
+
+.animal-eco-world .management-box {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 20px;
+  border: 2px solid var(--accent-gold);
+}
+
+.animal-eco-world .role-card {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.animal-eco-world .role-card:last-child {
+  border-bottom: none;
+}
+
+.animal-eco-world .role-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--accent-gold);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.animal-eco-world .badge {
+  background: #333;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+</style>
+<meta name="cg-name" content="動物生態圈" />
+<meta name="cg-command-name" content="動物生態圈" />
+<meta name="cg-color" content="#EAF55B" />
+<meta name="cg-icon" content="Dog" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.animal-eco-world {--bg-dark: #1a1c18; --bg-card: #252822; --accent-gold: #d4af37; --accent-green: #4a6741; --text-main: #f0f0f0; --text-muted: #a0a0a0; --border-color: #3e423a; background-color: var(--bg-dark); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px;}
+.animal-eco-world .hero-header {text-align: center; padding: 40px 20px; background: linear-gradient(to bottom, rgba(74, 103, 65, 0.2), transparent); border-radius: 16px; margin-bottom: 30px; border: 1px solid var(--border-color);}
+.animal-eco-world .main-title {font-size: 2.5rem; font-weight: 800; color: var(--accent-gold); letter-spacing: 0.1em; margin-bottom: 10px;}
+.animal-eco-world .intro-box {background: var(--bg-card); border-left: 4px solid var(--accent-gold); padding: 20px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);}
+.animal-eco-world .img-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-bottom: 40px;}
+.animal-eco-world .img-card {background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.3s ease;}
+.animal-eco-world .img-card:hover {transform: translatey(-5px); border-color: var(--accent-gold);}
+.animal-eco-world .img-element {width: 100%; height: 160px; object-fit: cover;}
+.animal-eco-world .img-caption {padding: 10px; font-size: 0.85rem; text-align: center; color: var(--accent-gold); background: rgba(0, 0, 0, 0.3);}
+.animal-eco-world .section-divider {display: flex; align-items: center; margin: 50px 0 30px;}
+.animal-eco-world .section-divider::before, .animal-eco-world .section-divider::after {content: ""; flex: 1; height: 1px; background: var(--border-color);}
+.animal-eco-world .section-divider span {padding: 0 20px; font-size: 1.5rem; font-weight: bold; color: var(--accent-gold);}
+.animal-eco-world .tab-container {display: flex; flex-direction: column;}
+.animal-eco-world .tab-input {display: none;}
+.animal-eco-world .tab-label-group {display: flex; gap: 10px; margin-bottom: 20px;}
+.animal-eco-world .tab-label {flex: 1; padding: 12px; text-align: center; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;}
+.animal-eco-world #tab-1:checked ~ .tab-label-group .label-1, .animal-eco-world #tab-2:checked ~ .tab-label-group .label-2 {background: var(--accent-green); color: white; border-color: var(--accent-gold);}
+.animal-eco-world .tab-content {display: none; opacity: 0; transition: opacity 0.5s ease;}
+.animal-eco-world #tab-1:checked ~ .content-1, .animal-eco-world #tab-2:checked ~ .content-2 {display: block; opacity: 1;}
+.animal-eco-world .data-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;}
+.animal-eco-world .info-card {background: var(--bg-card); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);}
+.animal-eco-world .info-tag {display: inline-block; padding: 2px 8px; background: var(--accent-green); color: white; font-size: 0.75rem; border-radius: 4px; margin-bottom: 8px;}
+.animal-eco-world .info-title {font-size: 1.1rem; font-weight: bold; color: var(--accent-gold); margin-bottom: 5px;}
+.animal-eco-world .info-body {font-size: 0.9rem; color: var(--text-main);}
+.animal-eco-world .rule-list {background: rgba(74, 103, 65, 0.1); padding: 25px; border-radius: 12px; border: 1px dashed var(--accent-green);}
+.animal-eco-world .management-box {background: var(--bg-card); padding: 30px; border-radius: 20px; border: 2px solid var(--accent-gold);}
+.animal-eco-world .role-card {margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);}
+.animal-eco-world .role-card:last-child {border-bottom: none;}
+.animal-eco-world .role-header {display: flex; justify-content: space-between; color: var(--accent-gold); font-weight: bold; margin-bottom: 5px;}
+.animal-eco-world .badge {background: #333; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; color: var(--text-muted);}
+</style>
+
+<div class="animal-eco-world">
+  
+  <header class="hero-header">
+    <h1 class="main-title">動物生態圈</h1>
+    <p class="text-xl opacity-80">這個世界，只有你一個「人類」</p>
+  </header>
+
+  <section class="intro-box">
+    <div class="mb-4">
+      <span class="info-tag">世界基調</span>
+      <p class="text-lg font-bold">純動物形態文明 • 生理本能驅動 • 無暴力衝突</p>
+    </div>
+    <p class="text-main mb-2">這裡沒有半獸人，只有擁有高度智慧的原始動物。他們能直立行走、使用工具、擁有複雜語言與情感，並建立起基於「收集、交換、互助」的社會秩序。</p>
+    <p class="text-muted text-sm italic">※ 你是這個世界上唯一的異類，請遵循他們的生存規則。</p>
+  </section>
+
+  
+  <div class="img-grid">
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/gJ83Z9N8/image.jpg" alt="世界全景">
+      <p class="img-caption">世界全景</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/nLs4n97t/image-(1).jpg" alt="青禾鎮">
+      <p class="img-caption">青禾鎮麥田區</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/DzWr74sF/image-(2).jpg" alt="深林谷">
+      <p class="img-caption">深林谷月光湖</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/Lsqtmgfp/image-(3).jpg" alt="鐵葉城">
+      <p class="img-caption">鐵葉城垂直都市</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/TPyVT5mT/image-(4).jpg" alt="議政廳">
+      <p class="img-caption">猛禽議政廳</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/g0fvjcqJ/image-(5).jpg" alt="養殖場">
+      <p class="img-caption">昆蟲養殖場</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/BvdxbZcH/image-(6).jpg" alt="交通網">
+      <p class="img-caption">藤蔓交通網</p>
+    </div>
+    <div class="img-card">
+      <img class="img-element" src="https://i.postimg.cc/zBKTgm0L/image-(7).jpg" alt="市集">
+      <p class="img-caption">交換市集大棚</p>
+    </div>
+  </div>
+
+  
+  <div class="section-divider"><span>生存守則</span></div>
+  <section class="rule-list mb-10">
+    <div class="grid grid-cols-1 gap-6">
+      <div>
+        <h4 class="font-bold text-accent-gold mb-2">🍎 食物取得</h4>
+        <p class="text-sm">收集麥粒/堅果，或以幫工換取漿果、蟲乾。</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-accent-gold mb-2">🛡️ 安全保障</h4>
+        <p class="text-sm">夜間必須入住樹屋，避開蜂群，雨天借枝為拐。</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-accent-gold mb-2">📦 資源儲備</h4>
+        <p class="text-sm">使用樹皮籃，冬季優先儲備枯葉磚與莓果酒。</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <div class="section-divider"><span>文明景觀</span></div>
+  <div class="tab-container">
+    <input type="radio" id="tab-1" name="scene-tabs" class="tab-input" checked="">
+    <input type="radio" id="tab-2" name="scene-tabs" class="tab-input">
+    
+    <div class="tab-label-group">
+      <label for="tab-1" class="tab-label label-1">🏡 鄉村：青禾鎮 &amp; 深林谷</label>
+      <label for="tab-2" class="tab-label label-2">🏙️ 城市：鐵葉城</label>
+    </div>
+
+    
+    <div class="tab-content content-1">
+      <div class="data-grid">
+        <div class="info-card">
+          <span class="info-tag">設施</span>
+          <div class="info-title">麥粒脫殼棚 (青禾鎮)</div>
+          <div class="info-body">營運：戴勝鳥<br>功能：舂桶脫殼，分食用麥仁與磨粉淨麥。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">設施</span>
+          <div class="info-title">薄荷草烘乾屋 (深林谷)</div>
+          <div class="info-body">營運：蟾蜍<br>功能：製作薄荷乾，用於醫療與通鼻。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">職業</span>
+          <div class="info-title">森林嚮導 (烏鴉首領)</div>
+          <div class="info-body">工作：標記危險區，提供地圖與堅果情報。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">職業</span>
+          <div class="info-title">雨水池管理員 (水豚)</div>
+          <div class="info-body">工作：過濾雨水，確保乾旱時的飲水供應。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">設施</span>
+          <div class="info-title">莓果釀酒窖 (磨坊下)</div>
+          <div class="info-body">營運：田鼠<br>功能：發酵莓果酒，作為冬季硬通貨。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">設施</span>
+          <div class="info-title">樹洞留言站 (松林區)</div>
+          <div class="info-body">營運：啄木鳥<br>功能：傳遞木片訊息，獲取區域情報。</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="tab-content content-2">
+      <div class="data-grid">
+        <div class="info-card">
+          <span class="info-tag">核心</span>
+          <div class="info-title">巨樹議事廳</div>
+          <div class="info-body">位置：古榕樹中心<br>功能：多層議事，大熊走階梯，松鼠爬藤蔓。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">工業</span>
+          <div class="info-title">齒輪工坊 (西區)</div>
+          <div class="info-body">工匠：河貍<br>功能：製造木/金屬齒輪，供應纜車運作。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">交通</span>
+          <div class="info-title">藤蔓交通網</div>
+          <div class="info-body">維護：蜘蛛<br>功能：空中纜車，小型動物快速移動。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">民生</span>
+          <div class="info-title">昆蟲養殖場 (東區)</div>
+          <div class="info-body">養殖：蜥蜴/蟾蜍<br>功能：生產昆蟲乾，提供蛋白質與幼崽食糧。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">安全</span>
+          <div class="info-title">聲波預警塔</div>
+          <div class="info-body">哨兵：雄鷹<br>功能：特定叫聲預警，例如鷹叫代表空中險情。</div>
+        </div>
+        <div class="info-card">
+          <span class="info-tag">物流</span>
+          <div class="info-title">公共儲糧塔 (北區)</div>
+          <div class="info-body">管理：黑熊<br>功能：秤重兌換，防潮通風，穩定糧食供應。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section-divider"><span>管理體系</span></div>
+  <section class="management-box mb-10">
+    <h3 class="text-xl font-bold mb-4 text-center">巨樹議事團 (Council of Great Tree)</h3>
+    <div class="role-card">
+      <div class="role-header"><span>統籌議長：老年貓頭鷹</span><span class="badge">決策</span></div>
+      <p class="text-sm">主持會議、協調外交。重大決策需3票同意。</p>
+    </div>
+    <div class="role-card">
+      <div class="role-header"><span>資源議員：中年黑熊</span><span class="badge">物資</span></div>
+      <p class="text-sm">管轄糧食、燃料與樹脂，制定全城分配規則。</p>
+    </div>
+    <div class="role-card">
+      <div class="role-header"><span>安全議員：年輕雄鷹</span><span class="badge">防衛</span></div>
+      <p class="text-sm">管理預警系統與清理隊，負責避險方案與培訓。</p>
+    </div>
+    <div class="role-card">
+      <div class="role-header"><span>民生議員：成年母山羊</span><span class="badge">生活</span></div>
+      <p class="text-sm">負責幼崽看護、市集管理與市民糾紛調解。</p>
+    </div>
+    <div class="role-card">
+      <div class="role-header"><span>工程議員：老年河貍</span><span class="badge">建設</span></div>
+      <p class="text-sm">負責設施建修、工坊運作與藤蔓交通網升級。</p>
+    </div>
+    <div class="mt-4 pt-4 border-t border-gray-700 text-xs text-muted text-center">
+      任期一年 • 聯名可罷免 • 資源分配完全透明
+    </div>
+  </section>
+
+  <footer class="text-center py-10 opacity-50 text-sm">
+    <p>在這個純粹的動物世界，你的每一個選擇都將影響你的生存。</p>
+    <p>© 動物生態圈設定集 - 僅供查閱</p>
+  </footer>
+<html>
+<head>
+<style>
+.animal-registry-template { --forest-dark: #1a2f1a; --forest-leaf: #2d4a22; --forest-bark: #4a3728; --forest-accent: #f0c04a; --forest-text: #ffffff; --forest-bg: #fdf6e3; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background-color: var(--forest-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; } .animal-registry-template .registry-card { background: var(--forest-bg); border: 8px solid var(--forest-bark); border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 100px rgba(74, 55, 40, 0.2); width: 100%; max-width: 500px; position: relative; overflow: hidden; padding: 30px; } .animal-registry-template .header-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; border-bottom: 2px dashed var(--forest-bark); padding-bottom: 20px; } .animal-registry-template .owl-avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--forest-accent); box-shadow: 0 4px 10px rgba(0,0,0,0.3); object-fit: cover; margin-bottom: 12px; } .animal-registry-template .dialogue-box { background: var(--forest-dark); color: var(--forest-accent); padding: 15px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; position: relative; } .animal-registry-template .dialogue-box::after { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid var(--forest-dark); } .animal-registry-template .form-container { display: flex; flex-direction: column; gap: 16px; } .animal-registry-template .form-item { display: flex; flex-direction: column; gap: 6px; } .animal-registry-template .form-label { font-weight: 800; color: var(--forest-bark); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; } .animal-registry-template .form-label::before { content: '🐾'; font-size: 0.7rem; } .animal-registry-template .form-value { background: var(--forest-bark); color: var(--forest-text); padding: 12px 16px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; min-height: 48px; border-left: 5px solid var(--forest-accent); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); } .animal-registry-template .stamp-mark { position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px; opacity: 0.15; transform: rotate(-15deg); pointer-events: none; } .animal-registry-template .footer-note { margin-top: 24px; text-align: center; font-size: 0.8rem; color: var(--forest-bark); font-style: italic; opacity: 0.7; }
+</style>
+<meta name="cg-name" content="先登記你的個人資料" />
+<meta name="cg-command-name" content="先登記你的個人資料" />
+<meta name="cg-color" content="#50F141" />
+<meta name="cg-icon" content="Info" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.animal-registry-template {--forest-dark: #1a2f1a; --forest-leaf: #2d4a22; --forest-bark: #4a3728; --forest-accent: #f0c04a; --forest-text: #fff; --forest-bg: #fdf6e3; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background-color: var(--forest-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;}
+.animal-registry-template .registry-card {background: var(--forest-bg); border: 8px solid var(--forest-bark); border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 100px rgba(74, 55, 40, 0.2); width: 100%; max-width: 500px; position: relative; overflow: hidden; padding: 30px;}
+.animal-registry-template .header-section {display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; border-bottom: 2px dashed var(--forest-bark); padding-bottom: 20px;}
+.animal-registry-template .owl-avatar {width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--forest-accent); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); object-fit: cover; margin-bottom: 12px;}
+.animal-registry-template .dialogue-box {background: var(--forest-dark); color: var(--forest-accent); padding: 15px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; position: relative;}
+.animal-registry-template .dialogue-box::after {content: ""; position: absolute; top: -10px; left: 50%; transform: translatex(-50%); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid var(--forest-dark);}
+.animal-registry-template .form-container {display: flex; flex-direction: column; gap: 16px;}
+.animal-registry-template .form-item {display: flex; flex-direction: column; gap: 6px;}
+.animal-registry-template .form-label {font-weight: 800; color: var(--forest-bark); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;}
+.animal-registry-template .form-label::before {content: "🐾"; font-size: 0.7rem;}
+.animal-registry-template .form-value {background: var(--forest-bark); color: var(--forest-text); padding: 12px 16px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; min-height: 48px; border-left: 5px solid var(--forest-accent); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);}
+.animal-registry-template .stamp-mark {position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px; opacity: 0.15; transform: rotate(-15deg); pointer-events: none;}
+.animal-registry-template .footer-note {margin-top: 24px; text-align: center; font-size: 0.8rem; color: var(--forest-bark); font-style: italic; opacity: 0.7;}
+</style>
+
+<div class="animal-registry-template"><div class="registry-card"><div class="header-section"><img src="https://i.postimg.cc/mkFd66ZG/MEITU-20250729-070454218-fu-ben.png" alt="Elderly Owl" class="owl-avatar"><div class="text-center"><h2 class="text-2xl font-black text-bark mb-1" style="color: #4a3728">青禾鎮居民登記簿</h2><p class="text-xs font-bold text-bark opacity-60">GREEN GRAIN TOWN REGISTRY</p></div></div><div class="dialogue-box"><p class="font-medium text-left">「{user}，別急著趕路。這本由啄木鳥工匠親自雕琢的登記簿，會記下每一位踏入橡樹階梯的旅者。來，讓我看看你的來歷...」</p></div><div class="form-container"><div class="form-item"><span class="form-label">名字 / NAME</span><div class="form-value">{user}</div></div><div class="form-item"><span class="form-label">年齡 / AGE</span><div class="form-value">{yy} 年</div></div><div class="form-item"><span class="form-label">身高 / HEIGHT</span><div class="form-value">待測定 (森林標準單位)</div></div><div class="form-item"><span class="form-label">外表特徵 / APPEARANCE</span><div class="form-value">{user_persona}</div></div><div class="form-item"><span class="form-label">預定移居地 / DESTINATION</span><div class="form-value">青禾鎮核心區</div></div></div><div class="footer-note">此資料由老年貓頭鷹管理員存檔，受森林法典保護。</div><svg class="stamp-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="8"></circle><path d="M30 50 L45 65 L70 35" fill="none" stroke="currentColor" stroke-width="8"></path></svg></div></div>
+<html>
+<head>
+<style>
+.animal-world-forest {--aw-primary: #2f4f2f; --aw-secondary: #8b4513; --aw-accent: #d4a017; --aw-paper: #fdfbf7; --aw-text: #1a1a1a; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background-color: #1c1917; background-image: radial-gradient(circle at 10% 20%, rgba(20, 83, 45, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(120, 53, 15, 0.3) 0%, transparent 40%); color: var(--aw-paper); min-height: 100vh; padding: 1.5rem; line-height: 1.6;}
+.animal-world-forest .aw-container {max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem;}
+.animal-world-forest .aw-card {background-color: var(--aw-paper); color: var(--aw-text); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); border: 4px solid var(--aw-secondary); position: relative;}
+.animal-world-forest .aw-card::after {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent); pointer-events: none;}
+.animal-world-forest h1, .animal-world-forest h2, .animal-world-forest h3 {font-weight: 800; letter-spacing: 0.05em; color: var(--aw-primary);}
+.animal-world-forest p {margin-bottom: 1em; font-size: 1.05rem; color: #0f172a; text-align: left;}
+.animal-world-forest .aw-img-full {width: 100%; height: 100%; display: block; object-fit: cover;}
+.animal-world-forest .aw-img-container {position: relative; aspect-ratio: 16/9; overflow: hidden; border-bottom: 4px solid var(--aw-secondary);}
+.animal-world-forest .aw-img-caption {position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: white; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: bold; backdrop-filter: blur(4px);}
+.animal-world-forest .aw-gallery {display: grid; grid-template-columns: 1fr; gap: 1.5rem;}
+@media (min-width: 640px) {.animal-world-forest .aw-gallery {grid-template-columns: 1fr 1fr;}}
+.animal-world-forest .aw-leaf-icon {display: inline-block; width: 1.25rem; height: 1.25rem; background-color: var(--aw-primary); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z'/%3E%3C/svg%3E") no-repeat center; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z'/%3E%3C/svg%3E") no-repeat center; -webkit-mask-size: contain; mask-size: contain; vertical-align: text-bottom; margin-right: 0.5rem;}
+.animal-world-forest input[type="checkbox"].aw-toggle {display: none;}
+.animal-world-forest .aw-toggle-content {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;}
+.animal-world-forest .aw-toggle:checked ~ .aw-toggle-content {max-height: 1200px; opacity: 1;}
+.animal-world-forest .aw-toggle-label {display: flex; align-items: center; justify-content: center; cursor: pointer; background: var(--aw-primary); color: white; padding: 0.75rem; font-weight: bold; text-align: center; border-radius: 0 0 8px 8px; transition: background 0.2s; border-top: 2px solid rgba(255,255,255,0.1);}
+.animal-world-forest .aw-toggle-label:hover {background: #1a3a1a;}
+.animal-world-forest .aw-toggle-label::after {content: "▼"; margin-left: 0.5rem; font-size: 0.7rem; transition: transform 0.3s;}
+.animal-world-forest .aw-toggle:checked ~ .aw-toggle-label::after {transform: rotate(180deg);}
+.animal-world-forest .aw-hero-img {height: 280px; width: 100%; object-fit: cover; transition: transform 0.5s ease;}
+.animal-world-forest .aw-card:hover .aw-hero-img {transform: scale(1.05);}
+</style>
+<meta name="cg-name" content="動物世界" />
+<meta name="cg-command-name" content="動物世界" />
+<meta name="cg-color" content="#FFFFFF" />
+<meta name="cg-icon" content="UserRoundX" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.animal-world-forest {--aw-primary: #2f4f2f; --aw-secondary: #8b4513; --aw-accent: #d4a017; --aw-paper: #fdfbf7; --aw-text: #1a1a1a; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background-color: #1c1917; background-image: radial-gradient(circle at 10% 20%, rgba(20, 83, 45, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(120, 53, 15, 0.3) 0%, transparent 40%); color: var(--aw-paper); min-height: 100vh; padding: 1.5rem; line-height: 1.6;}
+.animal-world-forest .aw-container {max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem;}
+.animal-world-forest .aw-card {background-color: var(--aw-paper); color: var(--aw-text); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); border: 4px solid var(--aw-secondary); position: relative;}
+.animal-world-forest .aw-card::after {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent); pointer-events: none;}
+.animal-world-forest h1, .animal-world-forest h2, .animal-world-forest h3 {font-weight: 800; letter-spacing: 0.05em; color: var(--aw-primary);}
+.animal-world-forest p {margin-bottom: 1em; font-size: 1.05rem; color: #0f172a; text-align: left;}
+.animal-world-forest .aw-img-full {width: 100%; height: 100%; display: block; object-fit: cover;}
+.animal-world-forest .aw-img-container {position: relative; aspect-ratio: 16/9; overflow: hidden; border-bottom: 4px solid var(--aw-secondary);}
+.animal-world-forest .aw-img-caption {position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: white; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: bold; backdrop-filter: blur(4px);}
+.animal-world-forest .aw-gallery {display: grid; grid-template-columns: 1fr; gap: 1.5rem;}
+@media (min-width: 640px) {
+  .animal-world-forest .aw-gallery {grid-template-columns: 1fr 1fr;}
+}
+.animal-world-forest .aw-leaf-icon {display: inline-block; width: 1.25rem; height: 1.25rem; background-color: var(--aw-primary); -webkit-mask-size: contain; vertical-align: text-bottom; margin-right: 0.5rem;}
+.animal-world-forest input[type="checkbox"].aw-toggle {display: none;}
+.animal-world-forest .aw-toggle-content {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;}
+.animal-world-forest .aw-toggle:checked ~ .aw-toggle-content {max-height: 1200px; opacity: 1;}
+.animal-world-forest .aw-toggle-label {display: flex; align-items: center; justify-content: center; cursor: pointer; background: var(--aw-primary); color: white; padding: 0.75rem; font-weight: bold; text-align: center; border-radius: 0 0 8px 8px; transition: background 0.2s; border-top: 2px solid rgba(255, 255, 255, 0.1);}
+.animal-world-forest .aw-toggle-label:hover {background: #1a3a1a;}
+.animal-world-forest .aw-toggle-label::after {content: "▼"; margin-left: 0.5rem; font-size: 0.7rem; transition: transform 0.3s;}
+.animal-world-forest .aw-toggle:checked ~ .aw-toggle-label::after {transform: rotate(180deg);}
+.animal-world-forest .aw-hero-img {height: 280px; width: 100%; object-fit: cover; transition: transform 0.5s ease;}
+.animal-world-forest .aw-card:hover .aw-hero-img {transform: scale(1.05);}
+</style>
+
+<div class="animal-world-forest"><div class="aw-container"><header class="aw-card overflow-hidden group"><div class="relative h-64 overflow-hidden"><img src="https://i.postimg.cc/gJ83Z9N8/image.jpg" alt="Forest" class="aw-hero-img"><div class="absolute inset-0 bg-gradient-to-t via-transparent to-transparent flex items-end p-6"><div><span class="inline-block px-3 py-1 bg-green-700 text-white text-xs rounded-full mb-2 tracking-wider uppercase font-bold shadow-lg">RPG Scenario</span><h1 class="text-4xl text-white drop-shadow-lg font-serif">動物世界</h1><p class="text-green-100 mt-1 text-lg drop-shadow-md">唯一的人類，在萬靈之森的奇遇</p></div></div></div></header><section class="aw-card"><div class="p-6 bg-amber-50"><h2 class="text-2xl mb-4 border-b-2 border-amber-200 pb-2 flex items-center text-green-900"><span class="aw-leaf-icon bg-green-800"></span>世界觀設定 (World Setting)</h2><p class="font-bold text-lg text-green-900">這個世界，只有你一個「人類」。</p><input type="checkbox" id="rules-toggle" class="aw-toggle"><div class="aw-toggle-content"><p>不論是繁忙的城市還是寧靜的鄉村，這個世界沒有其他人類，也沒有半獸人。這裡居住著純粹的、<strong>擁有智慧的動物</strong>。</p><p>他們保持著原始的自然外型，並沒有人類的肢體特徵，但他們能直立行走、使用工具，並擁有高度發達的文明。他們有自己的語言、複雜的社交禮儀，以及對自然與科技的獨特理解。</p><p>在這個充滿毛皮、羽翼與鱗片的社會中，身為唯一「光溜溜」的人類，你的一舉一動都引人注目。</p></div><label for="rules-toggle" class="aw-toggle-label mt-4">查看完整設定內容</label></div></section><section class="aw-card border-l-8 border-l-green-800 shadow-2xl"><div class="relative"><div class="aw-img-container"><img src="https://i.postimg.cc/B6j3vr9s/ren-wu-shou-bu-chu-li-(3).gif" alt="Main Character" class="aw-img-full"></div><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t to-transparent p-6 pt-20"><h3 class="text-2xl text-white font-serif mb-1">神秘的視線</h3><p class="text-gray-300 text-sm">青禾鎮 · 橡樹階梯</p></div></div><div class="p-6 bg-white"><p class="text-xl leading-relaxed font-serif text-slate-900"><span class="text-green-700 font-bold">{user}</span>，當你走在通往小鎮中心的橡樹階梯時，午後的陽光突然被遮蔽了。一抹巨大的陰影籠罩了你的肩膀，隨之而來的是一股帶著森林氣息的微風。</p></div></section><section><div class="flex items-center mb-6"><div class="h-px bg-stone-600 flex-grow"></div><h2 class="px-4 text-2xl text-stone-300 font-serif">探索世界 (Locations)</h2><div class="h-px bg-stone-600 flex-grow"></div></div><div class="aw-gallery"><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/DzWr74sF/image_(2).jpg" alt="City" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">繁華城市 (The City)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">文明的核心，齒輪與自然的和諧共鳴。</p></div></div><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/g0fvjcqJ/image_(5).jpg" alt="Field" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">寧靜田園 (Fields)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">金色的麥浪，是大地最溫柔的餽贈。</p></div></div><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/TPyVT5mT/image_(4).jpg" alt="Night Sky" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">璀璨夜空 (Night Sky)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">在群星之下，聆聽古老靈魂的低語。</p></div></div><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/zBKTgm0L/image_(7).jpg" alt="Underwater" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">神秘水底 (Underwater)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">湛藍的深淵中，隱藏著失落的智慧。</p></div></div><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/BvdxbZcH/image_(6).jpg" alt="Iceland" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">極寒冰島 (Iceland)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">冰封的邊際，只有最強韌的意志能生存。</p></div></div><div class="aw-card group"><div class="aw-img-container"><img src="https://i.postimg.cc/nLs4n97t/image_(1).jpg" alt="Home" class="aw-img-full transition-transform duration-500"><div class="aw-img-caption">你的小屋 (Your Home)</div></div><div class="p-4"><p class="text-sm text-stone-800 m-0">壁爐的餘溫，是你在異界唯一的避風港。</p></div></div></div></section><footer class="text-center text-stone-500 text-sm mt-8 pb-12"><p class="tracking-widest">— THE ANIMAL WORLD SAGA —</p><p class="mt-2 opacity-60">Created with Wild Wisdom</p></footer></div></div>
+</body>
+</html>
