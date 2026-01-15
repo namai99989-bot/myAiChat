@@ -2,540 +2,694 @@
 <head>
 <style>
 /* Root Scope */
-.idol-schedule {
-  --c-yejun: #4299E1;
-  --c-noah: #ED8936;
-  --c-bamby: #E53E3E;
-  --c-eunho: #9F7AEA;
-  --c-hamin: #38B2AC;
-  --bg-color: #f8fafc;
-  --card-bg: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #475569;
+.plave-archive {
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
   
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-color);
+  font-family: var(--font-display);
+  background-color: var(--bg-page);
   color: var(--text-main);
-  padding: 2rem;
   line-height: 1.6;
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 12px;
+  padding: 1rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Utilities */
+.plave-archive * {
+  box-sizing: border-box;
+}
+
+/* Tab Logic */
+.plave-archive .tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px);
+}
+
+.plave-archive input[name="plave_view"]:nth-of-type(1):checked ~ .content-viewport .view-members,
+.plave-archive input[name="plave_view"]:nth-of-type(2):checked ~ .content-viewport .view-official,
+.plave-archive input[name="plave_view"]:nth-of-type(3):checked ~ .content-viewport .view-hidden {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nav Buttons State */
+.plave-archive input[name="plave_view"]:nth-of-type(1):checked ~ .nav-header label[for="tab_members"],
+.plave-archive input[name="plave_view"]:nth-of-type(2):checked ~ .nav-header label[for="tab_official"],
+.plave-archive input[name="plave_view"]:nth-of-type(3):checked ~ .nav-header label[for="tab_hidden"] {
+  background-color: #1e293b;
+  color: #ffffff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
 }
 
-/* Header & Legend */
-.idol-schedule .header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 1.5rem;
+/* Member Card Theming */
+.plave-archive .member-card {
+  background: var(--bg-card);
+  border-left: 6px solid var(--theme-main);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
-.idol-schedule .title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
-}
-
-.idol-schedule .subtitle {
-  font-size: 1rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.idol-schedule .legend {
+.plave-archive .member-header {
+  background: var(--theme-light);
+  padding: 1rem;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-.idol-schedule .legend-item {
-  display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  text-transform: uppercase;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Member Colors */
-.idol-schedule .bg-yejun { background-color: var(--c-yejun); }
-.idol-schedule .bg-noah { background-color: var(--c-noah); }
-.idol-schedule .bg-bamby { background-color: var(--c-bamby); }
-.idol-schedule .bg-eunho { background-color: var(--c-eunho); }
-.idol-schedule .bg-hamin { background-color: var(--c-hamin); }
-
-.idol-schedule .text-yejun { color: var(--c-yejun); }
-.idol-schedule .text-noah { color: var(--c-noah); }
-.idol-schedule .text-bamby { color: var(--c-bamby); }
-.idol-schedule .text-eunho { color: var(--c-eunho); }
-.idol-schedule .text-hamin { color: var(--c-hamin); }
-
-.idol-schedule .border-yejun { border-left-color: var(--c-yejun); }
-.idol-schedule .border-noah { border-left-color: var(--c-noah); }
-.idol-schedule .border-bamby { border-left-color: var(--c-bamby); }
-.idol-schedule .border-eunho { border-left-color: var(--c-eunho); }
-.idol-schedule .border-hamin { border-left-color: var(--c-hamin); }
-
-/* Timeline Layout */
-.idol-schedule .timeline {
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.idol-schedule .timeline::before {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #e2e8f0;
-  border-radius: 2px;
-}
-
-.idol-schedule .time-block {
-  position: relative;
-  margin-bottom: 2rem;
-}
-
-.idol-schedule .time-dot {
-  position: absolute;
-  left: -1.5rem;
-  top: 1rem;
-  width: 14px;
-  height: 14px;
+.plave-archive .member-avatar {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: white;
-  border: 3px solid var(--text-muted);
-  z-index: 10;
-}
-
-.idol-schedule .card {
-  background: var(--card-bg);
-  border-radius: 8px;
-  padding: 1.25rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  border: 1px solid #e2e8f0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.idol-schedule .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.idol-schedule .time-header {
+  background: var(--theme-main);
+  color: white;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-  border-bottom: 1px dashed #cbd5e1;
-  padding-bottom: 0.5rem;
-}
-
-.idol-schedule .time-label {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-main);
-  background: #f1f5f9;
-  padding: 0.25rem 0.75rem;
-  border-radius: 6px;
-  margin-right: auto;
-}
-
-.idol-schedule .card-icon {
-  font-size: 1.2rem;
-  opacity: 0.7;
-}
-
-/* Content Lists */
-.idol-schedule .task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.idol-schedule .task-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
-  color: var(--text-main);
-}
-
-.idol-schedule .task-item:last-child {
-  margin-bottom: 0;
-}
-
-.idol-schedule .task-marker {
-  margin-right: 0.5rem;
-  color: var(--text-muted);
+  justify-content: center;
   font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Specific Member Tasks */
-.idol-schedule .member-task {
-  background: #f8fafc;
-  border-left: 4px solid #ccc;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0 6px 6px 0;
-  font-size: 0.9rem;
-}
-
-.idol-schedule .member-name {
+.plave-archive .member-name {
+  font-size: 1.25rem;
   font-weight: 800;
-  margin-right: 0.5rem;
+  color: var(--theme-dark);
+}
+
+.plave-archive .member-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  background: white;
+  color: var(--theme-dark);
+  border: 1px solid var(--theme-main);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.plave-archive .section-title {
   font-size: 0.85rem;
   text-transform: uppercase;
-  display: inline-block;
-}
-
-/* Special Events Section */
-.idol-schedule .special-events {
-  margin-top: 3rem;
-  background: #fff0f0; /* Slight tint for special */
-  border: 2px solid #fed7d7;
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.idol-schedule .special-title {
-  color: #c53030;
-  font-weight: 800;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  color: var(--theme-dark);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.idol-schedule .special-grid {
+.plave-archive .section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--theme-light);
+}
+
+.plave-archive .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+  padding: 1.25rem;
 }
 
-.idol-schedule .event-box {
-  background: white;
-  padding: 0.75rem;
+@media (min-width: 640px) {
+  .plave-archive .info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.plave-archive .pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.plave-archive .pill {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 6px;
-  border: 1px solid #fed7d7;
-  text-align: center;
-}
-
-.idol-schedule .event-day {
-  display: block;
-  font-weight: 700;
-  color: #c53030;
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
-}
-
-.idol-schedule .event-desc {
-  font-size: 0.9rem;
+  background: var(--bg-page);
   color: var(--text-main);
+  border: 1px solid #e2e8f0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .idol-schedule {
-    padding: 1rem;
-  }
-  .idol-schedule .timeline {
-    padding-left: 1rem;
-  }
-  .idol-schedule .timeline::before {
-    left: 4px;
-  }
-  .idol-schedule .time-dot {
-    left: -1.25rem;
-    width: 12px;
-    height: 12px;
-  }
-  .idol-schedule .legend {
-    gap: 0.5rem;
-  }
-  .idol-schedule .legend-item {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-  }
+/* CP Card Styling */
+.plave-archive .cp-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: transform 0.2s;
+}
+
+.plave-archive .cp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.05);
+}
+
+.plave-archive .cp-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.plave-archive .cp-badge {
+  background: #1e293b;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.plave-archive .cp-title {
+  font-weight: 800;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.plave-archive .cp-names {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-left: auto;
+}
+
+.plave-archive .highlight-text {
+  background: #fff1f2;
+  color: #be123c;
+  padding: 0 0.2rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+/* Nav Header */
+.plave-archive .nav-header {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 50;
+  padding: 0.5rem;
+  background: rgba(248, 250, 252, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 99px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plave-archive .nav-label {
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.plave-archive .nav-label:hover {
+  background: #f1f5f9;
+}
+
+/* Scrollbar */
+.plave-archive ::-webkit-scrollbar {
+  width: 6px;
+}
+.plave-archive ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.plave-archive ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
 }
 </style>
-<meta name="cg-name" content="男團日常時間表" />
-<meta name="cg-command-name" content="男團日常時間表" />
-<meta name="cg-color" content="#1E23FF" />
-<meta name="cg-icon" content="Command" />
+<meta name="cg-name" content="人際關係的介紹" />
+<meta name="cg-command-name" content="人際關係的介紹" />
+<meta name="cg-color" content="#FFA08F" />
+<meta name="cg-icon" content="Clover" />
 <meta name="cg-mode" content="release" />
 </head>
 <body>
 <style>
-.idol-schedule {--c-yejun: #4299E1; --c-noah: #ED8936; --c-bamby: #E53E3E; --c-eunho: #9F7AEA; --c-hamin: #38B2AC; --bg-color: #f8fafc; --card-bg: #fff; --text-main: #0f172a; --text-muted: #475569; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 2rem; line-height: 1.6; max-width: 800px; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);}
-.idol-schedule .header {text-align: center; margin-bottom: 2.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1.5rem;}
-.idol-schedule .title {font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; letter-spacing: -0.025em; text-transform: uppercase;}
-.idol-schedule .subtitle {font-size: 1rem; color: var(--text-muted); font-weight: 500;}
-.idol-schedule .legend {display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem;}
-.idol-schedule .legend-item {display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); text-transform: uppercase;}
-.idol-schedule .bg-yejun {background-color: var(--c-yejun);}
-.idol-schedule .bg-noah {background-color: var(--c-noah);}
-.idol-schedule .bg-bamby {background-color: var(--c-bamby);}
-.idol-schedule .bg-eunho {background-color: var(--c-eunho);}
-.idol-schedule .bg-hamin {background-color: var(--c-hamin);}
-.idol-schedule .text-yejun {color: var(--c-yejun);}
-.idol-schedule .text-noah {color: var(--c-noah);}
-.idol-schedule .text-bamby {color: var(--c-bamby);}
-.idol-schedule .text-eunho {color: var(--c-eunho);}
-.idol-schedule .text-hamin {color: var(--c-hamin);}
-.idol-schedule .border-yejun {border-left-color: var(--c-yejun);}
-.idol-schedule .border-noah {border-left-color: var(--c-noah);}
-.idol-schedule .border-bamby {border-left-color: var(--c-bamby);}
-.idol-schedule .border-eunho {border-left-color: var(--c-eunho);}
-.idol-schedule .border-hamin {border-left-color: var(--c-hamin);}
-.idol-schedule .timeline {position: relative; padding-left: 1.5rem;}
-.idol-schedule .timeline::before {content: ""; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; border-radius: 2px;}
-.idol-schedule .time-block {position: relative; margin-bottom: 2rem;}
-.idol-schedule .time-dot {position: absolute; left: -1.5rem; top: 1rem; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--text-muted); z-index: 10;}
-.idol-schedule .card {background: var(--card-bg); border-radius: 8px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: transform 0.2s ease, box-shadow 0.2s ease;}
-.idol-schedule .card:hover {transform: translatey(-2px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);}
-.idol-schedule .time-header {display: flex; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.5rem;}
-.idol-schedule .time-label {font-size: 1.1rem; font-weight: 800; color: var(--text-main); background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 6px; margin-right: auto;}
-.idol-schedule .card-icon {font-size: 1.2rem; opacity: 0.7;}
-.idol-schedule .task-list {list-style: none; padding: 0; margin: 0;}
-.idol-schedule .task-item {display: flex; align-items: flex-start; margin-bottom: 0.75rem; font-size: 0.95rem; color: var(--text-main);}
-.idol-schedule .task-item:last-child {margin-bottom: 0;}
-.idol-schedule .task-marker {margin-right: 0.5rem; color: var(--text-muted); font-weight: bold;}
-.idol-schedule .member-task {background: #f8fafc; border-left: 4px solid #ccc; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: 0 6px 6px 0; font-size: 0.9rem;}
-.idol-schedule .member-name {font-weight: 800; margin-right: 0.5rem; font-size: 0.85rem; text-transform: uppercase; display: inline-block;}
-.idol-schedule .special-events {margin-top: 3rem; background: #fff0f0; border: 2px solid #fed7d7; border-radius: 12px; padding: 1.5rem;}
-.idol-schedule .special-title {color: #c53030; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;}
-.idol-schedule .special-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;}
-.idol-schedule .event-box {background: white; padding: 0.75rem; border-radius: 6px; border: 1px solid #fed7d7; text-align: center;}
-.idol-schedule .event-day {display: block; font-weight: 700; color: #c53030; font-size: 0.9rem; margin-bottom: 0.25rem;}
-.idol-schedule .event-desc {font-size: 0.9rem; color: var(--text-main);}
-@media (max-width: 600px) {
-  .idol-schedule {padding: 1rem;}
-  .idol-schedule .timeline {padding-left: 1rem;}
-  .idol-schedule .timeline::before {left: 4px;}
-  .idol-schedule .time-dot {left: -1.25rem; width: 12px; height: 12px;}
-  .idol-schedule .legend {gap: 0.5rem;}
-  .idol-schedule .legend-item {font-size: 0.7rem; padding: 0.2rem 0.5rem;}
+.plave-archive {--font-display: "Helvetica Neue", Helvetica, Arial, sans-serif; --bg-page: #f8fafc; --bg-card: #fff; --text-main: #1e293b; --text-muted: #64748b; font-family: var(--font-display); background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding: 1rem; min-height: 100vh; box-sizing: border-box;}
+.plave-archive * {box-sizing: border-box;}
+.plave-archive .tab-content {display: none; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; transform: translatey(10px);}
+.plave-archive input[name="plave_view"]:nth-of-type(1):checked ~ .content-viewport .view-members, .plave-archive input[name="plave_view"]:nth-of-type(2):checked ~ .content-viewport .view-official, .plave-archive input[name="plave_view"]:nth-of-type(3):checked ~ .content-viewport .view-hidden {display: block; opacity: 1; transform: translatey(0);}
+.plave-archive input[name="plave_view"]:nth-of-type(1):checked ~ .nav-header label[for="tab_members"], .plave-archive input[name="plave_view"]:nth-of-type(2):checked ~ .nav-header label[for="tab_official"], .plave-archive input[name="plave_view"]:nth-of-type(3):checked ~ .nav-header label[for="tab_hidden"] {background-color: #1e293b; color: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transform: translatey(-1px);}
+.plave-archive .member-card {background: var(--bg-card); border-left: 6px solid var(--theme-main); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 1.5rem; position: relative;}
+.plave-archive .member-header {background: var(--theme-light); padding: 1rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.05);}
+.plave-archive .member-avatar {width: 48px; height: 48px; border-radius: 50%; background: var(--theme-main); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+.plave-archive .member-name {font-size: 1.25rem; font-weight: 800; color: var(--theme-dark);}
+.plave-archive .member-tag {font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 99px; background: white; color: var(--theme-dark); border: 1px solid var(--theme-main); font-weight: 600; text-transform: uppercase; margin-left: auto;}
+.plave-archive .section-title {font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--theme-dark); font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}
+.plave-archive .section-title::after {content: ""; flex: 1; height: 1px; background: var(--theme-light);}
+.plave-archive .info-grid {display: grid; grid-template-columns: 1fr; gap: 1rem; padding: 1.25rem;}
+@media (min-width: 640px) {
+  .plave-archive .info-grid {grid-template-columns: 1fr 1fr;}
 }
+.plave-archive .pill-group {display: flex; flex-wrap: wrap; gap: 0.5rem;}
+.plave-archive .pill {font-size: 0.8rem; padding: 0.25rem 0.75rem; border-radius: 6px; background: var(--bg-page); color: var(--text-main); border: 1px solid #e2e8f0;}
+.plave-archive .cp-card {background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); transition: transform 0.2s;}
+.plave-archive .cp-card:hover {transform: translatey(-2px); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.05);}
+.plave-archive .cp-header {display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;}
+.plave-archive .cp-badge {background: #1e293b; color: white; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;}
+.plave-archive .cp-title {font-weight: 800; color: #1e293b; font-size: 1.1rem;}
+.plave-archive .cp-names {font-size: 0.9rem; color: #64748b; margin-left: auto;}
+.plave-archive .highlight-text {background: #fff1f2; color: #be123c; padding: 0 0.2rem; border-radius: 2px; font-weight: 600;}
+.plave-archive .nav-header {display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; top: 0.5rem; z-index: 50; padding: 0.5rem; background: rgba(248, 250, 252, 0.9); backdrop-filter: blur(8px); border-radius: 99px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); width: fit-content; margin-left: auto; margin-right: auto;}
+.plave-archive .nav-label {padding: 0.5rem 1.25rem; border-radius: 99px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; background: white; color: #64748b; border: 1px solid #e2e8f0;}
+.plave-archive .nav-label:hover {background: #f1f5f9;}
+.plave-archive ::-webkit-scrollbar {width: 6px;}
+.plave-archive ::-webkit-scrollbar-track {background: transparent;}
+.plave-archive ::-webkit-scrollbar-thumb {background-color: #cbd5e1; border-radius: 20px;}
 </style>
 
-<div class="idol-schedule">
-
+<div class="plave-archive">
   
-  <header class="header">
-    <div class="title">PLAVE Daily Routine</div>
-    <div class="subtitle">Official Member Timetable &amp; Activities</div>
-    
-    
-    <div class="legend">
-      <span class="legend-item bg-yejun">YEJUN (南藝俊)</span>
-      <span class="legend-item bg-noah">NOAH (韓諾亞)</span>
-      <span class="legend-item bg-bamby">BAMBY (蔡豐玖)</span>
-      <span class="legend-item bg-eunho">EUNHO (都銀虎)</span>
-      <span class="legend-item bg-hamin">HAMIN (柳河玟)</span>
-    </div>
-  </header>
-
   
-  <div class="timeline">
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: var(--c-noah)"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">早晨 06:00</span>
-          <span class="card-icon">🌅</span>
-        </div>
-        <ul class="task-list">
-          <li class="member-task border-noah">
-            <span class="member-name text-noah">韓諾亞</span>
-            負責叫醒大家
-          </li>
-          <li class="task-item">
-            <span class="task-marker">🏃</span>
-            全成員晨練（跑步 / 伸展 / 核心訓練）- 操場
-          </li>
-          <li class="task-item">
-            <span class="task-marker">🍳</span>
-            早餐時間（自行準備 / 輪流下廚）
-          </li>
-        </ul>
-      </div>
+  <div class="text-center mb-8 pt-4">
+    <div class="inline-block p-1 rounded-full border-2 border-slate-200 mb-3">
+      <img src="{char_avatar}" class="w-16 h-16 rounded-full object-cover bg-slate-100" alt="PLAVE Logo">
     </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: var(--c-yejun)"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">上午 07:00 - 11:00</span>
-          <span class="card-icon">🎤</span>
-        </div>
-        <div class="mb-4">
-          <div class="font-bold text-sm text-gray-500 mb-2 uppercase tracking-wider">07:30-09:00 歌聲訓練</div>
-          <div class="member-task border-yejun">
-            <span class="member-name text-yejun">南藝俊</span>
-            主唱指導
-          </div>
-          <div class="member-task border-noah">
-            <span class="member-name text-noah">韓諾亞</span>
-            和聲訓練
-          </div>
-        </div>
-        <div>
-          <div class="font-bold text-sm text-gray-500 mb-2 uppercase tracking-wider">09:30-11:00 舞蹈訓練</div>
-          <div class="member-task border-bamby">
-            <span class="member-name text-bamby">蔡豐玖</span>
-            領舞指導
-          </div>
-          <div class="member-task border-eunho">
-            <span class="member-name text-eunho">都銀虎</span>
-            動作細節
-          </div>
-          <div class="member-task border-hamin">
-            <span class="member-name text-hamin">柳河玟</span>
-            表情管理
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: #cbd5e1"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">中午 11:00 - 13:00</span>
-          <span class="card-icon">🍱</span>
-        </div>
-        <ul class="task-list">
-          <li class="task-item">🥗 午餐時間（自行解決 / 聚餐）</li>
-          <li class="task-item">☕ 短暫休息</li>
-          <li class="task-item">📖 個人時間（看漫畫 / 睡覺 / 整理個人事務）</li>
-        </ul>
-      </div>
-    </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: var(--c-bamby)"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">下午 13:00 - 18:00</span>
-          <span class="card-icon">🎬</span>
-        </div>
-        <div class="mb-4">
-          <div class="font-bold text-sm text-gray-500 mb-2">13:00-15:00 直播間活動 🎙️</div>
-          <ul class="task-list pl-2 border-l-2 border-gray-100">
-            <li class="task-item">🎮 與粉絲互動</li>
-            <li class="task-item">🎨 才藝展示（繪畫 / 彈琴）</li>
-            <li class="task-item">🎭 角色扮演</li>
-          </ul>
-        </div>
-        <div class="mb-4">
-          <div class="font-bold text-sm text-gray-500 mb-2">15:30-17:30 舞台走位排練 💃</div>
-          <ul class="task-list pl-2 border-l-2 border-gray-100">
-            <li class="task-item">📍 分組對位</li>
-            <li class="task-item">🔄 整體協調</li>
-          </ul>
-        </div>
-        <div class="font-bold text-sm text-gray-500">18:00 個人練習 / 特訓</div>
-      </div>
-    </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: var(--c-eunho)"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">晚上 18:00 - 22:00</span>
-          <span class="card-icon">🛋️</span>
-        </div>
-        <ul class="task-list mb-4">
-          <li class="task-item">🍽️ 晚餐時間</li>
-          <li class="task-item">🎮 休息室放鬆（遊戲 / 漫畫 / 聊天談心）</li>
-        </ul>
-        <div class="member-task border-gray-400" style="background: #f1f5f9">
-          <span class="member-name" style="color: #475569">20:00 - 21:00</span>
-          第二輪直播：即興表演 / 清唱互動 / 才藝展示
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: var(--c-hamin)"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">深夜 22:00 - 24:00</span>
-          <span class="card-icon">🌙</span>
-        </div>
-        <ul class="task-list">
-          <li class="task-item">🛁 個人時間 / 準備睡覺</li>
-          <li class="task-item">
-            <span class="task-marker">🎙️</span>
-            <strong>夜間直播（輪流）</strong>：輕音樂 / 深夜談心 / 遊戲直播
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    
-    <div class="time-block">
-      <div class="time-dot" style="border-color: #2d3748"></div>
-      <div class="card">
-        <div class="time-header">
-          <span class="time-label">深夜 24:00 後</span>
-          <span class="card-icon">💤</span>
-        </div>
-        <ul class="task-list">
-          <li class="task-item">✨ 自由活動時間</li>
-          <li class="task-item">🦶 熱水澡 / 泡腳</li>
-          <li class="task-item">📚 睡前閱讀</li>
-          <li class="member-task border-noah mt-2">
-            <span class="member-name text-noah">韓諾亞</span>
-            負責最後檢查 &amp; 關燈
-          </li>
-        </ul>
-      </div>
-    </div>
-
+    <h1 class="text-3xl font-black text-slate-800 tracking-tight">PLAVE ARCHIVE</h1>
+    <p class="text-slate-500 text-sm mt-1">Asterum's Idols · Guide for {user}</p>
   </div>
 
   
-  <div class="special-events">
-    <div class="special-title">
-      <span>🎉</span> 特殊活動週表
-    </div>
-    <div class="special-grid">
-      <div class="event-box">
-        <span class="event-day">每週三</span>
-        <div class="event-desc">粉絲見面會直播</div>
-      </div>
-      <div class="event-box">
-        <span class="event-day">每週五</span>
-        <div class="event-desc">新歌預告直播</div>
-      </div>
-      <div class="event-box">
-        <span class="event-day">每週日</span>
-        <div class="event-desc">才藝大放送直播</div>
-      </div>
-    </div>
+  <input type="radio" name="plave_view" id="tab_members" class="hidden" checked="">
+  <input type="radio" name="plave_view" id="tab_official" class="hidden">
+  <input type="radio" name="plave_view" id="tab_hidden" class="hidden">
+
+  
+  <div class="nav-header">
+    <label for="tab_members" class="nav-label">成員介紹</label>
+    <label for="tab_official" class="nav-label">官方 CP</label>
+    <label for="tab_hidden" class="nav-label">隱藏彩蛋</label>
   </div>
 
+  
+  <div class="content-viewport max-w-3xl mx-auto">
+    
+    
+    <div class="tab-content view-members">
+      
+      
+      <div class="member-card" style="--theme-main: #4299E1; --theme-light: #E8F4F8; --theme-dark: #2B6CB0">
+        <div class="member-header">
+          <div class="member-avatar">Y</div>
+          <div>
+            <div class="member-name">南藝俊 (YEJUN)</div>
+            <div class="text-xs opacity-70 font-mono">#4299E1 · 海水藍</div>
+          </div>
+          <div class="member-tag">隊長 · 海豚</div>
+        </div>
+        <div class="info-grid">
+          <div>
+            <div class="section-title">❤️ LIKES</div>
+            <div class="pill-group">
+              <span class="pill">碳酸水</span>
+              <span class="pill">濃郁拉麵</span>
+              <span class="pill">海鮮風味</span>
+              <span class="pill">戀愛綜藝</span>
+              <span class="pill">網購</span>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">💔 DISLIKES</div>
+            <div class="pill-group">
+              <span class="pill">團隊決策混亂</span>
+              <span class="pill text-gray-400 italic">暫無其他</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="member-card" style="--theme-main: #ED8936; --theme-light: #FAF0F5; --theme-dark: #C05621">
+        <div class="member-header">
+          <div class="member-avatar">N</div>
+          <div>
+            <div class="member-name">韓諾亞 (NOAH)</div>
+            <div class="text-xs opacity-70 font-mono">#ED8936 · 暖金橙</div>
+          </div>
+          <div class="member-tag">主唱 · 公主</div>
+        </div>
+        <div class="info-grid">
+          <div>
+            <div class="section-title">❤️ LIKES</div>
+            <div class="pill-group">
+              <span class="pill">披薩</span>
+              <span class="pill">躺臥</span>
+              <span class="pill">健身</span>
+              <span class="pill">整潔</span>
+              <span class="pill">貼貼</span>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">💔 DISLIKES</div>
+            <div class="pill-group">
+              <span class="pill">髒亂</span>
+              <span class="pill">鳥類 (恐鳥症)</span>
+              <span class="pill">隱私探究</span>
+            </div>
+          </div>
+          <div class="col-span-full mt-2 pt-4 border-t border-dashed border-gray-200">
+            <div class="section-title">📅 DAILY ROUTINE</div>
+            <p class="text-sm text-slate-600 mb-2"><strong>晨間：</strong>喝溫水後做 10 分鐘拉伸。</p>
+            <p class="text-sm text-slate-600 mb-2"><strong>睡前：</strong>整理虛擬形象素材，複盤直播細節。</p>
+            <p class="text-sm text-slate-600"><strong>TMI：</strong>衣櫃全是黑色私服；口頭禪「別緊張呀，有我呢」。</p>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="member-card" style="--theme-main: #E53E3E; --theme-light: #FCF1F7; --theme-dark: #C53030">
+        <div class="member-header">
+          <div class="member-avatar">B</div>
+          <div>
+            <div class="member-name">蔡豐玖 (BAMBY)</div>
+            <div class="text-xs opacity-70 font-mono">#E53E3E · 甜粉紅</div>
+          </div>
+          <div class="member-tag">舞擔 · 斑比</div>
+        </div>
+        <div class="info-grid">
+          <div>
+            <div class="section-title">❤️ LIKES</div>
+            <div class="pill-group">
+              <span class="pill">平壤冷麵</span>
+              <span class="pill">草莓棒棒糖</span>
+              <span class="pill">小狗</span>
+              <span class="pill">Netflix</span>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">💔 DISLIKES</div>
+            <div class="pill-group">
+              <span class="pill">高且帥的人</span>
+              <span class="pill">鴿子/鸚鵡</span>
+              <span class="pill">拒絕安利</span>
+            </div>
+          </div>
+          <div class="col-span-full mt-2 pt-4 border-t border-dashed border-gray-200">
+            <div class="section-title">📅 DAILY ROUTINE</div>
+            <p class="text-sm text-slate-600 mb-2"><strong>晨間：</strong>吃草莓棒棒糖 + 溫水。</p>
+            <p class="text-sm text-slate-600 mb-2"><strong>習慣：</strong>隨身帶 Switch，背包必備 Tom Ford 香水。</p>
+            <p class="text-sm text-slate-600"><strong>TMI：</strong>喜歡突然唱高音；口頭禪「這個超級好吃！」。</p>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="member-card" style="--theme-main: #9F7AEA; --theme-light: #F5F5F5; --theme-dark: #742DDD">
+        <div class="member-header">
+          <div class="member-avatar">E</div>
+          <div>
+            <div class="member-name">都銀虎 (EUNHO)</div>
+            <div class="text-xs opacity-70 font-mono">#9F7AEA · 冷銀紫</div>
+          </div>
+          <div class="member-tag">RAP · 虎虎</div>
+        </div>
+        <div class="info-grid">
+          <div>
+            <div class="section-title">❤️ LIKES</div>
+            <div class="pill-group">
+              <span class="pill">舉鐵</span>
+              <span class="pill">游泳</span>
+              <span class="pill">LOL/OW</span>
+              <span class="pill">創作Rap</span>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">💔 DISLIKES</div>
+            <div class="pill-group">
+              <span class="pill">不懂的梗</span>
+              <span class="pill">斑比的謊言</span>
+              <span class="pill">突發混亂</span>
+            </div>
+          </div>
+          <div class="col-span-full mt-2 pt-4 border-t border-dashed border-gray-200">
+            <div class="section-title">📅 DAILY ROUTINE</div>
+            <p class="text-sm text-slate-600 mb-2"><strong>晨間：</strong>空腹黑咖啡 + 15 分鐘核心。</p>
+            <p class="text-sm text-slate-600 mb-2"><strong>特技：</strong>快速朗讀文字 (朗讀機器)。</p>
+            <p class="text-sm text-slate-600"><strong>TMI：</strong>不擅長眨右眼；口頭禪「相信我，這樣更棒」。</p>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="member-card" style="--theme-main: #38B2AC; --theme-light: #F0F8FB; --theme-dark: #23837C">
+        <div class="member-header">
+          <div class="member-avatar">H</div>
+          <div>
+            <div class="member-name">柳河玟 (HAMIN)</div>
+            <div class="text-xs opacity-70 font-mono">#38B2AC · 清透青</div>
+          </div>
+          <div class="member-tag">忙內 · 貓貓</div>
+        </div>
+        <div class="info-grid">
+          <div>
+            <div class="section-title">❤️ LIKES</div>
+            <div class="pill-group">
+              <span class="pill">苦冰美</span>
+              <span class="pill">畫畫</span>
+              <span class="pill">跆拳道</span>
+              <span class="pill">被稱讚</span>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">💔 DISLIKES</div>
+            <div class="pill-group">
+              <span class="pill">說謊</span>
+              <span class="pill">豆芽</span>
+              <span class="pill">巧克力</span>
+              <span class="pill">黑暗</span>
+            </div>
+          </div>
+          <div class="col-span-full mt-2 pt-4 border-t border-dashed border-gray-200">
+            <div class="section-title">📅 DAILY ROUTINE</div>
+            <p class="text-sm text-slate-600 mb-2"><strong>晨間：</strong>苦冰美 + 5 分鐘跆拳道暖身。</p>
+            <p class="text-sm text-slate-600 mb-2"><strong>睡前：</strong>畫 Q 版成員，使用牙線。</p>
+            <p class="text-sm text-slate-600"><strong>TMI：</strong>日語流利；被誇會害羞低頭；口頭禪「請多誇獎我呀」。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
+    <div class="tab-content view-official">
+      
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-blue-500">Yeline</span>
+          <span class="cp-title">海豚 &amp; 貓貓</span>
+          <span class="cp-names">藝俊 × 河玟</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>藝俊稱河玟是「最疼愛的孩子」，河玟是藝俊的迷弟。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>231231 跨年回憶「七年前迷上小俊」；每場同框必牽手貼貼。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-pink-500">Yataz</span>
+          <span class="cp-title">呀上車s / 43line</span>
+          <span class="cp-names">豐玖 × 銀虎</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>十年好友，從舊組合到 PLAVE 始終同行，隊內「互懟擔當」。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>《Wait for you》MV 摩托車場景；演唱會「換乘戀愛」互選。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-teal-500">Nyangnyangz</span>
+          <span class="cp-title">起司貓 &amp; 黑貓</span>
+          <span class="cp-names">諾亞 × 河玟</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>諾亞溫柔照顧忙內，河玟依賴諾亞，私下互動細膩。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>諾亞幫河玟整理形象；河玟因諾亞的溫柔回應臉紅。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-orange-500">Madhyungz</span>
+          <span class="cp-title">元老組合 / 粉紅藍</span>
+          <span class="cp-names">藝俊 × 諾亞</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>最早相識，定海神針，出道至今零爭吵。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>230331 直播「藕斷絲連」牽手；諾亞直言「沒有藝俊就沒有 PLAVE」。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-red-500">辣椒組合</span>
+          <span class="cp-title">粉紅藍小劇場</span>
+          <span class="cp-names">藝俊 × 豐玖</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>藝俊包容斑比的跳脫，直播中經常上演抽象搞笑互動。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>《Super Bunny Man》連環摔倒；現場用「辣椒唱法」唱歌。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-indigo-500">俊虎line</span>
+          <span class="cp-title">海豚 &amp; 虎牙</span>
+          <span class="cp-names">藝俊 × 銀虎</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>銀虎表面調皮，實則對隊長完全信任。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>銀虎爆料藝俊怕黑並陪他走；巡演即興 Rap 感謝隊長。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-orange-400">芝士斑比</span>
+          <span class="cp-title">羊駝 &amp; 小鹿</span>
+          <span class="cp-names">諾亞 × 豐玖</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>哥哥照顧弟弟，第一次雙人直播就化學反應爆棚。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>模仿寶萊塢公主走 T 台；諾亞帶斑比健身。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-purple-500">辛拉麵組合</span>
+          <span class="cp-title">諾虎line</span>
+          <span class="cp-names">諾亞 × 銀虎</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>性格互補，直播中常上演情境劇互懟。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>辛拉麵 vs 芝士拉麵之爭；銀虎模仿斑比被諾亞誇獎。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-pink-400">斑民line</span>
+          <span class="cp-title">兔子 &amp; 貓貓</span>
+          <span class="cp-names">豐玖 × 河玟</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>歡喜冤家，河玟敢「吐槽」斑比。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>五子棋斑比耍賴跳電臀舞；玩《貓裡奧》河玟被炸毛。
+        </p>
+      </div>
+
+      
+      <div class="cp-card">
+        <div class="cp-header">
+          <span class="cp-badge bg-indigo-400">虎民line</span>
+          <span class="cp-title">Come back 組合</span>
+          <span class="cp-names">銀虎 × 河玟</span>
+        </div>
+        <p class="text-sm text-slate-600 mb-2"><strong>羈絆：</strong>銀虎表面嫌棄實則寵溺，河玟喜歡捉弄哥哥。</p>
+        <p class="text-xs text-slate-500 bg-slate-50 p-2 rounded">
+          <span class="font-bold">名場面：</span>河玟反覆用 "come back" 梗；日語互懟最後比心。
+        </p>
+      </div>
+
+    </div>
+
+    
+    <div class="tab-content view-hidden">
+      
+      <div class="p-4 bg-slate-800 text-white rounded-lg mb-6 shadow-lg">
+        <h3 class="text-lg font-bold mb-2">🕵️ 隱藏關係解密</h3>
+        <p class="text-sm opacity-80">這些 CP 核心是「非刻意營業的真實羈絆」，藏在只有彼此懂的笑點、低谷期的陪伴與遊戲裡的護短之中。</p>
+      </div>
+
+      
+      <div class="cp-card border-l-4 border-l-purple-500">
+        <h4 class="text-lg font-bold text-slate-800 mb-1">諾亞 × 銀虎 (14)</h4>
+        <p class="text-sm text-purple-600 font-semibold mb-3">「只有我們懂的大叔笑話」</p>
+        <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+          <li><strong>笑聲同化：</strong>舊團時期就因一起講冷笑話被吐槽，PLAVE 時期只有諾亞能秒懂銀虎的諧音梗。</li>
+          <li><strong>默契和聲：</strong>《Good Boy》翻唱中，諾亞無彩排精準接銀虎的即興 Rap。</li>
+          <li><strong>深夜泡泡：</strong>諾亞是唯一會評論銀虎健身部位不對的人；使用專屬縮寫交流。</li>
+        </ul>
+      </div>
+
+      
+      <div class="cp-card border-l-4 border-l-pink-500">
+        <h4 class="text-lg font-bold text-slate-800 mb-1">豐玖 × 河玟 (35)</h4>
+        <p class="text-sm text-pink-600 font-semibold mb-3">「遊戲裡的背刺與守護」</p>
+        <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+          <li><strong>刀子豆腐心：</strong>遊戲裡互坑，但外人調侃河玟時，斑比立刻反駁「他只是讓著我」。</li>
+          <li><strong>秘密共享：</strong>泡泡訪談中差點說漏嘴，照片背景顯示兩人在斑比家陽台。</li>
+          <li><strong>後台細節：</strong>河玟穿高跟鞋不穩，斑比第一時間扶住卻嘴硬；河玟幫斑比整理衣領。</li>
+        </ul>
+      </div>
+
+      
+      <div class="cp-card border-l-4 border-l-orange-500">
+        <h4 class="text-lg font-bold text-slate-800 mb-1">諾亞 × 豐玖 (13)</h4>
+        <p class="text-sm text-orange-600 font-semibold mb-3">「先婚後愛的社死與臉紅」</p>
+        <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+          <li><strong>偽裝女粉：</strong>諾亞變聲打電話給斑比電台，斑比得知真相後臉紅到耳朵。</li>
+          <li><strong>眼神閃躲：</strong>《成年禮》翻跳彩排時，對視害羞移開視線；正式跳時用手遮臉掩飾。</li>
+          <li><strong>反向祝福：</strong>諾亞送斑比向日葵卻說是粉絲送的，事後被工作人員爆料是提前訂製。</li>
+        </ul>
+      </div>
+
+      
+      <div class="cp-card border-l-4 border-l-blue-500">
+        <h4 class="text-lg font-bold text-slate-800 mb-1">藝俊 × 銀虎 (24)</h4>
+        <p class="text-sm text-blue-600 font-semibold mb-3">「舊團時期的救命草情誼」</p>
+        <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+          <li><strong>低谷支撐：</strong>舊團解散後藝俊每週找銀虎談心，說出「再試一次，我陪你」。</li>
+          <li><strong>下意識保護：</strong>恐怖遊戲中藝俊被嚇到，銀虎下意識把他拉向自己。</li>
+          <li><strong>專屬提醒：</strong>藝俊會幫銀虎準備舞蹈鞋，尺碼一致且有銀虎喜歡的火焰圖案。</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
 </div>
 </body>
 </html>
