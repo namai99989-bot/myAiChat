@@ -1,0 +1,633 @@
+<html>
+<head>
+<style>
+/* Root Scope */
+.jianghu-template {
+    --c-bg: #f1f8e9;
+    --c-text: #33691e;
+    --c-accent: #7cb342;
+    --c-accent-hover: #689f38;
+    --c-card-bg: #ffffff;
+    --c-border: #dcedc8;
+    --c-dark-bg: #050a05;
+    --c-dark-text: #a5d6a7;
+    --c-dark-accent: #ff5252;
+    
+    /* Random Seed Logic */
+    --seed: 0; /* Fallback */
+    
+    font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--c-bg);
+    color: var(--c-text);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px -8px rgba(51, 105, 30, 0.2);
+    isolation: isolate;
+    line-height: 1.6;
+    min-height: 650px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* State Toggles */
+.jianghu-template .mf-toggle {
+    display: none;
+}
+
+/* --- Cover Layer --- */
+.jianghu-template .mf-cover {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, #ffffff, #dcedc8);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jianghu-template #mf-reveal-toggle:checked ~ .mf-cover {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.1) translateY(-20px);
+}
+
+.jianghu-template .mf-cover-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 8px 16px rgba(124, 179, 66, 0.3));
+    animation: mf-float 3s ease-in-out infinite;
+}
+
+.jianghu-template .mf-cover-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--c-text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.jianghu-template .mf-cover-subtitle {
+    font-size: 0.75rem;
+    color: var(--c-accent);
+    margin-bottom: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.jianghu-template .mf-btn {
+    background: var(--c-accent);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(124, 179, 66, 0.4);
+    transition: all 0.2s ease;
+    border: 3px solid white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.jianghu-template .mf-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 179, 66, 0.6);
+    background: var(--c-accent-hover);
+}
+
+.jianghu-template .mf-btn:active {
+    transform: scale(0.96);
+}
+
+/* --- Main Content --- */
+.jianghu-template .mf-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease 0.2s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+}
+
+.jianghu-template #mf-reveal-toggle:checked ~ .mf-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header */
+.jianghu-template .mf-header {
+    text-align: center;
+    padding-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.jianghu-template .mf-badge {
+    display: inline-block;
+    background: #e8f5e9;
+    color: var(--c-accent);
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--c-border);
+}
+
+.jianghu-template .mf-title-text {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--c-text);
+}
+
+.jianghu-template .mf-role-text {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+/* Image Reel - The Gacha Logic */
+.jianghu-template .mf-window {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: var(--c-card-bg);
+    border-radius: 24px;
+    border: 4px dashed var(--c-border);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.03);
+}
+
+.jianghu-template .mf-reel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.jianghu-template .mf-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1.5rem;
+    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    /* Logic: Calculate visibility based on --seed and range */
+    /* If seed is within [min, max), opacity is 1, else 0 */
+    opacity: calc( 
+        clamp(0, (var(--seed) - var(--min) + 0.5) * 1000, 1) * 
+        clamp(0, (var(--max) - 0.5 - var(--seed)) * 1000, 1)
+    );
+    transform: scale(calc(0.8 + 0.2 * clamp(0, (var(--seed) - var(--min) + 0.5) * 1000, 1) * clamp(0, (var(--max) - 0.5 - var(--seed)) * 1000, 1)));
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+}
+
+/* Range Definitions for 17 Items (0-100) */
+.jianghu-template .mf-img:nth-child(1) { --min: 0; --max: 6; }
+.jianghu-template .mf-img:nth-child(2) { --min: 6; --max: 12; }
+.jianghu-template .mf-img:nth-child(3) { --min: 12; --max: 18; }
+.jianghu-template .mf-img:nth-child(4) { --min: 18; --max: 24; }
+.jianghu-template .mf-img:nth-child(5) { --min: 24; --max: 30; }
+.jianghu-template .mf-img:nth-child(6) { --min: 30; --max: 36; }
+.jianghu-template .mf-img:nth-child(7) { --min: 36; --max: 42; }
+.jianghu-template .mf-img:nth-child(8) { --min: 42; --max: 48; }
+.jianghu-template .mf-img:nth-child(9) { --min: 48; --max: 54; }
+.jianghu-template .mf-img:nth-child(10) { --min: 54; --max: 60; }
+.jianghu-template .mf-img:nth-child(11) { --min: 60; --max: 66; }
+.jianghu-template .mf-img:nth-child(12) { --min: 66; --max: 72; }
+.jianghu-template .mf-img:nth-child(13) { --min: 72; --max: 78; }
+.jianghu-template .mf-img:nth-child(14) { --min: 78; --max: 84; }
+.jianghu-template .mf-img:nth-child(15) { --min: 84; --max: 90; }
+.jianghu-template .mf-img:nth-child(16) { --min: 90; --max: 96; }
+.jianghu-template .mf-img:nth-child(17) { --min: 96; --max: 101; }
+
+/* Stats Panel */
+.jianghu-template .mf-stats {
+    background: white;
+    border-radius: 16px;
+    padding: 1.2rem;
+    border: 1px solid var(--c-border);
+    margin-bottom: 1.5rem;
+}
+
+.jianghu-template .mf-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.jianghu-template .mf-row:last-child {
+    margin-bottom: 0;
+}
+
+.jianghu-template .mf-label {
+    color: #7cb342;
+    font-weight: 700;
+}
+
+.jianghu-template .mf-value {
+    font-weight: 800;
+    color: var(--c-text);
+}
+
+.jianghu-template .mf-bar-track {
+    height: 8px;
+    background: #f1f8e9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.4rem;
+    width: 100%;
+}
+
+.jianghu-template .mf-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #AED581, #ff3d00);
+    width: 0%;
+    border-radius: 4px;
+    transition: width 1s ease 0.5s;
+}
+
+/* Footer Actions */
+.jianghu-template .mf-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    padding-bottom: 1rem;
+}
+
+.jianghu-template .mf-action {
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.jianghu-template .mf-action-reset {
+    background: white;
+    color: var(--c-accent);
+    border-color: var(--c-border);
+}
+
+.jianghu-template .mf-action-reset:hover {
+    border-color: var(--c-accent);
+    background: #f1f8e9;
+}
+
+.jianghu-template .mf-action-truth {
+    background: transparent;
+    color: #9ccc65;
+    border: 1px dashed #dcedc8;
+}
+
+.jianghu-template .mf-action-truth:hover {
+    background: #fff3e0;
+    color: #ff9800;
+    border-color: #ffe0b2;
+}
+
+/* --- Truth Layer (Dystopian) --- */
+.jianghu-template .mf-truth-layer {
+    position: absolute;
+    inset: 0;
+    background: var(--c-dark-bg);
+    z-index: 60;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.jianghu-template #mf-truth-toggle:checked ~ .mf-truth-layer {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.jianghu-template .mf-truth-layer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(178, 255, 89, 0.05) 3px,
+        rgba(178, 255, 89, 0.05) 4px
+    );
+    pointer-events: none;
+    animation: mf-scan 4s linear infinite;
+}
+
+.jianghu-template .mf-truth-header {
+    border-bottom: 1px solid var(--c-text);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.jianghu-template .mf-truth-title {
+    font-family: monospace;
+    color: var(--c-dark-accent);
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: mf-glitch 2s infinite alternate;
+}
+
+.jianghu-template .mf-truth-close {
+    color: var(--c-dark-text);
+    font-family: monospace;
+    cursor: pointer;
+    border: 1px solid var(--c-dark-text);
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    transition: all 0.2s;
+    background: rgba(0,0,0,0.5);
+}
+
+.jianghu-template .mf-truth-close:hover {
+    background: var(--c-dark-text);
+    color: var(--c-dark-bg);
+}
+
+.jianghu-template .mf-truth-content {
+    flex: 1;
+    overflow-y: auto;
+    font-family: monospace;
+    color: var(--c-dark-text);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding-right: 0.5rem;
+}
+
+.jianghu-template .mf-truth-block {
+    margin-bottom: 1.5rem;
+    border-left: 2px solid var(--c-dark-accent);
+    padding-left: 1rem;
+    background: rgba(255, 82, 82, 0.05);
+    padding: 0.8rem;
+}
+
+.jianghu-template .mf-truth-h {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+/* Scrollbar for truth layer */
+.jianghu-template .mf-truth-content::-webkit-scrollbar {
+    width: 4px;
+}
+.jianghu-template .mf-truth-content::-webkit-scrollbar-thumb {
+    background: var(--c-dark-accent);
+}
+
+/* Animations */
+@keyframes mf-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes mf-glitch {
+    0% { opacity: 1; text-shadow: 2px 0 red; }
+    95% { opacity: 1; text-shadow: 2px 0 red; }
+    96% { opacity: 0.8; text-shadow: -2px 0 blue; }
+    98% { opacity: 1; text-shadow: 2px 0 red; }
+    100% { opacity: 1; text-shadow: -2px 0 blue; }
+}
+
+@keyframes mf-scan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+}
+</style>
+<meta name="cg-name" content="抽選你是哪隻小可愛?" />
+<meta name="cg-command-name" content="抽選你是哪隻小可愛?" />
+<meta name="cg-color" content="#0CA200" />
+<meta name="cg-icon" content="Shrub" />
+<meta name="cg-mode" content="release" />
+</head>
+<body>
+<style>
+.jianghu-template {--c-bg: #f1f8e9; --c-text: #33691e; --c-accent: #7cb342; --c-accent-hover: #689f38; --c-card-bg: #fff; --c-border: #dcedc8; --c-dark-bg: #050a05; --c-dark-text: #a5d6a7; --c-dark-accent: #ff5252; --seed: 0; font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif; width: 100%; max-width: 400px; margin: 0 auto; background: var(--c-bg); color: var(--c-text); border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 20px 40px -8px rgba(51, 105, 30, 0.2); line-height: 1.6; min-height: 650px; display: flex; flex-direction: column;}
+.jianghu-template .mf-toggle {display: none;}
+.jianghu-template .mf-cover {position: absolute; inset: 0; background: radial-gradient(circle at center, #fff, #dcedc8); z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
+.jianghu-template #mf-reveal-toggle:checked ~ .mf-cover {opacity: 0; pointer-events: none; transform: scale(1.1) translatey(-20px);}
+.jianghu-template .mf-cover-icon {font-size: 4rem; margin-bottom: 1rem; filter: drop-shadow(0 8px 16px rgba(124, 179, 66, 0.3)); animation: mf-float 3s ease-in-out infinite;}
+.jianghu-template .mf-cover-title {font-size: 1.6rem; font-weight: 900; color: var(--c-text); margin-bottom: 0.5rem; letter-spacing: -0.5px;}
+.jianghu-template .mf-cover-subtitle {font-size: 0.75rem; color: var(--c-accent); margin-bottom: 3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;}
+.jianghu-template .mf-btn {background: var(--c-accent); color: white; padding: 1rem 2.5rem; border-radius: 99px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 6px 20px rgba(124, 179, 66, 0.4); transition: all 0.2s ease; border: 3px solid white; display: inline-flex; align-items: center; gap: 0.5rem;}
+.jianghu-template .mf-btn:hover {transform: translatey(-2px); box-shadow: 0 8px 25px rgba(124, 179, 66, 0.6); background: var(--c-accent-hover);}
+.jianghu-template .mf-btn:active {transform: scale(0.96);}
+.jianghu-template .mf-content {opacity: 0; transform: translatey(20px); transition: opacity 0.5s ease 0.2s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s; padding: 0 1.5rem 1.5rem; display: flex; flex-direction: column; height: 100%; flex: 1;}
+.jianghu-template #mf-reveal-toggle:checked ~ .mf-content {opacity: 1; transform: translatey(0);}
+.jianghu-template .mf-header {text-align: center; padding-top: 2rem; margin-bottom: 1rem;}
+.jianghu-template .mf-badge {display: inline-block; background: #e8f5e9; color: var(--c-accent); padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--c-border);}
+.jianghu-template .mf-title-text {font-weight: 900; font-size: 1.4rem; color: var(--c-text);}
+.jianghu-template .mf-role-text {font-size: 0.85rem; opacity: 0.7; font-weight: 600;}
+.jianghu-template .mf-window {width: 100%; aspect-ratio: 1/1; background: var(--c-card-bg); border-radius: 24px; border: 4px dashed var(--c-border); position: relative; overflow: hidden; margin-bottom: 1.5rem; box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.03);}
+.jianghu-template .mf-reel {width: 100%; height: 100%; position: relative;}
+.jianghu-template .mf-img {position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 1.5rem; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));}
+.jianghu-template .mf-img:nth-child(1) {--min: 0; --max: 6;}
+.jianghu-template .mf-img:nth-child(2) {--min: 6; --max: 12;}
+.jianghu-template .mf-img:nth-child(3) {--min: 12; --max: 18;}
+.jianghu-template .mf-img:nth-child(4) {--min: 18; --max: 24;}
+.jianghu-template .mf-img:nth-child(5) {--min: 24; --max: 30;}
+.jianghu-template .mf-img:nth-child(6) {--min: 30; --max: 36;}
+.jianghu-template .mf-img:nth-child(7) {--min: 36; --max: 42;}
+.jianghu-template .mf-img:nth-child(8) {--min: 42; --max: 48;}
+.jianghu-template .mf-img:nth-child(9) {--min: 48; --max: 54;}
+.jianghu-template .mf-img:nth-child(10) {--min: 54; --max: 60;}
+.jianghu-template .mf-img:nth-child(11) {--min: 60; --max: 66;}
+.jianghu-template .mf-img:nth-child(12) {--min: 66; --max: 72;}
+.jianghu-template .mf-img:nth-child(13) {--min: 72; --max: 78;}
+.jianghu-template .mf-img:nth-child(14) {--min: 78; --max: 84;}
+.jianghu-template .mf-img:nth-child(15) {--min: 84; --max: 90;}
+.jianghu-template .mf-img:nth-child(16) {--min: 90; --max: 96;}
+.jianghu-template .mf-img:nth-child(17) {--min: 96; --max: 101;}
+.jianghu-template .mf-stats {background: white; border-radius: 16px; padding: 1.2rem; border: 1px solid var(--c-border); margin-bottom: 1.5rem;}
+.jianghu-template .mf-row {display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; font-size: 0.9rem;}
+.jianghu-template .mf-row:last-child {margin-bottom: 0;}
+.jianghu-template .mf-label {color: #7cb342; font-weight: 700;}
+.jianghu-template .mf-value {font-weight: 800; color: var(--c-text);}
+.jianghu-template .mf-bar-track {height: 8px; background: #f1f8e9; border-radius: 4px; overflow: hidden; margin-top: 0.4rem; width: 100%;}
+.jianghu-template .mf-bar-fill {height: 100%; background: linear-gradient(90deg, #AED581, #ff3d00); width: 0%; border-radius: 4px; transition: width 1s ease 0.5s;}
+.jianghu-template .mf-footer {margin-top: auto; display: flex; justify-content: center; gap: 0.8rem; padding-bottom: 1rem;}
+.jianghu-template .mf-action {padding: 0.6rem 1rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; display: flex; align-items: center; gap: 0.4rem;}
+.jianghu-template .mf-action-reset {background: white; color: var(--c-accent); border-color: var(--c-border);}
+.jianghu-template .mf-action-reset:hover {border-color: var(--c-accent); background: #f1f8e9;}
+.jianghu-template .mf-action-truth {background: transparent; color: #9ccc65; border: 1px dashed #dcedc8;}
+.jianghu-template .mf-action-truth:hover {background: #fff3e0; color: #ff9800; border-color: #ffe0b2;}
+.jianghu-template .mf-truth-layer {position: absolute; inset: 0; background: var(--c-dark-bg); z-index: 60; padding: 2rem; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; overflow: hidden;}
+.jianghu-template #mf-truth-toggle:checked ~ .mf-truth-layer {opacity: 1; pointer-events: auto;}
+.jianghu-template .mf-truth-layer::before {content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(178, 255, 89, 0.05) 3px, rgba(178, 255, 89, 0.05) 4px); pointer-events: none; animation: mf-scan 4s linear infinite;}
+.jianghu-template .mf-truth-header {border-bottom: 1px solid var(--c-text); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;}
+.jianghu-template .mf-truth-title {font-family: monospace; color: var(--c-dark-accent); font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; animation: mf-glitch 2s infinite alternate;}
+.jianghu-template .mf-truth-close {color: var(--c-dark-text); font-family: monospace; cursor: pointer; border: 1px solid var(--c-dark-text); padding: 4px 12px; font-size: 0.7rem; transition: all 0.2s; background: rgba(0, 0, 0, 0.5);}
+.jianghu-template .mf-truth-close:hover {background: var(--c-dark-text); color: var(--c-dark-bg);}
+.jianghu-template .mf-truth-content {flex: 1; overflow-y: auto; font-family: monospace; color: var(--c-dark-text); font-size: 0.85rem; line-height: 1.6; padding-right: 0.5rem;}
+.jianghu-template .mf-truth-block {margin-bottom: 1.5rem; border-left: 2px solid var(--c-dark-accent); padding-left: 1rem; background: rgba(255, 82, 82, 0.05); padding: 0.8rem;}
+.jianghu-template .mf-truth-h {color: white; font-weight: bold; margin-bottom: 0.4rem; display: block;}
+.jianghu-template .mf-truth-content::-webkit-scrollbar {width: 4px;}
+.jianghu-template .mf-truth-content::-webkit-scrollbar-thumb {background: var(--c-dark-accent);}
+@keyframes mf-float {
+  0%, 100% {transform: translatey(0);}
+  50% {transform: translatey(-10px);}
+}
+@keyframes mf-glitch {
+  0% {opacity: 1; text-shadow: 2px 0 red;}
+  95% {opacity: 1; text-shadow: 2px 0 red;}
+  96% {opacity: 0.8; text-shadow: -2px 0 blue;}
+  98% {opacity: 1; text-shadow: 2px 0 red;}
+  100% {opacity: 1; text-shadow: -2px 0 blue;}
+}
+@keyframes mf-scan {
+  0% {background-position: 0 0;}
+  100% {background-position: 0 100%;}
+}
+</style>
+
+<div class="jianghu-template">
+    
+    <input type="checkbox" id="mf-reveal-toggle" class="mf-toggle">
+    <input type="checkbox" id="mf-truth-toggle" class="mf-toggle">
+
+    
+    <div class="mf-cover">
+        <div class="mf-cover-icon">🌱</div>
+        <div class="mf-cover-title">奇蹟之森 · 入境審查</div>
+        <div class="mf-cover-subtitle">Miracle Forest Immigration</div>
+        <label for="mf-reveal-toggle" class="mf-btn">
+            <span>生成居民檔案</span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+        </label>
+    </div>
+
+    
+    <div class="mf-content">
+        <div class="mf-header">
+            <div class="mf-badge">RESIDENT ID CARD</div>
+            <div class="mf-title-text">「背景路人小可愛」</div>
+            <div class="mf-role-text">Class: Background Mob</div>
+        </div>
+
+        
+        <div class="mf-window">
+            <div class="mf-reel">
+                <img class="mf-img" src="https://i.postimg.cc/hPnKyLrr/2.png" alt="Mob 1">
+                <img class="mf-img" src="https://i.postimg.cc/vHyGqrzL/3.png" alt="Mob 2">
+                <img class="mf-img" src="https://i.postimg.cc/zGX85q4g/ji-yi-lu-ren-jiao-se-she-ji.png" alt="Mob 3">
+                <img class="mf-img" src="https://i.postimg.cc/GhRb7FQg/ji-yi-lu-ren-jiao-se-she-ji-(1).png" alt="Mob 4">
+                <img class="mf-img" src="https://i.postimg.cc/X7g4Tr1Y/ji-yi-lu-ren-jiao-se-she-ji-(10).png" alt="Mob 5">
+                <img class="mf-img" src="https://i.postimg.cc/NfxBWKC0/ji-yi-lu-ren-jiao-se-she-ji-(11).png" alt="Mob 6">
+                <img class="mf-img" src="https://i.postimg.cc/4N1srY2y/ji-yi-lu-ren-jiao-se-she-ji-(12).png" alt="Mob 7">
+                <img class="mf-img" src="https://i.postimg.cc/K8vxFmCG/ji-yi-lu-ren-jiao-se-she-ji-(13).png" alt="Mob 8">
+                <img class="mf-img" src="https://i.postimg.cc/P5rThd0d/ji-yi-lu-ren-jiao-se-she-ji-(14).png" alt="Mob 9">
+                <img class="mf-img" src="https://i.postimg.cc/XY743ntN/ji-yi-lu-ren-jiao-se-she-ji-(18).png" alt="Mob 10">
+                <img class="mf-img" src="https://i.postimg.cc/RVmvs7Ry/ji-yi-lu-ren-jiao-se-she-ji-(2).png" alt="Mob 11">
+                <img class="mf-img" src="https://i.postimg.cc/135sPyb8/ji-yi-lu-ren-jiao-se-she-ji-(20).png" alt="Mob 12">
+                <img class="mf-img" src="https://i.postimg.cc/Wb7TQdWx/ji-yi-lu-ren-jiao-se-she-ji-(3).png" alt="Mob 13">
+                <img class="mf-img" src="https://i.postimg.cc/rF9MvDnv/ji-yi-lu-ren-jiao-se-she-ji-(4).png" alt="Mob 14">
+                <img class="mf-img" src="https://i.postimg.cc/CL4SWRrp/ji-yi-lu-ren-jiao-se-she-ji-(5).png" alt="Mob 15">
+                <img class="mf-img" src="https://i.postimg.cc/gkKmfxtp/ji-yi-lu-ren-jiao-se-she-ji-(7).png" alt="Mob 16">
+                <img class="mf-img" src="https://i.postimg.cc/02CPLzX2/ji-yi-lu-ren-jiao-se-she-ji-(9).png" alt="Mob 17">
+            </div>
+        </div>
+
+        <div class="mf-stats">
+            <div class="mf-row">
+                <span class="mf-label">可愛稅 (Cute Tax)</span>
+                <span class="mf-value" style="color: #7cb342">PAID ✅</span>
+            </div>
+            <div class="mf-row" style="flex-direction: column; align-items: stretch; gap: 0.2rem">
+                <div style="display: flex; justify-content: space-between">
+                    <span class="mf-label">隨機熵 (Entropy)</span>
+                    <span class="mf-value">{random_result_int}%</span>
+                </div>
+                <div class="mf-bar-track">
+                    <div class="mf-bar-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mf-footer">
+            <label for="mf-truth-toggle" class="mf-action mf-action-truth">
+                ⚠️ 系統自檢
+            </label>
+            <label for="mf-reveal-toggle" class="mf-action mf-action-reset">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 0 0 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"></path>
+                </svg>
+                重置檔案
+            </label>
+        </div>
+    </div>
+
+    
+    <div class="mf-truth-layer">
+        <div class="mf-truth-header">
+            <span class="mf-truth-title">SYSTEM ALERT //</span>
+            <label for="mf-truth-toggle" class="mf-truth-close">[CLOSE_LOGS]</label>
+        </div>
+        <div class="mf-truth-content">
+            <div class="mf-truth-block">
+                <span class="mf-truth-h">&gt;&gt; 觀察對象：{USER}</span>
+                <p>種族：潛在的「誤差」個體<br>崩壞值預測：{random_result_int}%</p>
+            </div>
+            
+            <div class="mf-truth-block">
+                <span class="mf-truth-h">&gt;&gt; 世界觀概要：奇蹟之森</span>
+                <p>表面充滿了柔和的色彩、圓潤可愛的生物與隨機出現的夢幻資源。然而，這份「可愛」是系統維持的假象。所有居住於此的「小可愛」生物，從誕生起就被植入了「必須可愛」的潛意識制約。</p>
+            </div>
+
+            <div class="mf-truth-block">
+                <span class="mf-truth-h">&gt;&gt; 關鍵概念：可愛稅與崩壞值</span>
+                <p>維持「可愛」需要消耗內在能量，並會持續積累看不見的「崩壞值」。當數值超過臨界點，個體將不可逆地轉變為「奇美拉」（怪物），成為系統清理「誤差」的工具。</p>
+            </div>
+
+            <div class="mf-truth-block">
+                <span class="mf-truth-h">&gt;&gt; 機密設施：中央調律塔</span>
+                <p>系統的中樞，派出「盔甲人」管理勞動分配。它們沒有情感，絕對忠於指令，負責處理試圖探究秘密的小可愛。</p>
+            </div>
+            
+            <div style="font-size: 0.7rem; color: #555; margin-top: 2rem">
+                LOG_ID: {random_result}<br>
+                TIMESTAMP: {local_time}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
