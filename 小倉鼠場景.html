@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* {margin: 0;padding: 0;box-sizing: border-box;font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;}
+body {background: #fff;overflow-x: hidden;}
+/* 封面页样式 */
+.cover-page {position: fixed;top: 0;left: 0;width: 100%;height: 100vh;background: #fff;display: flex;flex-direction: column;justify-content: center;align-items: center;z-index: 9999;transition: all 0.8s ease;}
+.cover-page.hide {opacity: 0;pointer-events: none;transform: scale(0.9);}
+.cover-img {width: 280px;height: 280px;border-radius: 50%;object-fit: cover;border: 8px solid #ff9eaa;box-shadow: 0 8px 30px rgba(255, 158, 170, 0.3);margin-bottom: 30px;}
+.cover-title {font-size: 2.2rem;color: #ff6b8b;margin-bottom: 15px;text-align: center;}
+.cover-subtitle {font-size: 1.1rem;color: #8d6e63;margin-bottom: 40px;text-align: center;}
+.start-btn {background: linear-gradient(90deg, #ff8a9d, #ff6b8b);color: white;border: none;padding: 16px 45px;border-radius: 50px;font-size: 1.1rem;cursor: pointer;box-shadow: 0 8px 20px rgba(255, 107, 139, 0.4);transition: all 0.3s ease;}
+.start-btn:hover {transform: scale(1.08);box-shadow: 0 10px 25px rgba(255, 107, 139, 0.5);}
+
+/* 场景选择面板 - 小游戏风格 */
+.scene-panel {position: fixed;top: 20px;left: 20px;z-index: 999;background: rgba(255, 255, 255, 0.95);border-radius: 15px;padding: 20px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);width: 280px;max-height: 80vh;overflow-y: auto;transition: all 0.3s ease;}
+.scene-panel h2 {font-size: 1.3rem;color: #ff6b8b;margin-bottom: 15px;text-align: center;border-bottom: 2px solid #ffe0e6;padding-bottom: 10px;}
+.scene-list {display: flex;flex-direction: column;gap: 12px;}
+.scene-item {background: #fff;border-radius: 10px;padding: 12px;cursor: pointer;transition: all 0.2s ease;border: 2px solid transparent;display: flex;align-items: center;gap: 10px;}
+.scene-item:hover {background: #fff8f9;transform: translateX(5px);}
+.scene-item.active {border-color: #ff8a9d;background: #fff0f3;}
+.scene-icon {font-size: 1.2rem;width: 30px;text-align: center;}
+.scene-name {font-size: 0.95rem;color: #5d4037;}
+
+/* 视频全屏容器 */
+.video-container {position: fixed;top: 0;left: 0;width: 100vw;height: 100vh;z-index: 1;}
+.main-video {width: 100%;height: 100%;object-fit: contain;background: #000;}
+
+/* 场景详情面板 */
+.info-panel {position: fixed;bottom: 20px;right: 20px;z-index: 999;background: rgba(255, 255, 255, 0.95);border-radius: 15px;padding: 20px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);width: 320px;max-height: 60vh;overflow-y: auto;}
+.info-panel h3 {font-size: 1.2rem;color: #ff6b8b;margin-bottom: 15px;border-bottom: 2px solid #ffe0e6;padding-bottom: 8px;}
+.info-content {font-size: 0.95rem;color: #5d4037;line-height: 1.6;}
+.info-section {margin-bottom: 12px;}
+.info-label {font-weight: bold;color: #ff8a9d;margin-bottom: 4px;display: block;}
+
+/* 音频控制按钮 */
+.audio-control {position: fixed;bottom: 20px;left: 20px;z-index: 999;background: #fff;border-radius: 50px;padding: 12px 20px;box-shadow: 0 6px 20px rgba(0,0,0,0.15);display: flex;align-items: center;gap: 15px;}
+.audio-btn {background: #ff8a9d;color: white;border: none;width: 40px;height: 40px;border-radius: 50%;display: flex;justify-content: center;align-items: center;cursor: pointer;font-size: 1.1rem;transition: all 0.2s ease;}
+.audio-btn:hover {transform: scale(1.1);background: #ff6b8b;}
+
+/* 变量配置区 - 隐藏用于feelin.ai */
+.variable-config {display: none;}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+.scene-panel {width: 240px;top: 10px;left: 10px;padding: 15px;}
+.info-panel {width: 280px;bottom: 80px;right: 10px;padding: 15px;}
+.audio-control {left: 10px;bottom: 10px;padding: 10px 15px;}
+.cover-title {font-size: 1.8rem;}
+}
+</style>
+</head>
+<body>
+<!-- 封面页 -->
+<div class="cover-page" id="coverPage">
+<img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/0002420731cf46c7b62bd5ca871ed0cb.png" alt="封面" class="cover-img">
+<h1 class="cover-title">🍒軟萌小青梅 | 小倉鼠</h1>
+<p class="cover-subtitle">沉浸式場景互動館</p>
+<button class="start-btn" id="startBtn">開始探索 ❤️</button>
+</div>
+
+<!-- 场景选择面板 -->
+<div class="scene-panel">
+<h2>場景選擇</h2>
+<div class="scene-list">
+<div class="scene-item active" data-scene="1">
+<span class="scene-icon">🍳</span>
+<span class="scene-name">共同製作早餐</span>
+</div>
+<div class="scene-item" data-scene="2">
+<span class="scene-icon">🚌</span>
+<span class="scene-name">下雨天公車站</span>
+</div>
+<div class="scene-item" data-scene="3">
+<span class="scene-icon">🍏</span>
+<span class="scene-name">廚房午後發呆</span>
+</div>
+<div class="scene-item" data-scene="4">
+<span class="scene-icon">🎮</span>
+<span class="scene-name">客廳電玩時光</span>
+</div>
+<div class="scene-item" data-scene="5">
+<span class="scene-icon">🎧</span>
+<span class="scene-name">陽台獨處時光</span>
+</div>
+<div class="scene-item" data-scene="6">
+<span class="scene-icon">🌆</span>
+<span class="scene-name">陽台共同微醺</span>
+</div>
+<div class="scene-item" data-scene="7">
+<span class="scene-icon">🌂</span>
+<span class="scene-name">街頭雨後漫步</span>
+</div>
+<div class="scene-item" data-scene="8">
+<span class="scene-icon">👟</span>
+<span class="scene-name">玄關等候日常</span>
+</div>
+</div>
+</div>
+
+<!-- 视频全屏容器 -->
+<div class="video-container">
+<video class="main-video" id="mainVideo" controls>
+<source src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/22bf03628e0e46328c431eb56d4bdc57.mp4" type="video/mp4">
+您的浏览器不支持HTML5视频播放
+</video>
+</div>
+
+<!-- 场景详情面板 -->
+<div class="info-panel" id="infoPanel">
+<h3 id="sceneTitle">場景1：共同製作早餐</h3>
+<div class="info-content" id="sceneContent">
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+親暱、溫暖，兩人親密互動，充滿溫馨感
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+人物1手拿打蛋器和玻璃碗；男生1雙手環繞在女生腰間，手裡拿著一顆鮮雞蛋準備遞給她。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+兩人都穿著簡單的棉質居家服，男生是淺藍色寬鬆 T-shirt，人物1是長版寬大白襯衫。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+陽光充足的開放式廚房，中島桌上放著吐司、果醬罐和兩杯柳橙汁。
+</div>
+</div>
+</div>
+
+<!-- 音频控制 -->
+<div class="audio-control">
+<button class="audio-btn" id="audioBtn">🎵</button>
+</div>
+
+<!-- 变量配置区 - 用于feelin.ai，页面隐藏 -->
+<div class="variable-config">
+{llm_content}
+{round}
+{latest_1_round}
+{latest_2_round}
+{latest_3_round}
+{latest_character_message}
+{latest_user_message}
+</div>
+
+<script>
+// 场景数据
+const scenes = [
+    {
+        id: 1,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/22bf03628e0e46328c431eb56d4bdc57.mp4",
+        title: "場景1：共同製作早餐",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+親暱、溫暖，兩人親密互動，充滿溫馨感
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+人物1手拿打蛋器和玻璃碗；男生1雙手環繞在女生腰間，手裡拿著一顆鮮雞蛋準備遞給她。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+兩人都穿著簡單的棉質居家服，男生是淺藍色寬鬆 T-shirt，人物1是長版寬大白襯衫。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+陽光充足的開放式廚房，中島桌上放著吐司、果醬罐和兩杯柳橙汁。
+</div>
+        `
+    },
+    {
+        id: 2,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/7c5e33c2a7a34f41addf97cce50cf61f.mp4",
+        title: "場景2：下雨天的公車站等候",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+眼神望向遠方，帶著一絲沉思的表情。
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+側身靠在站牌邊，手裡握著一把透明的雨傘，傘面佈滿晶瑩的水珠。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+深灰色的毛呢長版大衣，圍著一條暗紅色的格紋圍巾。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+傍晚的城市公車站，地面積水反射出霓虹燈和車燈的光影，背景是雨中模糊的街道景觀。
+</div>
+        `
+    },
+    {
+        id: 3,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/2935be3899e44771840e5396586fea90.mp4",
+        title: "場景3：廚房窗邊的午後發呆",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+表情空靈，眼神失焦地望向窗外。
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+背靠著廚房流理台，雙手自然垂下，指尖輕觸著一個剛洗好、還帶著水珠的綠色青蘋果。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+寬鬆的白色大版男裝襯衫，扣子沒扣滿，搭配淺藍色短褲。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+日系簡約風廚房。背景有不鏽鋼水槽與一盆小型的多肉植物，午後的陽光在大理石檯面上映射出長長的陰影。
+</div>
+        `
+    },
+    {
+        id: 4,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/14f5b046a449424fb75efdca09a1f769.mp4",
+        title: "場景4：客廳 - 週日下午的電玩時光",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+專注的側臉，嘴唇微張，帶著一點不服輸的少年感。
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+靠在沙發背墊上，雙手握著一個白色的 PS5 遊戲搖桿，手指正在快速按動。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+淺灰色的長袖連帽衛衣，領口露出一截銀色的細項鍊。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+陽光灑進來的客廳，地板上散落著幾本雜誌，背景的電視螢幕發出彩色的光映在他臉上。
+</div>
+        `
+    },
+    {
+        id: 5,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/533f1fc8e8d14b73b64c2b87cf558ca9.mp4",
+        title: "場景5：陽台邊的獨處",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+寧靜、質感、內斂
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+站在落地窗旁，一隻手輕扶著玻璃，另一手拿著一支白色的藍牙耳機正準備戴上，看著窗外的雨景。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+絲滑的莫代爾材質黑色家居服套裝，看起來非常有質感。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+落地窗邊，窗外是模糊的城市街景與雨滴，室內地上的盆栽大葉龜背竹與透明花瓶形成了寧靜的對比。
+</div>
+        `
+    },
+    {
+        id: 6,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/dc210e73457e48bf95ba77b882556398.mp4",
+        title: "場景6：陽台 - 傍晚的共同微醺",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+兩人並肩坐在陽台的高腳椅上，望著夕陽，享受安靜的時刻。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+穿著亞麻材質的襯衫（袖子捲起）
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+狹長但佈置精美的陽台，有串燈（Fairy lights）點綴，背景是模糊的都市夕陽餘暉。
+</div>
+        `
+    },
+    {
+        id: 7,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/c551fa2ba329420aa82c3933e51f0818.mp4",
+        title: "場景7：街頭漫步 - 雨後的「共撐一把傘」",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+男生為了不讓女生淋濕，刻意將傘往女生那邊傾斜，導致自己的一邊肩膀濕透了。
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+男生撐著一把深藍色的大雨傘；女生挽著男生的手臂，另一手拿著兩串剛買的街頭小吃（如糖葫蘆或鯛魚燒）。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+雨後濕漉漉的街道，地面反射著商店街的霓虹招牌，路燈散發出暈黃的光。
+</div>
+        `
+    },
+    {
+        id: 8,
+        videoUrl: "https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/6b234b18462d49ae97b03f2c03ba0aa4.mp4",
+        title: "場景8：玄關等候的日常",
+        content: `
+<div class="info-section">
+<span class="info-label">核心特徵：</span>
+眼神清澈，給人安靜的感覺。
+</div>
+<div class="info-section">
+<span class="info-label">動作與手持物：</span>
+坐在玄關的換鞋凳上，手裡拿著一隻剛穿好一半的白色帆布鞋，動作停頓下來，像是突然想起了什麼而陷入思考。
+</div>
+<div class="info-section">
+<span class="info-label">穿著：</span>
+淺藍色丹寧襯衫外搭一件深綠色背心。
+</div>
+<div class="info-section">
+<span class="info-label">環境背景：</span>
+簡約的玄關。牆上掛著幾把雨傘與鑰匙架，地板是復古的小花磚，一旁放著一個黑色後背包。
+</div>
+        `
+    }
+];
+
+// DOM元素
+const coverPage = document.getElementById('coverPage');
+const startBtn = document.getElementById('startBtn');
+const mainVideo = document.getElementById('mainVideo');
+const sceneItems = document.querySelectorAll('.scene-item');
+const sceneTitle = document.getElementById('sceneTitle');
+const sceneContent = document.getElementById('sceneContent');
+const audioBtn = document.getElementById('audioBtn');
+
+// 背景音乐
+const bgAudio = new Audio('https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/2c66304ff90e47a596dca99d7be7bccf.mp3');
+bgAudio.loop = true;
+let isAudioPlaying = false;
+
+// 封面页开始按钮
+startBtn.addEventListener('click', () => {
+    coverPage.classList.add('hide');
+});
+
+// 场景选择切换
+sceneItems.forEach(item => {
+    item.addEventListener('click', () => {
+        // 移除所有激活状态
+        sceneItems.forEach(i => i.classList.remove('active'));
+        // 添加当前激活状态
+        item.classList.add('active');
+        
+        // 获取场景ID
+        const sceneId = parseInt(item.dataset.scene);
+        const scene = scenes.find(s => s.id === sceneId);
+        
+        // 更新视频和场景信息
+        mainVideo.src = scene.videoUrl;
+        sceneTitle.textContent = scene.title;
+        sceneContent.innerHTML = scene.content;
+        mainVideo.load();
+        mainVideo.play();
+    });
+});
+
+// 音频控制（手动播放）
+audioBtn.addEventListener('click', () => {
+    if (isAudioPlaying) {
+        bgAudio.pause();
+        audioBtn.textContent = '🎵';
+    } else {
+        bgAudio.play();
+        audioBtn.textContent = '🔇';
+    }
+    isAudioPlaying = !isAudioPlaying;
+});
+</script>
+</body>
+</html>

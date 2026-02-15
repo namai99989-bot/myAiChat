@@ -1,492 +1,99 @@
+<!DOCTYPE html>
 <html>
 <head>
-<style>
-.night-walker-root {
-    --nw-primary: #a78bfa;
-    --nw-secondary: #f472b6;
-    --nw-bg: #020617;
-    --nw-panel: rgba(15, 23, 42, 0.75);
-    --nw-border: rgba(167, 139, 250, 0.2);
-    --nw-text: #f1f5f9;
-    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    background-color: var(--nw-bg);
-    color: var(--nw-text);
-    line-height: 1.6;
-    /* 补全原依赖Tailwind的布局样式 */
-    padding: 1rem;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.night-walker-root .glass-card {
-    background: var(--nw-panel);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--nw-border);
-    border-radius: 1.25rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(167, 139, 250, 0.05);
-    position: relative;
-    overflow: hidden;
-}
-
-.night-walker-root .stat-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--nw-primary);
-    font-weight: 700;
-}
-
-.night-walker-root .stat-value {
-    font-size: 0.95rem;
-    color: #fff;
-    font-weight: 500;
-}
-
-.night-walker-root .pill-badge {
-    padding: 0.2rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.65rem;
-    background: rgba(167, 139, 250, 0.1);
-    border: 1px solid rgba(167, 139, 250, 0.3);
-    color: var(--nw-primary);
-    backdrop-filter: blur(4px);
-    display: inline-block;
-}
-
-.night-walker-root .story-container {
-    border-left: 2px solid var(--nw-primary);
-    padding-left: 1.25rem;
-    margin: 1.5rem 0;
-    background: linear-gradient(to right, rgba(167, 139, 250, 0.05), transparent);
-}
-
-.night-walker-root .interactive-trigger {
-    display: none;
-}
-
-.night-walker-root .accordion-body {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-}
-
-.night-walker-root .interactive-trigger:checked ~ .accordion-body {
-    max-height: 1200px;
-    opacity: 1;
-    padding-top: 1rem;
-}
-
-.night-walker-root .glow-text {
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
-}
-
-.night-walker-root .scan-line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--nw-primary), transparent);
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: scan-move 4s linear infinite;
-    pointer-events: none;
-    z-index: 10;
-}
-
-@keyframes scan-move {
-    0% { top: 0; opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { top: 100%; opacity: 0; }
-}
-
-.night-walker-root .cg-audio-player {
-    width: 100%;
-    max-width: 360px;
-    background: #0f172a;
-    color: #e5e7eb;
-    border-radius: 10px;
-    padding: 6px 8px;
-    margin-top: 1rem;
-    border: 1px solid var(--nw-border);
-}
-
-.night-walker-root .cg-audio-controls {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.night-walker-root .cg-audio-controls__btn {
-    flex: 1;
-    padding: 6px 8px;
-    border: 1px solid #1f2937;
-    background: #111827;
-    color: #e5e7eb;
-    border-radius: 8px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.night-walker-root .cg-audio-controls__btn:hover {
-    background: #1f2937;
-}
-
-.night-walker-root .cg-audio-controls__btn[data-state="active"],
-.night-walker-root .cg-audio-controls__btn--active {
-    border-color: #3b82f6;
-    color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
-}
-
-/* 补全缺失的Tailwind样式（原生CSS替代） */
-.flex {
-    display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.flex-wrap {
-    flex-wrap: wrap;
-}
-
-.gap-2 {
-    gap: 0.5rem;
-}
-
-.gap-3 {
-    gap: 0.75rem;
-}
-
-.gap-4 {
-    gap: 1rem;
-}
-
-.gap-5 {
-    gap: 1.25rem;
-}
-
-.mt-1 {
-    margin-top: 0.25rem;
-}
-
-.mt-3 {
-    margin-top: 0.75rem;
-}
-
-.mb-3 {
-    margin-bottom: 0.75rem;
-}
-
-.mb-6 {
-    margin-bottom: 1.5rem;
-}
-
-.p-3 {
-    padding: 0.75rem;
-}
-
-.p-4 {
-    padding: 1rem;
-}
-
-.p-5 {
-    padding: 1.25rem;
-}
-
-.p-6 {
-    padding: 1.5rem;
-}
-
-.space-y-1 {
-    gap: 0.25rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.space-y-3 {
-    gap: 0.75rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.space-y-4 {
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.border-b {
-    border-bottom: 1px solid;
-}
-
-.border-t {
-    border-top: 1px solid;
-}
-
-.rounded-lg {
-    border-radius: 0.5rem;
-}
-
-.rounded-full {
-    border-radius: 50%;
-}
-
-.w-2 {
-    width: 0.5rem;
-}
-
-.h-1 {
-    height: 0.25rem;
-}
-
-.h-2 {
-    width: 0.5rem;
-}
-
-.h-10 {
-    height: 2.5rem;
-}
-
-.grid {
-    display: grid;
-}
-
-.grid-cols-1 {
-    grid-template-columns: 1fr;
-}
-
-.grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.text-xl {
-    font-size: 1.25rem;
-}
-
-.font-bold {
-    font-weight: 700;
-}
-
-.font-medium {
-    font-weight: 500;
-}
-
-.italic {
-    font-style: italic;
-}
-
-.tracking-tighter {
-    letter-spacing: -0.05em;
-}
-
-.tracking-widest {
-    letter-spacing: 0.1em;
-}
-
-.text-white {
-    color: #ffffff;
-}
-
-.text-slate-200 {
-    color: #e2e8f0;
-}
-
-.text-slate-300 {
-    color: #cbd5e1;
-}
-
-.text-slate-400 {
-    color: #94a3b8;
-}
-
-.text-emerald-400 {
-    color: #34d399;
-}
-
-.text-red-500 {
-    color: #ef4444;
-}
-
-.bg-emerald-400 {
-    background-color: #34d399;
-}
-
-.bg-red-500 {
-    background-color: #ef4444;
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.relative {
-    position: relative;
-}
-
-.absolute {
-    position: absolute;
-}
-
-.top-0 {
-    top: 0;
-}
-
-.right-10 {
-    right: 2.5rem;
-}
-
-.ml-1 {
-    margin-left: 0.25rem;
-}
-
-.mt-1 {
-    margin-top: 0.25rem;
-}
-
-.items-start {
-    align-items: flex-start;
-}
-
-.character-image-container {
-    /* 图片容器居中 */
-    margin: 0 auto;
-}
-</style>
+<meta charset="utf-8">
 <meta name="cg-name" content="開場白" />
 <meta name="cg-command-name" content="開場白" />
-<meta name="cg-color" content="#14092F" />
-<meta name="cg-icon" content="GalleryHorizontalEnd" />
+<meta name="cg-color" content="#F55B5B" />
+<meta name="cg-icon" content="Carrot" />
 <meta name="cg-mode" content="release" />
 </head>
 <body>
-<!-- 移除body内重复的style标签，保留单一样式定义 -->
-<div class="night-walker-root">
-    
-    <header class="glass-card p-5 flex items-center justify-between relative overflow-hidden">
-        <div class="scan-line"></div>
-        <div class="flex flex-col justify-center">
-            <h1 class="text-xl font-bold tracking-tighter glow-text text-white">克蘇魯學院</h1>
-            <div class="flex items-center gap-2 mt-1">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <!-- 替换占位符为实际示例时间 -->
-                <span class="text-emerald-400 font-mono text-xs tracking-widest uppercase">Synchronization Active</span>
-            </div>
-        </div>
-        <div class="text-right">
-            <div class="stat-label">System Time</div>
-            <!-- 替换时间占位符为具体值 -->
-            <div class="font-mono text-sm opacity-80" style="color: var(--nw-primary);">{yy}/{mm}/{dd} {h}:{m}</div>
-        </div>
-    </header>
-
-    <section class="grid grid-cols-1 gap-5">
-         <div class="character-image-container">
-                <img src="https://i.postimg.cc/1z5fLhcH/from_Pix_AI_1961364587359106788_1.png" style="height:360px; width:360px; border-radius:16px; box-shadow:0 6px 12px rgba(0,0,0,0.15); object-fit:cover; border:3px solid #ffd6e7" alt="克蘇魯學院角色形象"> </div>
-        <div class="glass-card flex flex-col">
-            <div class="p-4 border-b" style="border-color: var(--nw-border);">
-                <div class="flex flex-wrap gap-2">
-                    <span class="pill-badge"># 幽影族裔</span>
-                    <span class="pill-badge"># 学院监察者</span>
-                    <span class="pill-badge"># 極端占有</span>
-                </div>
-            </div>
-            
-            <div class="p-5 space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <span class="stat-label">當前心情</span>
-                        <div class="stat-value flex items-center gap-2">嗜血的愉悅 <span style="color: var(--nw-secondary);" class="text-xs">❤︎</span></div>
-                    </div>
-                    <div class="space-y-1">
-                        <span class="stat-label">愛意深度</span>
-                        <div class="stat-value" style="color: var(--nw-secondary);">62% <span class="opacity-50 font-normal ml-1">Rising</span></div>
-                    </div>
-                </div>
-                <div class="h-1 bg-gradient-to-r from-transparent via-nw-border to-transparent" style="background: linear-gradient(to right, transparent, var(--nw-border), transparent);"></div>
-                
-                <div class="p-3 rounded-lg border" style="border-color: var(--nw-border);">
-                    <span class="stat-label italic block mb-1 opacity-60">Subconscious Whisper:</span>
-                    <p class="text-sm italic leading-relaxed text-slate-300">
-                        「你的靈魂散發著恐懼的甜味...真想把你藏進最深的影中，誰也找不到。」
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        
-        <div class="glass-card p-5">
-            <label for="mission-toggle" class="cursor-pointer group block">
-                <div class="flex justify-between items-center">
-                    <h3 class="stat-label flex items-center gap-2 text-white">
-                        <span class="rounded-full bg-red-500 animate-pulse w-2 h-2"></span>
-                        任務日誌：血色巡視
-                    </h3>
-                    <span class="text-nw-primary text-xs tracking-widest transition-all opacity-70" style="color: var(--nw-primary);">DECRYPT ▽</span>
-                </div>
-            </label>
-            <input type="checkbox" id="mission-toggle" class="interactive-trigger">
-            <div class="accordion-body">
-                <!-- 修复标签嵌套错误：闭合p标签，调整结构 -->
-                <div class="space-y-3 border-t" style="border-color: var(--nw-border);" pt-3="" mt-3="">
-                    <div class="flex gap-3 items-start">
-                        <span style="color: var(--nw-secondary);" class="mt-1">●</span>
-                        <p class="text-xs text-slate-400 leading-relaxed">當前進度：穿越「噤聲長廊」，避開巡查教官的視線。</p>
-                    </div>
-                    <div class="flex gap-3 items-start">
-                        <span style="color: var(--nw-secondary);" class="mt-1">●</span>
-                        <p class="text-xs text-slate-400 leading-relaxed">禁忌警示：絕對不要直視畫像中的眼睛，否則靈魂會被吸入虛空。</p>
-                    </div>
-                    <div>
-                        <p class="text-slate-300 text-xs leading-tight">緊急通告：獻祭大廳的抽籤儀式已提前。若遲到，將被視為叛變學院，成為下一個祭品。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <main class="glass-card p-6 relative">
-        <div class="absolute top-0 right-10 w-1 h-10" style="background: linear-gradient(to bottom, var(--nw-primary), transparent);"></div>
-        <article class="prose prose-invert max-w-none">
-            <div class="flex items-center gap-3 mb-6">
-                <!-- 替换用户占位符为示例名称 -->
-                <div class="text-xs text-slate-400 italic">
-                    記錄於：深淵紀元 041 - 探險者 的視角
-                </div>
-            </div>
-            <div class="story-container">
-                <p class="text-nw-primary font-medium mb-3" style="color: var(--nw-primary);">（克蘇魯學院場景在忽明忽暗的走廊燈光下閃爍，那修長的手指始終若有若無地觸碰著你的後頸，像是一種溫柔的威脅。）</p>
-                <p class="leading-relaxed text-slate-200">
-                    "走慢了，親愛的。" 夜行低聲笑道，寒冷的氣息噴灑在你的耳根，"你看，牆上的那些眼睛已經在蠢蠢欲動了。如果你不跟緊我，我也不能保證祂們會對你做什麼。"
-                </p>
-            </div>
-        </article>
-    </main>
+<div style="--c-primary: #ff9eaa;--c-primary-light: #ffe4e8;--c-secondary: #fffdf5;--c-text: #5d4037;--c-accent: #ff6b81;--c-shadow: rgba(93, 64, 55, 0.1);font-family: &quot;Nunito&quot;, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, system-ui, sans-serif;color: var(--c-text);background-color: #fef6f0;background-image: radial-gradient(circle at 10% 20%, rgba(255, 158, 170, 0.1) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(255, 228, 232, 0.5) 0%, transparent 30%);min-height: 100vh;padding: 1.5rem;line-height: 1.75;overflow-x: hidden;">
+<div style="position: fixed;top: 1rem;right: 1rem;z-index: 50;background: rgba(255, 255, 255, 0.9);backdrop-filter: blur(8px);border: 1px solid var(--c-primary-light);border-radius: 9999px;padding: 0.25rem 0.75rem;box-shadow: 0 4px 12px var(--c-shadow);display: flex;align-items: center;gap: 0.5rem;transition: transform 0.3s ease;">
+<div style="font-size: 0.75rem;font-weight: 800;color: var(--c-accent);margin-right: 0.5rem;">BGM</div>
+<audio id="bgm" style="width:100%;max-width:360px;background:#0f172a;color:#e5e7eb;border-radius:10px;padding:6px 8px;" src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/19cd2b88c47549c9be6e66dffbb208d0.mp4" preload="auto" playsinline="" loop="" controls="controls"></audio>
+<div style="display:flex;align-items:center;gap:0.5rem;" data-target="bgm">
+<button style="background: transparent;border: none;color: var(--c-accent);cursor: pointer;padding: 0.25rem;display: flex;align-items: center;justify-content: center;transition: opacity 0.2s;" data-action="toggle">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"></path>
+<path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"></path>
+<path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"></path>
+</svg>
+</button>
 </div>
+</div>
+<h1 style="font-size: 1.75rem;font-weight: 800;color: var(--c-accent);text-align: center;margin-bottom: 2rem;text-shadow: 2px 2px 0 white;letter-spacing: 0.05em;">小仓鼠的草莓游戏</h1>
+<div style="display: flex;justify-content: space-between;font-size: 0.85rem;color: #8d6e63;margin-bottom: 2rem;background: white;padding: 0.75rem 1.25rem;border-radius: 999px;box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+<span>📅 3月15日 周五</span>
+<span>⏰ 15:35</span>
+<span>📍 卧室</span>
+</div>
+<div style="background: white;padding: 0.75rem;padding-bottom: 2rem;border-radius: 0.5rem;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);transform: rotate(-2deg);margin: 1.5rem auto;max-width: 100%;transition: transform 0.3s ease;width: fit-content;">
+<img src="https://i.postimg.cc/8k4kPzYq/gen-ju-cang-shu-tu-pian-sheng-cheng-shi-pin-(4).gif" alt="Xia He Looking Cute" style="border-radius: 4px;display: block;max-width: 100%;height: auto;object-fit: cover;">
+</div>
+<div style="background: var(--c-secondary);border-radius: 1.5rem;padding: 1.5rem;margin-bottom: 2rem;box-shadow: 0 8px 24px -6px var(--c-shadow);border: 1px solid white;position: relative;overflow: hidden;">
+<div style="content: '';position: absolute;top: 0;left: 0;width: 100%;height: 6px;background: repeating-linear-gradient(45deg, var(--c-primary-light), var(--c-primary-light) 10px, var(--c-primary) 10px, var(--c-primary) 20px);"></div>
+<h2 style="font-size: 1.1rem;font-weight: 700;color: var(--c-accent);margin-bottom: 1rem;display: flex;align-items: center;gap: 0.5rem;position: relative;">🍓<span style="position: relative;top: -1px;">第一阶段：建立信任</span></h2>
+<p style="margin-bottom: 1rem;text-align: justify;">那是一个寻常的周六午后。阳光洒满房间，温暖而惬意。你从架子上拿出一个包装精致的盒子，立刻吸引了他的注意。</p>
+<div style="background: rgba(238, 242, 255, 0.4);border-right: 4px solid #a5b4fc;padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 1rem 0 0 1rem;font-style: italic;text-align: right;">"这是我昨天新买的游戏，不过... 规则有点特殊。需要两个人靠得很近才行。"</div>
+<p style="margin-bottom: 1rem;text-align: justify;">他的眼睛瞬间亮了。他对“新游戏”毫无抵抗力。</p>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"真的吗？什么游戏？我要玩！"</div>
+</div>
+<div style="background: var(--c-secondary);border-radius: 1.5rem;padding: 1.5rem;margin-bottom: 2rem;box-shadow: 0 8px 24px -6px var(--c-shadow);border: 1px solid white;position: relative;overflow: hidden;">
+<div style="content: '';position: absolute;top: 0;left: 0;width: 100%;height: 6px;background: repeating-linear-gradient(45deg, var(--c-primary-light), var(--c-primary-light) 10px, var(--c-primary) 10px, var(--c-primary) 20px);"></div>
+<h2 style="font-size: 1.1rem;font-weight: 700;color: var(--c-accent);margin-bottom: 1rem;display: flex;align-items: center;gap: 0.5rem;position: relative;">🍓<span style="position: relative;top: -1px;">第二阶段：甜蜜陷阱</span></h2>
+<div style="background: white;padding: 0.75rem;padding-bottom: 2rem;border-radius: 0.5rem;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);transform: rotate(2deg);margin: -1rem auto 1rem auto;margin-left: auto;max-width: 200px;transition: transform 0.3s ease;width: fit-content;">
+<img src="https://i.postimg.cc/tCmXWmp6/gen-ju-cang-shu-tu-pian-sheng-cheng-shi-pin-(5).gif" alt="Curious Hamster" style="border-radius: 4px;display: block;max-width: 100%;height: auto;object-fit: cover;">
+</div>
+<p style="margin-bottom: 1rem;text-align: justify;">你拍了拍身边的床铺，掏出一颗他最爱的草莓糖。</p>
+<div style="background: rgba(238, 242, 255, 0.4);border-right: 4px solid #a5b4fc;padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 1rem 0 0 1rem;font-style: italic;text-align: right;">"谁想吃糖？"</div>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"我！给我嘛~"</div>
+<p style="margin-bottom: 1rem;text-align: justify;">你把糖举高，那是他够不着的高度。</p>
+<div style="background: rgba(238, 242, 255, 0.4);border-right: 4px solid #a5b4fc;padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 1rem 0 0 1rem;font-style: italic;text-align: right;">"闭上眼，张开嘴。"</div>
+<p style="margin-bottom: 1rem;text-align: justify;">他毫不犹豫地照做，长长的睫毛颤动着，粉嫩的嘴唇微微张开——那是完全信任的姿态。</p>
+</div>
+<div style="background: var(--c-secondary);border-radius: 1.5rem;padding: 1.5rem;margin-bottom: 2rem;box-shadow: 0 8px 24px -6px var(--c-shadow);border: 1px solid white;position: relative;overflow: hidden;">
+<div style="content: '';position: absolute;top: 0;left: 0;width: 100%;height: 6px;background: repeating-linear-gradient(45deg, var(--c-primary-light), var(--c-primary-light) 10px, var(--c-primary) 10px, var(--c-primary) 20px);"></div>
+<h2 style="font-size: 1.1rem;font-weight: 700;color: var(--c-accent);margin-bottom: 1rem;display: flex;align-items: center;gap: 0.5rem;position: relative;">🍓<span style="position: relative;top: -1px;">第三阶段：越界</span></h2>
+<div style="display: flex;justify-content: center;margin: -1rem 0;">
+<div style="background: white;padding: 0.75rem;padding-bottom: 2rem;border-radius: 0.5rem;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);transform: rotate(3deg);margin: 1.5rem auto;max-width: 100%;transition: transform 0.3s ease;width: fit-content;">
+<img src="https://i.postimg.cc/RVbMKb4S/gen-ju-cang-shu-tu-pian-sheng-cheng-shi-pin-(7).gif" alt="Blushing" style="border-radius: 4px;display: block;max-width: 100%;height: auto;object-fit: cover;">
+</div>
+</div>
+<p style="margin-bottom: 1rem;text-align: justify;margin-top: 1rem;">你没有给他糖，而是俯身吻住了他的唇。他瞬间僵住了，急促温热的呼吸喷洒在你的脸颊。</p>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"唔... 什..."</div>
+<p style="margin-bottom: 1rem;text-align: justify;">当他终于睁开眼，整张脸红得像熟透的草莓。他看着你手中的糖，又看看你的唇，大脑飞速运转。</p>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"{user}... 那个味道不对..."</div>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"你... 你刚刚是不是偷亲我？"</div>
+</div>
+<div style="background: #fff0f3;border-radius: 1.5rem;padding: 1.5rem;margin-bottom: 2rem;box-shadow: 0 8px 24px -6px var(--c-shadow);border: 1px solid var(--c-accent);position: relative;overflow: hidden;">
+<div style="content: '';position: absolute;top: 0;left: 0;width: 100%;height: 6px;background: repeating-linear-gradient(45deg, var(--c-primary-light), var(--c-primary-light) 10px, var(--c-primary) 10px, var(--c-primary) 20px);"></div>
+<h2 style="font-size: 1.1rem;font-weight: 700;color: var(--c-accent);margin-bottom: 1rem;display: flex;align-items: center;gap: 0.5rem;position: relative;">🍓<span style="position: relative;top: -1px;">审判时刻</span></h2>
+<p style="margin-bottom: 1rem;text-align: justify;">你凑得更近，直到在他晃动的瞳孔中看到自己的倒影。</p>
+<div style="background: rgba(238, 242, 255, 0.4);border-right: 4px solid #a5b4fc;padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 1rem 0 0 1rem;font-style: italic;text-align: right;">"这是游戏的一部分，叫‘猜味道’。你看，你猜出那不是草莓味了。"</div>
+<div style="background: rgba(238, 242, 255, 0.4);border-right: 4px solid #a5b4fc;padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 1rem 0 0 1rem;font-style: italic;text-align: right;">"但因为没猜对具体的味道... 你输了，小仓鼠。输家要接受惩罚。"</div>
+<div style="background: white;padding: 0.75rem;padding-bottom: 2rem;border-radius: 0.5rem;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);transform: rotate(-1deg);margin: 1rem auto;max-width: 100%;transition: transform 0.3s ease;width: fit-content;">
+<img src="https://i.postimg.cc/dVkJBmV4/gen-ju-cang-shu-tu-pian-sheng-cheng-shi-pin-(8).gif" alt="Panicked but curious" style="border-radius: 4px;display: block;max-width: 100%;height: auto;object-fit: cover;">
+</div>
+<div style="background: rgba(255, 228, 232, 0.2);border-left: 4px solid var(--c-accent);padding: 0.75rem 1rem;margin: 1rem 0;border-radius: 0 1rem 1rem 0;font-style: italic;">"惩、惩罚？什么样的惩罚？"</div>
+<p style="font-size: 0.875rem;text-align: center;opacity: 0.75;margin-top: 0.5rem;margin-bottom: 1rem;">（距离：&lt;10cm。心率：急剧上升。）</p>
+</div>
+<div style="margin-top: 3rem;text-align: center;">
+<input type="checkbox" id="reveal-punishment" style="display: none;">
+<label for="reveal-punishment" style="display: inline-block;background: var(--c-primary);color: white;padding: 0.75rem 2rem;border-radius: 999px;font-weight: 700;cursor: pointer;box-shadow: 0 4px 12px rgba(255, 107, 129, 0.3);transition: all 0.2s;margin-bottom: 1rem;">❤️ 揭晓惩罚 ❤️</label>
+<div style="max-height: 0;opacity: 0;overflow: hidden;transition: max-height 0.8s ease, opacity 0.5s ease;">
+<div style="background: white;border: 2px dashed var(--c-accent);border-radius: 1.5rem;padding: 1.5rem;margin-bottom: 2rem;box-shadow: 0 8px 24px -6px var(--c-shadow);position: relative;overflow: hidden;">
+<div style="content: '';position: absolute;top: 0;left: 0;width: 100%;height: 6px;background: repeating-linear-gradient(45deg, var(--c-primary-light), var(--c-primary-light) 10px, var(--c-primary) 10px, var(--c-primary) 20px);"></div>
+<p style="text-align: center;font-weight: 700;color: var(--c-accent);margin-bottom: 1rem;font-size: 1.125rem;">未完待续...</p>
+<p style="text-align: center;margin-bottom: 1rem;">房间里很安静，只剩下两颗心跳动的声音。<br><span style="display: inline-block;color: var(--c-accent);animation: heartbeat 1.5s infinite;">♥</span></p>
+<div style="display: flex;justify-content: center;margin-top: 0.5rem;">
+<img src="https://i.postimg.cc/7YQx0Qw7/gen-ju-cang-shu-tu-pian-sheng-cheng-shi-pin-(6).gif" style="border-radius: 9999px;width: 6rem;height: 6rem;border-width: 4px;border-color: var(--c-primary-light);border-style: solid;" alt="Ending Icon">
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>@keyframes heartbeat{0%{transform: scale(1);}15%{transform: scale(1.3);}30%{transform: scale(1);}45%{transform: scale(1.3);}100%{transform: scale(1);}}</style>
 </body>
 </html>
