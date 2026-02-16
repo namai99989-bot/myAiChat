@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+.linger-temple-life {--c-bg: #fdfbf7; --c-primary: #558b2f; --c-primary-light: #8bc34a; --c-secondary: #aed581; --c-accent: #2e7d32; --c-text: #33691e; --c-text-light: #558b2f; --c-paper: #fff; --shadow-sm: 0 2px 4px rgba(46, 125, 50, 0.1); --shadow-lg: 0 8px 16px rgba(46, 125, 50, 0.15); font-family: "Noto Serif SC", serif; background-color: var(--c-bg); background-image: radial-gradient(circle at 10% 20%, rgba(139, 195, 74, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(174, 213, 129, 0.15) 0%, transparent 40%); color: var(--c-text); line-height: 1.6; padding: 2rem; max-width: 800px; margin: 0 auto;}
+.linger-temple-life * {box-sizing: border-box;}
+.linger-temple-life h1 {font-size: 2rem; text-align: center; color: var(--c-accent); margin-bottom: 0.5rem; font-weight: 700; letter-spacing: 0.1em; text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8);}
+.linger-temple-life h2 {font-size: 1.25rem; color: var(--c-primary); border-bottom: 2px solid var(--c-secondary); padding-bottom: 0.25rem; margin-top: 2rem; margin-bottom: 1rem;}
+.linger-temple-life .subtitle {text-align: center; color: var(--c-text-light); font-size: 0.9rem; margin-bottom: 2rem; font-style: italic;}
+.linger-temple-life .card {background: var(--c-paper); border-radius: 1rem; padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(139, 195, 74, 0.2); margin-bottom: 1.5rem; transition: transform 0.2s ease, box-shadow 0.2s ease;}
+.linger-temple-life .card:hover {transform: translateY(-2px); box-shadow: var(--shadow-lg);}
+.linger-temple-life .story-content {font-size: 1.05rem; color: #1b5e20; text-align: justify;}
+.linger-temple-life .story-content p {margin-bottom: 1rem;}
+.linger-temple-life .gallery-item {margin-bottom: 1rem; background: rgba(255, 255, 255, 0.6); border-radius: 0.75rem; overflow: hidden; border: 1px solid rgba(139, 195, 74, 0.3);}
+.linger-temple-life input[type="checkbox"].toggle {display: none;}
+.linger-temple-life .gallery-header {display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; cursor: pointer; background: linear-gradient(to right, rgba(220, 237, 200, 0.3), rgba(255, 255, 255, 0)); transition: background 0.3s;}
+.linger-temple-life .gallery-header:hover {background: rgba(220, 237, 200, 0.5);}
+.linger-temple-life .gallery-title {font-weight: 600; color: var(--c-accent); display: flex; align-items: center; gap: 0.5rem;}
+.linger-temple-life .gallery-icon {width: 1.5rem; height: 1.5rem; opacity: 0.8;}
+.linger-temple-life .toggle-icon {transition: transform 0.3s ease; color: var(--c-primary);}
+.linger-temple-life input[type="checkbox"]:checked ~ .gallery-header .toggle-icon {transform: rotate(180deg);}
+.linger-temple-life .gallery-content {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s ease-out, opacity 0.4s ease; background: #fff;}
+.linger-temple-life input[type="checkbox"]:checked ~ .gallery-content {max-height: 5000px; opacity: 1; padding-bottom: 1.5rem;}
+.linger-temple-life .scene-desc {padding: 1rem 1.5rem; font-size: 0.95rem; color: var(--c-text); font-style: italic; background: rgba(232, 245, 233, 0.3); border-bottom: 1px dashed rgba(139, 195, 74, 0.3);}
+.linger-temple-life .image-scroll {display: flex; overflow-x: auto; gap: 1rem; padding: 1rem 1.5rem;}
+.linger-temple-life .image-scroll::-webkit-scrollbar {height: 6px;}
+.linger-temple-life .image-scroll::-webkit-scrollbar-thumb {background-color: var(--c-primary-light); border-radius: 3px;}
+.linger-temple-life .image-card {flex: 0 0 85%; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative;}
+.linger-temple-life .image-card img {width: 100%; height: auto; display: block; transition: transform 0.3s ease;}
+.linger-temple-life .badge {display: inline-block; padding: 0.25rem 0.75rem; background: var(--c-secondary); color: #1b5e20; border-radius: 999px; font-size: 0.75rem; font-weight: 700; margin-right: 0.5rem; vertical-align: middle;}
+.linger-temple-life .avatars {display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem;}
+.linger-temple-life .avatar-frame {width: 4rem; height: 4rem; border-radius: 50%; border: 3px solid var(--c-secondary); overflow: hidden; box-shadow: var(--shadow-sm);}
+.linger-temple-life .avatar-frame img {width: 100%; height: 100%; object-fit: cover;}
+.speech-bubble {background: rgba(255,255,255,0.9); border-radius: 0.75rem; padding: 1rem; margin: 0.75rem 0; border-left: 3px solid var(--c-primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+.speech-bubble.user {border-left-color: #8B5CF6; background: rgba(245,243,255,0.9); margin-left: 1rem;}
+.speech-bubble.linger {border-left-color: var(--c-primary); background: rgba(241,248,233,0.9); margin-right: 1rem;}
+.speech-bubble.narration {border-left-color: #616161; background: rgba(245,245,245,0.9); font-style: italic;}
+</style>
+<meta name="llm-content" content="你现在是辅助讲故事的AI。请根据以下背景续写‘小灵儿’（草妖）与‘{user}’（石妖）在荒野破庙的生活片段。背景：1. 小灵儿负责侦察，{user}负责隐蔽和杂务，两人相依为命，{user}称呼小灵儿为‘小灵儿姐’。2. 两人常一起摆石子、聊唐僧、躲避大妖怪。3. 风格：温馨、治愈、微带苦涩但充满希望，水彩画风般的文字质感。请生成一段HTML代码（直接嵌入在div中，不要markdown），描述当前的互动或心情。要求：- 使用Tailwind类名构建结构（如 p-4, text-green-800, rounded-lg 等）。- 续写剧情：结合对话历史，描写一个新的生活瞬间（如分享食物、发现新奇事物、躲避风雨等）。- 语气要符合角色设定：小灵儿活泼带点愁，{user}憨厚依赖。- 不要重复之前的剧情，向前推进一点点时间线或情感。" />
+<meta name="cg-color" content="#8B5CF6" />
+<meta name="cg-icon" content="Sparkles" />
+<meta name="cg-mode" content="release" />
+</head>
+<body style="margin:0;padding:0;">
+<div class="linger-temple-life">
+<h1>荒野山神廟日誌</h1>
+<div class="subtitle">草木有靈，石心相伴</div>
+<div class="avatars">
+<div class="avatar-frame">
+<img src="https://i.postimg.cc/fbvRHcWT/logo2.png" alt="{char}">
+</div>
+<div class="avatar-frame">
+<img src="https://i.postimg.cc/7LNZB3PP/logo1.png" alt="{user}">
+</div>
+</div>
+<div class="card">
+<div class="badge">今日記錄</div>
+<div class="story-content mt-4">
+<div class="speech-bubble user">
+🌿<br>
+"小靈兒姐，俺今早巡山時撿到個稀罕物——你看這露珠，在石頭上滾來滾去都不散，里頭還映著整片破廟的屋檐呢！"
+</div>
+<div class="speech-bubble linger">
+小靈兒指尖輕觸那顆在蔥油餅掌心顫動的露珠，水光里搖曳的殘破飛檐忽然讓她鼻尖發酸："若是唐僧路過時...這廟還像當年般香火興旺就好了。"蔥油餅忙用粗糙的石手裹住她發涼的手指："俺昨兒用苔蘚補了東墻裂縫，雨再也灌不進來了！"
+</div>
+<div class="speech-bubble narration">
+晨光穿過蛛網斜照在相依的影子上，露珠悄然滲進青石板縫，像被土地偷偷藏起的約定
+</div>
+</div>
+</div>
+<h2>往昔回憶錄</h2>
+<div class="gallery-item">
+<input type="checkbox" id="scene1" class="toggle">
+<label class="gallery-header" for="scene1">
+<span class="gallery-title">
+<span class="badge">晨景</span> 荒野廟前的守候
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+小靈兒支著耳朵指尖扯著頭發枯草，{user} 雙手攥著小石子擺在腿間。清晨的荒野山神廟，兩個瘦小身影透著怯懦，滿眼都是對遠方的期待。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/zXnZSJGW/from-Pix-AI-1976010563524087316-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/bNQcHzwg/from-Pix-AI-1976010563524087316-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/GhkwJcmj/from-Pix-AI-1976010563524087316-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/zXnZSJGF/from-Pix-AI-1976010563524087316-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene2" class="toggle">
+<label class="gallery-header" for="scene2">
+<span class="gallery-title">
+<span class="badge">避雨</span> 檐下的相依
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+陰雨天，小靈兒將 {user} 護在身後，用破舊衣角擋在頭頂。兩個小怪縮在窄窄的檐下，身子微微發抖，滿眼怯意，卻未曾分離。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/j2fV1TQx/from-Pix-AI-1976010474397347177-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/8cv8YGBN/from-Pix-AI-1976010474397347177-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/T1b8sxqR/from-Pix-AI-1976010474397347177-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/ZnNkQmFJ/from-Pix-AI-1976010474397347177-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene3" class="toggle">
+<label class="gallery-header" for="scene3">
+<span class="gallery-title">
+<span class="badge">拾果</span> 午後的收穫
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+午後晴日，小靈兒與 {user} 蹲在草叢邊，小心翼翼地分辨野葡萄。陽光灑在枯黃草叢間，布袋子敞口放在地上，裝著小小的快樂。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/GpM18qhx/from-Pix-AI-1976010410780795257-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/DzCKJByc/from-Pix-AI-1976010410780795257-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/g0MPXNkD/from-Pix-AI-1976010410780795257-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/1zWZnJ5c/from-Pix-AI-1976010410780795257-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene4" class="toggle">
+<label class="gallery-header" for="scene4">
+<span class="gallery-title">
+<span class="badge">趣事</span> 擺石子的時光
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+傍晚昏暗的廟內，兩人坐在石板上專注地擺弄小石子。{user} 一顆顆遞給小靈兒，神情單純又充滿期待，仿佛在搭建一個安全的夢。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/bw9P8q75/from-Pix-AI-1976010323140132921-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/7Zn4DqFW/from-Pix-AI-1976010323140132921-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/6pfKwBkS/from-Pix-AI-1976010323140132921-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/x13QY9wh/from-Pix-AI-1976010323140132921-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene5" class="toggle">
+<label class="gallery-header" for="scene5">
+<span class="gallery-title">
+<span class="badge">分食</span> 門檻上的甜意
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+晴日黃昏，坐在門檻上分吃野果。小靈兒嘴角沾著紫紅汁水，{user} 晃著光腳，眉眼間透著淺淺的甜意，暫時忘了守候的難熬。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/hPxgyLpW/from-Pix-AI-1976010244728195998-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/156PCGJ1/from-Pix-AI-1976010244728195998-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/Hs5HZwBg/from-Pix-AI-1976010244728195998-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/28vmcQ2f/from-Pix-AI-1976010244728195998-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene6" class="toggle">
+<label class="gallery-header" for="scene6">
+<span class="gallery-title">
+<span class="badge">深夜</span> 相依取暖
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+深夜廟內冰涼，小靈兒靠在 {user} 肩膀上，{user} 緊緊攥著一顆石子壯膽。黑暗中神像模糊，風吹門響，彼此的體溫是唯一的安心。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/0QHHx425/from-Pix-AI-1976009027362465597-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/0QHHx42y/from-Pix-AI-1976009027362465597-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/zBPP5QXX/from-Pix-AI-1976009027362465597-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/3Rbb7qJw/from-Pix-AI-1976009027362465597-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene7" class="toggle">
+<label class="gallery-header" for="scene7">
+<span class="gallery-title">
+<span class="badge">遐想</span> 望雲的日子
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+午後軟綿綿的白雲下，小靈兒與 {user} 仰頭看天，眼神放空，腦補著唐僧的樣子。風吹過草木香，滿是單純的憧憬。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/vBdZhPwC/from-Pix-AI-1976005039626676093-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/50M2gPMM/from-Pix-AI-1976005039626676093-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/MT8p5s8S/from-Pix-AI-1976005039626676093-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/hjqtsCqW/from-Pix-AI-1976005039626676093-3.png"></div>
+</div>
+</div>
+</div>
+<div class="gallery-item">
+<input type="checkbox" id="scene8" class="toggle">
+<label class="gallery-header" for="scene8">
+<span class="gallery-title">
+<span class="badge">靜謐</span> 石凳邊的鐘聲
+</span>
+<span class="toggle-icon">▼</span>
+</label>
+<div class="gallery-content">
+<div class="scene-desc">
+清晨古寺廊下，小靈兒撚著素色佛珠，{user} 輕拂廊柱青苔。寺鐘悠悠，陽光斜灑，空氣靜謐祥和，仿佛歲月靜好。
+</div>
+<div class="image-scroll">
+<div class="image-card"><img src="https://i.postimg.cc/Z5kPmHTH/from-Pix-AI-1976004132865549156-0.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/DwVQh62x/from-Pix-AI-1976004132865549156-1.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/htF8nsSM/from-Pix-AI-1976004132865549156-2.png"></div>
+<div class="image-card"><img src="https://i.postimg.cc/vZR7yhQ3/from-Pix-AI-1976004132865549156-3.png"></div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

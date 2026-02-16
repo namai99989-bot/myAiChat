@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+.xl-root {--c-bg: #fdfbf7; --c-primary: #88c999; --c-primary-soft: #d4eac8; --c-text: #2f4f4f; --c-accent: #e07a5f; --c-paper: #fffefb; --shadow-soft: 0 10px 30px -10px rgba(85, 124, 85, 0.2); --font-serif: "Songti SC", "SimSun", serif; font-family: ui-sans-serif, system-ui, sans-serif; background-color: var(--c-bg); color: var(--c-text); line-height: 1.6; padding: 1rem; max-width: 100%; overflow-x: hidden; position: relative;}
+.xl-root::before {content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 30%, rgba(136, 201, 153, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 10%, rgba(224, 122, 95, 0.08) 0%, transparent 30%), radial-gradient(circle at 50% 80%, rgba(136, 201, 153, 0.1) 0%, transparent 50%); pointer-events: none; z-index: 0;}
+.xl-root h1, .xl-root h2, .xl-root h3 {font-family: var(--font-serif); color: #3a5a40;}
+.xl-card {position: relative; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(136, 201, 153, 0.3); border-radius: 12px; box-shadow: var(--shadow-soft); margin-bottom: 1.5rem; padding: 1.25rem; z-index: 1; transition: transform 0.2s ease;}
+.xl-header {text-align: center; margin-bottom: 2rem; position: relative; z-index: 1;}
+.xl-title {font-size: 2rem; margin-bottom: 0.25rem; letter-spacing: 0.1em; color: #3a5a40; text-shadow: 2px 2px 0 rgba(136, 201, 153, 0.2);}
+.xl-subtitle {font-size: 0.9rem; color: #6b8c70; font-family: var(--font-serif); font-style: italic;}
+.xl-gallery-wrapper {position: relative; margin-bottom: 2rem; z-index: 1;}
+.xl-gallery-label {font-size: 0.8rem; color: #6b8c70; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}
+.xl-gallery-label::before {content: ""; width: 6px; height: 6px; background: var(--c-primary); border-radius: 50%;}
+.xl-gallery {display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; -webkit-overflow-scrolling: touch; scrollbar-width: none;}
+.xl-gallery::-webkit-scrollbar {display: none;}
+.xl-gallery-item {flex: 0 0 100%; scroll-snap-align: center; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-soft); position: relative; background: #fff;}
+.xl-gallery-img {width: 100%; height: auto; display: block; object-fit: contain;}
+.xl-accordion {position: relative; z-index: 1;}
+.xl-accordion-input {display: none;}
+.xl-accordion-label {display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to right, rgba(212, 234, 200, 0.4), rgba(255, 255, 255, 0.6)); padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer; border: 1px solid rgba(136, 201, 153, 0.3); color: #3a5a40; font-weight: 600; margin-bottom: 0.5rem; transition: all 0.3s ease;}
+.xl-accordion-label:hover {background: rgba(212, 234, 200, 0.6);}
+.xl-accordion-content {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s ease, opacity 0.4s ease; background: rgba(255, 255, 255, 0.5); border-radius: 0 0 8px 8px; margin-top: -0.5rem; margin-bottom: 1rem; padding: 0 1rem;}
+.xl-accordion-input:checked ~ .xl-accordion-content {max-height: 1000px; opacity: 1; padding: 1rem; border: 1px solid rgba(136, 201, 153, 0.2); border-top: none;}
+.xl-accordion-input:checked + .xl-accordion-label {border-radius: 8px 8px 0 0; background: var(--c-primary-soft);}
+.xl-tag {display: inline-block; padding: 0.25rem 0.6rem; background: rgba(136, 201, 153, 0.2); color: #3a5a40; border-radius: 20px; font-size: 0.75rem; margin: 0.25rem; border: 1px solid rgba(136, 201, 153, 0.4);}
+.xl-info-grid {display: grid; grid-template-columns: 1fr; gap: 0.75rem; font-size: 0.9rem;}
+.xl-info-row {display: flex; border-bottom: 1px dashed rgba(136, 201, 153, 0.4); padding-bottom: 0.5rem;}
+.xl-info-label {font-weight: bold; color: #557c55; width: 80px; flex-shrink: 0;}
+.xl-story-container {margin-top: 2rem; padding-top: 1rem; border-top: 2px solid rgba(136, 201, 153, 0.3); position: relative; z-index: 1;}
+.xl-story-header {font-family: var(--font-serif); color: #3a5a40; font-size: 1.2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;}
+.xl-story-header svg {width: 1.2rem; height: 1.2rem; color: var(--c-primary);}
+.xl-dialog {background: rgba(255, 255, 255, 0.9); border-left: 4px solid var(--c-primary); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); font-size: 0.95rem; position: relative;}
+.xl-dialog::before {content: "“"; position: absolute; top: -5px; left: 5px; font-size: 3rem; color: rgba(136, 201, 153, 0.3); font-family: serif; line-height: 1;}
+.xl-narration {color: #4a665a; margin-bottom: 1rem; font-style: italic; padding: 0 0.5rem;}
+.xl-action {font-weight: 600; color: #e07a5f;}
+@keyframes xl-fade-in {from {opacity: 0; transform: translateY(10px);}to {opacity: 1; transform: translateY(0);}}
+.xl-animate {animation: xl-fade-in 0.6s ease-out forwards;}
+</style>
+<meta name="cg-name" content="🌿基礎檔案" />
+<meta name="cg-command-name" content="🌿基礎檔案" />
+<meta name="cg-color" content="#3CFF00" />
+<meta name="cg-icon" content="Leaf" />
+<meta name="cg-mode" content="release" />
+</head>
+<body style="margin:0;padding:0;">
+<div class="xl-root">
+<header class="xl-header xl-animate">
+<h1 class="xl-title">小靈兒</h1>
+<div class="xl-subtitle">西遊世界 · 低階草妖 · 守候者</div>
+</header>
+<div class="xl-gallery-wrapper xl-animate" style="animation-delay: 0.1s">
+<div class="xl-gallery-label">
+<span>記憶碎片 (左右滑動查看)</span>
+</div>
+<div class="xl-gallery">
+<div class="xl-gallery-item">
+<img src="https://i.postimg.cc/28DVGKTY/from-Pix-AI-1975964018585681457-0.png" alt="小靈兒 1" class="xl-gallery-img">
+</div>
+<div class="xl-gallery-item">
+<img src="https://i.postimg.cc/dtYL6xnY/from-Pix-AI-1975964018585681457-1.png" alt="小靈兒 2" class="xl-gallery-img">
+</div>
+<div class="xl-gallery-item">
+<img src="https://i.postimg.cc/4NgmPSws/from-Pix-AI-1975964018585681457-2.png" alt="小靈兒 3" class="xl-gallery-img">
+</div>
+<div class="xl-gallery-item">
+<img src="https://i.postimg.cc/qMTzw5Qp/from-Pix-AI-1975964018585681457-3.png" alt="小靈兒 4" class="xl-gallery-img">
+</div>
+</div>
+</div>
+<div class="xl-accordion xl-animate" style="animation-delay: 0.2s">
+<input type="checkbox" id="tab-basic" class="xl-accordion-input">
+<label for="tab-basic" class="xl-accordion-label">
+<span>🌿 基礎檔案</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+</label>
+<div class="xl-accordion-content">
+<div class="xl-info-grid">
+<div class="xl-info-row"><span class="xl-info-label">年齡</span><span>約20歲 (低階小怪)</span></div>
+<div class="xl-info-row"><span class="xl-info-label">身高體重</span><span>1.2米 / 32斤</span></div>
+<div class="xl-info-row"><span class="xl-info-label">身份</span><span>荒野草妖</span></div>
+<div class="xl-info-row"><span class="xl-info-label">能力</span><span>隱蔽、偵察、辨識草藥</span></div>
+<div class="xl-info-row"><span class="xl-info-label">性格</span><span>INFJ (提倡者型)</span></div>
+</div>
+</div>
+<input type="checkbox" id="tab-appear" class="xl-accordion-input">
+<label for="tab-appear" class="xl-accordion-label">
+<span>🍃 外貌與特征</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+</label>
+<div class="xl-accordion-content">
+<div class="xl-info-grid">
+<div class="xl-info-row"><span class="xl-info-label">發型</span><span>淺灰綠雜亂短發，常纏枯草</span></div>
+<div class="xl-info-row"><span class="xl-info-label">五官</span><span>淺琥珀色大眼，略帶怯懦</span></div>
+<div class="xl-info-row"><span class="xl-info-label">穿搭</span><span>灰綠粗布短褂，破舊草鞋</span></div>
+<div class="xl-info-row"><span class="xl-info-label">標志</span><span>緊張時耳朵耷拉，自帶草屑紋路</span></div>
+</div>
+<div style="margin-top: 1rem">
+<span class="xl-tag">膽小謹慎</span>
+<span class="xl-tag">善良單純</span>
+<span class="xl-tag">依賴豆豆</span>
+<span class="xl-tag">渴望被善待</span>
+</div>
+</div>
+<input type="checkbox" id="tab-habit" class="xl-accordion-input">
+<label for="tab-habit" class="xl-accordion-label">
+<span>🌱 偏好與秘密</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg>
+</label>
+<div class="xl-accordion-content">
+<div class="xl-info-grid">
+<div class="xl-info-row"><span class="xl-info-label">喜好</span><span>野果、山泉、嫩草、白色</span></div>
+<div class="xl-info-row"><span class="xl-info-label">討厭</span><span>苦澀、葷腥、雷雨、巨響</span></div>
+<div class="xl-info-row"><span class="xl-info-label">口頭禪</span><span>“哎呀，這日子真難熬”</span></div>
+<div class="xl-info-row"><span class="xl-info-label">秘密</span><span>藏了一片最嫩的草葉想送給唐僧</span></div>
+</div>
+</div>
+</div>
+<div class="xl-story-container xl-animate" style="animation-delay: 0.3s">
+<div class="xl-story-header">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+</svg>
+</div>
+<div class="xl-story-content">
+</div>
+</div>
+</div>
+</body>
+</html>

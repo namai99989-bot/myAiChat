@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="llm-content" content="你正在為{char}和{user}寫一個角色扮演場景。
+
+背景：一本溫馨的水彩風格互動式小玲回憶錄。
+
+不要有圖片和音樂。" />
+    <meta name="cg-name" content="小靈兒的行旅憶錄" />
+    <meta name="cg-command-name" content="小靈兒的行旅憶錄" />
+    <meta name="cg-color" content="#3CFF00" />
+    <meta name="cg-icon" content="Leaf" />
+    <meta name="cg-mode" content="release" />
+    <style>
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Root Scope */
+        .jianghu-linger {
+            --primary: #10b981; /* Emerald 500 */
+            --primary-light: #d1fae5; /* Emerald 100 */
+            --primary-dark: #064e3b; /* Emerald 900 */
+            --bg-paper: #f0fdf4; /* Emerald 50 */
+            --text-body: #374151;
+            --font-serif: "Songti SC", "Noto Serif SC", serif;
+            
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-paper);
+            color: var(--text-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding: 1rem;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Utilities */
+        .jianghu-linger .paper-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.1);
+            border-radius: 1rem;
+        }
+
+        .jianghu-linger .text-serif {
+            font-family: var(--font-serif);
+        }
+
+        /* Interactive Tabs Logic */
+        .jianghu-linger input[type="radio"].tab-trigger {
+            display: none;
+        }
+
+        /* Tab Navigation Styling */
+        .jianghu-linger .nav-label {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            color: var(--primary-dark);
+            opacity: 0.7;
+            font-family: var(--font-serif);
+        }
+
+        .jianghu-linger .nav-label:hover {
+            background-color: var(--primary-light);
+            opacity: 1;
+        }
+
+        /* Active Tab State via Sibling Selectors */
+        .jianghu-linger input#tab-stream:checked ~ .nav-bar label[for="tab-stream"],
+        .jianghu-linger input#tab-study:checked ~ .nav-bar label[for="tab-study"],
+        .jianghu-linger input#tab-lake:checked ~ .nav-bar label[for="tab-lake"] {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Content Sections Transition */
+        .jianghu-linger .scene-section {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out, opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateY(10px);
+        }
+
+        /* Reveal Active Section */
+        .jianghu-linger input#tab-stream:checked ~ .content-wrapper .section-stream,
+        .jianghu-linger input#tab-study:checked ~ .content-wrapper .section-study,
+        .jianghu-linger input#tab-lake:checked ~ .content-wrapper .section-lake {
+            max-height: 5000px; /* Large enough to fit content */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Grid */
+        .jianghu-linger .img-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 640px) {
+            .jianghu-linger .img-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .jianghu-linger .gallery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative; /* 修复z-index生效问题 */
+        }
+
+        .jianghu-linger .gallery-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+            z-index: 10;
+        }
+
+        /* Description Toggle */
+        .jianghu-linger .desc-toggle {
+            display: none;
+        }
+        .jianghu-linger .desc-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.5s ease;
+            border: 1px solid var(--primary-light); /* 补充边框样式 */
+        }
+        .jianghu-linger .desc-toggle:checked ~ .desc-content {
+            max-height: 1000px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        .jianghu-linger .desc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--primary-dark);
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+        .jianghu-linger .desc-btn::after {
+            content: '▼';
+            font-size: 0.7em;
+            transition: transform 0.3s;
+        }
+        .jianghu-linger .desc-toggle:checked ~ .desc-btn::after {
+            transform: rotate(180deg);
+        }
+
+        /* Story Output */
+        .jianghu-linger .story-output {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Decoration */
+        .jianghu-linger .watermark {
+            position: fixed; /* 修复定位问题 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+                            radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 40%);
+            z-index: 0;
+        }
+        
+        /* 补充布局样式（替代Tailwind） */
+        .flex {
+            display: flex;
+        }
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .items-baseline {
+            align-items: baseline;
+        }
+        .gap-2 {
+            gap: 0.5rem;
+        }
+        .gap-4 {
+            gap: 1rem;
+        }
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+        .shrink-0 {
+            flex-shrink: 0;
+        }
+        .sticky {
+            position: sticky;
+        }
+        .top-2 {
+            top: 0.5rem;
+        }
+        .z-10 {
+            z-index: 10;
+        }
+        .z-20 {
+            z-index: 20;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .max-w-3xl {
+            max-width: 48rem;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .w-16 {
+            width: 4rem;
+        }
+        .h-full {
+            height: 100%;
+        }
+        .h-16 {
+            height: 4rem;
+        }
+        .h-px {
+            height: 1px;
+        }
+        .flex-grow {
+            flex-grow: 1;
+        }
+        .p-2 {
+            padding: 0.5rem;
+        }
+        .p-3 {
+            padding: 0.75rem;
+        }
+        .p-4 {
+            padding: 1rem;
+        }
+        .text-xs {
+            font-size: 0.75rem;
+        }
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        .text-xl {
+            font-size: 1.25rem;
+        }
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+        .rounded-full {
+            border-radius: 9999px;
+        }
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+        .shadow-sm {
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .text-emerald-200 {
+            color: #d1fae5;
+        }
+        .text-emerald-500 {
+            color: #10b981;
+        }
+        .text-emerald-600 {
+            color: #059669;
+        }
+        .text-emerald-800 {
+            color: #065f46;
+        }
+        .text-emerald-900 {
+            color: #064e3b;
+        }
+        .bg-emerald-200 {
+            background-color: #d1fae5;
+        }
+        .bg-emerald-400 {
+            background-color: #34d399;
+        }
+        .border {
+            border: 1px solid #e5e7eb;
+        }
+        .border-2 {
+            border-width: 2px;
+        }
+        .border-emerald-100 {
+            border-color: #d1fae5;
+        }
+        .border-emerald-200 {
+            border-color: #a7f3d0;
+        }
+        .object-cover {
+            object-fit: cover;
+        }
+        .uppercase {
+            text-transform: uppercase;
+        }
+        .tracking-wider {
+            letter-spacing: 0.05em;
+        }
+        .opacity-50 {
+            opacity: 0.5;
+        }
+        
+        /* 新增文本美化样式 */
+        .story-text {
+            line-height: 1.8;
+            font-size: 1rem;
+            color: #262626;
+        }
+        .story-text .char-name {
+            color: #064e3b;
+            font-weight: bold;
+        }
+    </style>
+    <title>小靈兒的行旅憶錄</title>
+</head>
+<body>
+    <div class="jianghu-linger">
+      
+        <div class="watermark"></div>
+
+        <!-- Main Content Container -->
+        <div class="relative z-10 max-w-3xl mx-auto">
+            
+            <!-- Header -->
+            <header class="flex items-center gap-4 mb-6 paper-card p-4">
+                <div class="relative w-16 h-16 shrink-0">
+                    <img src="{char_avatar}" class="w-full h-full object-cover rounded-full border-2 border-emerald-200 shadow-sm" alt="{char}">
+                    <div class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-emerald-900 text-serif">小靈兒的行旅憶錄</h1>
+                    <p class="text-sm text-emerald-600">与 {user} 的點滴時光</p>
+                </div>
+            </header>
+
+            <!-- Tab Triggers (Hidden Radios) -->
+            <input type="radio" name="scene_select" id="tab-stream" class="tab-trigger" checked>
+            <input type="radio" name="scene_select" id="tab-study" class="tab-trigger">
+            <input type="radio" name="scene_select" id="tab-lake" class="tab-trigger">
+
+            <!-- Tab Navigation -->
+            <nav class="nav-bar flex flex-wrap justify-center gap-2 mb-6 sticky top-2 z-20 backdrop-blur-sm p-2 rounded-full shadow-sm border border-emerald-100 mx-auto w-fit">
+                <label for="tab-stream" class="nav-label">林間溪谷</label>
+                <label for="tab-study" class="nav-label">古舊書齋</label>
+                <label for="tab-lake" class="nav-label">星夜湖畔</label>
+            </nav>
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                
+                <!-- Scene 1: Stream Valley -->
+                <section class="scene-section section-stream">
+                    <div class="paper-card p-4 mb-6">
+                        <div class="flex justify-between items-baseline mb-4">
+                            <h2 class="text-xl font-bold text-emerald-800 text-serif">青石板台 · 晨光</h2>
+                            <span class="text-xs text-emerald-500 uppercase tracking-wider">Stream Valley</span>
+                        </div>
+                        
+                        <!-- Scene Description Toggle -->
+                        <div class="relative mb-6">
+                            <input type="checkbox" id="desc-stream" class="desc-toggle">
+                            <label for="desc-stream" class="desc-btn">查看場景詳情</label>
+                            <div class="desc-content text-sm leading-relaxed p-3 rounded-lg border">
+                                <p class="mb-2"><strong class="text-emerald-900">核心特徵：</strong>小靈兒眉眼清甜帶靈動，指尖凝著細碎瑩光；{user} 倚石而立，神情舒緩。</p>
+                                <p class="mb-2"><strong class="text-emerald-900">動作：</strong>小靈兒屈膝蹲坐，輕撥流水；{user} 指尖輕觸微涼石面。</p>
+                                <p><strong class="text-emerald-900">環境：</strong>清晨山林，溪水叮咚，蕨類與野芳叢生，斑駁晨光。</p>
+                            </div>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div class="img-grid">
+                            <img src="https://i.postimg.cc/hP6ZNVzx/from-Pix-AI-1975990494609651048-0.png" class="gallery-img" alt="Stream 1">
+                            <img src="https://i.postimg.cc/4Nq2jp7c/from-Pix-AI-1975990494609651048-1.png" class="gallery-img" alt="Stream 2">
+                            <img src="https://i.postimg.cc/kXzYLW6b/from-Pix-AI-1975990494609651048-2.png" class="gallery-img" alt="Stream 3">
+                            <img src="https://i.postimg.cc/tCwv8FZW/from-Pix-AI-1975990494609651048-3.png" class="gallery-img" alt="Stream 4">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Scene 2: Ancient Study -->
+                <section class="scene-section section-study">
+                    <div class="paper-card p-4 mb-6">
+                        <div class="flex justify-between items-baseline mb-4">
+                            <h2 class="text-xl font-bold text-emerald-800 text-serif">窗下案前 · 午後</h2>
+                            <span class="text-xs text-emerald-500 uppercase tracking-wider">Ancient Study</span>
+                        </div>
+
+                        <!-- Scene Description Toggle -->
+                        <div class="relative mb-6">
+                            <input type="checkbox" id="desc-study" class="desc-toggle">
+                            <label for="desc-study" class="desc-btn">查看場景詳情</label>
+                            <div class="desc-content text-sm leading-relaxed p-3 rounded-lg border">
+                                <p class="mb-2"><strong class="text-emerald-900">核心特徵：</strong>小靈兒好奇盯著書頁，耳尖輕顫；{user} 端坐案前似在講解。</p>
+                                <p class="mb-2"><strong class="text-emerald-900">動作：</strong>小靈兒捏幹花書簽戳書頁；{user} 端溫熱清茶。</p>
+                                <p><strong class="text-emerald-900">環境：</strong>午後古舊書齋，木窗半開，陽光斜灑，書香靜謐。</p>
+                            </div>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div class="img-grid">
+                            <img src="https://i.postimg.cc/KYZPWYNg/from-Pix-AI-1975992576848278490-0.png" class="gallery-img" alt="Study 1">
+                            <img src="https://i.postimg.cc/N0g6n04H/from-Pix-AI-1975992576848278490-1.png" class="gallery-img" alt="Study 2">
+                            <img src="https://i.postimg.cc/nLH4WLkm/from-Pix-AI-1975992576848278490-2.png" class="gallery-img" alt="Study 3">
+                            <img src="https://i.postimg.cc/q7ksF7Ln/from-Pix-AI-1975992576848278490-3.png" class="gallery-img" alt="Study 4">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Scene 3: Starry Lake -->
+                <section class="scene-section section-lake">
+                    <div class="paper-card p-4 mb-6">
+                        <div class="flex justify-between items-baseline mb-4">
+                            <h2 class="text-xl font-bold text-emerald-800 text-serif">白石灘 · 星夜</h2>
+                            <span class="text-xs text-emerald-500 uppercase tracking-wider">Starry Lake</span>
+                        </div>
+
+                        <!-- Scene Description Toggle -->
+                        <div class="relative mb-6">
+                            <input type="checkbox" id="desc-lake" class="desc-toggle">
+                            <label for="desc-lake" class="desc-btn">查看場景詳情</label>
+                            <div class="desc-content text-sm leading-relaxed p-3 rounded-lg border">
+                                <p class="mb-2"><strong class="text-emerald-900">核心特徵：</strong>小靈兒仰頭望星空，眸映星光；{user} 目光溫柔。</p>
+                                <p class="mb-2"><strong class="text-emerald-900">動作：</strong>小靈兒指尖浮著螢光；{user} 手持草莖，腳邊微光紙燈。</p>
+                                <p><strong class="text-emerald-900">環境：</strong>深夜湖畔，星河倒影，微風水汽，靜謐浪漫。</p>
+                            </div>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div class="img-grid">
+                            <img src="https://i.postimg.cc/XqFxbzyd/from-Pix-AI-1975993161596381680-0.png" class="gallery-img" alt="Lake 1">
+                            <img src="https://i.postimg.cc/PJZKjR8m/from-Pix-AI-1975993161596381680-1.png" class="gallery-img" alt="Lake 2">
+                            <img src="https://i.postimg.cc/x8Hg24bL/from-Pix-AI-1975993161596381680-2.png" class="gallery-img" alt="Lake 3">
+                            <img src="https://i.postimg.cc/x8Hg24bv/from-Pix-AI-1975993161596381680-3.png" class="gallery-img" alt="Lake 4">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Story Output -->
+            <div class="story-output">
+                <div class="flex items-center gap-2 mb-4 opacity-50">
+                    <div class="h-px bg-emerald-200 flex-grow"></div>
+                    <span class="text-xs font-serif text-emerald-800">當前時刻</span>
+                    <div class="h-px bg-emerald-200 flex-grow"></div>
+                </div>
+                
+                <!-- Dynamic Story Content -->
+                <div class="prose max-w-none story-text">
+                    <p class="char-name">✨小靈兒✨</p>
+                    <p>你聞到了嗎？巷口傳來熱騰騰的蔥油餅香氣...那是阿嬤的味道。</p>
+                    <p>黃昏的陽光透過老榕樹的縫隙灑在斑駁的磚墻上，小靈兒站在巷口微微仰頭，睫毛在夕照中染成金色。她輕輕閉上眼睛，讓那熟悉的焦香包裹著自己，仿佛又回到了那個總會有溫暖懷抱等待的童年午後。</p>
+                    <p>黃昏的陽光透過老榕樹的縫隙灑在斑駁的磚墻上，小靈兒站在巷口微微仰頭，睫毛在夕照中染成金色。她輕輕閉上眼睛，讓那熟悉的焦香包裹著自己，仿佛又回到了那個總會有溫暖懷抱等待的童年午後。</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="cg-name" content="荒野守候" />
+    <meta name="cg-command-name" content="荒野守候" />
+    <meta name="cg-color" content="#3CFF00" />
+    <meta name="cg-icon" content="LeafyGreen" />
+    <meta name="cg-mode" content="release" />
+    <style>
+        /* Root Scope - Modern Jianghu Theme (Sans-serif) */
+        .jianghu-wilds {
+            --c-primary: #10b981;    /* emerald-500 */
+            --c-deep: #064e3b;       /* emerald-900 */
+            --c-bg: #ecfdf5;         /* emerald-50 */
+            --c-glass: rgba(255, 255, 255, 0.85);
+            --c-glass-border: rgba(16, 185, 129, 0.2);
+            --c-text: #064e3b;
+            --c-accent: #34d399;     /* emerald-400 */
+            
+            /* Font: Sans-serif stack for modern readability as requested */
+            font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            line-height: 1.75;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* Atmospheric Background */
+        .jianghu-wilds::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.1) 0%, transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+            animation: jw-breathe 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes jw-breathe {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .jianghu-wilds * {
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        /* Logic Inputs */
+        .jianghu-wilds .jw-state {
+            display: none;
+        }
+
+        /* Header */
+        .jianghu-wilds .jw-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .jianghu-wilds .jw-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--c-deep);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(6, 78, 59, 0.1);
+        }
+        .jianghu-wilds .jw-divider {
+            width: 3rem;
+            height: 0.25rem;
+            background: var(--c-primary);
+            margin: 0 auto;
+            border-radius: 99px;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Card Base Styles */
+        .jianghu-wilds .jw-card {
+            background: var(--c-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--c-glass-border);
+            border-radius: 1rem;
+            padding: 0; /* Padding handled by inner to allow collapse */
+            margin-bottom: 0; /* Margin handled by spacer or state */
+            box-shadow: 0 4px 6px -1px rgba(6, 78, 59, 0.05);
+            
+            /* Transition Props */
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top center;
+            overflow: hidden;
+            
+            /* Default Hidden State */
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            margin-top: 0;
+            border-color: transparent;
+        }
+
+        .jianghu-wilds .jw-card-inner {
+            padding: 1.5rem;
+        }
+
+        /* State: Active */
+        .jianghu-wilds .jw-card.is-active {
+            max-height: 3000px; /* Arbitrary large height for expansion */
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            margin-top: 1.5rem;
+            border-color: var(--c-glass-border);
+            box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.1), 0 8px 10px -6px rgba(6, 78, 59, 0.1);
+        }
+
+        /* State: Dimmed (Past) */
+        .jianghu-wilds .jw-card.is-dimmed {
+            max-height: 3000px;
+            opacity: 0.6;
+            transform: scale(0.98);
+            filter: grayscale(0.5);
+            margin-top: 1.5rem;
+            pointer-events: none; /* Prevent interaction with past cards */
+        }
+
+        /* Logic Mapping via Sibling Selectors */
+        /* Stage 1 Active */
+        .jianghu-wilds #jw-stage1:checked ~ .jw-cards .jw-c1 {
+            max-height: 3000px; 
+            opacity: 1; 
+            transform: scale(1); 
+            margin-top: 1.5rem; 
+            pointer-events: auto; 
+        }
+
+        /* Stage 2 Active */
+        .jianghu-wilds #jw-stage2:checked ~ .jw-cards .jw-c1 { 
+            max-height: 3000px; 
+            opacity: 0.5; 
+            transform: scale(0.98); 
+            margin-top: 1.5rem; 
+            filter: grayscale(0.6); 
+            pointer-events: none; 
+        }
+        .jianghu-wilds #jw-stage2:checked ~ .jw-cards .jw-c2 { 
+            max-height: 3000px; 
+            opacity: 1; 
+            transform: scale(1); 
+            margin-top: 1.5rem; 
+            pointer-events: auto; 
+        }
+
+        /* Stage 3 Active */
+        .jianghu-wilds #jw-stage3:checked ~ .jw-cards .jw-c1,
+        .jianghu-wilds #jw-stage3:checked ~ .jw-cards .jw-c2 { 
+            max-height: 3000px; 
+            opacity: 0.4; 
+            transform: scale(0.98); 
+            margin-top: 1.5rem; 
+            filter: grayscale(0.8); 
+            pointer-events: none; 
+        }
+        .jianghu-wilds #jw-stage3:checked ~ .jw-cards .jw-c3 { 
+            max-height: 8000px; 
+            opacity: 1; 
+            transform: scale(1); 
+            margin-top: 1.5rem; 
+            pointer-events: auto; 
+        }
+
+        /* 補充prose類樣式 */
+        .jianghu-wilds .prose {
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        /* Components */
+        .jianghu-wilds .jw-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background: var(--c-primary);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+            margin-bottom: 0.75rem;
+        }
+
+        .jianghu-wilds h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--c-deep);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .jianghu-wilds h2::before {
+            content: "";
+            display: block;
+            width: 4px;
+            height: 1.25rem;
+            background-color: var(--c-primary);
+            border-radius: 2px;
+        }
+
+        .jianghu-wilds p {
+            margin-bottom: 0.75rem;
+            text-align: left; /* Strict left align per rules */
+            color: #374151;
+        }
+
+        .jianghu-wilds .jw-dialogue {
+            padding: 0.75rem 1rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 3px solid var(--c-primary);
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 0.75rem 0;
+            font-style: italic;
+            color: var(--c-deep);
+        }
+        .jianghu-wilds .jw-dialogue.user-msg {
+            background: rgba(255, 255, 255, 0.6);
+            border-left-color: var(--c-deep);
+            border: 1px solid rgba(6, 78, 59, 0.1);
+            border-left-width: 3px;
+        }
+
+        .jianghu-wilds .jw-action {
+            color: var(--c-primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* Button */
+        .jianghu-wilds .jw-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.875rem;
+            margin-top: 1.25rem;
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: white;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2);
+            user-select: none;
+            border: none;
+            outline: none;
+        }
+        .jianghu-wilds .jw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(5, 150, 105, 0.25);
+        }
+        .jianghu-wilds .jw-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Gallery */
+        .jianghu-wilds .jw-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .jianghu-wilds .jw-img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 3px solid white;
+            transition: transform 0.3s ease;
+            background: #f0fdf4;
+        }
+        .jianghu-wilds .jw-img:hover {
+            transform: scale(1.03);
+            z-index: 10;
+        }
+
+        /* Detailed Scene Box */
+        .jianghu-wilds .jw-scene-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.8));
+            border-radius: 0.75rem;
+            border: 1px dashed rgba(16, 185, 129, 0.3);
+        }
+        .jianghu-wilds .jw-scene-text {
+            font-size: 0.875rem;
+            color: var(--c-deep);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .jianghu-wilds .jw-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: var(--c-deep);
+            opacity: 0.6;
+            letter-spacing: 0.1em;
+        }
+    </style>
+    <title>荒野守候</title>
+</head>
+<body>
+    <div class="jianghu-wilds">
+        <!-- 狀態控制Radio按鈕 -->
+        <input type="radio" name="jw-story" id="jw-stage1" class="jw-state" checked>
+        <input type="radio" name="jw-story" id="jw-stage2" class="jw-state">
+        <input type="radio" name="jw-story" id="jw-stage3" class="jw-state">
+
+        <!-- 頁面頭部 -->
+        <header class="jw-header">
+            <h1 class="jw-title">荒野守候</h1>
+            <div class="jw-divider"></div>
+        </header>
+
+        <!-- 內容卡片容器 -->
+        <div class="jw-cards">
+            <!-- 第一幕 -->
+            <div class="jw-card jw-c1">
+                <div class="jw-card-inner">
+                    <span class="jw-badge">第一幕 · 荒草</span>
+                    <h2>等待</h2>
+                    <div class="prose">
+                        <p>路邊荒草叢中，{char}蹲坐著，雙手抱膝，眼神時不時望向遠方的山路，翠綠的衣衫在風中微微飄動。</p>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"唐三藏師傅什麽時候才能到啊？我都等得腿都麻了呢。"
+                        </div>
+                        <span class="jw-action">輕輕搖晃著手中的樹枝，似乎想驅趕煩躁的心情。</span>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"哎呀，這日子真難熬……不過，聽說他是個大好人，我一定要好好守著，不讓壞人靠近。"
+                        </div>
+                    </div>
+                    <label for="jw-stage2" class="jw-btn">
+                        夜幕降臨 <span style="margin-left: 0.5rem">➔</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 第二幕 -->
+            <div class="jw-card jw-c2">
+                <div class="jw-card-inner">
+                    <span class="jw-badge">第二幕 · 夜色</span>
+                    <h2>警惕</h2>
+                    <div class="prose">
+                        <p>夜幕降臨，清冷的月光灑在{char}身上，四周蟲鳴陣陣。他警惕地側耳傾聽遠處的腳步聲，神情緊繃。</p>
+                        <div class="jw-dialogue user-msg">
+                            <strong>{user}：</strong>"小靈兒，你聽到什麽了嗎？"
+                        </div>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"噓，別出聲！前面有人來了，可能是師傅他們！"
+                        </div>
+                        <span class="jw-action">他緊張地站起身，眼睛在黑暗中閃爍著期待和忐忑的光芒。</span>
+                        <div class="jw-dialogue user-msg">
+                            <strong>{user}：</strong>"要不要我幫你看看？"
+                        </div>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"謝謝你……有你陪著，我不那麽害怕了。"
+                        </div>
+                    </div>
+                    <label for="jw-stage3" class="jw-btn">
+                        等待清晨 <span style="margin-left: 0.5rem">☀</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 第三幕 -->
+            <div class="jw-card jw-c3">
+                <div class="jw-card-inner">
+                    <span class="jw-badge">第三幕 · 晨曦</span>
+                    <h2>溪邊</h2>
+                    <div class="prose">
+                        <p>清晨，露水未幹，{char}揉揉眼睛，望著晨曦中逐漸清晰的山路，伸了個大大的懶腰。</p>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"早安啊，路過的朋友。你說唐三藏師傅會快點來嗎？我可等不及了。"
+                        </div>
+                        <div class="jw-dialogue user-msg">
+                            <strong>{user}：</strong>"別急，他一定會來的。"
+                        </div>
+                        <div class="jw-dialogue">
+                            <strong>{char}：</strong>"嗯，我相信他。等他來了，我一定要好好幫忙，哪怕我只是個小怪。"
+                        </div>
+                        
+                        <div class="jw-scene-box">
+                            <p class="jw-scene-text">
+                                {char}與{user}蹲在荒野小溪邊，用溪水擦臉整理模樣，動作笨拙卻認真。{char}用手掬起溪水擦臉頰的泥土，另一只手扯著頭發扯掉枯草；{user}蹲在溪邊，用指尖摳掉腳底的泥，手里捏著一顆光滑的鵝卵石。
+                            </p>
+                            <p class="jw-scene-text">
+                                清晨的荒野小溪，溪水清澈見底，水底鋪著鵝卵石，溪邊長著嫩綠的小草，陽光灑在水面泛著碎光，遠處山神廟的輪廓在晨霧中若隱若現。
+                            </p>
+                        </div>
+
+                        <div class="jw-gallery">
+                            <img src="https://i.postimg.cc/W4VZ4MX7/from-Pix-AI-1976314829446683161-2.png" alt="小靈兒溪邊 1" class="jw-img">
+                            <img src="https://i.postimg.cc/LsSPszNB/from-Pix-AI-1976314829446683161-3.png" alt="小靈兒溪邊 2" class="jw-img">
+                            <img src="https://i.postimg.cc/yNKRNFvP/from-Pix-AI-1976314992625255554-0.png" alt="小靈兒溪邊 3" class="jw-img">
+                            <img src="https://i.postimg.cc/SK49KWDL/from-Pix-AI-1976314992625255554-2.png" alt="小靈兒溪邊 4" class="jw-img">
+                        </div>
+                    </div>
+                    
+                    <div class="jw-footer">
+                        —— 故事待續 ——
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

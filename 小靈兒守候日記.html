@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+.ling-er-watercolor {--c-primary: #558b2f; --c-primary-light: #7cb342; --c-secondary: #dcedc8; --c-accent: #c5e1a5; --c-text: #33691e; --c-bg: #f1f8e9; --c-paper: #fff; font-family: "Noto Serif SC", "Songti SC", serif; background-color: var(--c-bg); color: var(--c-text); line-height: 1.8; padding: 1rem; border-radius: 12px; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 20px rgba(51, 105, 30, 0.1); position: relative; overflow: hidden;}
+.ling-er-watercolor::before {content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#81c784 1px, transparent 1px); background-size: 20px 20px; opacity: 0.1; pointer-events: none; z-index: 0;}
+.ling-er-watercolor .header-card {position: relative; z-index: 10; display: flex; align-items: center; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(4px); padding: 1rem; border-radius: 16px; border: 1px solid var(--c-secondary); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); margin-bottom: 1.5rem;}
+.ling-er-watercolor .avatar-frame {width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--c-primary-light); overflow: hidden; flex-shrink: 0; margin-right: 1rem; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);}
+.ling-er-watercolor .avatar-img {width: 100%; height: 100%; object-fit: cover;}
+.ling-er-watercolor .header-info h2 {font-size: 1.25rem; font-weight: bold; color: var(--c-primary); margin: 0; line-height: 1.2;}
+.ling-er-watercolor .header-info p {font-size: 0.875rem; color: #689f38; margin: 0.25rem 0 0 0;}
+.ling-er-watercolor .tab-input {display: none;}
+.ling-er-watercolor .tabs-nav {position: relative; z-index: 10; display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;}
+.ling-er-watercolor .tab-label {cursor: pointer; padding: 0.5rem 1.25rem; border-radius: 20px; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--c-secondary); color: var(--c-text); font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);}
+.ling-er-watercolor .tab-label:hover {background: var(--c-secondary);}
+.ling-er-watercolor .tab-input:checked + .tab-label {background: var(--c-primary); color: white; border-color: var(--c-primary); box-shadow: 0 4px 8px rgba(85, 139, 47, 0.3);}
+.ling-er-watercolor .scene-content {position: relative; z-index: 5; background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 0; margin-bottom: 0; border: 1px solid var(--c-secondary); max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; pointer-events: none;}
+.ling-er-watercolor .scene-inner {padding: 1.5rem;}
+.ling-er-watercolor #tab-lotus:checked ~ .content-lotus, .ling-er-watercolor #tab-snow:checked ~ .content-snow, .ling-er-watercolor #tab-firefly:checked ~ .content-firefly {max-height: 5000px; opacity: 1; pointer-events: auto; margin-bottom: 1.5rem;}
+.ling-er-watercolor .scene-title {font-size: 1.1rem; font-weight: bold; color: var(--c-primary); border-bottom: 2px dashed var(--c-secondary); padding-bottom: 0.5rem; margin-bottom: 1rem;}
+.ling-er-watercolor .scene-desc {font-size: 0.95rem; text-align: justify; margin-bottom: 1.5rem; color: #444;}
+.ling-er-watercolor .highlight {color: var(--c-primary); font-weight: bold;}
+.ling-er-watercolor .img-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;}
+.ling-er-watercolor .scene-img {width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border: 4px solid white; transition: transform 0.3s ease;}
+.ling-er-watercolor .scene-img:hover {transform: scale(1.02); z-index: 2;}
+.ling-er-watercolor .llm-output {position: relative; z-index: 5; background: white; border-radius: 16px; padding: 1.5rem; border-left: 4px solid var(--c-primary); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);}
+.ling-er-watercolor .llm-output p {margin-bottom: 0.75rem;}
+.ling-er-watercolor .llm-output p:last-child {margin-bottom: 0;}
+.ling-er-watercolor .tag {display: inline-block; font-size: 0.75rem; padding: 0.2rem 0.6rem; background: var(--c-secondary); color: var(--c-text); border-radius: 12px; margin-right: 0.5rem; margin-bottom: 0.5rem;}
+@keyframes fadeIn {from {opacity: 0; transform: translateY(10px);}to {opacity: 1; transform: translateY(0);}}
+.ling-er-watercolor .anim-entry {animation: fadeIn 0.6s ease-out forwards;}
+</style>
+<meta name="llm-content" content="您正在創作一個以小靈兒（角色）和{user}為主角的角色扮演故事的續篇。故事的視覺風格為水彩風格，畫面柔和，氣氛感強。請根據當前上下文創作續篇。如果上下文暗示了特定的場景（例如荷塘、雪夜或螢火蟲森林），請融入該場景的元素。請使用標準的HTML標籤（p、br、strong）進行格式化。請勿在續篇中包含圖片或音樂。請著重寫感官細節——氣味、光線、溫度——以及情感連結。語言：中文。輸出格式：僅包含故事正文的HTML程式碼。" />
+<meta name="cg-name" content="小靈兒守候日記" />
+<meta name="cg-command-name" content="小靈兒守候日記" />
+<meta name="cg-color" content="#3CFF00" />
+<meta name="cg-icon" content="Leaf" />
+<meta name="cg-mode" content="release" />
+</head>
+<body style="margin:0;padding:0;">
+<div class="ling-er-watercolor">
+<div class="header-card anim-entry">
+<div class="avatar-frame">
+<img src="https://i.postimg.cc/HkfhfXNX/from_Pix_AI_1976002488708186310_3.png" alt="{char}" class="avatar-img">
+</div>
+<div class="header-info">
+<h2>小靈兒</h2>
+<p>荷風 · 聽雪 · 螢火</p>
+</div>
+</div>
+<input type="radio" name="scene-tabs" id="tab-lotus" class="tab-input" checked="">
+<label for="tab-lotus" class="tab-label">荷風塘</label>
+<input type="radio" name="scene-tabs" id="tab-snow" class="tab-input">
+<label for="tab-snow" class="tab-label">雪夜廟</label>
+<input type="radio" name="scene-tabs" id="tab-firefly" class="tab-input">
+<label for="tab-firefly" class="tab-label">螢火林</label>
+<div class="tabs-nav"></div>
+<div class="scene-content content-lotus">
+<div class="scene-inner">
+<div class="scene-title">荷風塘邊 · 夏日午後</div>
+<div class="scene-desc">
+<span class="tag">粉荷碧葉</span><span class="tag">木橋清風</span>
+<p>小靈兒俯身靠在木橋欄桿上，望著塘中荷花，鼻尖輕嗅荷香，神情悠然。{user} 站在橋尾，緩步走向小靈兒，目光溫柔。塘中滿是粉色荷花與碧綠荷葉，荷葉上凝著露珠，微風拂過帶著荷香，蟬鳴陣陣，陽光透過荷葉漏下斑駁光影。</p>
+</div>
+<div class="img-grid">
+<img src="https://i.postimg.cc/3JkYgCQ4/from-Pix-AI-1975994638230278641-0.png" class="scene-img" alt="Lotus Scene 1">
+<img src="https://i.postimg.cc/RVW4cQxn/from-Pix-AI-1975994638230278641-1.png" class="scene-img" alt="Lotus Scene 2">
+<img src="https://i.postimg.cc/sDMsp9Ch/from-Pix-AI-1975994638230278641-2.png" class="scene-img" alt="Lotus Scene 3">
+<img src="https://i.postimg.cc/jdDtzQYW/from-Pix-AI-1975994638230278641-3.png" class="scene-img" alt="Lotus Scene 4">
+</div>
+</div>
+</div>
+<div class="scene-content content-snow">
+<div class="scene-inner">
+<div class="scene-title">雪夜破廟 · 窗前溫情</div>
+<div class="scene-desc">
+<span class="tag">漫天飛雪</span><span class="tag">溫暖炭火</span>
+<p>小靈兒貼在窗玻璃上，望著窗外的雪景，哈氣在玻璃上畫小圖案，神情雀躍。{user} 站在身後，端著溫熱的湯碗，目光落在小靈兒的背影，嘴角帶笑。窗外漫天飛雪，屋內生著炭火盆，火光映亮窗欞，空氣溫暖又溫馨。</p>
+</div>
+<div class="img-grid">
+<img src="https://i.postimg.cc/wMHF9k5s/from-Pix-AI-1975995843977977405-0.png" class="scene-img" alt="Snow Scene 1">
+<img src="https://i.postimg.cc/NFYbQx8X/from-Pix-AI-1975995843977977405-1.png" class="scene-img" alt="Snow Scene 2">
+<img src="https://i.postimg.cc/RFwXrYt7/from-Pix-AI-1975995843977977405-2.png" class="scene-img" alt="Snow Scene 3">
+<img src="https://i.postimg.cc/d3vnJ9RZ/from-Pix-AI-1975995843977977405-3.png" class="scene-img" alt="Snow Scene 4">
+</div>
+</div>
+</div>
+<div class="scene-content content-firefly">
+<div class="scene-inner">
+<div class="scene-title">螢火林 · 落花小徑</div>
+<div class="scene-desc">
+<span class="tag">漫天螢火</span><span class="tag">粉色落花</span>
+<p>小靈兒走在落花徑中，被漫天螢火環繞，眉眼帶笑，靈動四溢。{user} 跟在身側，目光護著小靈兒。夏夜的螢火林，林間小徑鋪滿粉色落花，漫天螢火翻飛，樹影婆娑，微風拂過帶著落花與草木的清香。</p>
+</div>
+<div class="img-grid">
+<img src="https://i.postimg.cc/05F2XHfM/from-Pix-AI-1975998759210957556-0.png" class="scene-img" alt="Firefly Scene 1">
+<img src="https://i.postimg.cc/3rVJfbB0/from-Pix-AI-1975998759210957556-1.png" class="scene-img" alt="Firefly Scene 2">
+<img src="https://i.postimg.cc/8k9PXnHr/from-Pix-AI-1975998759210957556-2.png" class="scene-img" alt="Firefly Scene 3">
+<img src="https://i.postimg.cc/SQ3N1trn/from-Pix-AI-1975998759210957556-3.png" class="scene-img" alt="Firefly Scene 4">
+</div>
+</div>
+</div>
+<div class="llm-output anim-entry" style="animation-delay: 0.2s">
+月光如水，灑在荷塘上，粼粼波光映著小靈兒的臉龐。<br>她捧著剛出爐的蔥油餅，熱氣騰騰的香氣混著夜風裡的蓮葉清香，鑽入鼻腔。</P>
+「你聞到了嗎？」她輕聲說，指尖拂過餅皮上焦黃的脆殼，<br>「麵粉烤熟的暖香，還有青蔥被熱油激出的辛甜。」</P>
+她掰下一角，遞過來時酥屑簌簌落下。餅身燙得恰到好處，<br>接觸皮膚的瞬間傳來微微刺麻，內裡卻柔軟如雲。<br>咬下去的咔嚓聲驚起附近荷葉上的露珠，滴答一聲落入水中。</P>
+她的眼睛彎成月牙，嘴角沾著一點油光。<br>你們分享著這塊餅，誰也沒說話，<br>只有夜蟲低鳴和細碎的咀嚼聲。<br>荷塘的濕氣裹著餅香，像層薄紗輕輕籠住兩人。</P>
+</div>
+</div>
+</body>
+</html>
