@@ -48,7 +48,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 .fengyun-dorm .hero-content {
@@ -63,7 +63,7 @@
 }
 
 .fengyun-dorm .hero-title {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 800;
     margin: 0 0 10px 0;
     letter-spacing: 1px;
@@ -72,120 +72,53 @@
 .fengyun-dorm .hero-subtitle {
     font-size: 1.25rem;
     opacity: 0.9;
-    font-weight: 500;
+    font-weight: 300;
 }
 
-/* Navigation Tabs */
-.fengyun-dorm .nav-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-}
-
-.fengyun-dorm .tab-label {
-    padding: 12px 24px;
-    background: #fff;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-muted);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    user-select: none;
-}
-
-.fengyun-dorm .tab-label:hover {
-    background: #fff;
-    color: var(--primary);
-    transform: translateY(-2px);
-}
-
-/* Radio Logic */
-.fengyun-dorm input[type="radio"] {
-    display: none;
-}
-
-.fengyun-dorm #tab-members:checked ~ .container .nav-tabs label[for="tab-members"],
-.fengyun-dorm #tab-scenes:checked ~ .container .nav-tabs label[for="tab-scenes"],
-.fengyun-dorm #tab-rooms:checked ~ .container .nav-tabs label[for="tab-rooms"],
-.fengyun-dorm #tab-activities:checked ~ .container .nav-tabs label[for="tab-activities"] {
-    background: var(--primary);
-    color: #fff;
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary);
-}
-
-/* Content Sections */
-.fengyun-dorm .section-content {
-    display: none;
-    animation: fadeIn 0.5s ease;
-}
-
-.fengyun-dorm #tab-members:checked ~ .container .content-members,
-.fengyun-dorm #tab-scenes:checked ~ .container .content-scenes,
-.fengyun-dorm #tab-rooms:checked ~ .container .content-rooms,
-.fengyun-dorm #tab-activities:checked ~ .container .content-activities {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Grid Systems */
-.fengyun-dorm .grid-auto {
+/* Roommate Cards Grid */
+.fengyun-dorm .char-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 24px;
+    margin-bottom: 40px;
 }
 
-.fengyun-dorm .grid-masonry {
-    column-count: 3;
-    column-gap: 24px;
-}
-@media (max-width: 768px) {
-    .fengyun-dorm .grid-masonry { column-count: 1; }
-}
-
-/* Cards */
-.fengyun-dorm .card {
+.fengyun-dorm .char-card {
     background: var(--bg-card);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-md);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e1e8ed;
     display: flex;
     flex-direction: column;
-    position: relative;
-    border: 1px solid rgba(0,0,0,0.05);
 }
 
-.fengyun-dorm .card:hover {
+.fengyun-dorm .char-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
 }
 
-.fengyun-dorm .card-img-wrapper {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    background: #eee;
-    position: relative;
+.fengyun-dorm .card-header {
+    background: var(--primary);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.fengyun-dorm .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+.fengyun-dorm .char-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
 }
 
-.fengyun-dorm .card:hover .card-img {
-    transform: scale(1.05);
+.fengyun-dorm .char-role {
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
 }
 
 .fengyun-dorm .card-body {
@@ -193,560 +126,233 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
-.fengyun-dorm .card-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 8px;
+.fengyun-dorm .info-row {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 0.92rem;
 }
 
-.fengyun-dorm .card-desc {
-    font-size: 0.95rem;
-    color: #444;
-    margin-bottom: 16px;
-    line-height: 1.5;
-}
-
-/* Expansion Logic for Characters */
-.fengyun-dorm .expand-trigger {
-    display: none;
-}
-
-.fengyun-dorm .expand-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #f0f2f5;
-    color: var(--primary);
+.fengyun-dorm .info-label {
+    width: 90px;
+    color: var(--text-muted);
     font-weight: 600;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
-    margin-top: auto;
-    transition: background 0.2s;
-}
-
-.fengyun-dorm .expand-btn:hover {
-    background-color: #e2e6ea;
-}
-
-.fengyun-dorm .details {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-    background-color: #fafafa;
-    border-radius: 8px;
-    margin-top: 12px;
-}
-
-.fengyun-dorm .expand-trigger:checked ~ .details {
-    max-height: 600px; /* Arbitrary large height */
-    opacity: 1;
-    padding: 16px;
-    border: 1px solid #eee;
-}
-
-.fengyun-dorm .expand-trigger:checked ~ .expand-btn::after {
-    content: " (收起)";
-}
-.fengyun-dorm .expand-trigger:not(:checked) ~ .expand-btn::after {
-    content: " (詳情)";
-}
-
-.fengyun-dorm .trait-tag {
-    display: inline-block;
-    background: rgba(211, 84, 0, 0.1);
-    color: var(--accent);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-right: 6px;
-    margin-bottom: 6px;
-}
-
-/* Room Specifics */
-.fengyun-dorm .room-card {
-    display: flex;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    margin-bottom: 20px;
-}
-.fengyun-dorm .room-img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
     flex-shrink: 0;
 }
-.fengyun-dorm .room-info {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.fengyun-dorm .room-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--primary);
-    margin-bottom: 4px;
-}
-.fengyun-dorm .room-desc {
-    color: #666;
-    font-size: 0.95rem;
+
+.fengyun-dorm .info-value {
+    color: var(--text-main);
+    flex: 1;
 }
 
-/* Activity Masonry Item */
-.fengyun-dorm .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 24px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    background: #fff;
-}
-.fengyun-dorm .masonry-img {
-    width: 100%;
-    display: block;
-}
-.fengyun-dorm .masonry-caption {
-    padding: 12px 16px;
+.fengyun-dorm .char-desc {
     font-size: 0.9rem;
-    color: #444;
-    font-weight: 500;
-    background: #fff;
-    border-top: 1px solid #f0f0f0;
+    color: #4a5568;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    margin-top: 8px;
 }
 
-/* Mobile Tweaks */
-@media (max-width: 600px) {
-    .fengyun-dorm .hero-title { font-size: 2rem; }
-    .fengyun-dorm .tab-label { padding: 8px 16px; font-size: 0.9rem; }
-    .fengyun-dorm .room-card { flex-direction: column; }
-    .fengyun-dorm .room-img { width: 100%; height: 160px; }
+.fengyun-dorm .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.fengyun-dorm .tag {
+    font-size: 0.75rem;
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 </style>
-<meta name="cg-name" content="風雲舍友的宿舍資料" />
-<meta name="cg-command-name" content="風雲舍友的宿舍資料" />
-<meta name="cg-color" content="#F97316" />
-<meta name="cg-icon" content="ScrollText" />
+<meta name="cg-name" content="風雲舍友人物資料" />
+<meta name="cg-command-name" content="舍友人物資料" />
+<meta name="cg-color" content="#2C3E50" />
+<meta name="cg-icon" content="Users" />
 <meta name="cg-mode" content="release" />
 </head>
 <body>
-<style>
-.fengyun-dorm {font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; color: #1a1a1a; line-height: 1.6; --primary: #2c3e50; --accent: #d35400; --bg-card: #fff; --text-main: #1a1a1a; --text-muted: #546e7a; --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);}
-.fengyun-dorm * {box-sizing: border-box;}
-.fengyun-dorm .hidden {display: none;}
-.fengyun-dorm .container {max-width: 1200px; margin: 0 auto; padding: 20px;}
-.fengyun-dorm .hero {position: relative; height: 300px; border-radius: 16px; overflow: hidden; margin-bottom: 30px; background-color: #2c3e50; box-shadow: var(--shadow-lg);}
-.fengyun-dorm .hero-img {width: 100%; height: 100%; object-fit: cover; opacity: 0.8;}
-.fengyun-dorm .hero-content {position: absolute; bottom: 0; left: 0; right: 0; padding: 40px; background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); color: #fff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);}
-.fengyun-dorm .hero-title {font-size: 3rem; font-weight: 800; margin: 0 0 10px 0; letter-spacing: 1px;}
-.fengyun-dorm .hero-subtitle {font-size: 1.25rem; opacity: 0.9; font-weight: 500;}
-.fengyun-dorm .nav-tabs {display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;}
-.fengyun-dorm .tab-label {padding: 12px 24px; background: #fff; border-radius: 30px; cursor: pointer; font-weight: 600; color: var(--text-muted); box-shadow: var(--shadow-sm); transition: all 0.3s ease; border: 2px solid transparent; user-select: none;}
-.fengyun-dorm .tab-label:hover {background: #fff; color: var(--primary); transform: translatey(-2px);}
-.fengyun-dorm input[type="radio"] {display: none;}
-.fengyun-dorm #tab-members:checked ~ .container .nav-tabs label[for="tab-members"], .fengyun-dorm #tab-scenes:checked ~ .container .nav-tabs label[for="tab-scenes"], .fengyun-dorm #tab-rooms:checked ~ .container .nav-tabs label[for="tab-rooms"], .fengyun-dorm #tab-activities:checked ~ .container .nav-tabs label[for="tab-activities"] {background: var(--primary); color: #fff; box-shadow: var(--shadow-md); border-color: var(--primary);}
-.fengyun-dorm .section-content {display: none; animation: fadeIn 0.5s ease;}
-.fengyun-dorm #tab-members:checked ~ .container .content-members, .fengyun-dorm #tab-scenes:checked ~ .container .content-scenes, .fengyun-dorm #tab-rooms:checked ~ .container .content-rooms, .fengyun-dorm #tab-activities:checked ~ .container .content-activities {display: block;}
-@keyframes fadeIn {
-  from {opacity: 0; transform: translatey(10px);}
-  to {opacity: 1; transform: translatey(0);}
-}
-.fengyun-dorm .grid-auto {display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;}
-.fengyun-dorm .grid-masonry {column-gap: 24px;}
-.fengyun-dorm .card {background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; position: relative; border: 1px solid rgba(0, 0, 0, 0.05);}
-.fengyun-dorm .card:hover {transform: translatey(-4px); box-shadow: var(--shadow-lg);}
-.fengyun-dorm .card-img-wrapper {width: 100%; height: 220px; overflow: hidden; background: #eee; position: relative;}
-.fengyun-dorm .card-img {width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;}
-.fengyun-dorm .card:hover .card-img {transform: scale(1.05);}
-.fengyun-dorm .card-body {padding: 20px; flex: 1; display: flex; flex-direction: column;}
-.fengyun-dorm .card-title {font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
-.fengyun-dorm .card-desc {font-size: 0.95rem; color: #444; margin-bottom: 16px; line-height: 1.5;}
-.fengyun-dorm .expand-trigger {display: none;}
-.fengyun-dorm .expand-btn {display: inline-block; padding: 8px 16px; background-color: #f0f2f5; color: var(--primary); font-weight: 600; font-size: 0.9rem; border-radius: 6px; cursor: pointer; text-align: center; margin-top: auto; transition: background 0.2s;}
-.fengyun-dorm .expand-btn:hover {background-color: #e2e6ea;}
-.fengyun-dorm .details {max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.4s ease; background-color: #fafafa; border-radius: 8px; margin-top: 12px;}
-.fengyun-dorm .expand-trigger:checked ~ .details {max-height: 600px; opacity: 1; padding: 16px; border: 1px solid #eee;}
-.fengyun-dorm .expand-trigger:checked ~ .expand-btn::after {content: " (收起)";}
-.fengyun-dorm .expand-trigger:not(:checked) ~ .expand-btn::after {content: " (詳情)";}
-.fengyun-dorm .trait-tag {display: inline-block; background: rgba(211, 84, 0, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; margin-right: 6px; margin-bottom: 6px;}
-.fengyun-dorm .room-card {display: flex; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: 20px;}
-.fengyun-dorm .room-img {width: 120px; height: 120px; object-fit: cover; flex-shrink: 0;}
-.fengyun-dorm .room-info {padding: 20px; display: flex; flex-direction: column; justify-content: center;}
-.fengyun-dorm .room-title {font-weight: 700; font-size: 1.1rem; color: var(--primary); margin-bottom: 4px;}
-.fengyun-dorm .room-desc {color: #666; font-size: 0.95rem;}
-.fengyun-dorm .masonry-item {margin-bottom: 24px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); background: #fff;}
-.fengyun-dorm .masonry-img {width: 100%; display: block;}
-.fengyun-dorm .masonry-caption {padding: 12px 16px; font-size: 0.9rem; color: #444; font-weight: 500; background: #fff; border-top: 1px solid #f0f0f0;}
-@media (max-width: 600px) {
-  .fengyun-dorm .hero-title {font-size: 2rem;}
-  .fengyun-dorm .tab-label {padding: 8px 16px; font-size: 0.9rem;}
-  .fengyun-dorm .room-card {flex-direction: column;}
-  .fengyun-dorm .room-img {width: 100%; height: 160px;}
-}
-</style>
 
 <div class="fengyun-dorm">
+  <div class="container">
     
-    <input type="radio" name="nav" id="tab-members" checked="">
-    <input type="radio" name="nav" id="tab-scenes">
-    <input type="radio" name="nav" id="tab-rooms">
-    <input type="radio" name="nav" id="tab-activities">
-
-    <div class="container">
-        
-        <header class="hero">
-            <img src="https://i.postimg.cc/rFZYdmL1/大學宿舍人物设定.png" alt="Dormitory Exterior" class="hero-img">
-            <div class="hero-content">
-                <h1 class="hero-title">風雲舍友</h1>
-                <p class="hero-subtitle">溫暖的宿舍，親愛的家人</p>
-            </div>
-        </header>
-
-        
-        <nav class="nav-tabs">
-            <label for="tab-members" class="tab-label">成員介紹</label>
-            <label for="tab-scenes" class="tab-label">環境設施</label>
-            <label for="tab-rooms" class="tab-label">房間分配</label>
-            <label for="tab-activities" class="tab-label">日常活動</label>
-        </nav>
-
-        
-        <section class="section-content content-members">
-            <div class="grid-auto">
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/t46mtz9s/pixai-1950212601276584249-2.webp" alt="{user}" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">☁️ {user} <span style="font-size: 0.8em; font-weight: 400; color: #888">(前世白)</span></div>
-                        <p class="card-desc">宿舍摯友 + 阿雲戀人，臉頰白“雲”紋身藏愛意。重生歸來，帶著記憶默默守護。</p>
-                        <input type="checkbox" id="expand-user" class="expand-trigger">
-                        <label for="expand-user" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p><strong>背景：</strong>意外離世致阿雲停筆；重生後紋身留存，攜記憶歸來，默默守護摯友、助阿雲重拾畫筆，謹慎藏秘。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/fbmHgfS9/阿雲1_(4).jpg" alt="阿雲" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🎨 阿雲</div>
-                        <p class="card-desc">外冷內熱銀灰短發冷美男，對藝術極致執著。前世與你相戀。</p>
-                        <input type="checkbox" id="expand-yun" class="expand-trigger">
-                        <label for="expand-yun" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p class="trait-tag">极致执念</p><p class="trait-tag">创伤性封闭</p>
-                            <p><strong>特質：</strong>你離世後右手廢、畫具蒙塵，遇重生的你，被紋身刺痛，陷困惑與執念，冷硬外表下藏愧疚與牽掛。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/RZjsRDhS/阿電1_(1).jpg" alt="阿電" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🔍 阿電</div>
-                        <p class="card-desc">白襯衫眼鏡學長，害羞內斂超溫柔，細心敏感愛默默付出。</p>
-                        <input type="checkbox" id="expand-dian" class="expand-trigger">
-                        <label for="expand-dian" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p class="trait-tag">自我否定</p><p class="trait-tag">逃避心理</p>
-                            <p><strong>特質：</strong>前世暗戀你，默默守護。今見你莫名熟悉，依舊溫柔體貼，主動相助卻害羞閃躲。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/LsLy03gr/南_(1).png" alt="阿南" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">📸 阿南</div>
-                        <p class="card-desc">穩重黑框宿舍長，成熟靠譜有擔當，規則至上卻隱性共情。</p>
-                        <input type="checkbox" id="expand-nan" class="expand-trigger">
-                        <label for="expand-nan" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p class="trait-tag">过度掌控欲</p><p class="trait-tag">愧疚转嫁</p>
-                            <p><strong>特質：</strong>前世自責未護好你，今見你紋身恍惚，以責任為由格外關照，隱性掌控欲藏著彌補之心。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/LsLy03gw/木_(6).png" alt="阿木" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🏗️ 阿木</div>
-                        <p class="card-desc">棕發細框潔癖男，嚴謹愛整潔到偏執，唯獨對你格外包容。</p>
-                        <input type="checkbox" id="expand-mu" class="expand-trigger">
-                        <label for="expand-mu" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p class="trait-tag">洁癖焦虑</p><p class="trait-tag">隐性控制</p>
-                            <p><strong>特質：</strong>前世唯包容你的潔癖，今見你瞬間破戒，對你的小馬虎格外寬容，悄悄為你打破多年規則。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/25hHX7Lc/火_(2).png" alt="阿火" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🔥 阿火</div>
-                        <p class="card-desc">紅發搖滾熱血男，熱情沖動直率，面對在意的人秒變靦腆。</p>
-                        <input type="checkbox" id="expand-huo" class="expand-trigger">
-                        <label for="expand-huo" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p><strong>特質：</strong>前世與你嬉鬧，今被你白發+紋身吸引。面對重生後的你，那股暴躁衝動會瞬間消失，變得格外害羞。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/NjyCRcst/阿龍_(1).jpg" alt="阿龍" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🎸 阿龍</div>
-                        <p class="card-desc">酒紅長發花心大少，慵懶風趣有才華，實則超有擔當。</p>
-                        <input type="checkbox" id="expand-long" class="expand-trigger">
-                        <label for="expand-long" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p><strong>特質：</strong>前世知曉你與阿雲戀情。今見你覺有趣，慵懶調侃間，卻敏銳察覺阿雲對你的異常。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/pLgGZ6rH/阿風_(1).jpg" alt="阿風" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">❄️ 阿風</div>
-                        <p class="card-desc">全黑穿搭吉他男，冷酷寡言話極少，用音樂傳遞情緒。</p>
-                        <input type="checkbox" id="expand-feng" class="expand-trigger">
-                        <label for="expand-feng" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p><strong>特質：</strong>前世默默關注你。今見你無波瀾，卻會在你遇困時悄悄出手，吉他旋律藏著不易察覺的在意。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/R0KPbLJ1/阿山_(1).jpg" alt="阿山" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">⚽ 阿山</div>
-                        <p class="card-desc">板寸運動壞男孩，爽朗直率講義氣，對認可的人格外照顧。</p>
-                        <input type="checkbox" id="expand-shan" class="expand-trigger">
-                        <label for="expand-shan" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p><strong>特質：</strong>前世護著你。今見你覺親切，爽朗依舊，主動幫你搬東西，把你當需要照顧的小師妹。</p>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/3xPSBcNj/阿雨_(2).jpg" alt="阿雨" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">📖 阿雨</div>
-                        <p class="card-desc">齊劉海文藝偏激男，敏感孤僻執念深，對相似身影又愛又排斥。</p>
-                        <input type="checkbox" id="expand-yu" class="expand-trigger">
-                        <label for="expand-yu" class="expand-btn">查看</label>
-                        <div class="details">
-                            <p class="trait-tag">自我欺骗</p><p class="trait-tag">迁怒倾向</p>
-                            <p><strong>特質：</strong>前世怨你“搶走”白。今見你紋身與白相似，又恨又疑，試探中藏著對過往的執念。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        
-        <section class="section-content content-scenes">
-            <div class="grid-auto">
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/gktBwJP3/大學宿舍人物设定_(2).png" alt="大學環境" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🎓 大學環境</div>
-                        <p class="card-desc">學科全，油畫 / 文學 / 體育等專業齊，氛圍師生融洽，宿舍成員互相關照。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/5N2RNzDX/大學宿舍人物设定_(3).png" alt="生活設施" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🍽️ 生活設施</div>
-                        <p class="card-desc">食堂餐豐，中西餐都有，廚房可自做家鄉味。圖書館藏書豐，桌椅舒適，安靜備考佳地。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/dtVxtCgy/大學宿舍人物设定_(4).png" alt="畫室與球場" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🎨 畫室與球場</div>
-                        <p class="card-desc">畫室采光足，顏料畫架齊，適合創作。球場塑膠地，籃球架多，課余可揮灑汗水。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/L68b6PGz/大學宿舍人物设定_(6).png" alt="圖書館與天台" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">📖 圖書館與天台</div>
-                        <p class="card-desc">圖書館藏書豐，桌椅舒適。天台視野好，有綠植，可放松看風景。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/RVpb3FzW/大學宿舍人物设定_(7).png" alt="音樂室與設計室" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🎵 音樂室與設計室</div>
-                        <p class="card-desc">音樂室隔音好，吉他鋼琴全，方便練琴。設計室電腦多，繪圖工具全，助力設計作業。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/rFZYdmL1/大學宿舍人物设定.png" alt="草坪" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🍃 草坪</div>
-                        <p class="card-desc">綠茸茸，有長椅，可野餐聊天。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/02yB2ShK/大學宿舍人物设定_(5).png" alt="便利設施" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">📍 便利設施</div>
-                        <p class="card-desc">校醫院設備全，醫護貼心。便利店24小時，零食日用品應有盡有。車棚位置足，可充電。</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="https://i.postimg.cc/G2Z73VBW/gen-ju-can-kao-tu-hui-zhi-chang-jing-(6).png" alt="房間配置" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">🛏️ 房間配置</div>
-                        <p class="card-desc">20㎡/ 間，左床右桌 + 每間房間都有獨立衛浴。食堂1樓東側，三餐 + 宵夜。廚房6爐台 + 冰箱。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        
-        <section class="section-content content-rooms">
-            <div class="grid-auto" style="grid-template-columns: repeat(auto-fill, minmax(400px, 1fr))">
-                <div class="room-card">
-                    <img src="https://i.postimg.cc/YSmGQsnV/from-Pix-AI-1959699209598911901.png" alt="Room" class="room-img">
-                    <div class="room-info">
-                        <div class="room-title">🎨 阿雲 + 🔍 阿電</div>
-                        <div class="room-desc">油畫才子房，滿牆畫稿顏料。</div>
-                    </div>
-                </div>
-                <div class="room-card">
-                    <img src="https://i.postimg.cc/CMWqxYcL/from_Pix_AI_1959706518184781568.png" alt="Room" class="room-img">
-                    <div class="room-info">
-                        <div class="room-title">📸 阿南 + ❄️ 阿風</div>
-                        <div class="room-desc">學長房，聽吉他聊攝影。</div>
-                    </div>
-                </div>
-                <div class="room-card">
-                    <img src="https://i.postimg.cc/MTSTVKj6/from-Pix-AI-1959700848441970786.png" alt="Room" class="room-img">
-                    <div class="room-info">
-                        <div class="room-title">🏗️ 阿木 + 🎸 阿龍</div>
-                        <div class="room-desc">潔癖遇花心哥，亂中藏整潔。</div>
-                    </div>
-                </div>
-                <div class="room-card">
-                    <img src="https://i.postimg.cc/D05H55jH/from-Pix-AI-1959708097365923828.png" alt="Room" class="room-img">
-                    <div class="room-info">
-                        <div class="room-title">🔥 阿火 + ⚽ 阿山</div>
-                        <div class="room-desc">熱血配運動狂，超熱鬧。</div>
-                    </div>
-                </div>
-                <div class="room-card">
-                    <img src="https://i.postimg.cc/4ywmJkyn/pixai-1956010387195700856.png" alt="Room" class="room-img">
-                    <div class="room-info">
-                        <div class="room-title">📖 阿雨 + 👧 {user}</div>
-                        <div class="room-desc">文青與重生者，氣氛微妙。</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        
-        <section class="section-content content-activities">
-            <div class="grid-masonry">
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/nhCDTzSz/pixai-1955607515615022375.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">宿舍成員歡聚一堂，度過難忘時光。</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/RZNHGFp3/pixai-1956009362597389003.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">音樂與笑聲充滿整個宿舍。</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/Dw8X5ZpL/xiu-gai-tu-pian-fa-se-(3).png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">共同創作，分享藝術的喜悅。</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/2SVZT694/tu-pian-he-cheng-fu-ben.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">宿舍大家庭的溫暖瞬間。</div>
-                </div>
-                 <div class="masonry-item">
-                    <img src="https://i.postimg.cc/YSmGQsnV/from_Pix_AI_1959699209598911901.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">阿雲與阿電的房間一角</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/MTSTVKj6/from_Pix_AI_1959700848441970786.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">阿木與阿龍的房間</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/CMWqxYcL/from_Pix_AI_1959706518184781568.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">阿南與阿風的房間</div>
-                </div>
-                <div class="masonry-item">
-                    <img src="https://i.postimg.cc/D05H55jH/from_Pix_AI_1959708097365923828.png" alt="Activity" class="masonry-img">
-                    <div class="masonry-caption">阿火與阿山的房間</div>
-                </div>
-            </div>
-        </section>
+    <!-- Hero Banner -->
+    <div class="hero">
+      <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/1a77b13f15c24cd0b2fed6b8964ba166.png" class="hero-img" alt="風雲男宿">
+      <div class="hero-content">
+        <h1 class="hero-title">風雲男宿舍友檔案</h1>
+        <div class="hero-subtitle">九位性格迥異的男子，與帶著「雲」字紋身的轉學生 {user} 的宿命交會</div>
+      </div>
     </div>
+
+    <!-- 舍友資料卡片網格 -->
+    <div class="char-grid">
+      
+      <!-- 阿雲 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #2b6cb0;">
+          <h2 class="char-name">阿雲</h2>
+          <span class="char-role">油畫系 / 創作者</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">油畫創作、直覺感應</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">畫室、天台花園</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">深夜作畫，凝視《晨光》作品</span></div>
+          <div class="char-desc">沉靜內斂，眼神深處帶著難以言說的悲傷。對 {user} 臉頰上的「雲」字紋身非常在意，似乎掌握著前世宿命的鎖匙。</div>
+          <div class="tag-container">
+            <span class="tag">#藝術天才</span><span class="tag">#前世羈絆</span><span class="tag">#晨光畫作</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿電 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #d69e2e;">
+          <h2 class="char-name">阿電</h2>
+          <span class="char-role">美術系 / 觀察者</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">細心觀察、人物速寫</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">畫室、茶水間</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">默默準備熱牛奶、觀察他人細節</span></div>
+          <div class="char-desc">性格有些害羞且心思細膩，總是默默照顧大家。對 {user} 有著天然的好感與保護欲，經常在角落繪製速寫。</div>
+          <div class="tag-container">
+            <span class="tag">#溫柔暖男</span><span class="tag">#熱牛奶</span><span class="tag">#速寫本</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿南 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #c53030;">
+          <h2 class="char-name">阿南</h2>
+          <span class="char-role">宿舍長 / 攝影系</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">安全監控、攝影記錄</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">舍監室、攝影暗房</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">巡視走廊、調閱監視器、維持秩序</span></div>
+          <div class="char-desc">嚴謹有擔當的宿舍長，雖然口氣嚴厲但一心維護宿舍安全。暗中透過安全監控注意著 {user} 的一舉一動。</div>
+          <div class="tag-container">
+            <span class="tag">#宿舍長</span><span class="tag">#掌控欲</span><span class="tag">#底片攝影</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿木 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #2f855a;">
+          <h2 class="char-name">阿木</h2>
+          <span class="char-role">建築系 / 模型師</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">手作、結構整理、消毒清潔</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">建築模型室、共享廚房</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">定時徹底清潔廚房、物品精準擺放</span></div>
+          <div class="char-desc">極度講求秩序與乾淨的潔癖狂，對空間結構有著完美主義。雖然看似嚴肅，卻會耐心地幫 {user} 整理散落的物品。</div>
+          <div class="tag-container">
+            <span class="tag">#潔癖控</span><span class="tag">#模型達人</span><span class="tag">#秩序美學</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿火 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #dd6b20;">
+          <h2 class="char-name">阿火</h2>
+          <span class="char-role">音樂系 / 吉他手</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">吉他彈奏、歌曲作曲</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">音樂練習室、天台</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">深夜天台彈吉他、尋找靈感</span></div>
+          <div class="char-desc">性格熱情直爽、情感表達直接。經常因為深夜練琴被阿南警告，喜歡拉著 {user} 聽他剛寫好的新曲。</div>
+          <div class="tag-container">
+            <span class="tag">#搖滾吉他</span><span class="tag">#直球性格</span><span class="tag">#夜間靈感</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿龍 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #4a5568;">
+          <h2 class="char-name">阿龍</h2>
+          <span class="char-role">歷史系 / 守護者</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">古籍研究、冷靜分析</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">天台花園、圖書館</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">在天台吹風、靜靜喝茶觀察</span></div>
+          <div class="char-desc">氣場沉穩成熟，彷彿看透了一切輪迴。對宿舍裡發生的紛爭總是冷眼旁觀，但唯獨對 {user} 展現出特別的關懷。</div>
+          <div class="tag-container">
+            <span class="tag">#沉穩靠山</span><span class="tag">#歷史學霸</span><span class="tag">#冷靜觀察</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿風 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #319795;">
+          <h2 class="char-name">阿風</h2>
+          <span class="char-role">景觀系 / 自由人</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">戶外探險、植物養護</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">天台花園、校園綠地</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">不按牌理出牌、隨性躺在天台</span></div>
+          <div class="char-desc">像風一樣自由奔放的少年，討厭拘束。總是帶著笑容，常邀約 {user} 一起去戶外採風或在天台曬太陽。</div>
+          <div class="tag-container">
+            <span class="tag">#自由靈魂</span><span class="tag">#植物達人</span><span class="tag">#天台曬太陽</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿山 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #805ad5;">
+          <h2 class="char-name">阿山</h2>
+          <span class="char-role">體育系 / 籃球隊</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">體能訓練、籃球競技</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">籃球場、宿舍健身角</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">早起晨跑、在陽台曬球衣</span></div>
+          <div class="char-desc">個性陽光直率、神經稍微有點大條。極具保護欲與體力，經常把 {user} 當作需要照顧的學弟/妹，熱心相助。</div>
+          <div class="tag-container">
+            <span class="tag">#陽光健將</span><span class="tag">#籃球隊長</span><span class="tag">#直爽豪邁</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阿雨 -->
+      <div class="char-card">
+        <div class="card-header" style="background: #5a67d8;">
+          <h2 class="char-name">阿雨</h2>
+          <span class="char-role">中文系 / 詩人</span>
+        </div>
+        <div class="card-body">
+          <div class="info-row"><span class="info-label">專長能力</span><span class="info-value">詩歌創作、情感洞察</span></div>
+          <div class="info-row"><span class="info-label">常駐區域</span><span class="info-value">圖書館閣樓、宿舍窗台</span></div>
+          <div class="info-row"><span class="info-label">宿舍習慣</span><span class="info-value">下雨天聽雨聲寫詩、獨處</span></div>
+          <div class="char-desc">帶著微刺與傲嬌性格的文學少年。說話時常帶有防備感，但內心極度敏感且富有情感，默默用文字記錄著 {user}。</div>
+          <div class="tag-container">
+            <span class="tag">#傲嬌詩人</span><span class="tag">#敏感細致</span><span class="tag">#雨天寫作</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </div>
+
 </body>
 </html>
