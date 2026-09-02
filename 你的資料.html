@@ -280,56 +280,9 @@
 <meta name="cg-mode" content="release" />
 </head>
 <body>
-<style>
-.fengyun-game-ui {--ui-bg: #fff8e1; --ui-dark: #2d3748; --ui-accent: #e53e3e; --ui-highlight: #48bb78; --ui-border: 3px solid var(--ui-dark); --ui-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-family: var(--ui-font); color: var(--ui-dark); line-height: 1.5; width: 100%; max-width: 800px; margin: 0 auto;}
-.fengyun-game-ui * {box-sizing: border-box;}
-.fengyun-game-ui .game-window {background-color: var(--ui-bg); border: var(--ui-border); border-radius: 8px; box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2); overflow: hidden; position: relative;}
-.fengyun-game-ui .game-header {background-color: var(--ui-dark); color: white; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; border-bottom: var(--ui-border);}
-.fengyun-game-ui .stats-bar {display: flex; gap: 1rem; font-weight: bold;}
-.fengyun-game-ui .game-body {display: flex; flex-direction: column; height: 600px;}
-@media (min-width: 640px) {
-  .fengyun-game-ui .game-body {flex-direction: row;}
-}
-.fengyun-game-ui .char-sidebar {width: 100%; background-color: #fff; border-bottom: var(--ui-border); padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; position: relative;}
-@media (min-width: 640px) {
-  .fengyun-game-ui .char-sidebar {width: 240px; border-bottom: none; border-right: var(--ui-border); flex-shrink: 0;}
-}
-.fengyun-game-ui .pixel-avatar {width: 120px; height: 120px; object-fit: contain; border: 2px solid var(--ui-dark); background: #edf2f7; border-radius: 4px;}
-.fengyun-game-ui .char-stats {width: 100%; font-size: 0.8rem; background: #f7fafc; border: 2px solid var(--ui-dark); padding: 0.5rem; border-radius: 4px;}
-.fengyun-game-ui .stat-row {display: flex; justify-content: space-between; margin-bottom: 4px;}
-.fengyun-game-ui .main-content {flex: 1; display: flex; flex-direction: column; background: #fff; overflow: hidden;}
-.fengyun-game-ui .tabs-nav {display: flex; background: var(--ui-bg); border-bottom: var(--ui-border); padding: 0.5rem 0.5rem 0 0.5rem; gap: 4px; overflow-x: auto;}
-.fengyun-game-ui .tab-label {padding: 0.5rem 1rem; background: #e2e8f0; border: 2px solid var(--ui-dark); border-bottom: none; border-radius: 6px 6px 0 0; font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap;}
-.fengyun-game-ui .tab-label:hover {background: #cbd5e0;}
-.fengyun-game-ui input[type="radio"] {display: none;}
-.fengyun-game-ui input#tab-home:checked ~ .main-content .tabs-nav label[for="tab-home"], .fengyun-game-ui input#tab-dorm:checked ~ .main-content .tabs-nav label[for="tab-dorm"], .fengyun-game-ui input#tab-fac:checked ~ .main-content .tabs-nav label[for="tab-fac"], .fengyun-game-ui input#tab-life:checked ~ .main-content .tabs-nav label[for="tab-life"] {background: var(--ui-accent); color: white; transform: translatey(2px);}
-.fengyun-game-ui .screen-viewport {flex: 1; padding: 1.5rem; overflow-y: auto; position: relative; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 20px 20px;}
-.fengyun-game-ui .screen {display: none; animation: slideUp 0.3s ease-out;}
-@keyframes slideUp {
-  from {opacity: 0; transform: translatey(10px);}
-  to {opacity: 1; transform: translatey(0);}
-}
-.fengyun-game-ui input#tab-home:checked ~ .main-content .screen-viewport .screen-home, .fengyun-game-ui input#tab-dorm:checked ~ .main-content .screen-viewport .screen-dorm, .fengyun-game-ui input#tab-fac:checked ~ .main-content .screen-viewport .screen-fac, .fengyun-game-ui input#tab-life:checked ~ .main-content .screen-viewport .screen-life {display: block;}
-.fengyun-game-ui .info-card {background: white; border: 2px solid var(--ui-dark); padding: 1rem; margin-bottom: 1rem; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1); border-radius: 4px;}
-.fengyun-game-ui .card-title {font-weight: bold; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--ui-accent); border-bottom: 2px dashed var(--ui-dark); padding-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;}
-.fengyun-game-ui .grid-list {display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.75rem;}
-.fengyun-game-ui .grid-item {background: #f0fff4; border: 2px solid var(--ui-dark); padding: 0.5rem; font-size: 0.8rem; text-align: center; border-radius: 4px; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; transition: transform 0.1s;}
-.fengyun-game-ui .grid-item:hover {transform: scale(1.05); background: #c6f6d5;}
-.fengyun-game-ui .badge {display: inline-block; padding: 2px 6px; background: var(--ui-dark); color: white; border-radius: 12px; font-size: 0.7rem; margin-right: 4px;}
-.fengyun-game-ui .dialogue-box {background: var(--ui-dark); color: white; padding: 1rem; min-height: 80px; display: flex; align-items: flex-start; gap: 1rem; border-top: var(--ui-border);}
-.fengyun-game-ui .typing-cursor::after {content: "▋"; animation: blink 1s infinite;}
-@keyframes blink {
-  50% {opacity: 0;}
-}
-.fengyun-game-ui .screen-viewport::-webkit-scrollbar {width: 8px;}
-.fengyun-game-ui .screen-viewport::-webkit-scrollbar-track {background: #edf2f7; border-left: 2px solid var(--ui-dark);}
-.fengyun-game-ui .screen-viewport::-webkit-scrollbar-thumb {background: var(--ui-dark);}
-</style>
 
 <div class="fengyun-game-ui">
-  
   <div class="game-window">
-    
     
     <div class="game-header">
       <div class="flex items-center gap-2">
@@ -343,44 +296,44 @@
       </div>
     </div>
 
-    
     <div class="game-body">
       
-      
+      <!-- 左側角色欄 -->
       <div class="char-sidebar">
         <img src="https://static.feelin.ai/nft/cg-assets/f715cf4b380a427cb60a08486beaf273/1a77b13f15c24cd0b2fed6b8964ba166.png" alt="Character" class="pixel-avatar shadow-lg">
         <div class="text-lg font-bold mt-2">{user}</div>
-        <div class="text-xs text-gray-500 mb-2">重生回來{user}</div>
+        <div class="text-xs text-gray-500 mb-2">帶有「雲」字紋身的轉學生</div>
         
         <div class="char-stats shadow-sm">
           <div class="stat-row">
-            <span>好感度</span>
+            <span>羈絆值</span>
             <span class="text-red-500">♥♥♡♡♡</span>
           </div>
           <div class="stat-row">
             <span>身分</span>
-            <span class="text-blue-600">大學一年級</span>
+            <span class="text-blue-600">美術系一年級</span>
           </div>
           <div class="stat-row">
-            <span>能力</span>
-            <span class="text-green-600">1. 油畫創作<br>
-2. 細心觀察與共情<br>
-3. 手作能力強<br></span>
+            <span>天賦能力</span>
+            <span class="text-green-600">
+              1. 敏銳繪畫感知<br>
+              2. 堅韌與直覺共情<br>
+              3. 特殊記憶甦醒中<br>
+            </span>
           </div>
         </div>
         
         <div class="mt-auto w-full">
-            <button class="w-full bg-gray-200 border-2 border-gray-800 py-1 text-xs font-bold">送禮物 🎁</button>
+            <button class="w-full bg-gray-200 border-2 border-gray-800 py-1 text-xs font-bold">送禮物 / 互動 🎁</button>
         </div>
       </div>
 
-      
       <input type="radio" name="game-tab" id="tab-home" checked="">
       <input type="radio" name="game-tab" id="tab-dorm">
       <input type="radio" name="game-tab" id="tab-fac">
       <input type="radio" name="game-tab" id="tab-life">
 
-      
+      <!-- 主要內容區 -->
       <div class="main-content">
         
         <div class="tabs-nav">
@@ -390,128 +343,118 @@
           <label for="tab-life" class="tab-label">🍽️ 生活服務</label>
         </div>
 
-        
         <div class="screen-viewport">
           
-          
+          <!-- TAB 1: 校園概況 -->
           <div class="screen screen-home">
             <div class="info-card">
-              <div class="card-title">📍 風雲大學</div>
-              <p class="text-sm mb-2">這是一所學科齊全的大學，擁有油畫、文學、體育等多個專業。校園環境優美，紅磚樓與綠植相映成趣。</p>
+              <div class="card-title">📍 風雲藝術大學</div>
+              <p class="text-sm mb-2">匯聚油畫、音樂、建築與文學等的藝術學府。紅磚古建築與濃厚的文藝氣息交織，隱藏著跨越前世今生的深刻羈絆。</p>
               <div class="flex gap-2 mt-3">
-                <span class="badge">紅磚建築</span>
-                <span class="badge">師生融洽</span>
-                <span class="badge">資源豐富</span>
+                <span class="badge">復古紅磚樓</span>
+                <span class="badge">藝術氣息</span>
+                <span class="badge">暗潮湧動</span>
               </div>
             </div>
             
             <div class="info-card bg-yellow-50">
-              <div class="card-title text-orange-600">📢 最新公告</div>
+              <div class="card-title text-orange-600">📢 宿舍公告欄</div>
               <ul class="list-disc list-inside text-sm space-y-1">
-                <li>歡迎新同學 <b>{user}</b> 入學！</li>
-                <li>宿舍食堂今日推出「蘇州湯包」特餐。</li>
-                <li>圖書館備考區已開放預約。</li>
+                <li>歡迎新同學 <b>{user}</b> 入住風雲宿舍！</li>
+                <li><b>阿南宿舍長公告</b>：晚間11點後嚴禁噪音，違者沒收器材。</li>
+                <li><b>畫室溫馨提示</b>：請勿隨意碰觸阿雲之個人畫架與《晨光》畫作。</li>
+                <li>食堂今日特別供應：<b>蘇州湯包</b> & <b>冰滴咖啡</b>。</li>
               </ul>
             </div>
           </div>
 
-          
+          <!-- TAB 2: 宿舍詳情 -->
           <div class="screen screen-dorm">
             <div class="info-card">
-              <div class="card-title">🛏️ 房間配置 (2人/間)</div>
+              <div class="card-title">🛏️ 風雲男宿環境</div>
               <div class="text-sm space-y-2">
                 <div class="flex items-center justify-between border-b border-gray-200 pb-1">
-                  <span>面積</span>
-                  <span class="font-bold">20㎡ 寬敞空間</span>
+                  <span>空間佈局</span>
+                  <span class="font-bold">4層經典紅磚樓 / 獨立衛浴</span>
                 </div>
                 <div class="flex items-center justify-between border-b border-gray-200 pb-1">
-                  <span>佈局</span>
-                  <span class="font-bold">左床右桌，互不干擾</span>
+                  <span>室友組合</span>
+                  <span class="font-bold">阿雲、阿電、阿南、阿木等9人</span>
                 </div>
                 <div class="flex items-center justify-between border-b border-gray-200 pb-1">
-                  <span>衛浴</span>
-                  <span class="font-bold text-blue-600">獨立浴室 🚿</span>
+                  <span>衛生守則</span>
+                  <span class="font-bold text-blue-600">阿木嚴格定時消毒 🧹</span>
                 </div>
                 <div class="p-2 bg-blue-50 border border-blue-200 rounded text-xs mt-2">
-                  <span class="font-bold text-blue-700">ℹ️ 特別說明：</span> 宿舍支持男女混住申請，具體請諮詢管理員。
+                  <span class="font-bold text-blue-700">ℹ️ 宿舍特別規定：</span> 公共區域裝有全天候安全監控（阿南管理）。進入他人房間請先敲門。
                 </div>
               </div>
             </div>
             
             <div class="info-card">
-              <div class="card-title">🌿 樓棟環境</div>
-              <p class="text-sm">4層經典紅磚樓，外牆藤蔓纏繞，充滿學術氣息。每層走廊均設有公共休息區，方便同學交流。</p>
+              <div class="card-title">🌿 室友觀察筆記</div>
+              <p class="text-sm">宿舍氛圍表面平靜，但各自懷揣秘密。阿電習慣偷偷送熱牛奶，阿雲總在深夜凝視《晨光》，而阿雨則帶著刺意的眼神注視著你……</p>
             </div>
           </div>
 
-          
+          <!-- TAB 3: 設施一覽 -->
           <div class="screen screen-fac">
             <div class="grid-list">
               <div class="grid-item">
                 <span class="text-2xl">🎨</span>
-                <span class="font-bold">畫室</span>
-                <span class="text-xs text-gray-500">採光足/顏料齊</span>
+                <span class="font-bold">油畫室</span>
+                <span class="text-xs text-gray-500">阿雲/阿電常駐</span>
+              </div>
+              <div class="grid-item">
+                <span class="text-2xl">📷</span>
+                <span class="font-bold">攝影暗房</span>
+                <span class="text-xs text-gray-500">阿南作品庫</span>
+              </div>
+              <div class="grid-item">
+                <span class="text-2xl">📐</span>
+                <span class="font-bold">建築模型室</span>
+                <span class="text-xs text-gray-500">阿木嚴謹整理</span>
+              </div>
+              <div class="grid-item">
+                <span class="text-2xl">🎸</span>
+                <span class="font-bold">音樂練習室</span>
+                <span class="text-xs text-gray-500">阿火/阿風專屬</span>
               </div>
               <div class="grid-item">
                 <span class="text-2xl">🏀</span>
-                <span class="font-bold">球場</span>
-                <span class="text-xs text-gray-500">塑膠地/籃球架</span>
+                <span class="font-bold">籃球場</span>
+                <span class="text-xs text-gray-500">阿山揮灑汗水</span>
               </div>
               <div class="grid-item">
                 <span class="text-2xl">📖</span>
-                <span class="font-bold">圖書館</span>
-                <span class="text-xs text-gray-500">藏書豐/安靜</span>
+                <span class="font-bold">圖書館閣樓</span>
+                <span class="text-xs text-gray-500">阿雨寫詩角落</span>
               </div>
               <div class="grid-item">
-                <span class="text-2xl">🌿</span>
-                <span class="font-bold">天台</span>
-                <span class="text-xs text-gray-500">視野好/綠植</span>
-              </div>
-              <div class="grid-item">
-                <span class="text-2xl">🎵</span>
-                <span class="font-bold">音樂室</span>
-                <span class="text-xs text-gray-500">隔音好/樂器全</span>
-              </div>
-              <div class="grid-item">
-                <span class="text-2xl">🖌️</span>
-                <span class="font-bold">設計室</span>
-                <span class="text-xs text-gray-500">電腦多/工具全</span>
-              </div>
-              <div class="grid-item">
-                <span class="text-2xl">🍃</span>
-                <span class="font-bold">草坪</span>
-                <span class="text-xs text-gray-500">野餐/聊天</span>
-              </div>
-              <div class="grid-item">
-                <span class="text-2xl">🏥</span>
-                <span class="font-bold">校醫院</span>
-                <span class="text-xs text-gray-500">設備全/貼心</span>
+                <span class="text-2xl">☕</span>
+                <span class="font-bold">天台花園</span>
+                <span class="text-xs text-gray-500">阿龍/阿風吹風</span>
               </div>
               <div class="grid-item">
                 <span class="text-2xl">🛒</span>
-                <span class="font-bold">便利店</span>
-                <span class="text-xs text-gray-500">24H/應急</span>
-              </div>
-              <div class="grid-item">
-                <span class="text-2xl">🚲</span>
-                <span class="font-bold">車棚</span>
-                <span class="text-xs text-gray-500">充電/存放</span>
+                <span class="font-bold">24H便利店</span>
+                <span class="text-xs text-gray-500">買牛奶與零食</span>
               </div>
             </div>
           </div>
 
-          
+          <!-- TAB 4: 生活服務 -->
           <div class="screen screen-life">
             <div class="info-card">
-              <div class="card-title">🍽️ 學生食堂</div>
+              <div class="card-title">🍽️ 學生食堂與茶水間</div>
               <div class="text-sm">
-                <p class="mb-2">位於 <b>1樓東側</b>，提供三餐及宵夜，涵蓋中西餐各式美食。</p>
+                <p class="mb-2">提供豐富餐點。阿南經常在此監督飲食營養，阿電則常默默準備熱牛奶。</p>
                 <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                  <div class="bg-orange-500 h-full"></div>
+                  <div class="bg-orange-500 h-full" style="width: 65%;"></div>
                 </div>
                 <div class="flex justify-between text-xs mt-1 text-gray-500">
-                  <span>擁擠度</span>
-                  <span>75% (晚餐時間)</span>
+                  <span>食堂擁擠度</span>
+                  <span>65% (用餐時段)</span>
                 </div>
               </div>
             </div>
@@ -521,8 +464,8 @@
               <div class="flex gap-4 items-center">
                 <div class="text-4xl">🍳</div>
                 <div class="text-sm flex-1">
-                  <p>位於食堂旁，配備 <b>6個爐台</b> 與 <b>公共冰箱</b>。</p>
-                  <p class="text-gray-600 mt-1">在這裡你可以親手製作家鄉味，與室友分享美食！</p>
+                  <p>配備整潔具與調味料。<b>阿木</b> 每日會定時進行徹底消毒。」</p>
+                  <p class="text-gray-600 mt-1">你可以在這裡親手做點心送給室友，提升好感度！</p>
                 </div>
               </div>
             </div>
@@ -532,15 +475,16 @@
       </div>
     </div>
 
-    
+    <!-- 下方對話框 -->
     <div class="dialogue-box">
       <div class="font-bold text-yellow-400 whitespace-nowrap">[風雲宿舍]:</div>
       <div class="text-sm leading-relaxed typing-cursor">
-        嗨，{user}！歡迎來到風雲宿舍。這裡設施齊全，氛圍融洽。點擊上方選項卡查看更多詳情吧！
+        「{user}……你臉頰上的紋身……」阿雲收起了畫筆，眼神複雜地注視著你。阿電在一旁緊張地抱著速寫本，欲言又止。歡迎來到風雲宿舍！
       </div>
     </div>
 
   </div>
 </div>
+
 </body>
 </html>
