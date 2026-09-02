@@ -43,7 +43,7 @@
   height: 240px;
   object-fit: cover;
   display: block;
-  opacity: 1; /* Increased opacity for clarity */
+  opacity: 1;
   transition: transform 0.5s ease;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .fengyun-layout input:checked ~ .accordion-content {
-  max-height: 2500px;
+  max-height: 8000px;
   opacity: 1;
 }
 
@@ -169,47 +169,57 @@
   color: var(--text-sub);
 }
 
-/* Tags */
-.fengyun-layout .tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+/* Facility Grid */
+.fengyun-layout .facility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
   margin-top: 16px;
 }
 
-.fengyun-layout .tag {
-  background: #ECFDF5;
-  color: var(--secondary);
-  border: 1px solid #A7F3D0;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.fengyun-layout .facility-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-/* Enhanced Room Cards */
+.fengyun-layout .facility-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.fengyun-layout .facility-name {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-align: center;
+  background: #ECFDF5;
+}
+
+/* Single Room Cards */
 .fengyun-layout .room-card {
   display: flex;
   background: #FFFFFF;
   border: 1px solid #E5E7EB;
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 20px; /* More spacing */
+  margin-bottom: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  align-items: stretch;
+  align-items: center;
 }
 
 .fengyun-layout .room-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-depth);
 }
 
 .fengyun-layout .room-img {
-  width: 160px; /* Significantly larger */
-  height: 160px; /* Square aspect ratio */
+  width: 130px;
+  height: 130px;
   object-fit: cover;
   flex-shrink: 0;
   border-right: 1px solid #F3F4F6;
@@ -217,7 +227,7 @@
 }
 
 .fengyun-layout .room-card:hover .room-img {
-  transform: scale(1.05); /* Slight zoom for focus */
+  transform: scale(1.05);
 }
 
 .fengyun-layout .room-info {
@@ -226,22 +236,22 @@
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  min-width: 0; /* Prevent flex overflow */
+  min-width: 0;
 }
 
 .fengyun-layout .room-names {
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--text-main);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.3;
 }
 
 .fengyun-layout .room-desc {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-sub);
   background: #F3F4F6;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-radius: 6px;
   display: inline-block;
   line-height: 1.4;
@@ -277,56 +287,19 @@
 <meta name="cg-mode" content="release" />
 </head>
 <body>
-<style>
-.fengyun-layout {--primary: #B91C1C; --secondary: #065F46; --accent: #F59E0B; --bg-color: #F3F4F6; --card-bg: #FFF; --text-main: #111827; --text-sub: #374151; --border-radius: 12px; --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --shadow-depth: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
-.fengyun-layout * {box-sizing: border-box;}
-.fengyun-layout .header {position: relative; border-radius: var(--border-radius); overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow-depth); background: var(--text-main);}
-.fengyun-layout .header-img {width: 100%; height: 240px; object-fit: cover; display: block; opacity: 1; transition: transform 0.5s ease;}
-.fengyun-layout .header:hover .header-img {transform: scale(1.02);}
-.fengyun-layout .header-overlay {position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); padding: 24px; color: white;}
-.fengyun-layout .header-title {font-size: 2rem; font-weight: 800; margin: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); letter-spacing: 0.05em;}
-.fengyun-layout .header-subtitle {font-size: 0.95rem; opacity: 0.95; margin-top: 4px; font-weight: 500;}
-.fengyun-layout .accordion-item {background: var(--card-bg); border-radius: var(--border-radius); margin-bottom: 16px; box-shadow: var(--shadow-card); overflow: hidden; border: 1px solid #E5E7EB;}
-.fengyun-layout input[type="checkbox"] {display: none;}
-.fengyun-layout .accordion-label {display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; cursor: pointer; background: white; font-weight: 700; font-size: 1.1rem; color: var(--primary); border-bottom: 1px solid transparent; transition: background 0.2s, color 0.2s;}
-.fengyun-layout .accordion-label:hover {background: #FEF2F2;}
-.fengyun-layout .accordion-icon {width: 24px; height: 24px; transition: transform 0.3s ease;}
-.fengyun-layout input:checked + .accordion-label {border-bottom: 1px solid #E5E7EB; background: #FFF1F2;}
-.fengyun-layout input:checked + .accordion-label .accordion-icon {transform: rotate(180deg);}
-.fengyun-layout .accordion-content {max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out;}
-.fengyun-layout input:checked ~ .accordion-content {max-height: 2500px; opacity: 1;}
-.fengyun-layout .content-inner {padding: 24px;}
-.fengyun-layout .grid-2 {display: grid; grid-template-columns: 1fr 1fr; gap: 16px;}
-.fengyun-layout .info-card {background: #F9FAFB; border-left: 4px solid var(--secondary); padding: 12px 16px; border-radius: 4px;}
-.fengyun-layout .info-title {font-weight: 700; color: var(--secondary); margin-bottom: 4px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;}
-.fengyun-layout .info-text {font-size: 0.9rem; color: var(--text-sub);}
-.fengyun-layout .tags-container {display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;}
-.fengyun-layout .tag {background: #ECFDF5; color: var(--secondary); border: 1px solid #A7F3D0; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;}
-.fengyun-layout .room-card {display: flex; background: #FFF; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; margin-bottom: 20px; transition: transform 0.3s ease, box-shadow 0.3s ease; align-items: stretch;}
-.fengyun-layout .room-card:hover {transform: translatey(-3px); box-shadow: var(--shadow-depth);}
-.fengyun-layout .room-img {width: 160px; height: 160px; object-fit: cover; flex-shrink: 0; border-right: 1px solid #F3F4F6; transition: transform 0.5s ease;}
-.fengyun-layout .room-card:hover .room-img {transform: scale(1.05);}
-.fengyun-layout .room-info {padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; min-width: 0;}
-.fengyun-layout .room-names {font-weight: 800; font-size: 1.15rem; color: var(--text-main); margin-bottom: 8px; line-height: 1.3;}
-.fengyun-layout .room-desc {font-size: 0.95rem; color: var(--text-sub); background: #F3F4F6; padding: 6px 10px; border-radius: 6px; display: inline-block; line-height: 1.4;}
-.fengyun-layout .highlight-user {border: 2px solid var(--accent); background: #FFFBEB;}
-.fengyun-layout .highlight-user .room-names {color: #92400E;}
-.fengyun-layout .section-title {font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px;}
-.fengyun-layout .text-strong {color: #000; font-weight: 700;}
-</style>
 
 <div class="fengyun-layout">
   
-  
+  <!-- Header Block -->
   <div class="header">
-    <img src="https://i.postimg.cc/rFZYdmL1/大學宿舍人物设定.png" alt="風雲宿舍" class="header-img">
+    <img src="https://i.postimg.cc/T31dq7Lq/user-de-fang-jian-(2).png" alt="風雲宿舍" class="header-img">
     <div class="header-overlay">
       <h1 class="header-title">風雲宿舍</h1>
-      <div class="header-subtitle">白牆綠瓦 · 師生融洽 · 設施齊全</div>
+      <div class="header-subtitle">白牆綠瓦 · 獨立空間 · 設施齊全</div>
     </div>
   </div>
 
-  
+  <!-- Accordion 1: 校園概況與設施 -->
   <div class="accordion-item">
     <input type="checkbox" id="acc-1">
     <label class="accordion-label" for="acc-1">
@@ -355,24 +328,39 @@
           </div>
         </div>
 
-        <div class="section-title" style="margin-top: 24px">校園設施一覽</div>
-        <div class="tags-container">
-          <span class="tag">🎨 畫室 (採光足)</span>
-          <span class="tag">🏀 球場 (塑膠地)</span>
-          <span class="tag">📖 圖書館 (藏書豐)</span>
-          <span class="tag">🌿 天台 (視野好)</span>
-          <span class="tag">🎵 音樂室 (隔音佳)</span>
-          <span class="tag">🖌️ 設計室 (設備全)</span>
-          <span class="tag">🍃 草坪 (可野餐)</span>
-          <span class="tag">📍 校醫院 (醫護貼心)</span>
-          <span class="tag">🛒 便利店 (24h)</span>
-          <span class="tag">🚲 車棚 (可充電)</span>
+        <div class="section-title" style="margin-top: 24px">校園公共設施</div>
+        <div class="facility-grid">
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/bw5z6x1q/shi-tang-yu-chu-fang.png" alt="食堂與廚房" class="facility-img">
+            <div class="facility-name">🍽️ 食堂與廚房</div>
+          </div>
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/Znjm6pJG/hua-shi-yu-qiu-chang.png" alt="畫室與球場" class="facility-img">
+            <div class="facility-name">🎨 畫室與球場</div>
+          </div>
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/zDkqmZTM/tu-shu-guan-yu-tian-tai.png" alt="圖書館與天台" class="facility-img">
+            <div class="facility-name">📖 圖書館與天台</div>
+          </div>
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/dVfqW2GK/yin-le-shi-yu-she-ji-shi.png" alt="音樂室與設計室" class="facility-img">
+            <div class="facility-name">🎵 音樂室與設計室</div>
+          </div>
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/XNgnMS9m/lu-se-cao-ping.png" alt="綠色草坪" class="facility-img">
+            <div class="facility-name">🍃 綠色草坪</div>
+          </div>
+          <div class="facility-card">
+            <img src="https://i.postimg.cc/CKfw9R4b/che-peng-yu-24H-bian-li-dian.png" alt="車棚與24H便利店" class="facility-img">
+            <div class="facility-name">🛒 車棚與24H便利店</div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  
+  <!-- Accordion 2: 宿舍核心配置 (更正為單人房) -->
   <div class="accordion-item">
     <input type="checkbox" id="acc-2">
     <label class="accordion-label" for="acc-2">
@@ -389,69 +377,114 @@
         <div class="grid-2">
           <div class="info-card">
             <div class="info-title">🛏️ 房間規格</div>
-            <div class="info-text">20㎡ / 間，標準雙人房。<br>左床右桌佈局，含<span class="text-strong">獨立衛浴🚿</span>。</div>
+            <div class="info-text">標準<span class="text-strong">單人套房</span>。<br>個人專屬書桌與<span class="text-strong">獨立衛浴🚿</span>。</div>
           </div>
           <div class="info-card">
             <div class="info-title">🍽️ 餐飲服務</div>
-            <div class="info-text">1樓東側食堂，供三餐+宵夜。<br>另有廚房含6爐台+冰箱。</div>
+            <div class="info-text">1樓東側食堂，供三餐+宵夜。<br>另有公共廚房供自行料理。</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  
+  <!-- Accordion 3: 房間分配名單 (獨立單人房) -->
   <div class="accordion-item">
     <input type="checkbox" id="acc-3" checked="">
     <label class="accordion-label" for="acc-3">
-      <span>👥 房間分配名單 </span>
+      <span>👥 房間分配名單（獨立單人房）</span>
       <svg class="accordion-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
     </label>
     <div class="accordion-content">
       <div class="content-inner">
         
-        
+        <!-- 阿雲 -->
         <div class="room-card">
-          <img src="https://i.postimg.cc/PqM1zC9G/a-yun-a-dian.png" class="room-img" alt="阿雲與阿電">
+          <img src="https://i.postimg.cc/QtdgmrDL/a-yun-de-fang-jian-(3).png" class="room-img" alt="阿雲的房間">
           <div class="room-info">
-            <div class="room-names">🎨 阿雲 + 🔍 阿電</div>
-            <div><span class="room-desc">油畫才子房，滿牆畫稿顏料</span></div>
+            <div class="room-names">🎨 阿雲的房間</div>
+            <div><span class="room-desc">油畫才子專屬畫室房，滿牆畫稿與顏料</span></div>
           </div>
         </div>
 
-        
+        <!-- 阿電 -->
         <div class="room-card">
-          <img src="https://i.postimg.cc/W3bg92cv/a-nan-a-feng.png" class="room-img" alt="阿南與阿風">
+          <img src="https://i.postimg.cc/nzhK2txZ/a-dian-de-fang-jian-(3).png" class="room-img" alt="阿電的房間">
           <div class="room-info">
-            <div class="room-names">📸 阿南 + ❄️ 阿風</div>
-            <div><span class="room-desc">學長房，聽吉他聊攝影</span></div>
+            <div class="room-names">🔍 阿電的房間</div>
+            <div><span class="room-desc">充滿科技與研究設備的個人空間</span></div>
           </div>
         </div>
 
-        
+        <!-- 阿南 -->
         <div class="room-card">
-          <img src="https://i.postimg.cc/8CbLB79g/a-mu-a-huo.png" class="room-img" alt="阿木與阿火">
+          <img src="https://i.postimg.cc/C1xC7V0b/a-nan-de-fang-jian-(2).png" class="room-img" alt="阿南的房間">
           <div class="room-info">
-            <div class="room-names">🏗️ 阿木 + 🔥 阿火</div>
-            <div><span class="room-desc">潔癖遇熱血，亂中藏整潔</span></div>
+            <div class="room-names">📸 阿南的房間</div>
+            <div><span class="room-desc">攝影與音樂風格的學長獨立套房</span></div>
           </div>
         </div>
 
-        
+        <!-- 阿風 -->
         <div class="room-card">
-          <img src="https://i.postimg.cc/FKx0gY8Q/a-long-a-shan.png" class="room-img" alt="阿龍與阿山">
+          <img src="https://i.postimg.cc/sXHY00fM/a-feng-de-fang-jian-(2).png" class="room-img" alt="阿風的房間">
           <div class="room-info">
-            <div class="room-names">🎸 阿龍 + ⚽ 阿山</div>
-            <div><span class="room-desc">花心哥配運動狂，超熱鬧</span></div>
+            <div class="room-names">❄️ 阿風的房間</div>
+            <div><span class="room-desc">簡約冷靜風格的個人私人領域</span></div>
           </div>
         </div>
 
-        
+        <!-- 阿木 -->
+        <div class="room-card">
+          <img src="https://i.postimg.cc/SsxLdp4K/a-mu-de-fang-jian-(1).png" class="room-img" alt="阿木的房間">
+          <div class="room-info">
+            <div class="room-names">🏗️ 阿木的房間</div>
+            <div><span class="room-desc">一塵不染、極度整潔的潔癖單人房</span></div>
+          </div>
+        </div>
+
+        <!-- 阿火 -->
+        <div class="room-card">
+          <img src="https://i.postimg.cc/rmwGjLT1/a-huo-de-fang-jian-(1).png" class="room-img" alt="阿火的房間">
+          <div class="room-info">
+            <div class="room-names">🔥 阿火的房間</div>
+            <div><span class="room-desc">熱血隨性、充滿個人特色的房間</span></div>
+          </div>
+        </div>
+
+        <!-- 阿龍 -->
+        <div class="room-card">
+          <img src="https://i.postimg.cc/j5S6crTT/a-long-de-fang-jian-(1).png" class="room-img" alt="阿龍的房間">
+          <div class="room-info">
+            <div class="room-names">🎸 阿龍的房間</div>
+            <div><span class="room-desc">時尚帥氣、具個人音樂品味的房間</span></div>
+          </div>
+        </div>
+
+        <!-- 阿山 -->
+        <div class="room-card">
+          <img src="https://i.postimg.cc/Y9CNRw70/a-shan-de-fang-jian-(1).png" class="room-img" alt="阿山的房間">
+          <div class="room-info">
+            <div class="room-names">⚽ 阿山的房間</div>
+            <div><span class="room-desc">充滿運動器材與陽光氣息的房間</span></div>
+          </div>
+        </div>
+
+        <!-- 阿雨 -->
+        <div class="room-card">
+          <img src="https://i.postimg.cc/V6k9gcwP/a-yu-de-fang-jian-(1).png" class="room-img" alt="阿雨的房間">
+          <div class="room-info">
+            <div class="room-names">📖 阿雨的房間</div>
+            <div><span class="room-desc">安靜優雅、充滿書香氣息的文青單人房</span></div>
+          </div>
+        </div>
+
+        <!-- 你 ({user}) -->
         <div class="room-card highlight-user">
-          <img src="https://i.postimg.cc/25xnF1JP/a-yu-user.png" class="room-img" alt="阿雨與你">
+          <img src="https://i.postimg.cc/T31dq7Lq/user-de-fang-jian-(2).png" class="room-img" alt="你的房間">
           <div class="room-info">
-            <div class="room-names">📖 阿雨 + 👧 {user}</div>
-            <div><span class="room-desc" style="background: #FEF3C7; color: #92400E">文青與重生者，氣氛微妙</span></div>
+            <div class="room-names">👧 {user} 的專屬房間</div>
+            <div><span class="room-desc" style="background: #FEF3C7; color: #92400E">獨立舒適的專屬個人空間</span></div>
           </div>
         </div>
 
