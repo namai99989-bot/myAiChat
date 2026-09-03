@@ -1,0 +1,153 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #ffffff; width: 100%; max-width: 800px; margin: 0 auto; box-sizing: border-box; background-color: #0b1a10;">
+
+  <div style="background-image: url('https://i.postimg.cc/mkbHg0F3/background.png'); background-size: cover; background-position: center; background-repeat: no-repeat; border: 2px solid #2d5a27; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); background-color: rgba(11, 26, 16, 0.85); background-blend-mode: overlay;">
+    <h2 style="color: #76cf68; font-size: 22px; font-weight: bold; border-bottom: 2px solid #2d5a27; padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); text-align: center;">🎲 今日冰室隨機推薦</h2>
+    
+    <div style="text-align: center; margin-bottom: 15px;">
+      <button onclick="pickRandomMeal()" style="background: linear-gradient(135deg, #2d5a27, #1e3d1a); color: #a3e099; border: 2px solid #76cf68; padding: 10px 24px; border-radius: 20px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.4);">
+        ✨ 抽取今日餐點 ✨
+      </button>
+    </div>
+
+    <div id="mealDisplay" style="border-radius: 8px; border: 1px solid #2d5a27; overflow: hidden; background: rgba(0,0,0,0.5); padding: 15px; text-align: center;">
+      <img id="mealImg" src="https://i.postimg.cc/Rhng4Rg5/cha-shao-tang-yi-fen.png" alt="餐點圖片" style="max-width: 100%; height: auto; max-height: 280px; border-radius: 6px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
+      <h3 id="mealName" style="color: #76cf68; font-size: 18px; margin: 0 0 8px 0; font-weight: bold;">🍝 叉燒湯意粉 ＋ 🧋 熱絲襪奶茶</h3>
+      <p id="mealDesc" style="color: #e0e0e0; font-size: 14px; line-height: 1.5; margin: 0;">蜜汁叉燒切片搭配清湯意粉✨<br>香濃絲滑熱奶茶，冰室經典早餐組合</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const meals = [
+  {
+    name: "🍝 叉燒湯意粉 ＋ 🧋 熱絲襪奶茶",
+    desc: "蜜汁叉燒切片搭配清湯意粉✨<br>香濃絲滑熱奶茶，冰室經典早餐組合",
+    img: "https://i.postimg.cc/Rhng4Rg5/cha-shao-tang-yi-fen.png"
+  },
+  {
+    name: "🍜 榨菜肉絲米線 ＋ 🧊 凍奶茶少冰少甜",
+    desc: "鮮香榨菜肉丝配上滑溜米線🌶️<br>少冰少甜凍奶茶，鹹香與甜潤互相平衡",
+    img: "https://i.postimg.cc/t7Q2TxcN/zha-cai-rou-si-mi-xian.png"
+  },
+  {
+    name: "🍝 回鍋肉炒公仔麵 ＋ ☕ 熱鴛鴦咖啡奶茶",
+    desc: "辣香夠味回鍋肉炒公仔麵🔥<br>奶茶咖啡交融的熱鴛鴦，濃厚雙重風味",
+    img: "https://i.postimg.cc/PJ8ST4Sv/hui-guo-rou-chao-gong-zi.png"
+  },
+  {
+    name: "🍛 紅燒扣肉飯 ＋ 🧊 凍鴛鴦走冰",
+    desc: "軟爛入味肥而不膩扣肉飯🍚<br>無冰凍鴛鴦，一口飯一口濃飲超滿足",
+    img: "https://i.postimg.cc/F15DRL6R/hong-shao-kou-rou-fan.png"
+  },
+  {
+    name: "🍗 香煎雞扒飯麵 ＋ 🍋 凍檸茶少甜加檸",
+    desc: "外皮脆香雞扒飯🍗<br>多片檸檬少甜凍檸茶，酸澀醒神",
+    img: "https://i.postimg.cc/xqDtCzZc/xiang-jian-ji-ba-gong-zi-mian.png"
+  },
+  {
+    name: "🍗 雙扒撈麵 ＋ 🧊 凍咖啡多奶",
+    desc: "外皮脆香雞扒配公仔麵🍗足料雙扒<br>配上多奶的凍咖啡，飽肚又開胃",
+    img: "https://i.postimg.cc/ThMCwDs0/ya-da-shi-jie-xun-hui-huo-dong-can-jia-(20).png"
+  },
+  {
+    name: "🍜 雲吞水餃雙拼麵 ＋ ☕ 熱咖啡淡奶",
+    desc: "鮮蝦雲吞＋豬肉水餃鹼水麵🥟<br>醇厚淡奶熱咖啡，茶餐廳地道滋味",
+    img: "https://i.postimg.cc/dDP41yf8/yun-tun-shui-jiao-shuang-pin-mian.png"
+  },
+  {
+    name: "🍞 火腿通粉＋煎蛋＋牛油多士 ＋ 🍫 好立克熱飲",
+    desc: "軟綿通粉配太陽蛋、香脆牛油多士🥪<br>暖呼呼香甜好立克熱飲，治愈感滿滿",
+    img: "https://i.postimg.cc/br2mpTmv/huo-tui-tong-fen.png"
+  },
+  {
+    name: "🍜 午餐肉公仔麵＋熟蛋＋菠蘿油 ＋ 🧊 阿華田凍飲少甜",
+    desc: "鹹香午餐肉公仔麵＋金黃菠蘿油🍍<br>少甜冰阿華田，麥香冰飲配熱食剛剛好",
+    img: "https://i.postimg.cc/8crZNHZG/wu-can-rou-gong-zi-mian.png"
+  },
+  {
+    name: "🥓 煙肉炒蛋通粉＋西多一件 ＋ 🧊 咸檸七",
+    desc: "香軟煙肉炒蛋通粉＋蜜糖西多士🍯<br>醃製咸檸檬配七喜，酸鹹冰爽特調",
+    img: "https://i.postimg.cc/rzXQmrH9/yan-rou-chao-dan-tong-fen.png"
+  },
+  {
+    name: "🍝 吉列豬扒湯意粉＋煎太陽蛋 ＋ 🧊 冰鎮紅豆冰",
+    desc: "酥脆吉列豬扒配湯意粉🥩<br>滿滿綿密紅豆冰，甜冰中和油炸油感",
+    img: "https://i.postimg.cc/Znyw4cwC/ji-lie-zhu-ba-tang-yi-fen.png"
+  },
+  {
+    name: "🍜 叉燒撈公仔麵＋熟雙蛋 ＋ 🖤 黑牛",
+    desc: "濃香叉燒撈麵配上雙蛋🥚<br>可樂加上巧克力雪糕，冰室特色黑牛✨",
+    img: "https://i.postimg.cc/4nkBd90H/qian-chao-niu-he.png"
+  },
+  {
+    name: "🍲 豆腐火腩飯 ＋ 🥛 牛牛（忌廉溝鮮奶）",
+    desc: "男人的浪漫🔥外脆內嫩豆腐火腩飯<br>玉泉忌廉混合鮮奶，香甜綿密特調飲品",
+    img: "https://i.postimg.cc/Bb1m4gmK/dou-fu-huo-nan-fan.png"
+  },
+  {
+    name: "🍗 蔥油雞扒飯 ＋ 🍋 生檸樂",
+    desc: "蔥油香濃脆嫩雞扒飯🍗<br>新鮮檸檬配可樂，刺激冰爽生檸樂",
+    img: "https://i.postimg.cc/V5QD6ChR/cong-you-ji-ba-fan.png"
+  },
+  {
+    name: "🍛 咖喱牛腩飯 ＋ ☕ 熱阿華田",
+    desc: "濃稠咖喱軟嫩牛腩拌米飯🍛<br>濃郁麥芽熱阿華田，暖胃飯後熱飲",
+    img: "https://i.postimg.cc/MX2dTQLK/ka-li-niu-nan-fan.png"
+  },
+  {
+    name: "🍝 乾炒牛河 ＋ ☕ 熱鴛鴦",
+    desc: "鑊氣十足，牛肉嫩滑，河粉炒得微焦噴火🔥<br>奶茶與咖啡雙重濃香，一口熱飲頂住鑊氣。",
+    img: "https://i.postimg.cc/6qGMt0Mx/cha-shao-lao-gong-zi-mian.png"
+  },
+  {
+    name: "🍜 星洲炒米 ＋ 🍋 凍檸茶少甜加檸",
+    desc: "咖喱香氣撲鼻，叉燒絲、蝦仁、芽菜齊聚一碗✨<br>酸甜清爽，剛好中和咖喱鹹香。",
+    img: "https://i.postimg.cc/qgVjR3F7/xing-zhou-chao-mi.png"
+  },
+  {
+    name: "🍝 黑椒牛柳絲炒麵 ＋ ☕ 熱咖啡淡奶",
+    desc: "黑椒汁香辣濃郁，麵底炒得酥脆有層次🌶️<br>咖啡香與淡奶滑感，配炒麵很經典。",
+    img: "https://i.postimg.cc/JtVPnkFN/hei-jiao-niu-liu-si-chao-mian.png"
+  },
+  {
+    name: "🍚 滑蛋蝦仁飯 ＋ 🧊 凍鴛鴦走冰",
+    desc: "半熟蛋液香滑包裹大蝦仁，入口軟嫩鮮甜🍤<br>濃甜冰爽，平衡蛋香與飽膩感。",
+    img: "https://i.postimg.cc/jC0Z571Q/hua-dan-xia-ren-fan.png"
+  },
+  {
+    name: "🥪 公司三文治 ＋ 🍫 熱阿華田",
+    desc: "三層吐司夾火腿、芝士、煎蛋、番茄、生菜，飽到下午🌿<br>麥芽巧克力香，暖呼呼又有少年感。",
+    img: "https://i.postimg.cc/7hTKwVKv/gong-si-san-wen-zhi.png"
+  },
+  {
+    name: "🍝 豉椒排骨炒麵 ＋ 🧋 凍奶茶少冰少甜",
+    desc: "蒜蓉豉椒汁香濃，排骨入味，煎麵底金黃酥脆🥩<br>絲滑奶茶壓下重口味，冰涼但不奪味。",
+    img: "https://i.postimg.cc/WtLX3kyr/shi-jiao-pai-gu-chao-mian.png"
+  },
+  {
+    name: "🍚 午餐肉煎蛋腸仔飯 ＋ 🍫 好立克熱飲",
+    desc: "午餐肉、煎蛋、腸仔鋪滿飯面，番茄汁酸甜開胃🍅<br>香甜可可麥芽味，像小時候放學後的安慰餐。",
+    img: "https://i.postimg.cc/5yFsb3s4/wu-can-rou-jian-dan-chang-zi-fan.png"
+  },
+  {
+    name: "🍚 白切雞飯配薑蓉 ＋ 🍋 凍檸檬水",
+    desc: "雞肉嫩滑，雞皮金黃，薑蓉香氣點亮整碗飯🍗<br>清爽酸甜，解膩又不搶雞香。",
+    img: "https://i.postimg.cc/MHj9qD9T/bai-qie-ji-fan-pei-jiang-rong.png"
+  },
+  {
+    name: "🍚 梅菜扣肉飯 ＋ 🧊 咸檸七",
+    desc: "梅菜鹹香入味，扣肉軟爛肥而不膩，非常下飯🍚<br>酸、鹹、甜、冰，一口衝突感十足，重飯最佳搭檔。",
+    img: "https://i.postimg.cc/kD3f4bHb/mei-cai-kou-rou-fan.png"
+  }
+];
+
+function pickRandomMeal() {
+  const randomIndex = Math.floor(Math.random() * meals.length);
+  const selected = meals[randomIndex];
+  
+  document.getElementById('mealName').innerText = selected.name;
+  document.getElementById('mealDesc').innerHTML = selected.desc;
+  document.getElementById('mealImg').src = selected.img;
+}
+</script>
