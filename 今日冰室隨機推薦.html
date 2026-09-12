@@ -1,153 +1,237 @@
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #ffffff; width: 100%; max-width: 800px; margin: 0 auto; box-sizing: border-box; background-color: #0b1a10;">
 
   <div style="background-image: url('https://i.postimg.cc/mkbHg0F3/background.png'); background-size: cover; background-position: center; background-repeat: no-repeat; border: 2px solid #2d5a27; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); background-color: rgba(11, 26, 16, 0.85); background-blend-mode: overlay;">
-    <h2 style="color: #76cf68; font-size: 22px; font-weight: bold; border-bottom: 2px solid #2d5a27; padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); text-align: center;">🎲 今日冰室隨機推薦</h2>
+    
+    <h2 style="color: #76cf68; font-size: 22px; font-weight: bold; border-bottom: 2px solid #2d5a27; padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); text-align: center;">
+      🎲 今日冰室隨機推薦
+    </h2>
     
     <div style="text-align: center; margin-bottom: 15px;">
       <button onclick="pickRandomMeal()" style="background: linear-gradient(135deg, #2d5a27, #1e3d1a); color: #a3e099; border: 2px solid #76cf68; padding: 10px 24px; border-radius: 20px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.4);">
         ✨ 抽取今日餐點 ✨
       </button>
     </div>
-
+    
     <div id="mealDisplay" style="border-radius: 8px; border: 1px solid #2d5a27; overflow: hidden; background: rgba(0,0,0,0.5); padding: 15px; text-align: center;">
-      <img id="mealImg" src="https://i.postimg.cc/Rhng4Rg5/cha-shao-tang-yi-fen.png" alt="餐點圖片" style="max-width: 100%; height: auto; max-height: 280px; border-radius: 6px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
-      <h3 id="mealName" style="color: #76cf68; font-size: 18px; margin: 0 0 8px 0; font-weight: bold;">🍝 叉燒湯意粉 ＋ 🧋 熱絲襪奶茶</h3>
-      <p id="mealDesc" style="color: #e0e0e0; font-size: 14px; line-height: 1.5; margin: 0;">蜜汁叉燒切片搭配清湯意粉✨<br>香濃絲滑熱奶茶，冰室經典早餐組合</p>
+      <img id="mealImg" src="https://iili.io/nfK2q6N.png" alt="餐點圖片" style="max-width: 100%; height: auto; max-height: 280px; border-radius: 6px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
+      <h3 id="mealCategory" style="color: #a3e099; font-size: 14px; margin: 0 0 4px 0;">港式碟頭飯 / 焗飯類</h3>
+      <h3 id="mealName" style="color: #76cf68; font-size: 20px; margin: 0 0 8px 0; font-weight: bold;">叉燒雙蛋碟頭飯</h3>
     </div>
-  </div>
 
+  </div>
 </div>
 
 <script>
 const meals = [
-  {
-    name: "🍝 叉燒湯意粉 ＋ 🧋 熱絲襪奶茶",
-    desc: "蜜汁叉燒切片搭配清湯意粉✨<br>香濃絲滑熱奶茶，冰室經典早餐組合",
-    img: "https://i.postimg.cc/Rhng4Rg5/cha-shao-tang-yi-fen.png"
-  },
-  {
-    name: "🍜 榨菜肉絲米線 ＋ 🧊 凍奶茶少冰少甜",
-    desc: "鮮香榨菜肉丝配上滑溜米線🌶️<br>少冰少甜凍奶茶，鹹香與甜潤互相平衡",
-    img: "https://i.postimg.cc/t7Q2TxcN/zha-cai-rou-si-mi-xian.png"
-  },
-  {
-    name: "🍝 回鍋肉炒公仔麵 ＋ ☕ 熱鴛鴦咖啡奶茶",
-    desc: "辣香夠味回鍋肉炒公仔麵🔥<br>奶茶咖啡交融的熱鴛鴦，濃厚雙重風味",
-    img: "https://i.postimg.cc/PJ8ST4Sv/hui-guo-rou-chao-gong-zi.png"
-  },
-  {
-    name: "🍛 紅燒扣肉飯 ＋ 🧊 凍鴛鴦走冰",
-    desc: "軟爛入味肥而不膩扣肉飯🍚<br>無冰凍鴛鴦，一口飯一口濃飲超滿足",
-    img: "https://i.postimg.cc/F15DRL6R/hong-shao-kou-rou-fan.png"
-  },
-  {
-    name: "🍗 香煎雞扒飯麵 ＋ 🍋 凍檸茶少甜加檸",
-    desc: "外皮脆香雞扒飯🍗<br>多片檸檬少甜凍檸茶，酸澀醒神",
-    img: "https://i.postimg.cc/xqDtCzZc/xiang-jian-ji-ba-gong-zi-mian.png"
-  },
-  {
-    name: "🍗 雙扒撈麵 ＋ 🧊 凍咖啡多奶",
-    desc: "外皮脆香雞扒配公仔麵🍗足料雙扒<br>配上多奶的凍咖啡，飽肚又開胃",
-    img: "https://i.postimg.cc/ThMCwDs0/ya-da-shi-jie-xun-hui-huo-dong-can-jia-(20).png"
-  },
-  {
-    name: "🍜 雲吞水餃雙拼麵 ＋ ☕ 熱咖啡淡奶",
-    desc: "鮮蝦雲吞＋豬肉水餃鹼水麵🥟<br>醇厚淡奶熱咖啡，茶餐廳地道滋味",
-    img: "https://i.postimg.cc/dDP41yf8/yun-tun-shui-jiao-shuang-pin-mian.png"
-  },
-  {
-    name: "🍞 火腿通粉＋煎蛋＋牛油多士 ＋ 🍫 好立克熱飲",
-    desc: "軟綿通粉配太陽蛋、香脆牛油多士🥪<br>暖呼呼香甜好立克熱飲，治愈感滿滿",
-    img: "https://i.postimg.cc/br2mpTmv/huo-tui-tong-fen.png"
-  },
-  {
-    name: "🍜 午餐肉公仔麵＋熟蛋＋菠蘿油 ＋ 🧊 阿華田凍飲少甜",
-    desc: "鹹香午餐肉公仔麵＋金黃菠蘿油🍍<br>少甜冰阿華田，麥香冰飲配熱食剛剛好",
-    img: "https://i.postimg.cc/8crZNHZG/wu-can-rou-gong-zi-mian.png"
-  },
-  {
-    name: "🥓 煙肉炒蛋通粉＋西多一件 ＋ 🧊 咸檸七",
-    desc: "香軟煙肉炒蛋通粉＋蜜糖西多士🍯<br>醃製咸檸檬配七喜，酸鹹冰爽特調",
-    img: "https://i.postimg.cc/rzXQmrH9/yan-rou-chao-dan-tong-fen.png"
-  },
-  {
-    name: "🍝 吉列豬扒湯意粉＋煎太陽蛋 ＋ 🧊 冰鎮紅豆冰",
-    desc: "酥脆吉列豬扒配湯意粉🥩<br>滿滿綿密紅豆冰，甜冰中和油炸油感",
-    img: "https://i.postimg.cc/Znyw4cwC/ji-lie-zhu-ba-tang-yi-fen.png"
-  },
-  {
-    name: "🍜 叉燒撈公仔麵＋熟雙蛋 ＋ 🖤 黑牛",
-    desc: "濃香叉燒撈麵配上雙蛋🥚<br>可樂加上巧克力雪糕，冰室特色黑牛✨",
-    img: "https://i.postimg.cc/4nkBd90H/qian-chao-niu-he.png"
-  },
-  {
-    name: "🍲 豆腐火腩飯 ＋ 🥛 牛牛（忌廉溝鮮奶）",
-    desc: "男人的浪漫🔥外脆內嫩豆腐火腩飯<br>玉泉忌廉混合鮮奶，香甜綿密特調飲品",
-    img: "https://i.postimg.cc/Bb1m4gmK/dou-fu-huo-nan-fan.png"
-  },
-  {
-    name: "🍗 蔥油雞扒飯 ＋ 🍋 生檸樂",
-    desc: "蔥油香濃脆嫩雞扒飯🍗<br>新鮮檸檬配可樂，刺激冰爽生檸樂",
-    img: "https://i.postimg.cc/V5QD6ChR/cong-you-ji-ba-fan.png"
-  },
-  {
-    name: "🍛 咖喱牛腩飯 ＋ ☕ 熱阿華田",
-    desc: "濃稠咖喱軟嫩牛腩拌米飯🍛<br>濃郁麥芽熱阿華田，暖胃飯後熱飲",
-    img: "https://i.postimg.cc/MX2dTQLK/ka-li-niu-nan-fan.png"
-  },
-  {
-    name: "🍝 乾炒牛河 ＋ ☕ 熱鴛鴦",
-    desc: "鑊氣十足，牛肉嫩滑，河粉炒得微焦噴火🔥<br>奶茶與咖啡雙重濃香，一口熱飲頂住鑊氣。",
-    img: "https://i.postimg.cc/6qGMt0Mx/cha-shao-lao-gong-zi-mian.png"
-  },
-  {
-    name: "🍜 星洲炒米 ＋ 🍋 凍檸茶少甜加檸",
-    desc: "咖喱香氣撲鼻，叉燒絲、蝦仁、芽菜齊聚一碗✨<br>酸甜清爽，剛好中和咖喱鹹香。",
-    img: "https://i.postimg.cc/qgVjR3F7/xing-zhou-chao-mi.png"
-  },
-  {
-    name: "🍝 黑椒牛柳絲炒麵 ＋ ☕ 熱咖啡淡奶",
-    desc: "黑椒汁香辣濃郁，麵底炒得酥脆有層次🌶️<br>咖啡香與淡奶滑感，配炒麵很經典。",
-    img: "https://i.postimg.cc/JtVPnkFN/hei-jiao-niu-liu-si-chao-mian.png"
-  },
-  {
-    name: "🍚 滑蛋蝦仁飯 ＋ 🧊 凍鴛鴦走冰",
-    desc: "半熟蛋液香滑包裹大蝦仁，入口軟嫩鮮甜🍤<br>濃甜冰爽，平衡蛋香與飽膩感。",
-    img: "https://i.postimg.cc/jC0Z571Q/hua-dan-xia-ren-fan.png"
-  },
-  {
-    name: "🥪 公司三文治 ＋ 🍫 熱阿華田",
-    desc: "三層吐司夾火腿、芝士、煎蛋、番茄、生菜，飽到下午🌿<br>麥芽巧克力香，暖呼呼又有少年感。",
-    img: "https://i.postimg.cc/7hTKwVKv/gong-si-san-wen-zhi.png"
-  },
-  {
-    name: "🍝 豉椒排骨炒麵 ＋ 🧋 凍奶茶少冰少甜",
-    desc: "蒜蓉豉椒汁香濃，排骨入味，煎麵底金黃酥脆🥩<br>絲滑奶茶壓下重口味，冰涼但不奪味。",
-    img: "https://i.postimg.cc/WtLX3kyr/shi-jiao-pai-gu-chao-mian.png"
-  },
-  {
-    name: "🍚 午餐肉煎蛋腸仔飯 ＋ 🍫 好立克熱飲",
-    desc: "午餐肉、煎蛋、腸仔鋪滿飯面，番茄汁酸甜開胃🍅<br>香甜可可麥芽味，像小時候放學後的安慰餐。",
-    img: "https://i.postimg.cc/5yFsb3s4/wu-can-rou-jian-dan-chang-zi-fan.png"
-  },
-  {
-    name: "🍚 白切雞飯配薑蓉 ＋ 🍋 凍檸檬水",
-    desc: "雞肉嫩滑，雞皮金黃，薑蓉香氣點亮整碗飯🍗<br>清爽酸甜，解膩又不搶雞香。",
-    img: "https://i.postimg.cc/MHj9qD9T/bai-qie-ji-fan-pei-jiang-rong.png"
-  },
-  {
-    name: "🍚 梅菜扣肉飯 ＋ 🧊 咸檸七",
-    desc: "梅菜鹹香入味，扣肉軟爛肥而不膩，非常下飯🍚<br>酸、鹹、甜、冰，一口衝突感十足，重飯最佳搭檔。",
-    img: "https://i.postimg.cc/kD3f4bHb/mei-cai-kou-rou-fan.png"
-  }
+  // 港式碟頭飯 / 焗飯類
+  { category: "港式碟頭飯 / 焗飯類", name: "叉燒雙蛋碟頭飯", img: "https://iili.io/nfK2q6N.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "涼瓜牛肉飯", img: "https://iili.io/nfKFOTg.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "窩蛋牛肉飯", img: "https://iili.io/nfKKz91.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "椒鹽豬扒飯", img: "https://iili.io/nfKFU4p.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "午餐肉煎蛋腸仔飯", img: "https://iili.io/nfKKvR9.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "豆腐火腩飯", img: "https://iili.io/nfKf10Q.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "咖哩牛腩飯", img: "https://iili.io/nfKfMdB.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "咖哩豬扒飯", img: "https://iili.io/nfKfk1R.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "芙蓉蛋飯", img: "https://iili.io/nfKfSdN.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "星洲炒米", img: "https://iili.io/nfKfmk7.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "紅燒扣肉飯", img: "https://iili.io/nfKq9Ie.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "梅菜扣肉飯", img: "https://iili.io/nfKq1Qs.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "梅菜蒸肉餅飯", img: "https://iili.io/nfKqMGf.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "涼瓜排骨飯", img: "https://iili.io/nfKqX3l.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "豉椒牛肉飯", img: "https://iili.io/nfKq4aV.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "魚香茄子飯", img: "https://iili.io/nfKqpFR.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "粟米斑腩飯", img: "https://iili.io/nfKBqPf.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "咖喱牛腩飯餐", img: "https://iili.io/nfKCcss.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "香煎雞扒飯", img: "https://iili.io/nfKC0qG.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "蔥油雞扒飯", img: "https://iili.io/nfKCgkB.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "焗豬扒飯", img: "https://iili.io/nfK2Gwb.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "鮮番茄牛肉飯", img: "https://iili.io/nfK3niQ.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "滑蛋蝦仁飯", img: "https://iili.io/nfK3xfV.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "生炒牛肉飯", img: "https://iili.io/nfK3iLx.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "滑蛋蝦仁飯", img: "https://iili.io/nfPuIXR.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "叉燒湯意粉", img: "https://iili.io/nfPTp5u.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "午餐肉煎蛋腸仔飯", img: "https://iili.io/nfPTDg9.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "茄牛肉飯", img: "https://iili.io/nfPqa5l.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "南洋咖哩雞扒煎蛋", img: "https://iili.io/nfscsS4.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "芝士忌廉汁焗魚柳飯", img: "https://iili.io/nfscNcv.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "板燒雞扒蛋包飯", img: "https://iili.io/nfscwKJ.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "菠蘿咕嚕肉", img: "https://iili.io/nfslFRV.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "和風滑蛋鰻魚飯", img: "https://iili.io/nfscWoF.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "芝士番茄焗飯", img: "https://iili.io/nfsc8NI.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "芝士和牛漢堡伴日式咖喱蛋包飯", img: "https://iili.io/nfsck9p.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "和風燒汁牛肉飯", img: "https://iili.io/nfscXMg.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "蔥油雞扒拼煎蛋飯", img: "https://iili.io/nfslnig.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "吉列炸蝦蛋包飯", img: "https://iili.io/nfsc5Mu.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "吉列豬扒蛋包飯", img: "https://iili.io/nfsc76b.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "和牛漢堡蛋包飯", img: "https://iili.io/nfscGwP.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "白咖喱炸雞飯", img: "https://iili.io/nfscIuS.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "椒麻麻婆豆腐窩配飯", img: "https://iili.io/nfscyiu.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "芝士麻婆豆腐窩配飯", img: "https://iili.io/nfscgoX.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "滑蛋沙嗲滑牛王飯", img: "https://iili.io/nfscpVe.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "蟹粉豆腐石窩配飯", img: "https://iili.io/nfslV5l.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "紅酒牛扒汁芝士焗牛柳粒飯", img: "https://iili.io/nfsc4Ps.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "川辣麻婆豆腐飯", img: "https://iili.io/nfscna4.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "滑蛋牛肉片飯", img: "https://iili.io/nfslfDP.png" },
+  { category: "港式碟頭飯 / 焗飯類", name: "瑤柱福建炒飯", img: "https://iili.io/nfslCWF.png" },
+
+  // 燒味飯
+  { category: "燒味飯", name: "白切雞飯配薑蓉", img: "https://iili.io/nfKKZR1.png" },
+  { category: "燒味飯", name: "白切雞飯配薑蓉餐", img: "https://iili.io/nfPTyOb.png" },
+  { category: "燒味飯", name: "豉油雞飯", img: "https://iili.io/nfKq8Cb.png" },
+
+  // 炒飯類
+  { category: "炒飯類", name: "西炒飯", img: "https://iili.io/nfKfxf4.png" },
+  { category: "炒飯類", name: "蛋白菜粒炒飯", img: "https://iili.io/nfKqha2.png" },
+  { category: "炒飯類", name: "揚州炒飯", img: "https://iili.io/nfKqb6v.png" },
+  { category: "炒飯類", name: "菠蘿海鮮粒炒飯", img: "https://iili.io/nfKBfMG.png" },
+  { category: "炒飯類", name: "福建炒飯", img: "https://iili.io/nfKBOSp.png" },
+  { category: "炒飯類", name: "鹹魚雞粒炒飯", img: "https://iili.io/nfKCKOP.png" },
+
+  // 鐵板餐
+  { category: "鐵板餐", name: "鴛鴦扒鐵板餐", img: "https://iili.io/nfslARp.png" },
+  { category: "鐵板餐", name: "肉食主義鐵板餐", img: "https://iili.io/nfscl8Q.png" },
+  { category: "鐵板餐", name: "牛扒鐵鐵板餐", img: "https://iili.io/nfscCFf.png" },
+  { category: "鐵板餐", name: "豬扒鐵板餐", img: "https://iili.io/nfsluJR.png" },
+  { category: "鐵板餐", name: "雞扒鐵板餐", img: "https://iili.io/nfslaWX.png" },
+
+  // 湯飯
+  { category: "湯飯", name: "冬瓜肉碎湯飯", img: "https://iili.io/nfKKtOF.png" },
+  { category: "湯飯", name: "芫荽皮蛋魚片湯飯", img: "https://iili.io/nfKfU7I.png" },
+  { category: "湯飯", name: "潮州泡飯", img: "https://iili.io/nfKBgxn.png" },
+  { category: "湯飯", name: "鹹蛋肉片豆腐湯飯", img: "https://iili.io/nfKCHfj.png" },
+  { category: "湯飯", name: "鮮茄牛肉湯飯", img: "https://iili.io/nfKCdUQ.png" },
+  { category: "湯飯", name: "叉燒雙蛋碟頭飯", img: "https://iili.io/nfPfSS4.png" },
+  { category: "湯飯", name: "生炒牛肉飯", img: "https://iili.io/nfPfLiu.png" },
+  { category: "湯飯", name: "焗豬扒飯", img: "https://iili.io/nfPqlbS.png" },
+  { category: "湯飯", name: "椒鹽豬扒飯", img: "https://iili.io/nfPqEX9.png" },
+  { category: "湯飯", name: "鮮魚片勝瓜豆腐湯飯", img: "https://iili.io/nfsl5bI.png" },
+
+  // 港式粉麵類
+  { category: "港式粉麵類", name: "叉燒煎蛋湯意粉", img: "https://iili.io/nfKKGNn.png" },
+  { category: "港式粉麵類", name: "五香肉丁米粉", img: "https://iili.io/nfKKOSS.png" },
+  { category: "港式粉麵類", name: "午餐肉煎蛋公仔麵", img: "https://iili.io/nfKKkH7.png" },
+  { category: "港式粉麵類", name: "火腿煎蛋通粉", img: "https://iili.io/nfKK4ix.png" },
+  { category: "港式粉麵類", name: "吉列豬扒湯意粉", img: "https://iili.io/nfKKyiv.png" },
+  { category: "港式粉麵類", name: "回鍋肉炒公仔麵", img: "https://iili.io/nfKf3JI.png" },
+  { category: "港式粉麵類", name: "沙爹牛肉公仔麵", img: "https://iili.io/nfKfYzu.png" },
+  { category: "港式粉麵類", name: "沙爹豬頸肉撈丁", img: "https://iili.io/nfKfcsj.png" },
+  { category: "港式粉麵類", name: "香煎雞扒公仔麵", img: "https://iili.io/nfKqoTF.png" },
+  { category: "港式粉麵類", name: "乾炒牛肉烏冬", img: "https://iili.io/nfKqTCJ.png" },
+  { category: "港式粉麵類", name: "時菜牛肉炒河", img: "https://iili.io/nfKquEv.png" },
+  { category: "港式粉麵類", name: "乾燒伊麵", img: "https://iili.io/nfKqA4R.png" },
+  { category: "港式粉麵類", name: "雪菜肉絲米粉", img: "https://iili.io/nfKq68B.png" },
+  { category: "港式粉麵類", name: "魚柳湯烏冬", img: "https://iili.io/nfKqPyP.png" },
+  { category: "港式粉麵類", name: "魚柳煎蛋烏冬", img: "https://iili.io/nfKqsu1.png" },
+  { category: "港式粉麵類", name: "腸仔炒蛋撈公仔麵", img: "https://iili.io/nfKBwKv.png" },
+  { category: "港式粉麵類", name: "餐肉雙蛋麵", img: "https://iili.io/nfKBsUl.png" },
+  { category: "港式粉麵類", name: "濕炒牛河", img: "https://iili.io/nfKBmxe.png" },
+  { category: "港式粉麵類", name: "鮮牛通粉", img: "https://iili.io/nfKByib.png" },
+  { category: "港式粉麵類", name: "叉燒撈公仔麵", img: "https://iili.io/nfKCIgR.png" },
+  { category: "港式粉麵類", name: "午餐肉公仔麵", img: "https://iili.io/nfKCA5N.png" },
+  { category: "港式粉麵類", name: "火腿通粉", img: "https://iili.io/nfKCReI.png" },
+  { category: "港式粉麵類", name: "回鍋肉炒公仔", img: "https://iili.io/nfKCaXn.png" },
+  { category: "港式粉麵類", name: "雲吞水餃雙拼麵", img: "https://iili.io/nfKCEg4.png" },
+  { category: "港式粉麵類", name: "豉椒排骨炒麵", img: "https://iili.io/nfKCMdl.png" },
+  { category: "港式粉麵類", name: "黑椒牛柳絲炒麵", img: "https://iili.io/nfKCjI9.png" },
+  { category: "港式粉麵類", name: "煙肉炒蛋通粉", img: "https://iili.io/nfKCeqb.png" },
+  { category: "港式粉麵類", name: "榨菜肉絲米線", img: "https://iili.io/nfKCU7V.png" },
+  { category: "港式粉麵類", name: "雙扒撈麵", img: "https://iili.io/nfKCrmP.png" },
+  { category: "港式粉麵類", name: "叉燒湯意粉", img: "https://iili.io/nfK2o8X.png" },
+  { category: "港式粉麵類", name: "乾炒牛河", img: "https://iili.io/nfK2NcP.png" },
+  { category: "港式粉麵類", name: "豆腐火腩飯餐", img: "https://iili.io/nfPuK0P.png" },
+  { category: "港式粉麵類", name: "紅燒扣肉飯", img: "https://iili.io/nfPuBdF.png" },
+  { category: "港式粉麵類", name: "梅菜扣肉飯餐", img: "https://iili.io/nfPunea.png" },
+  { category: "港式粉麵類", name: "星洲炒米", img: "https://iili.io/nfPufg1.png" },
+  { category: "港式粉麵類", name: "乾炒牛河餐", img: "https://iili.io/nfPuC5g.png" },
+  { category: "港式粉麵類", name: "吉列豬扒湯意粉", img: "https://iili.io/nfPuFqB.png" },
+  { category: "港式粉麵類", name: "焗芝士肉醬意粉", img: "https://iili.io/nfscDD7.png" },
+  { category: "港式粉麵類", name: "煎蛋免治牛肉燴意粉", img: "https://iili.io/nfslBx1.png" },
+  { category: "港式粉麵類", name: "沙嗲肥牛炆伊麵", img: "https://iili.io/nfsc19V.png" },
+  { category: "港式粉麵類", name: "欖油蒜香帆立貝意粉", img: "https://iili.io/nfslWe2.png" },
+  { category: "港式粉麵類", name: "芝士蝦球伊麵", img: "https://iili.io/nfscrVn.png" },
+
+  // 三文治 / 麵包 / 輕食類
+  { category: "三文治 / 麵包 / 輕食類", name: "4件蛋撻", img: "https://iili.io/nf68GY7.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "蛋撻", img: "https://iili.io/nfK2kHF.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "牛油菠蘿包", img: "https://iili.io/nfK2Rn4.jpg" },
+  { category: "三文治 / 麵包 / 輕食類", name: "蛋治", img: "https://iili.io/nfKF8Cv.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "餐蛋治", img: "https://iili.io/nfKKaFp.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "火腿雞蛋沙律三文治", img: "https://iili.io/nfKKsUB.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "吞拿魚蛋三文治", img: "https://iili.io/nfKfA57.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "炸魚柳包", img: "https://iili.io/nfKfD22.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "炸吉列豬扒包", img: "https://iili.io/nfKF2BR.jpg" },
+  { category: "三文治 / 麵包 / 輕食類", name: "沙爹牛肉包", img: "https://iili.io/nfK3LqQ.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "咸牛肉蛋三文治", img: "https://iili.io/nfKfb7S.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "煙肉炒蛋三文治", img: "https://iili.io/nfKB7Pj.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "餐肉芝士三文治", img: "https://iili.io/nfKB4iG.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "公司三文治餐", img: "https://iili.io/nfPTmJe.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "半份公司三文治", img: "https://iili.io/nfK2CFI.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "公司包", img: "https://iili.io/nfK30fp.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "公司三文治", img: "https://iili.io/nfPfePs.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "沙爹牛肉包", img: "https://iili.io/nfPfNoX.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "奶油多", img: "https://iili.io/nfK3csR.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "牛油厚多士", img: "https://iili.io/nfK2KnR.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "西多三件配煉奶", img: "https://iili.io/nfKfCWG.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "西多士兩件配煉奶", img: "https://iili.io/nfKfnsf.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "法式西多士", img: "https://iili.io/nfKfvgp.png" },
+  { category: "三文治 / 麵包 / 輕食類", name: "煉奶花生醬鬆餅", img: "https://iili.io/nfKBCF4.png" },
+
+  // 小食 / 炸物 / 點心類
+  { category: "小食 / 炸物 / 點心類", name: "吉列豬扒沙律", img: "https://iili.io/nfK3Sd7.png" },
+  { category: "小食 / 炸物 / 點心類", name: "炸薯條配生炸雞翼", img: "https://iili.io/nfK2EAu.png" },
+  { category: "小食 / 炸物 / 點心類", name: "炸春卷", img: "https://iili.io/nfKFf2I.jpg" },
+  { category: "小食 / 炸物 / 點心類", name: "炸雲吞", img: "https://iili.io/nfKFFrN.jpg" },
+  { category: "小食 / 炸物 / 點心類", name: "煎釀三寶", img: "https://iili.io/nfKFr3N.png" },
+  { category: "小食 / 炸物 / 點心類", name: "咖哩三寶", img: "https://iili.io/nfK3U79.png" },
+  { category: "小食 / 炸物 / 點心類", name: "咖哩小食", img: "https://iili.io/nfKFBkX.png" },
+  { category: "小食 / 炸物 / 點心類", name: "咖哩魚蛋", img: "https://iili.io/nfK3ZrB.jpg" },
+  { category: "小食 / 炸物 / 點心類", name: "瑞士雞翼", img: "https://iili.io/nfKFSGR.jpg" },
+  { category: "小食 / 炸物 / 點心類", name: "瑞士雞翼", img: "https://iili.io/nfKBlSV.png" },
+  { category: "小食 / 炸物 / 點心類", name: "碗仔翅", img: "https://iili.io/nfKFQZG.jpg" },
+  { category: "小食 / 炸物 / 點心類", name: "碗仔翅", img: "https://iili.io/nfKKRoJ.png" },
+  { category: "小食 / 炸物 / 點心類", name: "碗仔翅", img: "https://iili.io/nfKBXVa.png" },
+  { category: "小食 / 炸物 / 點心類", name: "錦鹵雲吞", img: "https://iili.io/nfKKMts.png" },
+  { category: "小食 / 炸物 / 點心類", name: "椒鹽雞軟骨", img: "https://iili.io/nfKqyap.png" },
+  { category: "小食 / 炸物 / 點心類", name: "港式生炸雞髀", img: "https://iili.io/nfKB98N.png" },
+  { category: "小食 / 炸物 / 點心類", name: "炸雞髀", img: "https://iili.io/nfKF52S.png" },
+  { category: "小食 / 炸物 / 點心類", name: "酥炸魷魚鬚", img: "https://iili.io/nfKBncl.png" },
+  { category: "小食 / 炸物 / 點心類", name: "煎雙蛋腸仔拼盤", img: "https://iili.io/nfKBaKx.png" },
+  { category: "小食 / 炸物 / 點心類", name: "煙肉炒蛋蒜蓉", img: "https://iili.io/nfKBccQ.png" },
+  { category: "小食 / 炸物 / 點心類", name: "蒜蓉炒時菜", img: "https://iili.io/nfKBNlR.png" },
+  { category: "小食 / 炸物 / 點心類", name: "蘿蔔牛筋腩小份", img: "https://iili.io/nfKCBzF.png" },
+  { category: "小食 / 炸物 / 點心類", name: "粒粒金磚西多士配糖漿", img: "https://iili.io/nfscmx9.png" },
+  { category: "小食 / 炸物 / 點心類", name: "脆皮豬仔包", img: "https://iili.io/nfscZR2.png" },
+  { category: "小食 / 炸物 / 點心類", name: "酥炸蝦丸", img: "https://iili.io/nfLyGA7.png" },
+  { category: "小食 / 炸物 / 點心類", name: "椒鹽脆豆腐", img: "https://iili.io/nfslHKb.png" },
+  { category: "小食 / 炸物 / 點心類", name: "特脆豬扒包", img: "https://iili.io/nfscilf.png" },
+  { category: "小食 / 炸物 / 點心類", name: "4 式小食拼盤配點醬風味醬", img: "https://iili.io/nfscz92.png" },
+
+  // 港式冷熱飲品
+  { category: "港式冷熱飲品", name: "牛牛", img: "https://iili.io/nfKC6I1.png" },
+  { category: "港式冷熱飲品", name: "好立克熱飲", img: "https://iili.io/nfKCQEJ.png" },
+  { category: "港式冷熱飲品", name: "生檸樂", img: "https://iili.io/nfKCb7p.png" },
+  { category: "港式冷熱飲品", name: "阿華田凍飲", img: "https://iili.io/nfKCmkN.png" },
+  { category: "港式冷熱飲品", name: "熱阿華田", img: "https://iili.io/nfKnA4j.png" },
+  { category: "港式冷熱飲品", name: "咸檸七", img: "https://iili.io/nfKCppI.png" },
+  { category: "港式冷熱飲品", name: "紅豆冰", img: "https://iili.io/nfKnHhX.png" },
+  { category: "港式冷熱飲品", name: "凍奶茶", img: "https://iili.io/nfKn3EG.png" },
+  { category: "港式冷熱飲品", name: "港式絲襪奶茶", img: "https://iili.io/nfKnzQe.png" },
+  { category: "港式冷熱飲品", name: "凍咖啡", img: "https://iili.io/nfKnF4f.png" },
+  { category: "港式冷熱飲品", name: "熱咖啡", img: "https://iili.io/nfKnuEb.png" },
+  { category: "港式冷熱飲品", name: "凍鴛鴦", img: "https://iili.io/nfKnf24.png" },
+  { category: "港式冷熱飲品", name: "凍鴛鴦走冰", img: "https://iili.io/nfKnCpS.png" },
+  { category: "港式冷熱飲品", name: "熱鴛鴦", img: "https://iili.io/nfKn7YQ.png" },
+  { category: "港式冷熱飲品", name: "凍檸檬茶", img: "https://iili.io/nfKnxj9.png" },
+  { category: "港式冷熱飲品", name: "熱檸檬茶", img: "https://iili.io/nfKnYvV.png" },
+  { category: "港式冷熱飲品", name: "黑牛", img: "https://iili.io/nfKnTCu.png" }
 ];
 
 function pickRandomMeal() {
   const randomIndex = Math.floor(Math.random() * meals.length);
   const selected = meals[randomIndex];
   
+  document.getElementById('mealCategory').innerText = selected.category;
   document.getElementById('mealName').innerText = selected.name;
-  document.getElementById('mealDesc').innerHTML = selected.desc;
   document.getElementById('mealImg').src = selected.img;
 }
 </script>
